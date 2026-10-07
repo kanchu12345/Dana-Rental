@@ -777,46 +777,26 @@ function initBookingInquiryModal() {
     if (e.target === overlay) window.closeBookingModal();
   });
 
-  // Handle Book via WhatsApp Action
-  btnWhatsapp?.addEventListener('click', () => {
-    const fullName = document.getElementById('bmFullName')?.value.trim() || 'Customer';
-    const phone = document.getElementById('bmPhone')?.value.trim() || 'N/A';
-    const pickupDate = inputPickupDate?.value || 'N/A';
-    const returnDate = inputReturnDate?.value || 'N/A';
+  // Process Booking Inquiry & Send to WhatsApp (0772013059)
+  async function submitBookingInquiry() {
+    const fullName = document.getElementById('bmFullName')?.value.trim() || '';
+    const phone = document.getElementById('bmPhone')?.value.trim() || '';
+    const pickupDate = inputPickupDate?.value || '';
+    const returnDate = inputReturnDate?.value || '';
     const location = document.getElementById('bmPickupLoc')?.value || 'Kandy';
     const permit = document.getElementById('bmPermitStatus')?.value || 'Standard';
     const notes = document.getElementById('bmNotes')?.value.trim() || 'None';
 
-    const start = new Date(pickupDate);
-    const end = new Date(returnDate);
-    const diffHours = Math.max((end - start) / (1000 * 60 * 60), 24);
-    const days = Math.max(Math.ceil(diffHours / 24), 1);
-    const estTotal = days * activeVehPrice;
+    if (!fullName || !phone || !pickupDate || !returnDate) {
+      alert("Please enter your Name, WhatsApp Phone Number, and Pickup/Return dates.");
+      return;
+    }
 
-    const waPhone = window.siteSettings?.whatsapp || '94772013059';
-    const msg = `Hello Danan Rentals! 👋\n\nI would like to inquire about booking a vehicle:\n\n🚗 *Vehicle:* ${activeVehName}\n👤 *Name:* ${fullName}\n📞 *Phone:* ${phone}\n📍 *Location:* ${location}\n📅 *Pickup:* ${pickupDate.replace('T', ' ')}\n📅 *Return:* ${returnDate.replace('T', ' ')} (${days} ${days === 1 ? 'Day' : 'Days'})\n💰 *Est. Total:* Rs. ${estTotal.toLocaleString()}\n📜 *Permit:* ${permit}\n💬 *Notes:* ${notes}\n\nPlease confirm availability!`;
-
-    const waUrl = `https://wa.me/${waPhone}?text=${encodeURIComponent(msg)}`;
-    window.open(waUrl, '_blank');
-    window.closeBookingModal();
-  });
-
-  // Direct Submission to Firestore DB
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
     const btnSubmit = document.getElementById('btnBmSubmit');
     if (btnSubmit) {
       btnSubmit.disabled = true;
-      btnSubmit.textContent = "Sending Inquiry...";
+      btnSubmit.textContent = "Processing...";
     }
-
-    const fullName = document.getElementById('bmFullName').value.trim();
-    const phone = document.getElementById('bmPhone').value.trim();
-    const pickupDate = inputPickupDate.value;
-    const returnDate = inputReturnDate.value;
-    const location = document.getElementById('bmPickupLoc').value;
-    const permit = document.getElementById('bmPermitStatus').value;
-    const notes = document.getElementById('bmNotes').value.trim();
 
     const start = new Date(pickupDate);
     const end = new Date(returnDate);
@@ -841,19 +821,35 @@ function initBookingInquiryModal() {
       createdAt: new Date().toISOString()
     };
 
+    // Save inquiry to Database
     try {
       const { saveDoc } = await import('./db.js');
       await saveDoc('bookings', bookingId, payload);
-      alert(`🎉 Thank you ${fullName}!\n\nYour booking inquiry for ${activeVehName} has been received. Our team will contact you on WhatsApp / Phone shortly!`);
-      form.reset();
-      window.closeBookingModal();
     } catch (err) {
-      alert("Error sending inquiry: " + err.message);
-    } finally {
-      if (btnSubmit) {
-        btnSubmit.disabled = false;
-        btnSubmit.innerHTML = `<i class="fa-solid fa-paper-plane"></i> Send Direct Inquiry`;
-      }
+      console.warn("Save booking error:", err);
     }
+
+    // Format WhatsApp Message to 0772013059 (94772013059)
+    const waPhone = '94772013059';
+    const msg = `Hello Danan Rentals! 👋\n\nI would like to book a vehicle:\n\n🚗 *Vehicle:* ${activeVehName}\n👤 *Name:* ${fullName}\n📞 *Phone:* ${phone}\n📍 *Location:* ${location}\n📅 *Pickup:* ${pickupDate.replace('T', ' ')}\n📅 *Return:* ${returnDate.replace('T', ' ')} (${days} ${days === 1 ? 'Day' : 'Days'})\n💰 *Est. Total:* Rs. ${estTotal.toLocaleString()}\n📜 *Permit:* ${permit}\n💬 *Notes:* ${notes}\n\nPlease confirm availability & booking!`;
+
+    const waUrl = `https://wa.me/${waPhone}?text=${encodeURIComponent(msg)}`;
+    window.open(waUrl, '_blank');
+
+    if (btnSubmit) {
+      btnSubmit.disabled = false;
+      btnSubmit.innerHTML = `<i class="fa-solid fa-paper-plane"></i> Send Direct Inquiry`;
+    }
+
+    window.closeBookingModal();
+  }
+
+  // Handle Book via WhatsApp Action
+  btnWhatsapp?.addEventListener('click', submitBookingInquiry);
+
+  // Direct Form Submission
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    await submitBookingInquiry();
   });
 }
