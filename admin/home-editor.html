@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home Page Editor | Danan Admin</title>
+  <link rel="icon" href="../assets/images/logo/logo.png" type="image/jpeg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/admin.css">
+  <style>
+    .editor-section { margin-bottom: 32px; }
+    .form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  </style>
+</head>
+<body>
+  <div class="admin-layout">
+    <!-- SIDEBAR -->
+    <aside class="admin-sidebar">
+      <div class="sidebar-header">
+        <img src="../assets/images/logo/logo.png" alt="Logo" class="sidebar-logo">
+        <div class="sidebar-brand">
+          <h3>Danan Admin</h3>
+          <p>Management Panel</p>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <a href="index.html" class="nav-item"><span>📊</span> Dashboard</a>
+        <a href="settings.html" class="nav-item"><span>⚙️</span> Site Settings</a>
+        <a href="home-editor.html" class="nav-item active"><span>🏠</span> Home Page Editor</a>
+        <a href="vehicles.html" class="nav-item"><span>🚗</span> Vehicles Manager</a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button id="btnSeedData" style="width: 100%; padding: 10px; background: #282828; color: #FFAA00; border: 1px solid #444; border-radius: 6px; cursor: pointer; font-weight: 600; margin-bottom: 12px;">⚡ Seed Default Data</button>
+        <button id="btnLogout" style="width: 100%; padding: 10px; background: var(--primary-red); color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: 600;">🚪 Log Out</button>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="admin-main">
+      <header class="admin-topbar">
+        <h1 class="topbar-title">Home Page Content Manager</h1>
+        <div class="topbar-user">
+          <a href="../index.html" target="_blank" style="color: var(--primary-red); font-weight: 600; text-decoration: none;">🌐 View Live Website ↗</a>
+        </div>
+      </header>
+
+      <div class="admin-content">
+        <!-- HERO SECTION EDITOR -->
+        <form id="heroForm" class="admin-card editor-section">
+          <div class="card-header">
+            <h2 class="card-title">1. Hero Section & Background Banner</h2>
+          </div>
+
+          <div class="form-group">
+            <label for="heroHeadline">Hero Main Headline</label>
+            <input type="text" id="heroHeadline" class="form-control" placeholder="Start Your Journey to Your Dream Destination Here." required>
+          </div>
+
+          <div class="form-group">
+            <label for="heroSubline">Hero Description Subline</label>
+            <textarea id="heroSubline" class="form-control" rows="3" required></textarea>
+          </div>
+
+          <div class="form-group">
+            <label>Hero Sigiriya Background Image</label>
+            <div style="display: flex; align-items: center; gap: 16px;">
+              <div class="img-preview-box">
+                <img id="heroBgPreview" src="../assets/images/hero/sigiriya.jpg" alt="Sigiriya Hero">
+              </div>
+              <div style="flex: 1;">
+                <input type="file" id="heroBgFileInput" accept="image/*" class="form-control" style="margin-bottom: 8px;">
+                <input type="text" id="heroBgUrl" class="form-control" placeholder="Or relative image path / URL">
+              </div>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="background-color: var(--primary-red); color: white; border: none; padding: 10px 24px; border-radius: 6px; font-weight: 700; cursor: pointer;">
+            💾 Save Hero Section
+          </button>
+        </form>
+
+        <!-- RULES MANAGER -->
+        <div class="admin-card editor-section">
+          <div class="card-header">
+            <h2 class="card-title">2. Required Rules & Documents Manager</h2>
+          </div>
+
+          <form id="addRuleForm" style="display: grid; grid-template-columns: 1fr 2fr auto; gap: 16px; align-items: end; margin-bottom: 24px; background: var(--bg-light); padding: 16px; border-radius: 8px;">
+            <div class="form-group" style="margin: 0;">
+              <label>Rule Title</label>
+              <input type="text" id="ruleTitle" class="form-control" placeholder="e.g. Valid License Required" required>
+            </div>
+            <div class="form-group" style="margin: 0;">
+              <label>Rule Description</label>
+              <input type="text" id="ruleBody" class="form-control" placeholder="e.g. Must present valid Sri Lankan or International Driving Permit" required>
+            </div>
+            <button type="submit" class="btn btn-primary" style="background-color: var(--primary-red); color: white; border: none; padding: 10px 20px; border-radius: 6px; font-weight: 700; cursor: pointer;">
+              + Add Rule
+            </button>
+          </form>
+
+          <div class="table-responsive">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Title</th>
+                  <th>Description</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="rulesAdminTable">
+                <!-- Loaded dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- FAQ MANAGER -->
+        <div class="admin-card editor-section">
+          <div class="card-header">
+            <h2 class="card-title">3. Frequently Asked Questions (FAQs)</h2>
+          </div>
+
+          <form id="addFaqForm" style="display: grid; grid-template-columns: 1fr 2fr auto; gap: 16px; align-items: end; margin-bottom: 24px; background: var(--bg-light); padding: 16px; border-radius: 8px;">
+            <div class="form-group" style="margin: 0;">
+              <label>Question</label>
+              <input type="text" id="faqQuestion" class="form-control" placeholder="e.g. Is fuel included in the price?" required>
+            </div>
+            <div class="form-group" style="margin: 0;">
+              <label>Answer</label>
+              <input type="text" id="faqAnswer" class="form-control" placeholder="e.g. Yes, we provide full to full fuel policy." required>
+            </div>
+            <button type="submit" class="btn btn-primary" style="background-color: var(--primary-red); color: white; border: none; padding: 10px 20px; border-radius: 6px; font-weight: 700; cursor: pointer;">
+              + Add FAQ
+            </button>
+          </form>
+
+          <div class="table-responsive">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Question</th>
+                  <th>Answer</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="faqsAdminTable">
+                <!-- Loaded dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- CUSTOMER GALLERY MANAGER -->
+        <div class="admin-card editor-section">
+          <div class="card-header">
+            <h2 class="card-title">4. Customer Photos & Gallery Manager</h2>
+          </div>
+
+          <form id="addGalleryForm" style="display: grid; grid-template-columns: 1fr 1fr auto; gap: 16px; align-items: end; margin-bottom: 24px; background: var(--bg-light); padding: 16px; border-radius: 8px;">
+            <div class="form-group" style="margin: 0;">
+              <label>Upload Customer Photo</label>
+              <input type="file" id="galleryFileInput" accept="image/*" class="form-control">
+            </div>
+            <div class="form-group" style="margin: 0;">
+              <label for="galleryCaption">Caption / Description</label>
+              <input type="text" id="galleryCaption" class="form-control" placeholder="Happy customer in Kandy">
+            </div>
+            <button type="submit" class="btn btn-primary" style="background-color: var(--primary-red); color: white; border: none; padding: 10px 20px; border-radius: 6px; font-weight: 700; cursor: pointer;">
+              + Add Photo
+            </button>
+          </form>
+
+          <div class="table-responsive">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Photo</th>
+                  <th>Caption</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="galleryAdminTable">
+                <!-- Rendered dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script type="module" src="../js/admin.js"></script>
+  <script type="module">
+    import { getDoc, saveDoc, getCollection, deleteDoc, uploadImage, escapeHTML } from '../js/db.js';
+    import { showToast } from '../js/admin.js';
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      // 1. Load Hero Data
+      const homeData = await getDoc('pages', 'home') || {};
+      if (homeData.hero) {
+        document.getElementById('heroHeadline').value = homeData.hero.headline || '';
+        document.getElementById('heroSubline').value = homeData.hero.subline || '';
+        document.getElementById('heroBgUrl').value = homeData.hero.bgImage || '../assets/images/hero/sigiriya.jpg';
+        document.getElementById('heroBgPreview').src = homeData.hero.bgImage || '../assets/images/hero/sigiriya.jpg';
+      }
+
+      // Hero Image Upload
+      document.getElementById('heroBgFileInput').addEventListener('change', async (e) => {
+        const file = e.target.files[0];
+        if (file) {
+          showToast("Uploading hero image...");
+          const url = await uploadImage(file);
+          document.getElementById('heroBgUrl').value = url;
+          document.getElementById('heroBgPreview').src = url;
+          showToast("Hero image uploaded!", "success");
+        }
+      });
+
+      // Save Hero
+      document.getElementById('heroForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const payload = {
+          hero: {
+            headline: document.getElementById('heroHeadline').value.trim(),
+            subline: document.getElementById('heroSubline').value.trim(),
+            bgImage: document.getElementById('heroBgUrl').value.trim()
+          }
+        };
+
+        try {
+          await saveDoc('pages', 'home', payload);
+          showToast("Hero section saved successfully!", "success");
+        } catch (err) {
+          showToast("Error saving hero section: " + err.message, "error");
+        }
+      });
+
+      // 2. Rules Manager
+      await loadRulesTable();
+      document.getElementById('addRuleForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const title = document.getElementById('ruleTitle').value.trim();
+        const body = document.getElementById('ruleBody').value.trim();
+        const id = `rule_${Date.now()}`;
+        await saveDoc('rules', id, { id, title, body, order: Date.now() });
+        showToast("Rule added!", "success");
+        document.getElementById('ruleTitle').value = '';
+        document.getElementById('ruleBody').value = '';
+        await loadRulesTable();
+      });
+
+      // 3. FAQ Manager
+      await loadFaqsTable();
+      document.getElementById('addFaqForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const question = document.getElementById('faqQuestion').value.trim();
+        const answer = document.getElementById('faqAnswer').value.trim();
+        const id = `faq_${Date.now()}`;
+        await saveDoc('faqs', id, { id, question, answer, visible: true, order: Date.now() });
+        showToast("FAQ added!", "success");
+        document.getElementById('faqQuestion').value = '';
+        document.getElementById('faqAnswer').value = '';
+        await loadFaqsTable();
+      });
+
+      // 4. Load Gallery Table
+      await loadGalleryTable();
+      document.getElementById('addGalleryForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const fileInput = document.getElementById('galleryFileInput');
+        const caption = document.getElementById('galleryCaption').value.trim();
+
+        if (!fileInput.files[0]) {
+          showToast("Please select an image file to upload.", "error");
+          return;
+        }
+
+        showToast("Uploading photo...");
+        try {
+          const imgUrl = await uploadImage(fileInput.files[0]);
+          const newId = `gal_${Date.now()}`;
+          await saveDoc('gallery', newId, {
+            id: newId,
+            image: imgUrl,
+            caption: caption,
+            order: Date.now()
+          });
+          showToast("Photo added to customer gallery!", "success");
+          fileInput.value = '';
+          document.getElementById('galleryCaption').value = '';
+          await loadGalleryTable();
+        } catch (err) {
+          showToast("Error adding photo: " + err.message, "error");
+        }
+      });
+    });
+
+    async function loadRulesTable() {
+      const tbody = document.getElementById('rulesAdminTable');
+      const rules = await getCollection('rules');
+      if (rules.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="3" style="text-align:center; padding: 16px;">No rules added.</td></tr>`;
+        return;
+      }
+      tbody.innerHTML = rules.map(r => `
+        <tr>
+          <td><strong>${escapeHTML(r.title)}</strong></td>
+          <td>${escapeHTML(r.body)}</td>
+          <td><button onclick="window.deleteRule('${r.id}')" style="background: var(--primary-red); color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer;">Delete</button></td>
+        </tr>
+      `).join('');
+
+      window.deleteRule = async (id) => {
+        if (!confirm("Delete this rule?")) return;
+        await deleteDoc('rules', id);
+        showToast("Rule deleted.", "info");
+        await loadRulesTable();
+      };
+    }
+
+    async function loadFaqsTable() {
+      const tbody = document.getElementById('faqsAdminTable');
+      const faqs = await getCollection('faqs');
+      if (faqs.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="3" style="text-align:center; padding: 16px;">No FAQs added.</td></tr>`;
+        return;
+      }
+      tbody.innerHTML = faqs.map(f => `
+        <tr>
+          <td><strong>${escapeHTML(f.question)}</strong></td>
+          <td>${escapeHTML(f.answer)}</td>
+          <td><button onclick="window.deleteFaq('${f.id}')" style="background: var(--primary-red); color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer;">Delete</button></td>
+        </tr>
+      `).join('');
+
+      window.deleteFaq = async (id) => {
+        if (!confirm("Delete this FAQ?")) return;
+        await deleteDoc('faqs', id);
+        showToast("FAQ deleted.", "info");
+        await loadFaqsTable();
+      };
+    }
+
+    async function loadGalleryTable() {
+      const tbody = document.getElementById('galleryAdminTable');
+      const gallery = await getCollection('gallery');
+      if (gallery.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="3" style="text-align:center; padding: 16px;">No gallery photos added yet.</td></tr>`;
+        return;
+      }
+      tbody.innerHTML = gallery.map(item => `
+        <tr>
+          <td><img src="${escapeHTML(item.image)}" style="height: 50px; border-radius: 4px; object-fit: cover;"></td>
+          <td>${escapeHTML(item.caption || 'No caption')}</td>
+          <td><button onclick="window.deleteGalleryItem('${item.id}')" style="background: var(--primary-red); color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer;">Delete</button></td>
+        </tr>
+      `).join('');
+
+      window.deleteGalleryItem = async (id) => {
+        if (!confirm("Delete this gallery image?")) return;
+        await deleteDoc('gallery', id);
+        showToast("Photo deleted.", "info");
+        await loadGalleryTable();
+      };
+    }
+  </script>
+</body>
+</html>

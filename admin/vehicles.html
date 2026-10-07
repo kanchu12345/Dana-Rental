@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vehicles Manager | Danan Admin</title>
+  <link rel="icon" href="../assets/images/logo/logo.png" type="image/jpeg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/admin.css">
+</head>
+<body>
+  <div class="admin-layout">
+    <!-- SIDEBAR -->
+    <aside class="admin-sidebar">
+      <div class="sidebar-header">
+        <img src="../assets/images/logo/logo.png" alt="Logo" class="sidebar-logo">
+        <div class="sidebar-brand">
+          <h3>Danan Admin</h3>
+          <p>Management Panel</p>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <a href="index.html" class="nav-item"><span>📊</span> Dashboard</a>
+        <a href="settings.html" class="nav-item"><span>⚙️</span> Site Settings</a>
+        <a href="home-editor.html" class="nav-item"><span>🏠</span> Home Page Editor</a>
+        <a href="vehicles.html" class="nav-item active"><span>🚗</span> Vehicles Manager</a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button id="btnSeedData" style="width: 100%; padding: 10px; background: #282828; color: #FFAA00; border: 1px solid #444; border-radius: 6px; cursor: pointer; font-weight: 600; margin-bottom: 12px;">⚡ Seed Default Data</button>
+        <button id="btnLogout" style="width: 100%; padding: 10px; background: var(--primary-red); color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: 600;">🚪 Log Out</button>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="admin-main">
+      <header class="admin-topbar">
+        <h1 class="topbar-title">Vehicle Fleet Manager</h1>
+        <div class="topbar-user">
+          <button id="btnOpenAddModal" class="btn btn-primary" style="background-color: var(--primary-red); color: white; border: none; padding: 10px 20px; border-radius: 6px; font-weight: 700; cursor: pointer;">
+            + Add New Vehicle
+          </button>
+        </div>
+      </header>
+
+      <div class="admin-content">
+        <div class="admin-card">
+          <div class="card-header">
+            <h2 class="card-title">All Vehicles List</h2>
+          </div>
+          <div class="table-responsive">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Photo</th>
+                  <th>Vehicle Name</th>
+                  <th>Type</th>
+                  <th>24h Rate</th>
+                  <th>Deposit</th>
+                  <th>Extra KM</th>
+                  <th>Extra Hr</th>
+                  <th>Available</th>
+                  <th>Featured</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="vehiclesAdminTable">
+                <!-- Rendered dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- ADD / EDIT VEHICLE MODAL FORM -->
+  <div id="vehicleModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); z-index: 9999; align-items: center; justify-content: center; padding: 20px;">
+    <div style="background: white; border-radius: 12px; width: 100%; max-width: 680px; max-height: 90vh; overflow-y: auto; padding: 32px; box-shadow: 0 20px 60px rgba(0,0,0,0.3);">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; padding-bottom: 12px; border-bottom: 1px solid var(--border-color);">
+        <h2 id="modalTitle" style="font-size: 1.25rem;">Add New Vehicle</h2>
+        <button id="btnCloseModal" style="background: none; border: none; font-size: 1.5rem; cursor: pointer;">&times;</button>
+      </div>
+
+      <form id="vehicleForm">
+        <input type="hidden" id="vId">
+
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="vName">Vehicle Name & Model</label>
+            <input type="text" id="vName" class="form-control" placeholder="e.g. Honda Dio 110cc (2025)" required>
+          </div>
+
+          <div class="form-group">
+            <label for="vType">Category / Type</label>
+            <select id="vType" class="form-control" required>
+              <option value="Bikes">Bikes & Scooters</option>
+              <option value="Cars">Cars</option>
+              <option value="Vans">Vans</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="vPrice24h">Price Per 24 Hours (Rs.)</label>
+            <input type="number" id="vPrice24h" class="form-control" placeholder="3000" required>
+          </div>
+
+          <div class="form-group">
+            <label for="vKmIncluded">Included Free KM Per Day</label>
+            <input type="number" id="vKmIncluded" class="form-control" value="200" required>
+          </div>
+
+          <div class="form-group">
+            <label for="vExtraKmRate">Extra KM Rate (Rs./km)</label>
+            <input type="number" id="vExtraKmRate" class="form-control" placeholder="25" required>
+          </div>
+
+          <div class="form-group">
+            <label for="vExtraHourRate">Extra Hour Rate (Rs./hr)</label>
+            <input type="number" id="vExtraHourRate" class="form-control" placeholder="250" required>
+          </div>
+
+          <div class="form-group">
+            <label for="vDeposit">Refundable Security Deposit (Rs.)</label>
+            <input type="number" id="vDeposit" class="form-control" placeholder="5000" required>
+          </div>
+
+          <div class="form-group">
+            <label for="vTransmission">Transmission</label>
+            <select id="vTransmission" class="form-control">
+              <option value="Automatic">Automatic</option>
+              <option value="Manual">Manual</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="vSeats">Seating Capacity</label>
+            <input type="number" id="vSeats" class="form-control" value="2" required>
+          </div>
+
+          <div class="form-group">
+            <label for="vFuel">Fuel Type</label>
+            <select id="vFuel" class="form-control">
+              <option value="Petrol">Petrol</option>
+              <option value="Diesel">Diesel</option>
+              <option value="Hybrid">Hybrid</option>
+              <option value="Electric">Electric</option>
+            </select>
+          </div>
+
+          <div class="form-group" style="grid-column: 1 / -1;">
+            <label>Vehicle Image</label>
+            <div style="display: flex; align-items: center; gap: 16px;">
+              <div class="img-preview-box">
+                <img id="vImgPreview" src="../assets/images/vehicles/fleet-banner.jpeg" alt="Preview">
+              </div>
+              <div style="flex-grow: 1;">
+                <input type="file" id="vImgFileInput" accept="image/*" class="form-control" style="margin-bottom: 8px;">
+                <input type="text" id="vImgUrl" class="form-control" placeholder="Or image path / URL">
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group" style="flex-direction: row; gap: 24px; grid-column: 1 / -1;">
+            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+              <input type="checkbox" id="vAvailable" checked> Available for Rent
+            </label>
+            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+              <input type="checkbox" id="vFeatured" checked> Show on Home Page
+            </label>
+          </div>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 12px; margin-top: 24px;">
+          <button type="button" id="btnCancelModal" class="btn" style="background: #EEE; color: #333; padding: 10px 20px; border-radius: 6px; border: none; cursor: pointer;">Cancel</button>
+          <button type="submit" id="btnSaveVehicle" class="btn btn-primary" style="background: var(--primary-red); color: white; padding: 10px 24px; border-radius: 6px; border: none; font-weight: 700; cursor: pointer;">Save Vehicle</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script type="module" src="../js/admin.js"></script>
+  <script type="module">
+    import { getCollection, saveDoc, deleteDoc, uploadImage, escapeHTML } from '../js/db.js';
+    import { showToast } from '../js/admin.js';
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      await loadVehiclesTable();
+
+      const modal = document.getElementById('vehicleModal');
+      document.getElementById('btnOpenAddModal').addEventListener('click', () => {
+        resetForm();
+        document.getElementById('modalTitle').textContent = 'Add New Vehicle';
+        modal.style.display = 'flex';
+      });
+
+      document.getElementById('btnCloseModal').addEventListener('click', () => modal.style.display = 'none');
+      document.getElementById('btnCancelModal').addEventListener('click', () => modal.style.display = 'none');
+
+      // Image Upload
+      document.getElementById('vImgFileInput').addEventListener('change', async (e) => {
+        const file = e.target.files[0];
+        if (file) {
+          showToast("Uploading vehicle photo...");
+          const url = await uploadImage(file);
+          document.getElementById('vImgUrl').value = url;
+          document.getElementById('vImgPreview').src = url;
+          showToast("Photo uploaded successfully!", "success");
+        }
+      });
+
+      // Submit Form
+      document.getElementById('vehicleForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const id = document.getElementById('vId').value || `v_${Date.now()}`;
+        const img = document.getElementById('vImgUrl').value.trim() || '../assets/images/vehicles/fleet-banner.jpeg';
+
+        const payload = {
+          id: id,
+          name: document.getElementById('vName').value.trim(),
+          type: document.getElementById('vType').value,
+          price24h: Number(document.getElementById('vPrice24h').value),
+          kmIncluded: Number(document.getElementById('vKmIncluded').value),
+          extraKmRate: Number(document.getElementById('vExtraKmRate').value),
+          extraHourRate: Number(document.getElementById('vExtraHourRate').value),
+          deposit: Number(document.getElementById('vDeposit').value),
+          transmission: document.getElementById('vTransmission').value,
+          seats: Number(document.getElementById('vSeats').value),
+          fuel: document.getElementById('vFuel').value,
+          images: [img],
+          available: document.getElementById('vAvailable').checked,
+          featured: document.getElementById('vFeatured').checked,
+          order: Date.now()
+        };
+
+        try {
+          await saveDoc('vehicles', id, payload);
+          showToast("Vehicle saved successfully!", "success");
+          modal.style.display = 'none';
+          await loadVehiclesTable();
+        } catch (err) {
+          showToast("Error saving vehicle: " + err.message, "error");
+        }
+      });
+    });
+
+    function resetForm() {
+      document.getElementById('vId').value = '';
+      document.getElementById('vName').value = '';
+      document.getElementById('vPrice24h').value = '';
+      document.getElementById('vKmIncluded').value = '200';
+      document.getElementById('vExtraKmRate').value = '';
+      document.getElementById('vExtraHourRate').value = '';
+      document.getElementById('vDeposit').value = '';
+      document.getElementById('vSeats').value = '2';
+      document.getElementById('vImgUrl').value = '';
+      document.getElementById('vImgPreview').src = '../assets/images/vehicles/fleet-banner.jpeg';
+      document.getElementById('vAvailable').checked = true;
+      document.getElementById('vFeatured').checked = true;
+    }
+
+    async function loadVehiclesTable() {
+      const tbody = document.getElementById('vehiclesAdminTable');
+      const vehicles = await getCollection('vehicles');
+
+      if (vehicles.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="10" style="text-align:center; padding: 20px;">No vehicles found. Click "Seed Default Data" in sidebar to populate.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = vehicles.map(v => {
+        const img = (v.images && v.images.length > 0) ? v.images[0] : '../assets/images/vehicles/fleet-banner.jpeg';
+        return `
+          <tr>
+            <td><img src="${escapeHTML(img)}" style="width: 60px; height: 44px; object-fit: cover; border-radius: 4px;"></td>
+            <td><strong>${escapeHTML(v.name)}</strong></td>
+            <td>${escapeHTML(v.type || 'N/A')}</td>
+            <td>Rs. ${v.price24h ? v.price24h.toLocaleString() : 0}</td>
+            <td>Rs. ${v.deposit ? v.deposit.toLocaleString() : 0}</td>
+            <td>Rs. ${v.extraKmRate || 0}</td>
+            <td>Rs. ${v.extraHourRate || 0}</td>
+            <td><span class="badge ${v.available !== false ? 'badge-success' : 'badge-warning'}">${v.available !== false ? 'Yes' : 'No'}</span></td>
+            <td>${v.featured !== false ? 'Yes' : 'No'}</td>
+            <td>
+              <button onclick="window.editVehicle('${v.id}')" style="background: #333; color: white; border: none; padding: 4px 10px; border-radius: 4px; cursor: pointer; margin-right: 4px;">Edit</button>
+              <button onclick="window.deleteVehicleItem('${v.id}')" style="background: var(--primary-red); color: white; border: none; padding: 4px 10px; border-radius: 4px; cursor: pointer;">Delete</button>
+            </td>
+          </tr>
+        `;
+      }).join('');
+
+      window.editVehicle = (id) => {
+        const v = vehicles.find(item => item.id === id);
+        if (!v) return;
+        document.getElementById('vId').value = v.id;
+        document.getElementById('vName').value = v.name || '';
+        document.getElementById('vType').value = v.type || 'Bikes';
+        document.getElementById('vPrice24h').value = v.price24h || 0;
+        document.getElementById('vKmIncluded').value = v.kmIncluded || 200;
+        document.getElementById('vExtraKmRate').value = v.extraKmRate || 0;
+        document.getElementById('vExtraHourRate').value = v.extraHourRate || 0;
+        document.getElementById('vDeposit').value = v.deposit || 0;
+        document.getElementById('vTransmission').value = v.transmission || 'Automatic';
+        document.getElementById('vSeats').value = v.seats || 2;
+        document.getElementById('vFuel').value = v.fuel || 'Petrol';
+        document.getElementById('vAvailable').checked = v.available !== false;
+        document.getElementById('vFeatured').checked = v.featured !== false;
+        const img = (v.images && v.images.length > 0) ? v.images[0] : '';
+        document.getElementById('vImgUrl').value = img;
+        document.getElementById('vImgPreview').src = img || '../assets/images/vehicles/fleet-banner.jpeg';
+
+        document.getElementById('modalTitle').textContent = 'Edit Vehicle Details';
+        document.getElementById('vehicleModal').style.display = 'flex';
+      };
+
+      window.deleteVehicleItem = async (id) => {
+        if (!confirm("Are you sure you want to delete this vehicle?")) return;
+        await deleteDoc('vehicles', id);
+        showToast("Vehicle deleted.", "info");
+        await loadVehiclesTable();
+      };
+    }
+  </script>
+</body>
+</html>

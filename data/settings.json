@@ -1,0 +1,26 @@
+{
+  "businessName": "Danan Car & Bike Rentals",
+  "logo": "./assets/images/logo/logo.png",
+  "favicon": "./assets/images/logo/logo.png",
+  "phones": [
+    "077 201 3059",
+    "071 283 2221"
+  ],
+  "whatsapp": "94772013059",
+  "email": "dananrentals@gmail.com",
+  "address": "Peradeniya & Kandy, Sri Lanka",
+  "mapLink": "https://share.google/ICElyHmWpDjeHQLOY",
+  "hours": "Open 24/7 - Daily & Weekly Rentals",
+  "socials": {
+    "facebook": "#",
+    "instagram": "#",
+    "whatsapp": "https://wa.me/94772013059"
+  },
+  "bank": "Bank details will be provided upon WhatsApp confirmation for advance booking (Bike: Rs. 1,000 / Car: Rs. 2,000).",
+  "footerText": "Danan Car & Bike Rentals offers top-rated vehicle rentals in Peradeniya & Kandy, Sri Lanka. Affordable rates, 200 km free daily, 24/7 assistance and fully insured cars, vans & scooters.",
+  "theme": {
+    "primaryRed": "#D62828",
+    "dark": "#111111",
+    "light": "#F5F5F5"
+  }
+}

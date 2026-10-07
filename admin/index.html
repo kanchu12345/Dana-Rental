@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard | Danan Car & Bike Rentals</title>
+  <link rel="icon" href="../assets/images/logo/logo.png" type="image/jpeg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/admin.css">
+</head>
+<body>
+  <div class="admin-layout">
+    <!-- SIDEBAR -->
+    <aside class="admin-sidebar">
+      <div class="sidebar-header">
+        <img src="../assets/images/logo/logo.png" alt="Logo" class="sidebar-logo">
+        <div class="sidebar-brand">
+          <h3>Danan Admin</h3>
+          <p>Management Panel</p>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <a href="index.html" class="nav-item active">
+          <span>📊</span> Dashboard
+        </a>
+        <a href="settings.html" class="nav-item">
+          <span>⚙️</span> Site Settings
+        </a>
+        <a href="home-editor.html" class="nav-item">
+          <span>🏠</span> Home Page Editor
+        </a>
+        <a href="vehicles.html" class="nav-item">
+          <span>🚗</span> Vehicles Manager
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button id="btnSeedData" style="width: 100%; padding: 10px; background: #282828; color: #FFAA00; border: 1px solid #444; border-radius: 6px; cursor: pointer; font-weight: 600; margin-bottom: 12px;">
+          ⚡ Seed Default Data
+        </button>
+        <button id="btnLogout" style="width: 100%; padding: 10px; background: var(--primary-red); color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: 600;">
+          🚪 Log Out
+        </button>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT AREA -->
+    <main class="admin-main">
+      <header class="admin-topbar">
+        <h1 class="topbar-title">Dashboard Overview</h1>
+        <div class="topbar-user">
+          <a href="../index.html" target="_blank" style="color: var(--primary-red); font-weight: 600; text-decoration: none;">
+            🌐 View Public Website ↗
+          </a>
+        </div>
+      </header>
+
+      <div class="admin-content">
+        <!-- STATS -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon">🚗</div>
+            <div>
+              <div class="stat-number" id="countVehicles">0</div>
+              <div class="stat-label">Total Vehicles</div>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon">⭐</div>
+            <div>
+              <div class="stat-number" id="countReviews">0</div>
+              <div class="stat-label">Customer Reviews</div>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon">❓</div>
+            <div>
+              <div class="stat-number" id="countFaqs">0</div>
+              <div class="stat-label">FAQ Items</div>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon">📜</div>
+            <div>
+              <div class="stat-number" id="countRules">0</div>
+              <div class="stat-label">Rules & Terms</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- QUICK ACTIONS -->
+        <div class="admin-card">
+          <div class="card-header">
+            <h2 class="card-title">Quick Content Management</h2>
+          </div>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px;">
+            <a href="vehicles.html" style="background-color: var(--bg-light); padding: 20px; border-radius: 8px; text-decoration: none; color: inherit; border: 1px solid var(--border-color);">
+              <h3 style="font-size: 1.1rem; margin-bottom: 6px; color: var(--primary-red);">🚗 Fleet & Vehicle Manager</h3>
+              <p style="font-size: 0.85rem; color: var(--text-muted);">Add new bikes, cars, vans; update prices, deposit & 24h rates.</p>
+            </a>
+
+            <a href="home-editor.html" style="background-color: var(--bg-light); padding: 20px; border-radius: 8px; text-decoration: none; color: inherit; border: 1px solid var(--border-color);">
+              <h3 style="font-size: 1.1rem; margin-bottom: 6px; color: var(--primary-red);">🏠 Home Page Content</h3>
+              <p style="font-size: 0.85rem; color: var(--text-muted);">Edit hero text, trust bar, how it works, why choose us & customer gallery.</p>
+            </a>
+
+            <a href="settings.html" style="background-color: var(--bg-light); padding: 20px; border-radius: 8px; text-decoration: none; color: inherit; border: 1px solid var(--border-color);">
+              <h3 style="font-size: 1.1rem; margin-bottom: 6px; color: var(--primary-red);">⚙️ Business & Site Settings</h3>
+              <p style="font-size: 0.85rem; color: var(--text-muted);">Update phones, logo, WhatsApp, address, map link & theme colors.</p>
+            </a>
+          </div>
+        </div>
+
+        <!-- FLEET QUICK TABLE -->
+        <div class="admin-card">
+          <div class="card-header">
+            <h2 class="card-title">Current Vehicle Fleet Summary</h2>
+            <a href="vehicles.html" style="color: var(--primary-red); font-weight: 600; font-size: 0.9rem;">Manage All Vehicles →</a>
+          </div>
+          <div class="table-responsive">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Vehicle Name</th>
+                  <th>Type</th>
+                  <th>24h Rate</th>
+                  <th>Deposit</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="dashVehiclesTable">
+                <!-- Rendered dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script type="module" src="../js/admin.js"></script>
+  <script type="module">
+    import { getCollection, escapeHTML } from '../js/db.js';
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      const vehicles = await getCollection('vehicles');
+      const reviews = await getCollection('reviews');
+      const faqs = await getCollection('faqs');
+      const rules = await getCollection('rules');
+
+      document.getElementById('countVehicles').textContent = vehicles.length;
+      document.getElementById('countReviews').textContent = reviews.length;
+      document.getElementById('countFaqs').textContent = faqs.length;
+      document.getElementById('countRules').textContent = rules.length;
+
+      const tbody = document.getElementById('dashVehiclesTable');
+      if (vehicles.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding: 20px;">No vehicles found. Click "Seed Default Data" in sidebar to populate.</td></tr>`;
+      } else {
+        tbody.innerHTML = vehicles.slice(0, 6).map(v => `
+          <tr>
+            <td><strong>${escapeHTML(v.name)}</strong></td>
+            <td>${escapeHTML(v.type || 'N/A')}</td>
+            <td>Rs. ${v.price24h ? v.price24h.toLocaleString() : 0}</td>
+            <td>Rs. ${v.deposit ? v.deposit.toLocaleString() : 0}</td>
+            <td>
+              <span class="badge ${v.available !== false ? 'badge-success' : 'badge-warning'}">
+                ${v.available !== false ? 'Available' : 'Unavailable'}
+              </span>
+            </td>
+          </tr>
+        `).join('');
+      }
+    });
+  </script>
+</body>
+</html>

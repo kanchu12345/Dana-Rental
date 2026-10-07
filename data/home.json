@@ -1,0 +1,88 @@
+{
+  "hero": {
+    "headline": "Your Journey, <span class=\"text-yellow\">Your Choice.</span>",
+    "subline": "Explore Sri Lanka with absolute freedom and comfort. Premium vehicles, instant driving permits, and 24/7 dedicated support — all customized for your perfect road trip.",
+    "bgImage": "./assets/images/hero/sigiriya.jpg",
+    "ctaPrimary": "INQUIRE",
+    "ctaSecondary": "Car Rental"
+  },
+  "trustBar": [
+    {
+      "id": "t1",
+      "title": "Comprehensive Insurance",
+      "desc": "Full Rent-a-Car coverage included for total peace of mind",
+      "icon": "shield"
+    },
+    {
+      "id": "t2",
+      "title": "Full Fuel Tank",
+      "desc": "Start your journey immediately with a full tank of fuel provided",
+      "icon": "fuel"
+    },
+    {
+      "id": "t3",
+      "title": "24-Hour Rental Cycle",
+      "desc": "Flexible full 24-hour daily rental billing from pickup time",
+      "icon": "clock"
+    },
+    {
+      "id": "t4",
+      "title": "Instant Reservation",
+      "desc": "Quick direct booking confirmation via WhatsApp or Call",
+      "icon": "phone"
+    }
+  ],
+  "howItWorks": [
+    {
+      "step": 1,
+      "title": "Choose Your Ideal Vehicle",
+      "desc": "Select from our fleet of clean scooters, automatic cars, luxury SUVs or vans."
+    },
+    {
+      "step": 2,
+      "title": "Lock In Your Reservation",
+      "desc": "Pay a small advance deposit (Bike Rs. 1,000 / Car or Van Rs. 2,000) to confirm."
+    },
+    {
+      "step": 3,
+      "title": "Quick Verification",
+      "desc": "Submit your valid Driving License, NIC/Passport & official ID documents."
+    },
+    {
+      "step": 4,
+      "title": "Take the Wheel & Drive",
+      "desc": "Collect your keys in Peradeniya/Kandy or request hotel delivery!"
+    }
+  ],
+  "documentsAndDeposit": {
+    "licenseRequirement": "Valid Driving License (Sri Lankan License or International Driving Permit - IDP)",
+    "idRequirement": "National Identity Card (NIC) / Passport + Official ID Verification",
+    "depositInfo": "Refundable security deposit returned upon drop-off (Bikes: Rs. 5,000 | Cars: Rs. 10,000 - Rs. 20,000 | Vans: Rs. 15,000)."
+  },
+  "whyChooseUs": [
+    {
+      "id": "w1",
+      "title": "Prime Location Access",
+      "desc": "Convenient pickup and drop-off close to Peradeniya Railway Station & Kandy City Center."
+    },
+    {
+      "id": "w2",
+      "title": "Transparent Pricing",
+      "desc": "Zero hidden charges. Clear daily rates with generous kilometer allowances."
+    },
+    {
+      "id": "w3",
+      "title": "Pristine & Maintained Fleet",
+      "desc": "Every vehicle is thoroughly sanitized and safety checked before delivery."
+    },
+    {
+      "id": "w4",
+      "title": "24/7 Road Assistance",
+      "desc": "Direct WhatsApp & phone line active anytime you need support during your journey."
+    }
+  ],
+  "ctaBanner": {
+    "headline": "Your Journey, Your Choice — Ready to Explore?",
+    "subline": "Secure your rental vehicle or driving permit in under 2 minutes via WhatsApp or Direct Call."
+  }
+}

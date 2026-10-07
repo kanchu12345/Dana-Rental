@@ -1,0 +1,20 @@
+[
+  {
+    "id": "gal-1",
+    "image": "./assets/images/customers/customer-1.jpeg",
+    "caption": "Satisfied customer taking delivery of Honda Dio scooter in Kandy",
+    "order": 1
+  },
+  {
+    "id": "gal-2",
+    "image": "./assets/images/customers/customer-2.jpeg",
+    "caption": "Happy family rental experience in Peradeniya",
+    "order": 2
+  },
+  {
+    "id": "gal-3",
+    "image": "./assets/images/vehicles/fleet-banner.jpeg",
+    "caption": "Our premium vehicle fleet ready for rental",
+    "order": 3
+  }
+]

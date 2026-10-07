@@ -1,0 +1,192 @@
+[
+  {
+    "id": "honda-dio-2025",
+    "name": "Honda Dio 110cc (2025)",
+    "type": "Bikes",
+    "images": [
+      "./assets/images/vehicles/vehicle-8.png"
+    ],
+    "price24h": 3000,
+    "kmIncluded": 200,
+    "extraKmRate": 25,
+    "extraHourRate": 250,
+    "deposit": 5000,
+    "transmission": "Automatic",
+    "seats": 2,
+    "fuel": "Petrol",
+    "available": true,
+    "featured": true,
+    "order": 1
+  },
+  {
+    "id": "tvs-ntorq-125",
+    "name": "TVS Ntorq 125cc",
+    "type": "Bikes",
+    "images": [
+      "./assets/images/vehicles/vehicle-5.png"
+    ],
+    "price24h": 3500,
+    "kmIncluded": 200,
+    "extraKmRate": 25,
+    "extraHourRate": 250,
+    "deposit": 5000,
+    "transmission": "Automatic",
+    "seats": 2,
+    "fuel": "Petrol",
+    "available": true,
+    "featured": true,
+    "order": 2
+  },
+  {
+    "id": "indian-alto-2014",
+    "name": "Indian Alto 2014",
+    "type": "Cars",
+    "images": [
+      "./assets/images/vehicles/vehicle-4.png"
+    ],
+    "price24h": 6000,
+    "kmIncluded": 200,
+    "extraKmRate": 40,
+    "extraHourRate": 500,
+    "deposit": 10000,
+    "transmission": "Manual",
+    "seats": 4,
+    "fuel": "Petrol",
+    "available": true,
+    "featured": true,
+    "order": 3
+  },
+  {
+    "id": "japan-alto-auto",
+    "name": "Japan Alto Auto",
+    "type": "Cars",
+    "images": [
+      "./assets/images/vehicles/vehicle-2.png"
+    ],
+    "price24h": 6000,
+    "kmIncluded": 200,
+    "extraKmRate": 40,
+    "extraHourRate": 500,
+    "deposit": 10000,
+    "transmission": "Automatic",
+    "seats": 4,
+    "fuel": "Petrol",
+    "available": true,
+    "featured": true,
+    "order": 4
+  },
+  {
+    "id": "suzuki-wagon-r-hybrid",
+    "name": "Suzuki Wagon R Hybrid",
+    "type": "Cars",
+    "images": [
+      "./assets/images/vehicles/vehicle-1.png"
+    ],
+    "price24h": 8500,
+    "kmIncluded": 200,
+    "extraKmRate": 45,
+    "extraHourRate": 500,
+    "deposit": 20000,
+    "transmission": "Automatic",
+    "seats": 5,
+    "fuel": "Hybrid",
+    "available": true,
+    "featured": true,
+    "order": 5
+  },
+  {
+    "id": "suzuki-wagon-r-yellow",
+    "name": "Suzuki Wagon R FX Hybrid (Yellow)",
+    "type": "Cars",
+    "images": [
+      "./assets/images/vehicles/vehicle-3.png"
+    ],
+    "price24h": 8500,
+    "kmIncluded": 200,
+    "extraKmRate": 45,
+    "extraHourRate": 500,
+    "deposit": 20000,
+    "transmission": "Automatic",
+    "seats": 5,
+    "fuel": "Hybrid",
+    "available": true,
+    "featured": true,
+    "order": 6
+  },
+  {
+    "id": "suzuki-every-van-white",
+    "name": "Suzuki Every Van (White)",
+    "type": "Vans",
+    "images": [
+      "./assets/images/vehicles/vehicle-7.png"
+    ],
+    "price24h": 9500,
+    "kmIncluded": 200,
+    "extraKmRate": 50,
+    "extraHourRate": 500,
+    "deposit": 15000,
+    "transmission": "Automatic",
+    "seats": 7,
+    "fuel": "Petrol",
+    "available": true,
+    "featured": true,
+    "order": 7
+  },
+  {
+    "id": "suzuki-every-van-silver",
+    "name": "Suzuki Every Van (Silver)",
+    "type": "Vans",
+    "images": [
+      "./assets/images/vehicles/vehicle-9.png"
+    ],
+    "price24h": 9500,
+    "kmIncluded": 200,
+    "extraKmRate": 50,
+    "extraHourRate": 500,
+    "deposit": 15000,
+    "transmission": "Automatic",
+    "seats": 7,
+    "fuel": "Petrol",
+    "available": true,
+    "featured": true,
+    "order": 8
+  },
+  {
+    "id": "suzuki-alto-k10",
+    "name": "Suzuki Alto K10 (Red)",
+    "type": "Cars",
+    "images": [
+      "./assets/images/vehicles/vehicle-6.png"
+    ],
+    "price24h": 6500,
+    "kmIncluded": 200,
+    "extraKmRate": 40,
+    "extraHourRate": 500,
+    "deposit": 10000,
+    "transmission": "Automatic",
+    "seats": 4,
+    "fuel": "Petrol",
+    "available": true,
+    "featured": true,
+    "order": 9
+  },
+  {
+    "id": "honda-dio-red",
+    "name": "Honda Dio 110cc Scooter (Red)",
+    "type": "Bikes",
+    "images": [
+      "./assets/images/vehicles/vehicle-10.png"
+    ],
+    "price24h": 3000,
+    "kmIncluded": 200,
+    "extraKmRate": 25,
+    "extraHourRate": 250,
+    "deposit": 5000,
+    "transmission": "Automatic",
+    "seats": 2,
+    "fuel": "Petrol",
+    "available": true,
+    "featured": true,
+    "order": 10
+  }
+]

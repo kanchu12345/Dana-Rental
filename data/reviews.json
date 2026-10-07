@@ -1,0 +1,56 @@
+[
+  {
+    "id": "rev-1",
+    "name": "Kavindu Perera",
+    "text": "Rented a Honda Dio scooter for 4 days during our trip around Kandy and Sigiriya. The scooter was in immaculate condition, full tank of fuel provided, and pickup at Peradeniya was super quick. Excellent service by Danan Rentals!",
+    "rating": 5,
+    "source": "Google Review",
+    "photo": "./assets/images/customers/customer-1.jpeg",
+    "visible": true
+  },
+  {
+    "id": "rev-2",
+    "name": "Sarah & Mark (UK)",
+    "text": "Best vehicle rental in Kandy! We rented a Suzuki Wagon R to drive up to Ella and Nuwara Eliya. Car was pristine, smooth drive, clear transparent contract without any hidden fees. Highly recommend Danan Rentals to all tourists!",
+    "rating": 5,
+    "source": "Google Review",
+    "photo": "./assets/images/customers/customer-2.jpeg",
+    "visible": true
+  },
+  {
+    "id": "rev-3",
+    "name": "Michael Schmidt (Germany)",
+    "text": "Honest and super reliable bike rental service in Kandy. Quick WhatsApp communication, bike delivered directly to our hotel in Kandy city. 200 km free per day was perfect for our mountain exploration.",
+    "rating": 5,
+    "source": "Google Review",
+    "photo": "./assets/images/customers/customer-1.jpeg",
+    "visible": true
+  },
+  {
+    "id": "rev-4",
+    "name": "Dinusha Jayawardena",
+    "text": "Very convenient car rental near Peradeniya railway station. Rates are very fair compared to Colombo agencies, cars are fully insured and well maintained. Will definitely book again next time I visit Kandy!",
+    "rating": 5,
+    "source": "Google Review",
+    "photo": "./assets/images/customers/customer-2.jpeg",
+    "visible": true
+  },
+  {
+    "id": "rev-5",
+    "name": "Alexandre & Claire (France)",
+    "text": "Rented two Yamaha RayZR scooters for 3 days. Super easy documentation process, friendly staff, and instant response on WhatsApp whenever we asked for directions around Kandy. 5 stars overall!",
+    "rating": 5,
+    "source": "Google Review",
+    "photo": "./assets/images/customers/customer-1.jpeg",
+    "visible": true
+  },
+  {
+    "id": "rev-6",
+    "name": "Tharindu Wickramasinghe",
+    "text": "Great service! I rented a van for a family trip to Knuckles Mountain Range. Clean vehicle, smooth engine, and deposit refunded immediately upon return. Best rental shop in Peradeniya/Kandy!",
+    "rating": 5,
+    "source": "Google Review",
+    "photo": "./assets/images/customers/customer-2.jpeg",
+    "visible": true
+  }
+]

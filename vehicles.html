@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vehicle Fleet & Rental Rates | Danan Car & Bike Rentals Kandy</title>
+  <meta name="description" content="Browse our complete fleet of rental scooters, cars, hybrid hatchbacks and vans in Kandy & Peradeniya. Daily rates starting from Rs. 3,000 with 200 free km per day.">
+  <link rel="icon" href="./assets/images/logo/logo.png" type="image/jpeg">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+
+  <!-- ═══ NAVBAR ═══ -->
+  <nav id="navbar">
+    <a href="index.html" class="nav-logo">
+      <img src="./assets/images/logo/logo.png" alt="Danan Logo">
+      <div class="nav-brand-title">DANAN <span>RENTALS</span></div>
+    </a>
+
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="vehicles.html" class="active">Rentals</a></li>
+      <li><a href="index.html#rules">Rules & Req</a></li>
+      <li><a href="index.html#about">About Us</a></li>
+      <li><a href="index.html#faqs">FAQ</a></li>
+      <li><a href="index.html#contact">Contact Us</a></li>
+    </ul>
+
+    <div class="nav-btns">
+      <a href="./admin/login.html" class="btn-nav-outline">Admin Login</a>
+      <a href="https://wa.me/94772013059?text=Hello%20Danan%20Rentals,%20I%20want%20to%20book%20a%20vehicle." target="_blank" class="btn-nav-yellow">Book Now</a>
+    </div>
+
+    <div class="menu-toggle" id="menuToggle">
+      <i class="fa-solid fa-bars"></i>
+    </div>
+  </nav>
+
+  <!-- MOBILE MENU DRAWER -->
+  <div class="mobile-overlay" id="mobileOverlay"></div>
+  <div class="mobile-menu" id="mobileMenu">
+    <div class="mobile-menu-header">
+      <div class="nav-brand-title">DANAN <span>RENTALS</span></div>
+      <button class="mobile-menu-close" id="menuClose"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <ul class="mobile-nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="vehicles.html" class="active">Rentals</a></li>
+      <li><a href="index.html#rules">Rules & Requirements</a></li>
+      <li><a href="index.html#about">About Us</a></li>
+      <li><a href="index.html#faqs">FAQ</a></li>
+      <li><a href="index.html#contact">Contact Us</a></li>
+    </ul>
+    <div style="margin-top: 24px; display: flex; flex-direction: column; gap: 12px;">
+      <a href="./admin/login.html" class="btn-nav-outline" style="text-align: center;">Admin Login</a>
+      <a href="https://wa.me/94772013059?text=Hello%20Danan%20Rentals,%20I%20want%20to%20book%20a%20vehicle." target="_blank" class="btn-nav-yellow" style="text-align: center;">Book On WhatsApp</a>
+    </div>
+  </div>
+
+  <main style="padding-top: 100px; background: var(--dark-bg); min-height: 100vh;">
+
+    <!-- ═══ PAGE HEADER BANNER ═══ -->
+    <section style="padding: 60px 5% 40px; background: linear-gradient(180deg, rgba(15,23,42,0.8) 0%, rgba(7,7,10,1) 100%); text-align: center; border-bottom: 1px solid var(--card-border);">
+      <div class="container">
+        <span style="color: var(--yellow); font-weight: 900; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px;">Verified Rental Fleet</span>
+        <h1 style="font-size: 3rem; font-weight: 900; margin-top: 8px; color: #FFF;">EXPLORE OUR VEHICLE FLEET</h1>
+        <p style="color: var(--text-muted); max-width: 650px; margin: 12px auto 0; font-size: 1.05rem;">
+          200 Free Kilometers per Day &bull; Security Deposits Refundable &bull; Clean & Well-Maintained Vehicles in Kandy & Peradeniya
+        </p>
+        <div style="display: flex; justify-content: center; align-items: center; gap: 8px; margin-top: 20px; font-size: 0.88rem; color: var(--text-dim);">
+          <a href="index.html" style="color: var(--yellow);">Home</a>
+          <i class="fa-solid fa-chevron-right fa-xs"></i>
+          <span>Vehicles Fleet</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ FLEET GRID SECTION ═══ -->
+    <section class="cards-section" style="padding-top: 40px;">
+      <div class="container">
+
+        <!-- Category Filter Tabs -->
+        <div class="hero-tabs" style="display: flex; justify-content: center; gap: 12px; margin-bottom: 40px; flex-wrap: wrap;">
+          <button class="hero-tab active" data-tab="all"><i class="fa-solid fa-border-all"></i> All Vehicles</button>
+          <button class="hero-tab" data-tab="bikes"><i class="fa-solid fa-motorcycle"></i> Bikes & Scooters</button>
+          <button class="hero-tab" data-tab="cars"><i class="fa-solid fa-car"></i> Cars</button>
+          <button class="hero-tab" data-tab="vans"><i class="fa-solid fa-van-shuttle"></i> Vans</button>
+        </div>
+
+        <!-- Static Vehicles Grid -->
+        <div class="cards-grid" id="featuredVehiclesGrid">
+          
+          <!-- 1. Honda Dio 110cc -->
+          <a href="https://wa.me/94772013059?text=Hello%20Danan%20Rentals,%20I%20want%20to%20book%20the%20Honda%20Dio%20110cc" target="_blank" class="rc reveal visible in">
+            <div class="rc-img">
+              <img src="./assets/images/vehicles/vehicle-8.png" alt="Honda Dio 110cc (2025)" loading="lazy">
+              <div class="rc-badge">AVAILABLE</div>
+              <button class="rc-wishlist" onclick="event.preventDefault();" aria-label="Add to wishlist">
+                <i class="fa-regular fa-heart"></i>
+              </button>
+            </div>
+            <div class="rc-body">
+              <div class="rc-type">HONDA</div>
+              <div class="rc-name">Honda Dio 110cc (2025)</div>
+              <div class="rc-tags">
+                <span class="rc-tag"><i class="fa-solid fa-shield"></i> Insurance</span>
+                <span class="rc-tag"><i class="fa-solid fa-gauge-high"></i> 200km / Day</span>
+                <span class="rc-tag"><i class="fa-solid fa-hand-holding-dollar"></i> Deposit Rs. 5,000</span>
+                <span class="rc-tag"><i class="fa-solid fa-road"></i> Extra Km: Rs. 25</span>
+                <span class="rc-tag"><i class="fa-solid fa-clock"></i> Extra Hr: Rs. 250</span>
+                <span class="rc-tag"><i class="fa-solid fa-gas-pump"></i> Petrol</span>
+              </div>
+              <hr class="rc-divider">
+              <div class="rc-footer">
+                <div class="rc-price">Rs. 3,000 <sub>/day</sub></div>
+                <button class="rc-btn">BOOK NOW</button>
+              </div>
+            </div>
+          </a>
+
+          <!-- 2. TVS Ntorq 125cc -->
+          <a href="https://wa.me/94772013059?text=Hello%20Danan%20Rentals,%20I%20want%20to%20book%20the%20TVS%20Ntorq%20125cc" target="_blank" class="rc reveal visible in">
+            <div class="rc-img">
+              <img src="./assets/images/vehicles/vehicle-5.png" alt="TVS Ntorq 125cc" loading="lazy">
+              <div class="rc-badge">AVAILABLE</div>
+              <button class="rc-wishlist" onclick="event.preventDefault();" aria-label="Add to wishlist">
+                <i class="fa-regular fa-heart"></i>
+              </button>
+            </div>
+            <div class="rc-body">
+              <div class="rc-type">TVS</div>
+              <div class="rc-name">TVS Ntorq 125cc</div>
+              <div class="rc-tags">
+                <span class="rc-tag"><i class="fa-solid fa-shield"></i> Insurance</span>
+                <span class="rc-tag"><i class="fa-solid fa-gauge-high"></i> 200km / Day</span>
+                <span class="rc-tag"><i class="fa-solid fa-hand-holding-dollar"></i> Deposit Rs. 5,000</span>
+                <span class="rc-tag"><i class="fa-solid fa-road"></i> Extra Km: Rs. 25</span>
+                <span class="rc-tag"><i class="fa-solid fa-clock"></i> Extra Hr: Rs. 250</span>
+                <span class="rc-tag"><i class="fa-solid fa-gas-pump"></i> Petrol</span>
+              </div>
+              <hr class="rc-divider">
+              <div class="rc-footer">
+                <div class="rc-price">Rs. 3,500 <sub>/day</sub></div>
+                <button class="rc-btn">BOOK NOW</button>
+              </div>
+            </div>
+          </a>
+
+          <!-- 3. Indian Alto 2014 -->
+          <a href="https://wa.me/94772013059?text=Hello%20Danan%20Rentals,%20I%20want%20to%20book%20the%20Indian%20Alto%202014" target="_blank" class="rc reveal visible in">
+            <div class="rc-img">
+              <img src="./assets/images/vehicles/vehicle-4.png" alt="Indian Alto 2014" loading="lazy">
+              <div class="rc-badge">AVAILABLE</div>
+              <button class="rc-wishlist" onclick="event.preventDefault();" aria-label="Add to wishlist">
+                <i class="fa-regular fa-heart"></i>
+              </button>
+            </div>
+            <div class="rc-body">
+              <div class="rc-type">SUZUKI</div>
+              <div class="rc-name">Indian Alto 2014</div>
+              <div class="rc-tags">
+                <span class="rc-tag"><i class="fa-solid fa-shield"></i> Insurance</span>
+                <span class="rc-tag"><i class="fa-solid fa-gauge-high"></i> 200km / Day</span>
+                <span class="rc-tag"><i class="fa-solid fa-hand-holding-dollar"></i> Deposit Rs. 10,000</span>
+                <span class="rc-tag"><i class="fa-solid fa-road"></i> Extra Km: Rs. 40</span>
+                <span class="rc-tag"><i class="fa-solid fa-clock"></i> Extra Hr: Rs. 500</span>
+                <span class="rc-tag"><i class="fa-solid fa-gas-pump"></i> Petrol</span>
+              </div>
+              <hr class="rc-divider">
+              <div class="rc-footer">
+                <div class="rc-price">Rs. 6,000 <sub>/day</sub></div>
+                <button class="rc-btn">BOOK NOW</button>
+              </div>
+            </div>
+          </a>
+
+          <!-- 4. Japan Alto Auto -->
+          <a href="https://wa.me/94772013059?text=Hello%20Danan%20Rentals,%20I%20want%20to%20book%20the%20Japan%20Alto%20Auto" target="_blank" class="rc reveal visible in">
+            <div class="rc-img">
+              <img src="./assets/images/vehicles/vehicle-2.png" alt="Japan Alto Auto" loading="lazy">
+              <div class="rc-badge">AVAILABLE</div>
+              <button class="rc-wishlist" onclick="event.preventDefault();" aria-label="Add to wishlist">
+                <i class="fa-regular fa-heart"></i>
+              </button>
+            </div>
+            <div class="rc-body">
+              <div class="rc-type">SUZUKI</div>
+              <div class="rc-name">Japan Alto Auto</div>
+              <div class="rc-tags">
+                <span class="rc-tag"><i class="fa-solid fa-shield"></i> Insurance</span>
+                <span class="rc-tag"><i class="fa-solid fa-gauge-high"></i> 200km / Day</span>
+                <span class="rc-tag"><i class="fa-solid fa-hand-holding-dollar"></i> Deposit Rs. 10,000</span>
+                <span class="rc-tag"><i class="fa-solid fa-road"></i> Extra Km: Rs. 40</span>
+                <span class="rc-tag"><i class="fa-solid fa-clock"></i> Extra Hr: Rs. 500</span>
+                <span class="rc-tag"><i class="fa-solid fa-gas-pump"></i> Petrol</span>
+              </div>
+              <hr class="rc-divider">
+              <div class="rc-footer">
+                <div class="rc-price">Rs. 6,000 <sub>/day</sub></div>
+                <button class="rc-btn">BOOK NOW</button>
+              </div>
+            </div>
+          </a>
+
+          <!-- 5. Suzuki Wagon R Hybrid -->
+          <a href="https://wa.me/94772013059?text=Hello%20Danan%20Rentals,%20I%20want%20to%20book%20the%20Suzuki%20Wagon%20R%20Hybrid" target="_blank" class="rc reveal visible in">
+            <div class="rc-img">
+              <img src="./assets/images/vehicles/vehicle-1.png" alt="Suzuki Wagon R Hybrid" loading="lazy">
+              <div class="rc-badge">AVAILABLE</div>
+              <button class="rc-wishlist" onclick="event.preventDefault();" aria-label="Add to wishlist">
+                <i class="fa-regular fa-heart"></i>
+              </button>
+            </div>
+            <div class="rc-body">
+              <div class="rc-type">SUZUKI</div>
+              <div class="rc-name">Suzuki Wagon R Hybrid</div>
+              <div class="rc-tags">
+                <span class="rc-tag"><i class="fa-solid fa-shield"></i> Insurance</span>
+                <span class="rc-tag"><i class="fa-solid fa-gauge-high"></i> 200km / Day</span>
+                <span class="rc-tag"><i class="fa-solid fa-hand-holding-dollar"></i> Deposit Rs. 20,000</span>
+                <span class="rc-tag"><i class="fa-solid fa-road"></i> Extra Km: Rs. 45</span>
+                <span class="rc-tag"><i class="fa-solid fa-clock"></i> Extra Hr: Rs. 500</span>
+                <span class="rc-tag"><i class="fa-solid fa-leaf"></i> Hybrid</span>
+              </div>
+              <hr class="rc-divider">
+              <div class="rc-footer">
+                <div class="rc-price">Rs. 8,500 <sub>/day</sub></div>
+                <button class="rc-btn">BOOK NOW</button>
+              </div>
+            </div>
+          </a>
+
+          <!-- 6. Suzuki Wagon R FX Hybrid (Yellow) -->
+          <a href="https://wa.me/94772013059?text=Hello%20Danan%20Rentals,%20I%20want%20to%20book%20the%20Yellow%20Suzuki%20Wagon%20R%20FX" target="_blank" class="rc reveal visible in">
+            <div class="rc-img">
+              <img src="./assets/images/vehicles/vehicle-3.png" alt="Suzuki Wagon R FX Hybrid (Yellow)" loading="lazy">
+              <div class="rc-badge">AVAILABLE</div>
+              <button class="rc-wishlist" onclick="event.preventDefault();" aria-label="Add to wishlist">
+                <i class="fa-regular fa-heart"></i>
+              </button>
+            </div>
+            <div class="rc-body">
+              <div class="rc-type">SUZUKI</div>
+              <div class="rc-name">Suzuki Wagon R FX Hybrid (Yellow)</div>
+              <div class="rc-tags">
+                <span class="rc-tag"><i class="fa-solid fa-shield"></i> Insurance</span>
+                <span class="rc-tag"><i class="fa-solid fa-gauge-high"></i> 200km / Day</span>
+                <span class="rc-tag"><i class="fa-solid fa-hand-holding-dollar"></i> Deposit Rs. 20,000</span>
+                <span class="rc-tag"><i class="fa-solid fa-road"></i> Extra Km: Rs. 45</span>
+                <span class="rc-tag"><i class="fa-solid fa-clock"></i> Extra Hr: Rs. 500</span>
+                <span class="rc-tag"><i class="fa-solid fa-leaf"></i> Hybrid</span>
+              </div>
+              <hr class="rc-divider">
+              <div class="rc-footer">
+                <div class="rc-price">Rs. 8,500 <sub>/day</sub></div>
+                <button class="rc-btn">BOOK NOW</button>
+              </div>
+            </div>
+          </a>
+
+          <!-- 7. Suzuki Every Van (White) -->
+          <a href="https://wa.me/94772013059?text=Hello%20Danan%20Rentals,%20I%20want%20to%20book%20the%20Suzuki%20Every%20Van%20White" target="_blank" class="rc reveal visible in">
+            <div class="rc-img">
+              <img src="./assets/images/vehicles/vehicle-6.png" alt="Suzuki Every Van (White)" loading="lazy">
+              <div class="rc-badge">AVAILABLE</div>
+              <button class="rc-wishlist" onclick="event.preventDefault();" aria-label="Add to wishlist">
+                <i class="fa-regular fa-heart"></i>
+              </button>
+            </div>
+            <div class="rc-body">
+              <div class="rc-type">SUZUKI</div>
+              <div class="rc-name">Suzuki Every Van (White)</div>
+              <div class="rc-tags">
+                <span class="rc-tag"><i class="fa-solid fa-shield"></i> Insurance</span>
+                <span class="rc-tag"><i class="fa-solid fa-gauge-high"></i> 200km / Day</span>
+                <span class="rc-tag"><i class="fa-solid fa-hand-holding-dollar"></i> Deposit Rs. 15,000</span>
+                <span class="rc-tag"><i class="fa-solid fa-road"></i> Extra Km: Rs. 50</span>
+                <span class="rc-tag"><i class="fa-solid fa-clock"></i> Extra Hr: Rs. 500</span>
+                <span class="rc-tag"><i class="fa-solid fa-gas-pump"></i> Petrol</span>
+              </div>
+              <hr class="rc-divider">
+              <div class="rc-footer">
+                <div class="rc-price">Rs. 9,500 <sub>/day</sub></div>
+                <button class="rc-btn">BOOK NOW</button>
+              </div>
+            </div>
+          </a>
+
+          <!-- 8. Suzuki Every Van (Silver) -->
+          <a href="https://wa.me/94772013059?text=Hello%20Danan%20Rentals,%20I%20want%20to%20book%20the%20Suzuki%20Every%20Van%20Silver" target="_blank" class="rc reveal visible in">
+            <div class="rc-img">
+              <img src="./assets/images/vehicles/vehicle-7.png" alt="Suzuki Every Van (Silver)" loading="lazy">
+              <div class="rc-badge">AVAILABLE</div>
+              <button class="rc-wishlist" onclick="event.preventDefault();" aria-label="Add to wishlist">
+                <i class="fa-regular fa-heart"></i>
+              </button>
+            </div>
+            <div class="rc-body">
+              <div class="rc-type">SUZUKI</div>
+              <div class="rc-name">Suzuki Every Van (Silver)</div>
+              <div class="rc-tags">
+                <span class="rc-tag"><i class="fa-solid fa-shield"></i> Insurance</span>
+                <span class="rc-tag"><i class="fa-solid fa-gauge-high"></i> 200km / Day</span>
+                <span class="rc-tag"><i class="fa-solid fa-hand-holding-dollar"></i> Deposit Rs. 15,000</span>
+                <span class="rc-tag"><i class="fa-solid fa-road"></i> Extra Km: Rs. 50</span>
+                <span class="rc-tag"><i class="fa-solid fa-clock"></i> Extra Hr: Rs. 500</span>
+                <span class="rc-tag"><i class="fa-solid fa-gas-pump"></i> Petrol</span>
+              </div>
+              <hr class="rc-divider">
+              <div class="rc-footer">
+                <div class="rc-price">Rs. 9,500 <sub>/day</sub></div>
+                <button class="rc-btn">BOOK NOW</button>
+              </div>
+            </div>
+          </a>
+
+          <!-- 9. Toyota Axio / Grace Hybrid -->
+          <a href="https://wa.me/94772013059?text=Hello%20Danan%20Rentals,%20I%20want%20to%20book%20the%20Toyota%20Axio%20Hybrid" target="_blank" class="rc reveal visible in">
+            <div class="rc-img">
+              <img src="./assets/images/vehicles/vehicle-9.png" alt="Toyota Axio / Grace Hybrid" loading="lazy">
+              <div class="rc-badge">AVAILABLE</div>
+              <button class="rc-wishlist" onclick="event.preventDefault();" aria-label="Add to wishlist">
+                <i class="fa-regular fa-heart"></i>
+              </button>
+            </div>
+            <div class="rc-body">
+              <div class="rc-type">TOYOTA</div>
+              <div class="rc-name">Toyota Axio / Grace Hybrid</div>
+              <div class="rc-tags">
+                <span class="rc-tag"><i class="fa-solid fa-shield"></i> Insurance</span>
+                <span class="rc-tag"><i class="fa-solid fa-gauge-high"></i> 200km / Day</span>
+                <span class="rc-tag"><i class="fa-solid fa-hand-holding-dollar"></i> Deposit Rs. 20,000</span>
+                <span class="rc-tag"><i class="fa-solid fa-road"></i> Extra Km: Rs. 60</span>
+                <span class="rc-tag"><i class="fa-solid fa-clock"></i> Extra Hr: Rs. 600</span>
+                <span class="rc-tag"><i class="fa-solid fa-leaf"></i> Hybrid</span>
+              </div>
+              <hr class="rc-divider">
+              <div class="rc-footer">
+                <div class="rc-price">Rs. 12,000 <sub>/day</sub></div>
+                <button class="rc-btn">BOOK NOW</button>
+              </div>
+            </div>
+          </a>
+
+          <!-- 10. Toyota KDH High Roof Van -->
+          <a href="https://wa.me/94772013059?text=Hello%20Danan%20Rentals,%20I%20want%20to%20book%20the%20Toyota%20KDH%20Van" target="_blank" class="rc reveal visible in">
+            <div class="rc-img">
+              <img src="./assets/images/vehicles/vehicle-10.png" alt="Toyota KDH High Roof Van" loading="lazy">
+              <div class="rc-badge">AVAILABLE</div>
+              <button class="rc-wishlist" onclick="event.preventDefault();" aria-label="Add to wishlist">
+                <i class="fa-regular fa-heart"></i>
+              </button>
+            </div>
+            <div class="rc-body">
+              <div class="rc-type">TOYOTA</div>
+              <div class="rc-name">Toyota KDH High Roof Van</div>
+              <div class="rc-tags">
+                <span class="rc-tag"><i class="fa-solid fa-shield"></i> Insurance</span>
+                <span class="rc-tag"><i class="fa-solid fa-gauge-high"></i> 200km / Day</span>
+                <span class="rc-tag"><i class="fa-solid fa-hand-holding-dollar"></i> Deposit Rs. 25,000</span>
+                <span class="rc-tag"><i class="fa-solid fa-road"></i> Extra Km: Rs. 80</span>
+                <span class="rc-tag"><i class="fa-solid fa-clock"></i> Extra Hr: Rs. 800</span>
+                <span class="rc-tag"><i class="fa-solid fa-user"></i> 10 Seats</span>
+              </div>
+              <hr class="rc-divider">
+              <div class="rc-footer">
+                <div class="rc-price">Rs. 18,000 <sub>/day</sub></div>
+                <button class="rc-btn">BOOK NOW</button>
+              </div>
+            </div>
+          </a>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ CTA STRIP ═══ -->
+    <div class="cta-strip" style="margin-top: 60px;">
+      <div class="cta-left">
+        <div class="cta-icon">
+          <i class="fa-solid fa-headset" style="font-size: 40px; color: #000;"></i>
+        </div>
+        <div>
+          <div class="cta-micro">Call us for vehicle inquiries</div>
+          <div class="cta-headline">Need assistance choosing<br>the right vehicle?</div>
+        </div>
+      </div>
+
+      <div class="cta-right">
+        <div class="cta-call-wrap">
+          <div class="cta-call-circle">
+            <i class="fa-solid fa-phone" style="color: #FFF;"></i>
+          </div>
+          <div>
+            <div style="font-size: 0.75rem; font-weight: 800; text-transform: uppercase;">Call now</div>
+            <div class="cta-call-num"><a href="tel:0772013059">077 201 3059</a></div>
+          </div>
+        </div>
+        <a href="https://wa.me/94772013059?text=Hello%20Danan%20Rentals,%20I%20want%20to%20reserve%20a%20vehicle." target="_blank" class="btn-contact">WhatsApp Us</a>
+      </div>
+    </div>
+  </main>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer>
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo">
+          <img src="./assets/images/logo/logo.png" alt="Danan Logo">
+        </div>
+        <p class="footer-addr">
+          Peradeniya & Kandy, Sri Lanka<br>
+          Phone: <a href="tel:0772013059" style="color: var(--yellow);">077 201 3059</a> / <a href="tel:0712832221" style="color: var(--yellow);">071 283 2221</a><br>
+          Email: dananrentals@gmail.com
+        </p>
+        <div class="footer-socials">
+          <a href="https://www.facebook.com/" target="_blank" rel="noopener" class="soc-icon-btn" aria-label="Facebook Page"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="https://wa.me/94772013059" target="_blank" rel="noopener" class="soc-icon-btn" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+          <a href="tel:0772013059" class="soc-icon-btn" aria-label="Phone"><i class="fa-solid fa-phone"></i></a>
+          <a href="https://share.google/ICElyHmWpDjeHQLOY" target="_blank" rel="noopener" class="soc-icon-btn" aria-label="Location"><i class="fa-solid fa-location-dot"></i></a>
+        </div>
+      </div>
+
+      <div>
+        <div class="footer-col-title">Quick Links</div>
+        <ul class="footer-links">
+          <li><a href="index.html"><i class="fa-solid fa-chevron-right fa-xs"></i> Home</a></li>
+          <li><a href="vehicles.html"><i class="fa-solid fa-chevron-right fa-xs"></i> Vehicles Fleet</a></li>
+          <li><a href="index.html#how-it-works"><i class="fa-solid fa-chevron-right fa-xs"></i> How It Works</a></li>
+          <li><a href="index.html#about"><i class="fa-solid fa-chevron-right fa-xs"></i> About Us</a></li>
+          <li><a href="sitemap.html"><i class="fa-solid fa-chevron-right fa-xs"></i> Sitemap</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="footer-col-title">Support</div>
+        <ul class="footer-links">
+          <li><a href="index.html#rules"><i class="fa-solid fa-chevron-right fa-xs"></i> Rules & Req</a></li>
+          <li><a href="index.html#faqs"><i class="fa-solid fa-chevron-right fa-xs"></i> FAQs</a></li>
+          <li><a href="index.html#contact"><i class="fa-solid fa-chevron-right fa-xs"></i> Contact Us</a></li>
+          <li><a href="./admin/login.html"><i class="fa-solid fa-chevron-right fa-xs"></i> Admin Login</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="footer-col-title">Location</div>
+        <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.6; margin-bottom: 16px;">
+          Convenient vehicle pickup & delivery available throughout Kandy town, Peradeniya, and nearby railway stations.
+        </p>
+        <a href="https://share.google/ICElyHmWpDjeHQLOY" target="_blank" rel="noopener" class="btn-nav-outline" style="display: inline-flex; align-items: center; gap: 8px;">
+          <i class="fa-solid fa-map-location-dot"></i> Open Full Map
+        </a>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <!-- ═══ ANIMATED DRIVING TAXI ═══ -->
+      <div class="footer-road-track">
+        <div class="footer-taxi-anim">
+          <div class="taillight-glow"></div>
+          <div class="exhaust">
+            <span class="smoke s1"></span>
+            <span class="smoke s2"></span>
+            <span class="smoke s3"></span>
+          </div>
+          <svg class="taxi-svg" viewBox="0 0 70 30" width="56" height="24">
+            <path d="M 8 18 L 16 9 Q 20 6, 26 6 L 44 6 Q 50 6, 54 11 L 64 16 L 68 18 Q 70 20, 70 23 L 70 24 L 0 24 L 0 20 Q 0 18, 4 18 Z" fill="#FFC107"/>
+            <rect x="29" y="1.5" width="12" height="4.5" rx="1.5" fill="#111" stroke="#FFC107" stroke-width="0.5"/>
+            <text x="35" y="5" font-size="3.2" fill="#FFC107" font-weight="900" text-anchor="middle" font-family="sans-serif">TAXI</text>
+            <path d="M 18 8.5 L 31 8.5 L 31 15 L 12 15 Z" fill="#1E293B"/>
+            <path d="M 34 8.5 L 49 8.5 L 44.5 15 L 34 15 Z" fill="#1E293B"/>
+            <line x1="32.5" y1="6" x2="32.5" y2="23" stroke="#D97706" stroke-width="0.75"/>
+            <rect x="68" y="15" width="2" height="3.5" fill="#FFF" rx="0.5"/>
+            <rect x="0" y="15" width="2" height="3.5" fill="#EF4444" rx="0.5"/>
+            <circle cx="15" cy="23" r="5" fill="#0F172A" stroke="#475569" stroke-width="1.2"/>
+            <circle cx="15" cy="23" r="2.2" fill="#94A3B8"/>
+            <circle cx="51" cy="23" r="5" fill="#0F172A" stroke="#475569" stroke-width="1.2"/>
+            <circle cx="51" cy="23" r="2.2" fill="#94A3B8"/>
+          </svg>
+          <div class="headlight-beam"></div>
+        </div>
+      </div>
+      <span>&copy; 2026 Danan Car & Bike Rentals. Peradeniya & Kandy, Sri Lanka.</span>
+      <span>Designed by <a href="https://infiniteweb.dev/index.html" target="_blank" rel="noopener" style="color: var(--yellow); font-weight: 700;">INFINITE Creative Web Design</a></span>
+    </div>
+  </footer>
+
+  <!-- FLOATING BUTTONS (STACKED ON BOTTOM RIGHT) -->
+  <a id="waBtn" href="https://wa.me/94772013059?text=Hello%20Danan%20Rentals,%20I%20want%20to%20rent%20a%20vehicle." target="_blank" aria-label="WhatsApp">
+    <i class="fa-brands fa-whatsapp" style="font-size: 28px;"></i>
+  </a>
+
+  <button id="scrollTopBtn" aria-label="Go to top">
+    <i class="fa-solid fa-chevron-up"></i>
+  </button>
+
+  <script type="module" src="./js/main.js"></script>
+
+  <script>
+    // Inline mobile menu & scroll listeners
+    document.addEventListener('DOMContentLoaded', () => {
+      const menuToggle = document.getElementById('menuToggle');
+      const menuClose = document.getElementById('menuClose');
+      const mobileMenu = document.getElementById('mobileMenu');
+      const mobileOverlay = document.getElementById('mobileOverlay');
+      const scrollTopBtn = document.getElementById('scrollTopBtn');
+
+      function openMenu() { mobileMenu?.classList.add('active'); mobileOverlay?.classList.add('active'); }
+      function closeMenu() { mobileMenu?.classList.remove('active'); mobileOverlay?.classList.remove('active'); }
+
+      menuToggle?.addEventListener('click', openMenu);
+      menuClose?.addEventListener('click', closeMenu);
+      mobileOverlay?.addEventListener('click', closeMenu);
+
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 300) scrollTopBtn?.classList.add('visible');
+        else scrollTopBtn?.classList.remove('visible');
+
+        const nav = document.getElementById('navbar');
+        if (window.scrollY > 50) nav?.classList.add('scrolled');
+        else nav?.classList.remove('scrolled');
+      });
+
+      scrollTopBtn?.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Danan Car & Bike Rentals | Your Journey, Your Choice</title>
+  <meta name="description" content="Danan Car & Bike Rentals Kandy & Peradeniya. Your Journey, Your Choice. Fully insured cars, scooters, vans & AA Ceylon driving permits with 24/7 support.">
+  <meta name="keywords" content="car rental Kandy, bike rental Peradeniya, rent a car Kandy, scooter rental Sri Lanka, Danan rentals, Your Journey Your Choice">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:title" content="Danan Car & Bike Rentals - Your Journey, Your Choice">
+  <meta property="og:description" content="Your Journey, Your Choice. Rent cars, scooters & vans in Kandy & Peradeniya. Affordable daily rates, 200 free km per day, full tank provided.">
+  <meta property="og:image" content="./assets/images/hero/sigiriya.jpg">
+  <meta property="og:type" content="website">
+
+  <!-- Favicon -->
+  <link rel="icon" href="./assets/images/logo/logo.png" type="image/jpeg">
+
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="./css/style.css">
+
+  <!-- LocalBusiness Structured Data JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "AutoRental",
+    "name": "Danan Car & Bike Rentals",
+    "image": "./assets/images/logo/logo.png",
+    "telephone": ["+94772013059", "+94712832221"],
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Peradeniya",
+      "addressRegion": "Kandy",
+      "addressCountry": "LK"
+    },
+    "url": "https://dananrentals.github.io/",
+    "priceRange": "Rs. 3,000 - Rs. 20,000",
+    "openingHoursSpecification": {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+      "opens": "00:00",
+      "closes": "23:59"
+    }
+  }
+  </script>
+</head>
+<body>
+
+  <!-- ═══ NAVBAR ═══ -->
+  <nav id="navbar">
+    <a href="index.html" class="nav-logo">
+      <img src="./assets/images/logo/logo.png" alt="Danan Logo">
+      <div class="nav-brand-title">DANAN <span>RENTALS</span></div>
+    </a>
+
+    <ul class="nav-links">
+      <li><a href="index.html" class="active">HOME</a></li>
+      <li><a href="vehicles.html">RENTALS</a></li>
+      <li><a href="#transfer">TRANSFER</a></li>
+      <li><a href="#about">ABOUT US</a></li>
+      <li><a href="#rules">RULES</a></li>
+      <li><a href="#faqs">FAQS</a></li>
+      <li><a href="#contact">CONTACT US</a></li>
+    </ul>
+
+    <div class="nav-btns">
+      <a href="./admin/login.html" class="btn-nav-outline">REGISTER</a>
+      <a href="./admin/login.html" class="btn-nav-yellow">LOGIN</a>
+    </div>
+
+    <button class="nav-toggle" id="menuToggle" aria-label="Toggle Navigation">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </nav>
+
+  <!-- MOBILE MENU OVERLAY -->
+  <div class="mobile-overlay" id="mobileOverlay"></div>
+  <div class="mobile-menu" id="mobileMenu">
+    <div class="mobile-menu-header">
+      <div class="nav-logo">
+        <img src="./assets/images/logo/logo.png" alt="Danan Logo">
+        <div class="nav-brand-title">DANAN <span>RENTALS</span></div>
+      </div>
+      <div class="mobile-close" id="menuClose">&#10005;</div>
+    </div>
+    <ul class="mobile-links">
+      <li><a href="index.html" class="active">HOME</a></li>
+      <li><a href="vehicles.html">RENTALS</a></li>
+      <li><a href="#transfer">TRANSFER</a></li>
+      <li><a href="#about">ABOUT US</a></li>
+      <li><a href="#rules">RULES</a></li>
+      <li><a href="#faqs">FAQS</a></li>
+      <li><a href="#contact">CONTACT US</a></li>
+      <li><a href="./admin/login.html">ADMIN LOGIN</a></li>
+    </ul>
+  </div>
+
+  <main>
+    <!-- ═══ HERO SECTION (SIGIRIYA BACKGROUND) ═══ -->
+    <section class="hero">
+      <div class="hero-body reveal">
+        <h1 class="hero-title">
+          <span class="text-yellow">Start</span> Your Journey to Your Dream <br>
+          <span class="text-yellow">Destination</span> Here.
+        </h1>
+        
+        <p class="hero-desc">
+          Start your journey to the destination you've always dreamed of. Discover stunning locations, plan with ease, and create memories that last a lifetime. Whether it's a relaxing escape or an exciting adventure, your perfect getaway begins right here.
+        </p>
+        
+        <div class="hero-tabs">
+          <button class="hero-tab active" data-tab="cars">
+            <i class="fa-solid fa-car"></i> Car Rental
+          </button>
+          <button class="hero-tab" data-tab="permits">
+            <i class="fa-regular fa-file-lines"></i> Permits
+          </button>
+          <button class="hero-tab" data-tab="transfers">
+            <i class="fa-solid fa-location-dot"></i> Transfers
+          </button>
+        </div>
+
+        <!-- SEARCH PILL CONTAINER -->
+        <form class="search-container" id="cars-search" onsubmit="event.preventDefault();">
+          <div class="search-group">
+            <label class="search-label">DRIVER TYPE</label>
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+              <select class="search-input" id="driverType">
+                <option value="Self Drive">Self Drive</option>
+                <option value="With Driver">With Driver</option>
+              </select>
+              <i class="fa-solid fa-chevron-down" style="font-size: 0.7rem; color: #FFF; pointer-events: none;"></i>
+            </div>
+          </div>
+
+          <div class="search-group">
+            <label class="search-label">PICKUP DATE</label>
+            <input type="text" class="search-input" id="home-startdate" value="2026-10-05" readonly>
+          </div>
+
+          <div class="search-group">
+            <label class="search-label">RETURN DATE</label>
+            <input type="text" class="search-input" id="home-enddate" value="2026-10-06" readonly>
+          </div>
+
+          <div class="search-group">
+            <label class="search-label">VEHICLE TYPE</label>
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+              <select class="search-input" id="vehicleTypeSelect">
+                <option value="all">Select Vehicle</option>
+                <option value="bikes">Bikes & Scooters</option>
+                <option value="cars">Cars</option>
+                <option value="vans">Vans</option>
+              </select>
+              <i class="fa-solid fa-chevron-down" style="font-size: 0.7rem; color: #FFF; pointer-events: none;"></i>
+            </div>
+          </div>
+
+          <button type="button" class="btn-search" id="btnHeroSearch">
+            INQUIRE
+          </button>
+        </form>
+      </div>
+    </section>
+
+
+
+    <!-- ═══ FEATURED FLEET GRID (4-CARD AUTO SWAP CAROUSEL) ═══ -->
+    <section class="cards-section" id="rentals">
+      <div class="container">
+        <div style="text-align: center; margin-bottom: 40px;" class="reveal">
+          <span class="text-yellow" style="font-weight: 900; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1.5px;">Our Verified Fleet</span>
+          <h2 style="font-size: 2.5rem; margin-top: 6px;">FEATURED RENTAL VEHICLES</h2>
+        </div>
+
+        <div class="fleet-carousel-wrapper">
+          <button class="fleet-nav-btn prev" id="fleetPrevBtn" aria-label="Previous vehicles">
+            <i class="fa-solid fa-chevron-left"></i>
+          </button>
+
+          <div class="fleet-viewport">
+            <div class="cards-grid fleet-track" id="featuredVehiclesGrid">
+              <!-- 1. Honda Dio 110cc -->
+              <a href="https://wa.me/94772013059?text=Hello%20Danan%20Rentals,%20I%20want%20to%20book%20the%20Honda%20Dio%20110cc" target="_blank" class="rc reveal visible in">
+                <div class="rc-img">
+                  <img src="./assets/images/vehicles/vehicle-8.png" alt="Honda Dio 110cc (2025)" loading="lazy">
+                  <div class="rc-badge">AVAILABLE</div>
+                  <button class="rc-wishlist" onclick="event.preventDefault();" aria-label="Add to wishlist">
+                    <i class="fa-regular fa-heart"></i>
+                  </button>
+                </div>
+                <div class="rc-body">
+                  <div class="rc-type">HONDA</div>
+                  <div class="rc-name">Honda Dio 110cc (2025)</div>
+                  <div class="rc-tags">
+                    <span class="rc-tag"><i class="fa-solid fa-shield"></i> Insurance</span>
+                    <span class="rc-tag"><i class="fa-solid fa-gauge-high"></i> 200km / Day</span>
+                    <span class="rc-tag"><i class="fa-solid fa-hand-holding-dollar"></i> Deposit Rs. 5,000</span>
+                    <span class="rc-tag"><i class="fa-solid fa-road"></i> Extra Km: Rs. 25</span>
+                    <span class="rc-tag"><i class="fa-solid fa-clock"></i> Extra Hr: Rs. 250</span>
+                    <span class="rc-tag"><i class="fa-solid fa-gas-pump"></i> Petrol</span>
+                  </div>
+                  <hr class="rc-divider">
+                  <div class="rc-footer">
+                    <div class="rc-price">Rs. 3,000 <sub>/day</sub></div>
+                    <button class="rc-btn">BOOK NOW</button>
+                  </div>
+                </div>
+              </a>
+
+              <!-- 2. TVS Ntorq 125cc -->
+              <a href="https://wa.me/94772013059?text=Hello%20Danan%20Rentals,%20I%20want%20to%20book%20the%20TVS%20Ntorq%20125cc" target="_blank" class="rc reveal visible in">
+                <div class="rc-img">
+                  <img src="./assets/images/vehicles/vehicle-5.png" alt="TVS Ntorq 125cc" loading="lazy">
+                  <div class="rc-badge">AVAILABLE</div>
+                  <button class="rc-wishlist" onclick="event.preventDefault();" aria-label="Add to wishlist">
+                    <i class="fa-regular fa-heart"></i>
+                  </button>
+                </div>
+                <div class="rc-body">
+                  <div class="rc-type">TVS</div>
+                  <div class="rc-name">TVS Ntorq 125cc</div>
+                  <div class="rc-tags">
+                    <span class="rc-tag"><i class="fa-solid fa-shield"></i> Insurance</span>
+                    <span class="rc-tag"><i class="fa-solid fa-gauge-high"></i> 200km / Day</span>
+                    <span class="rc-tag"><i class="fa-solid fa-hand-holding-dollar"></i> Deposit Rs. 5,000</span>
+                    <span class="rc-tag"><i class="fa-solid fa-road"></i> Extra Km: Rs. 25</span>
+                    <span class="rc-tag"><i class="fa-solid fa-clock"></i> Extra Hr: Rs. 250</span>
+                    <span class="rc-tag"><i class="fa-solid fa-gas-pump"></i> Petrol</span>
+                  </div>
+                  <hr class="rc-divider">
+                  <div class="rc-footer">
+                    <div class="rc-price">Rs. 3,500 <sub>/day</sub></div>
+                    <button class="rc-btn">BOOK NOW</button>
+                  </div>
+                </div>
+              </a>
+
+              <!-- 3. Indian Alto 2014 -->
+              <a href="https://wa.me/94772013059?text=Hello%20Danan%20Rentals,%20I%20want%20to%20book%20the%20Indian%20Alto%202014" target="_blank" class="rc reveal visible in">
+                <div class="rc-img">
+                  <img src="./assets/images/vehicles/vehicle-4.png" alt="Indian Alto 2014" loading="lazy">
+                  <div class="rc-badge">AVAILABLE</div>
+                  <button class="rc-wishlist" onclick="event.preventDefault();" aria-label="Add to wishlist">
+                    <i class="fa-regular fa-heart"></i>
+                  </button>
+                </div>
+                <div class="rc-body">
+                  <div class="rc-type">SUZUKI</div>
+                  <div class="rc-name">Indian Alto 2014</div>
+                  <div class="rc-tags">
+                    <span class="rc-tag"><i class="fa-solid fa-shield"></i> Insurance</span>
+                    <span class="rc-tag"><i class="fa-solid fa-gauge-high"></i> 200km / Day</span>
+                    <span class="rc-tag"><i class="fa-solid fa-hand-holding-dollar"></i> Deposit Rs. 10,000</span>
+                    <span class="rc-tag"><i class="fa-solid fa-road"></i> Extra Km: Rs. 40</span>
+                    <span class="rc-tag"><i class="fa-solid fa-clock"></i> Extra Hr: Rs. 500</span>
+                    <span class="rc-tag"><i class="fa-solid fa-gas-pump"></i> Petrol</span>
+                  </div>
+                  <hr class="rc-divider">
+                  <div class="rc-footer">
+                    <div class="rc-price">Rs. 6,000 <sub>/day</sub></div>
+                    <button class="rc-btn">BOOK NOW</button>
+                  </div>
+                </div>
+              </a>
+
+              <!-- 4. Japan Alto Auto -->
+              <a href="https://wa.me/94772013059?text=Hello%20Danan%20Rentals,%20I%20want%20to%20book%20the%20Japan%20Alto%20Auto" target="_blank" class="rc reveal visible in">
+                <div class="rc-img">
+                  <img src="./assets/images/vehicles/vehicle-2.png" alt="Japan Alto Auto" loading="lazy">
+                  <div class="rc-badge">AVAILABLE</div>
+                  <button class="rc-wishlist" onclick="event.preventDefault();" aria-label="Add to wishlist">
+                    <i class="fa-regular fa-heart"></i>
+                  </button>
+                </div>
+                <div class="rc-body">
+                  <div class="rc-type">SUZUKI</div>
+                  <div class="rc-name">Japan Alto Auto</div>
+                  <div class="rc-tags">
+                    <span class="rc-tag"><i class="fa-solid fa-shield"></i> Insurance</span>
+                    <span class="rc-tag"><i class="fa-solid fa-gauge-high"></i> 200km / Day</span>
+                    <span class="rc-tag"><i class="fa-solid fa-hand-holding-dollar"></i> Deposit Rs. 10,000</span>
+                    <span class="rc-tag"><i class="fa-solid fa-road"></i> Extra Km: Rs. 40</span>
+                    <span class="rc-tag"><i class="fa-solid fa-clock"></i> Extra Hr: Rs. 500</span>
+                    <span class="rc-tag"><i class="fa-solid fa-gas-pump"></i> Petrol</span>
+                  </div>
+                  <hr class="rc-divider">
+                  <div class="rc-footer">
+                    <div class="rc-price">Rs. 6,000 <sub>/day</sub></div>
+                    <button class="rc-btn">BOOK NOW</button>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </div>
+
+          <button class="fleet-nav-btn next" id="fleetNextBtn" aria-label="Next vehicles">
+            <i class="fa-solid fa-chevron-right"></i>
+          </button>
+        </div>
+
+        <div class="fleet-dots" id="fleetDots"></div>
+
+        <div style="text-align: center; margin-top: 40px;" class="reveal">
+          <a href="vehicles.html" class="btn-more-vehicles">
+            FOR MORE VEHICLES <i class="fa-solid fa-arrow-right" style="margin-left: 6px;"></i>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ STICKY PILL SEARCH BAR ═══ -->
+    <div id="stickySearch" class="ss-bar-wrap">
+      <div class="ss-inner">
+        <div class="ss-tabs">
+          <button class="ss-tab active" data-ss-tab="cars"><i class="fa-solid fa-car"></i> Car Rental</button>
+          <button class="ss-tab" data-ss-tab="bikes"><i class="fa-solid fa-motorcycle"></i> Bikes</button>
+        </div>
+
+        <div class="ss-form active" id="ss-cars">
+          <div class="ss-pill-bar">
+            <div class="ss-pill">
+              <span class="ss-pill-lbl">DRIVER TYPE</span>
+              <span class="ss-pill-val">Self Drive</span>
+            </div>
+            <div class="ss-sep"></div>
+            <div class="ss-pill">
+              <span class="ss-pill-lbl">PICKUP DATE</span>
+              <span class="ss-pill-val" id="disp-pickup">2026-10-05</span>
+            </div>
+            <div class="ss-sep"></div>
+            <div class="ss-pill">
+              <span class="ss-pill-lbl">RETURN DATE</span>
+              <span class="ss-pill-val" id="disp-return">2026-10-06</span>
+            </div>
+            <div class="ss-sep"></div>
+            <button class="ss-submit" id="btnStickySearch">INQUIRE</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ WHY CHOOSE US WITH MOUNTAIN FOREST BACKGROUND ═══ -->
+    <div class="why-about-wrapper">
+      <section class="why reveal">
+        <h2>WHY EXPLORERS TRUST DANAN RENTALS?</h2>
+        <p class="why-sub">We handle your official driving permits and vehicle setup seamlessly — so your journey begins the moment you arrive, free from paperwork stress.</p>
+        
+        <div class="why-slider-wrapper">
+          <button class="why-nav-btn prev" id="whyPrevBtn" aria-label="Previous cards"><i class="fa-solid fa-chevron-left"></i></button>
+          
+          <div class="why-track-viewport">
+            <div class="why-track" id="whyTrack">
+              <!-- Card 1 -->
+              <div class="why-item">
+                <div class="why-icon-box"><i class="fa-solid fa-trophy"></i></div>
+                <h4>Proven & Award-Winning</h4>
+                <p>Rated 5.0 on Tripadvisor and recognized as a Travelers' Choice winner in 2024 & 2025.</p>
+              </div>
+
+              <!-- Card 2 -->
+              <div class="why-item">
+                <div class="why-icon-box"><i class="fa-solid fa-bolt"></i></div>
+                <h4>Express Permit Delivery</h4>
+                <p>Official AA Ceylon driving permits processed & delivered islandwide in as little as 24 hours.</p>
+              </div>
+
+              <!-- Card 3 -->
+              <div class="why-item">
+                <div class="why-icon-box"><i class="fa-solid fa-headset"></i></div>
+                <h4>24/7 Dedicated Support</h4>
+                <p>Direct connection with our local expert team on WhatsApp and phone anytime on the road.</p>
+              </div>
+
+              <!-- Card 4 -->
+              <div class="why-item">
+                <div class="why-icon-box"><i class="fa-solid fa-hand-holding-dollar"></i></div>
+                <h4>100% Transparent Rates</h4>
+                <p>Zero hidden charges. Clear daily rates with generous free kilometer allowances included.</p>
+              </div>
+
+              <!-- Card 5 -->
+              <div class="why-item">
+                <div class="why-icon-box"><i class="fa-solid fa-gas-pump"></i></div>
+                <h4>Full Fuel Tank Provided</h4>
+                <p>Start your journey immediately with a full tank of fuel provided on pickup.</p>
+              </div>
+
+              <!-- Card 6 -->
+              <div class="why-item">
+                <div class="why-icon-box"><i class="fa-solid fa-shield-halved"></i></div>
+                <h4>Fully Insured Fleet</h4>
+                <p>Comprehensive Rent-a-Car insurance coverage included on every vehicle for peace of mind.</p>
+              </div>
+
+              <!-- Card 7 -->
+              <div class="why-item">
+                <div class="why-icon-box"><i class="fa-solid fa-sparkles"></i></div>
+                <h4>Pristine & Sanitized</h4>
+                <p>Rigorous safety checks, full service, and deep sanitization performed before every delivery.</p>
+              </div>
+
+              <!-- Card 8 -->
+              <div class="why-item">
+                <div class="why-icon-box"><i class="fa-solid fa-truck-fast"></i></div>
+                <h4>Islandwide Hotel Delivery</h4>
+                <p>Your reserved vehicle and official permit delivered directly to your hotel or airport location.</p>
+              </div>
+
+              <!-- Card 9 -->
+              <div class="why-item">
+                <div class="why-icon-box"><i class="fa-solid fa-clock"></i></div>
+                <h4>Flexible 24-Hour Billing</h4>
+                <p>Full 24-hour daily rental cycles calculated from your exact pickup time for maximum value.</p>
+              </div>
+
+              <!-- Card 10 -->
+              <div class="why-item">
+                <div class="why-icon-box"><i class="fa-solid fa-compass"></i></div>
+                <h4>Free Route Advice & Tips</h4>
+                <p>Complimentary Sri Lanka road route tips and recommended scenic driving paths from locals.</p>
+              </div>
+
+              <!-- Card 11 -->
+              <div class="why-item">
+                <div class="why-icon-box"><i class="fa-brands fa-whatsapp"></i></div>
+                <h4>Instant WhatsApp Booking</h4>
+                <p>Reserve your car, scooter, or permit in under 2 minutes with direct mobile confirmation.</p>
+              </div>
+
+              <!-- Card 12 -->
+              <div class="why-item">
+                <div class="why-icon-box"><i class="fa-solid fa-wallet"></i></div>
+                <h4>Refundable Deposit Guarantee</h4>
+                <p>Quick, hassle-free security deposit refund immediately upon smooth vehicle return.</p>
+              </div>
+            </div>
+          </div>
+
+          <button class="why-nav-btn next" id="whyNextBtn" aria-label="Next cards"><i class="fa-solid fa-chevron-right"></i></button>
+        </div>
+
+        <div class="why-dots" id="whyDots"></div>
+      </section>
+
+      <!-- ABOUT SECTION WITH DISTINCT OVERLAPPING IMAGES -->
+      <section class="about" id="about">
+        <div class="about-row reveal">
+          <div class="about-text-col">
+            <h3>Why Drivers Choose Our Fleet?</h3>
+            <p>Because we meticulously manage every detail. We secure your official driving permits, rigorously inspect every vehicle, and support you with a dedicated local team. Whether you're chasing waves in Mirissa, exploring misty tea trails in Ella, or discovering heritage in Kandy — we make getting there effortless.</p>
+            <a href="#rentals" class="btn-readmore">Explore Rentals</a>
+          </div>
+          <div class="about-img-col">
+            <img class="about-img-main" src="https://aa.rento.lk/NewUI/images/pexels-freestockpro-319893.jpg" alt="Mountain Road">
+            <div class="about-overlay">
+              <img src="https://aa.rento.lk/NewUI/images/black-crossover-highway-modern-car-road-driving-summer-road.jpg" alt="Car Highway">
+            </div>
+          </div>
+        </div>
+
+        <div class="about-row reveal" style="padding-top: 60px;">
+          <div class="about-img-col">
+            <img class="about-img-main" src="https://aa.rento.lk/NewUI/images/pexels-pixabay-271618.jpg" alt="Road Trip">
+            <div class="about-overlay" style="left: auto; right: -30px;">
+              <img src="https://aa.rento.lk/NewUI/images/pexels-rpnickson-2417842.jpg" alt="Car Interior">
+            </div>
+          </div>
+          <div class="about-text-col">
+            <h3>Our Mission & Heritage</h3>
+            <p>Danan Rentals was founded on a simple vision: securing road-legal driving permits and renting clean, reliable vehicles in Sri Lanka should be fast and transparent. Today we connect international and local travelers with verified AA Ceylon permits, premium fleets, and punctual private transfers.</p>
+            <a href="#contact" class="btn-readmore">Read More</a>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- ═══ 4-STEP GALLERY STRIP ═══ -->
+    <div class="gallery" id="how-it-works">
+      <div class="gallery-strip reveal delay-1">
+        <img src="https://aa.rento.lk/NewUI/images/pexels-thilina-alagiyawanna-3266092-31039336.jpg" alt="Step 1">
+        <div class="gallery-info">
+          <div class="gallery-num">01</div>
+          <div>
+            <div class="gallery-label">Apply Online</div>
+            <div class="gallery-caption">Choose your permit, rental or transfer and book in minutes.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="gallery-strip reveal delay-2">
+        <img src="https://aa.rento.lk/NewUI/images/pexels-thilina-alagiyawanna-3266092-31039339.jpg" alt="Step 2">
+        <div class="gallery-info">
+          <div class="gallery-num">02</div>
+          <div>
+            <div class="gallery-label">Get Verified Fast</div>
+            <div class="gallery-caption">We process your permit and confirm your booking within 24 hours.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="gallery-strip reveal delay-3">
+        <img src="https://aa.rento.lk/NewUI/images/pexels-thilina-alagiyawanna-3266092-34861066.jpg" alt="Step 3">
+        <div class="gallery-info">
+          <div class="gallery-num">03</div>
+          <div>
+            <div class="gallery-label">Hit the Road</div>
+            <div class="gallery-caption">Drive Sri Lanka your way, with local support a message away.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="gallery-strip reveal delay-4">
+        <img src="https://aa.rento.lk/NewUI/images/pexels-thilina-alagiyawanna-3266092-34861077.jpg" alt="Step 4">
+        <div class="gallery-info">
+          <div class="gallery-num">04</div>
+          <div>
+            <div class="gallery-label">Delivered to You</div>
+            <div class="gallery-caption">Your permit and vehicle reach your hotel or address smoothly.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ DISCOVER SRI LANKA SECTION ═══ -->
+    <section class="discover">
+      <div class="discover-left reveal">
+        <h2>EXPERIENCE <span class="text-yellow">SRI LANKA</span><br>WITH TOTAL<br>INDEPENDENCE</h2>
+        <p>Go from airport arrival to taking the wheel in record time — vehicle prepped, official permits confirmed, and the open road awaiting. From golden southern palm beaches to the mists of Kandy highlands, experience paradise on your own schedule.</p>
+      </div>
+
+      <div class="discover-imgs reveal">
+        <div class="disc-img disc-img-wide">
+          <img src="https://aa.rento.lk/NewUI/images/pexels-malindabandaralk-16508228.jpg" alt="Sri Lanka Drive">
+          <div class="disc-play">
+            <div class="disc-play-btn"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
+          </div>
+        </div>
+        <div class="disc-img">
+          <img src="https://aa.rento.lk/NewUI/images/607105091.jpg" alt="Sri Lanka Scenic">
+          <div class="disc-play">
+            <div class="disc-play-btn"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
+          </div>
+        </div>
+        <div class="disc-img">
+          <img src="https://aa.rento.lk/NewUI/images/766476498.jpg" alt="Sri Lanka Coast">
+          <div class="disc-play">
+            <div class="disc-play-btn"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ TESTIMONIALS & ELFSIGHT GOOGLE REVIEWS ═══ -->
+    <section class="testimonials" id="reviews">
+      <div class="reveal">
+        <h2>Google Reviews & <span>Testimonials</span></h2>
+        <p class="testi-sub">Live ratings and reviews from verified customers in Kandy & Peradeniya.</p>
+      </div>
+
+      <!-- Elfsight Live Google Reviews Widget -->
+      <div class="container" style="margin-top: 24px; min-height: 200px;">
+        <script src="https://elfsightcdn.com/platform.js" async></script>
+        <div class="elfsight-app-064d3b98-0ca9-49d7-afc0-e5c028b307db" data-elfsight-app-lazy></div>
+      </div>
+
+      <div class="testi-viewport reveal" style="margin-top: 32px;">
+        <div class="testi-track" id="testiTrack">
+          <!-- Rendered via JS fallback -->
+        </div>
+      </div>
+
+      <div class="testi-nav">
+        <button class="testi-btn" id="testiPrev"><i class="fa-solid fa-chevron-left"></i></button>
+        <button class="testi-btn" id="testiNext"><i class="fa-solid fa-chevron-right"></i></button>
+      </div>
+    </section>
+
+    <!-- ═══ RULES & FAQ SECTION ═══ -->
+    <section style="padding: 80px 5%; background: var(--dark-bg);" id="rules">
+      <div class="container">
+        <div style="text-align: center; margin-bottom: 40px;">
+          <span style="color: var(--yellow); font-weight: 900; font-size: 0.85rem; text-transform: uppercase;">Terms & FAQs</span>
+          <h2 style="font-size: 2.5rem; margin-top: 6px;">Rental Rules & Frequently Asked Questions</h2>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 32px;">
+          <div>
+            <h3 style="margin-bottom: 20px; font-size: 1.4rem; color: var(--yellow);"><i class="fa-solid fa-scroll"></i> Required Documents & Rules</h3>
+            <div id="rulesContainer">
+              <!-- Rendered via JS -->
+            </div>
+          </div>
+
+          <div id="faqs">
+            <h3 style="margin-bottom: 20px; font-size: 1.4rem; color: var(--yellow);"><i class="fa-solid fa-circle-question"></i> FAQs</h3>
+            <div id="faqsContainer">
+              <!-- Rendered via JS -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ CTA STRIP ═══ -->
+    <div class="cta-strip" id="contact">
+      <div class="cta-left">
+        <div class="cta-icon">
+          <i class="fa-solid fa-headset" style="font-size: 40px; color: #000;"></i>
+        </div>
+        <div>
+          <div class="cta-micro">Call us for more Information</div>
+          <div class="cta-headline">Rental customer care is<br>here to help anytime.</div>
+        </div>
+      </div>
+
+      <div class="cta-right">
+        <div class="cta-call-wrap">
+          <div class="cta-call-circle">
+            <i class="fa-solid fa-phone" style="color: #FFF;"></i>
+          </div>
+          <div>
+            <div style="font-size: 0.75rem; font-weight: 800; text-transform: uppercase;">Call now</div>
+            <div class="cta-call-num"><a href="tel:0772013059">077 201 3059</a></div>
+          </div>
+        </div>
+        <a href="https://wa.me/94772013059?text=Hello%20Danan%20Rentals,%20I%20want%20to%20reserve%20a%20vehicle." target="_blank" class="btn-contact">WhatsApp Us</a>
+      </div>
+    </div>
+  </main>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer>
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo">
+          <img src="./assets/images/logo/logo.png" alt="Danan Logo">
+        </div>
+        <p class="footer-addr">
+          Peradeniya & Kandy, Sri Lanka<br>
+          Phone: <a href="tel:0772013059" style="color: var(--yellow);">077 201 3059</a> / <a href="tel:0712832221" style="color: var(--yellow);">071 283 2221</a><br>
+          Email: dananrentals@gmail.com
+        </p>
+        <div class="footer-socials">
+          <a href="https://www.facebook.com/" target="_blank" rel="noopener" class="soc-icon-btn" aria-label="Facebook Page" id="footerFbLink"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="https://wa.me/94772013059" target="_blank" rel="noopener" class="soc-icon-btn" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+          <a href="tel:0772013059" class="soc-icon-btn" aria-label="Phone"><i class="fa-solid fa-phone"></i></a>
+          <a href="https://share.google/ICElyHmWpDjeHQLOY" target="_blank" rel="noopener" class="soc-icon-btn" aria-label="Location"><i class="fa-solid fa-location-dot"></i></a>
+        </div>
+      </div>
+
+      <div>
+        <div class="footer-col-title">Quick Links</div>
+        <ul class="footer-links">
+          <li><a href="index.html"><i class="fa-solid fa-chevron-right fa-xs"></i> Home</a></li>
+          <li><a href="vehicles.html"><i class="fa-solid fa-chevron-right fa-xs"></i> Vehicles Fleet</a></li>
+          <li><a href="#how-it-works"><i class="fa-solid fa-chevron-right fa-xs"></i> How It Works</a></li>
+          <li><a href="#about"><i class="fa-solid fa-chevron-right fa-xs"></i> About Us</a></li>
+          <li><a href="sitemap.html"><i class="fa-solid fa-chevron-right fa-xs"></i> Sitemap</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="footer-col-title">Support</div>
+        <ul class="footer-links">
+          <li><a href="#rules"><i class="fa-solid fa-chevron-right fa-xs"></i> Rules & Req</a></li>
+          <li><a href="#faqs"><i class="fa-solid fa-chevron-right fa-xs"></i> FAQs</a></li>
+          <li><a href="#contact"><i class="fa-solid fa-chevron-right fa-xs"></i> Contact Us</a></li>
+          <li><a href="./admin/login.html"><i class="fa-solid fa-chevron-right fa-xs"></i> Admin Login</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="footer-col-title">Google Map Location</div>
+        <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 10px;">Danan Car & Bike Rentals Peradeniya, Kandy</p>
+        <div class="footer-map-wrap" style="width: 100%; height: 160px; border-radius: 12px; overflow: hidden; border: 1px solid var(--card-border); margin-bottom: 12px;">
+          <iframe 
+            src="https://maps.google.com/maps?q=Danan%20Car%20%26%20Bike%20Rentals%20Peradeniya%20Kandy%20Sri%20Lanka&t=&z=14&ie=UTF8&iwloc=&output=embed" 
+            width="100%" 
+            height="100%" 
+            style="border:0;" 
+            allowfullscreen="" 
+            loading="lazy" 
+            referrerpolicy="no-referrer-when-downgrade"
+            title="Danan Car & Bike Rentals Location Map">
+          </iframe>
+        </div>
+        <a href="https://share.google/ICElyHmWpDjeHQLOY" target="_blank" rel="noopener" class="btn-nav-outline" style="display: inline-flex; align-items: center; gap: 8px; font-size: 0.75rem; padding: 6px 16px;">
+          <i class="fa-solid fa-map-location-dot"></i> Open Full Map
+        </a>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <!-- ═══ ANIMATED DRIVING TAXI ═══ -->
+      <div class="footer-road-track">
+        <div class="footer-taxi-anim">
+          <div class="taillight-glow"></div>
+          <div class="exhaust">
+            <span class="smoke s1"></span>
+            <span class="smoke s2"></span>
+            <span class="smoke s3"></span>
+          </div>
+          <svg class="taxi-svg" viewBox="0 0 70 30" width="56" height="24">
+            <path d="M 8 18 L 16 9 Q 20 6, 26 6 L 44 6 Q 50 6, 54 11 L 64 16 L 68 18 Q 70 20, 70 23 L 70 24 L 0 24 L 0 20 Q 0 18, 4 18 Z" fill="#FFC107"/>
+            <rect x="29" y="1.5" width="12" height="4.5" rx="1.5" fill="#111" stroke="#FFC107" stroke-width="0.5"/>
+            <text x="35" y="5" font-size="3.2" fill="#FFC107" font-weight="900" text-anchor="middle" font-family="sans-serif">TAXI</text>
+            <path d="M 18 8.5 L 31 8.5 L 31 15 L 12 15 Z" fill="#1E293B"/>
+            <path d="M 34 8.5 L 49 8.5 L 44.5 15 L 34 15 Z" fill="#1E293B"/>
+            <line x1="32.5" y1="6" x2="32.5" y2="23" stroke="#D97706" stroke-width="0.75"/>
+            <rect x="68" y="15" width="2" height="3.5" fill="#FFF" rx="0.5"/>
+            <rect x="0" y="15" width="2" height="3.5" fill="#EF4444" rx="0.5"/>
+            <circle cx="15" cy="23" r="5" fill="#0F172A" stroke="#475569" stroke-width="1.2"/>
+            <circle cx="15" cy="23" r="2.2" fill="#94A3B8"/>
+            <circle cx="51" cy="23" r="5" fill="#0F172A" stroke="#475569" stroke-width="1.2"/>
+            <circle cx="51" cy="23" r="2.2" fill="#94A3B8"/>
+          </svg>
+          <div class="headlight-beam"></div>
+        </div>
+      </div>
+      <span>&copy; 2026 Danan Car & Bike Rentals. All Rights Reserved.</span>
+      <span>Designed by <a href="https://infiniteweb.dev/index.html" target="_blank" rel="noopener" style="color: var(--yellow); font-weight: 700;">INFINITE Creative Web Design</a></span>
+    </div>
+  </footer>
+
+  <!-- FLOATING BUTTONS (STACKED ON BOTTOM RIGHT MATCHING SCREENSHOT) -->
+  <a id="waBtn" href="https://wa.me/94772013059?text=Hello%20Danan%20Rentals,%20I%20want%20to%20rent%20a%20vehicle." target="_blank" aria-label="WhatsApp">
+    <i class="fa-brands fa-whatsapp" style="font-size: 28px;"></i>
+  </a>
+
+  <button id="scrollTopBtn" aria-label="Go to top">
+    <i class="fa-solid fa-chevron-up"></i>
+  </button>
+
+  <!-- JS Dependencies -->
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <script type="module" src="./js/main.js"></script>
+
+  <script>
+    // Flatpickr setup for search dates
+    flatpickr("#home-startdate", { minDate: "today", dateFormat: "Y-m-d", defaultDate: "today" });
+    flatpickr("#home-enddate", { minDate: "today", dateFormat: "Y-m-d" });
+
+    // Scroll reveal observer
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+    // Navbar scroll class
+    window.addEventListener('scroll', () => {
+      const nav = document.getElementById('navbar');
+      if (window.scrollY > 50) nav.classList.add('scrolled');
+      else nav.classList.remove('scrolled');
+    });
+
+    // Mobile Menu
+    const mobileMenu = document.getElementById('mobileMenu');
+    const menuToggle = document.getElementById('menuToggle');
+    const menuClose = document.getElementById('menuClose');
+    const mobileOverlay = document.getElementById('mobileOverlay');
+
+    function openMobileMenu() { mobileMenu.classList.add('active'); mobileOverlay.classList.add('active'); }
+    function closeMobileMenu() { mobileMenu.classList.remove('active'); mobileOverlay.classList.remove('active'); }
+    menuToggle.addEventListener('click', openMobileMenu);
+    menuClose.addEventListener('click', closeMobileMenu);
+    mobileOverlay.addEventListener('click', closeMobileMenu);
+
+    // Scroll to Top
+    const scrollTopBtn = document.getElementById('scrollTopBtn');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 400) scrollTopBtn.classList.add('show');
+      else scrollTopBtn.classList.remove('show');
+    });
+    scrollTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+    // Sticky search scroll
+    window.addEventListener('scroll', () => {
+      const ss = document.getElementById('stickySearch');
+      if (window.scrollY > 500) ss.classList.add('visible');
+      else ss.classList.remove('visible');
+    });
+  </script>
+</body>
+</html>

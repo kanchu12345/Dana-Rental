@@ -1,0 +1,38 @@
+[
+  {
+    "id": "rule-1",
+    "title": "3-Day Advance Notice Requirement",
+    "body": "All vehicle reservations must be placed at least 3 days prior to your desired pickup time.",
+    "order": 1
+  },
+  {
+    "id": "rule-2",
+    "title": "Advance Deposit Confirmation",
+    "body": "Advance booking deposit of Rs. 1,000 for bikes/scooters or Rs. 2,000 for cars/vans must be paid to confirm vehicle allocation.",
+    "order": 2
+  },
+  {
+    "id": "rule-3",
+    "title": "Fuel Policy",
+    "body": "Vehicles are provided with fuel and must be returned with the same fuel level as given.",
+    "order": 3
+  },
+  {
+    "id": "rule-4",
+    "title": "Mileage Limit & Extra Charge",
+    "body": "Every 24-hour cycle comes with 200 free kilometers. Additional distance is charged at the vehicle's extra km rate.",
+    "order": 4
+  },
+  {
+    "id": "rule-5",
+    "title": "Security Deposit",
+    "body": "A refundable security deposit (Bikes: Rs. 5,000 | Cars: Rs. 10,000-20,000 | Vans: Rs. 15,000) is collected at pickup and refunded upon inspection on return.",
+    "order": 5
+  },
+  {
+    "id": "rule-6",
+    "title": "Prohibited Activities",
+    "body": "Sub-renting, race driving, off-roading, or operating the vehicle under the influence of alcohol or drugs is strictly prohibited.",
+    "order": 6
+  }
+]
