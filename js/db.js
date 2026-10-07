@@ -112,6 +112,15 @@ export function fixImgPath(path, isSubFolder = true) {
 export async function getCollection(collectionName) {
   await initFirebase();
 
+  const deletedKey = `danan_deleted_${collectionName}`;
+  const deletedIds = JSON.parse(localStorage.getItem(deletedKey) || '[]');
+
+  function filterDeleted(list) {
+    if (!Array.isArray(list)) return [];
+    if (deletedIds.length === 0) return list;
+    return list.filter(item => item && !deletedIds.includes(item.id));
+  }
+
   if (db) {
     try {
       const { collection, getDocs, query, orderBy } = await import('https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js');
@@ -128,7 +137,7 @@ export async function getCollection(collectionName) {
         snap.forEach(docSnap => {
           list.push({ id: docSnap.id, ...docSnap.data() });
         });
-        return list;
+        return filterDeleted(list);
       }
     } catch (e) {
       console.warn(`Firestore getCollection(${collectionName}) failed, using local fallback:`, e);
@@ -142,7 +151,7 @@ export async function getCollection(collectionName) {
     try {
       const parsedLocal = JSON.parse(localList);
       if (Array.isArray(parsedLocal)) {
-        return parsedLocal;
+        return filterDeleted(parsedLocal);
       }
     } catch(e) {}
   }
@@ -160,7 +169,7 @@ export async function getCollection(collectionName) {
       }
       
       localStorage.setItem(localKey, JSON.stringify(freshList));
-      return freshList;
+      return filterDeleted(freshList);
     }
   } catch (err) {
     console.error(`Error fetching collection fallback ${collectionName}:`, err);
@@ -186,6 +195,14 @@ export async function saveDoc(collectionName, docId, data) {
     } catch (e) {
       console.warn(`Firestore setDoc error in ${collectionName}/${docId}:`, e);
     }
+  }
+
+  // Remove from deleted tracking if re-added
+  const deletedKey = `danan_deleted_${collectionName}`;
+  let deletedIds = JSON.parse(localStorage.getItem(deletedKey) || '[]');
+  if (deletedIds.includes(docId)) {
+    deletedIds = deletedIds.filter(id => id !== docId);
+    localStorage.setItem(deletedKey, JSON.stringify(deletedIds));
   }
 
   // Always update localStorage fallback for responsive UI & offline capability
@@ -219,6 +236,14 @@ export async function deleteDoc(collectionName, docId) {
     } catch (e) {
       console.warn(`Firestore deleteDoc error:`, e);
     }
+  }
+
+  // Record deleted ID in local tracking
+  const deletedKey = `danan_deleted_${collectionName}`;
+  let deletedIds = JSON.parse(localStorage.getItem(deletedKey) || '[]');
+  if (!deletedIds.includes(docId)) {
+    deletedIds.push(docId);
+    localStorage.setItem(deletedKey, JSON.stringify(deletedIds));
   }
 
   localStorage.removeItem(`danan_${collectionName}_${docId}`);
