@@ -50,7 +50,11 @@ export function escapeHTML(str) {
 function getDataPath(filename) {
   const isSubFolder = window.location.pathname.includes('/admin/');
   const prefix = isSubFolder ? '../data/' : './data/';
-  return `${prefix}${filename}.json`;
+  const fileMap = {
+    'pages': 'home'
+  };
+  const target = fileMap[filename] || filename;
+  return `${prefix}${target}.json`;
 }
 
 // GET Single Document
