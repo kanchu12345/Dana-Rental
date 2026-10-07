@@ -733,6 +733,94 @@
     <i class="fa-solid fa-chevron-up"></i>
   </button>
 
+  <!-- ═══ BOOKING INQUIRY MODAL ═══ -->
+  <div class="booking-modal-overlay" id="bookingModalOverlay">
+    <div class="booking-modal-card">
+      <div class="booking-modal-header">
+        <div class="booking-modal-title">
+          <i class="fa-solid fa-calendar-check"></i> Rental Booking Inquiry
+        </div>
+        <button class="booking-modal-close" id="btnBmClose" aria-label="Close modal">&times;</button>
+      </div>
+      <div class="booking-modal-body">
+        
+        <!-- Selected Vehicle Preview Header -->
+        <div class="bm-selected-vehicle">
+          <img id="bmVehImg" src="./assets/images/vehicles/vehicle-8.png" alt="Selected Vehicle" class="bm-vehicle-img">
+          <div class="bm-vehicle-info">
+            <div id="bmVehName" class="bm-vehicle-name">Honda Dio 110cc (2025)</div>
+            <div id="bmVehRate" class="bm-vehicle-rate">Rs. 3,000 / day &bull; 200 Free Km/Day</div>
+          </div>
+        </div>
+
+        <form id="bookingInquiryForm">
+          <div class="bm-grid">
+            <div class="bm-form-group">
+              <label for="bmFullName" class="bm-label">Your Full Name *</label>
+              <input type="text" id="bmFullName" class="bm-input" placeholder="e.g. John Smith" required>
+            </div>
+            <div class="bm-form-group">
+              <label for="bmPhone" class="bm-label">WhatsApp / Phone Number *</label>
+              <input type="tel" id="bmPhone" class="bm-input" placeholder="+94 77 123 4567" required>
+            </div>
+          </div>
+
+          <div class="bm-grid">
+            <div class="bm-form-group">
+              <label for="bmPickupDate" class="bm-label">Pickup Date & Time *</label>
+              <input type="datetime-local" id="bmPickupDate" class="bm-input" required>
+            </div>
+            <div class="bm-form-group">
+              <label for="bmReturnDate" class="bm-label">Return Date & Time *</label>
+              <input type="datetime-local" id="bmReturnDate" class="bm-input" required>
+            </div>
+          </div>
+
+          <div class="bm-grid">
+            <div class="bm-form-group">
+              <label for="bmPickupLoc" class="bm-label">Pickup / Delivery Location *</label>
+              <select id="bmPickupLoc" class="bm-select">
+                <option value="Kandy City / Hotel Delivery">Kandy City / Hotel Delivery</option>
+                <option value="Peradeniya Railway Station">Peradeniya Railway Station</option>
+                <option value="Kandy Railway Station">Kandy Railway Station</option>
+                <option value="Colombo BIA Airport Transfer">Colombo Airport (BIA) Transfer</option>
+                <option value="Other Location in Sri Lanka">Other (Specify in Notes)</option>
+              </select>
+            </div>
+            <div class="bm-form-group">
+              <label for="bmPermitStatus" class="bm-label">Driving License Permit Status</label>
+              <select id="bmPermitStatus" class="bm-select">
+                <option value="I have International / Local License">I have International / Local License</option>
+                <option value="Need AA Ceylon Permit Assistance">Need AA Ceylon Permit Assistance</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="bm-form-group full-width" style="margin-bottom: 16px;">
+            <label for="bmNotes" class="bm-label">Special Requests / Questions (Optional)</label>
+            <textarea id="bmNotes" class="bm-textarea" rows="2" placeholder="e.g. Need extra helmet, child seat, or delivery to hotel..."></textarea>
+          </div>
+
+          <!-- Price Estimate Display -->
+          <div class="bm-price-est-box">
+            <div class="bm-price-est-label">Estimated Rental Duration & Total:</div>
+            <div class="bm-price-est-value" id="bmEstTotal">Rs. 3,000 <span style="font-size: 0.8rem; font-weight: 500; color: rgba(255,255,255,0.7);">(1 Day)</span></div>
+          </div>
+
+          <div class="bm-actions">
+            <button type="button" id="btnBmWhatsapp" class="btn-bm-whatsapp">
+              <i class="fa-brands fa-whatsapp fa-lg"></i> Book via WhatsApp
+            </button>
+            <button type="submit" id="btnBmSubmit" class="btn-bm-submit">
+              <i class="fa-solid fa-paper-plane"></i> Send Direct Inquiry
+            </button>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+
   <!-- JS Dependencies -->
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   <script type="module" src="./js/main.js"></script>

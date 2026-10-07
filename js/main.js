@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   initScrollAndMobileListeners();
   initScrollReveal();
   initFlatpickrDates();
+  initBookingInquiryModal();
   try { await loadSiteSettings(); } catch (e) { console.warn('loadSiteSettings error:', e); }
   try { await loadHomePageData(); } catch (e) { console.warn('loadHomePageData error:', e); }
   try { await loadVehiclesGrid(); } catch (e) { console.warn('loadVehiclesGrid error:', e); }
@@ -372,18 +373,21 @@ function renderVehiclesList(vehicles) {
 
   grid.innerHTML = vehicles.map(v => {
     const imgUrl = (v.images && v.images.length > 0) ? v.images[0] : './assets/images/vehicles/fleet-banner.jpeg';
-    const bookMsg = `Hello Danan Car & Bike Rentals, I would like to book the ${v.name} (Rs. ${v.price24h}/24h). Please inform me about availability.`;
-    const waUrl = `https://wa.me/${whatsappPhone}?text=${encodeURIComponent(bookMsg)}`;
-    
-    // Extract brand name or default
     const brandName = (v.name.split(' ')[0] || 'VEHICLE').toUpperCase();
+    const vJson = escapeHTML(JSON.stringify({
+      id: v.id,
+      name: v.name,
+      price24h: v.price24h || 0,
+      kmIncluded: v.kmIncluded || 200,
+      images: [imgUrl]
+    }));
 
     return `
-      <a href="${waUrl}" target="_blank" class="rc reveal visible in">
+      <div onclick="window.openBookingModalByJson('${vJson}')" class="rc reveal visible in" style="cursor: pointer;">
         <div class="rc-img">
-          <img src="${escapeHTML(imgUrl)}" alt="${escapeHTML(v.name)}" loading="lazy">
-          <div class="rc-badge">AVAILABLE</div>
-          <button class="rc-wishlist" onclick="event.preventDefault(); event.stopPropagation();" aria-label="Add to wishlist">
+          <img src="${escapeHTML(fixImgPath(imgUrl, false))}" alt="${escapeHTML(v.name)}" loading="lazy">
+          <div class="rc-badge">${(v.available !== false) ? 'AVAILABLE' : 'BOOKED'}</div>
+          <button class="rc-wishlist" onclick="event.stopPropagation();" aria-label="Add to wishlist">
             <i class="fa-regular fa-heart"></i>
           </button>
         </div>
@@ -393,7 +397,7 @@ function renderVehiclesList(vehicles) {
           <div class="rc-tags">
             <span class="rc-tag"><i class="fa-solid fa-shield"></i> Insurance</span>
             <span class="rc-tag"><i class="fa-solid fa-gauge-high"></i> ${v.kmIncluded || 200}km / Day</span>
-            ${v.deposit ? `<span class="rc-tag"><i class="fa-solid fa-hand-holding-dollar"></i> Refund Deposit Rs. ${v.deposit.toLocaleString()}</span>` : ''}
+            ${v.deposit ? `<span class="rc-tag"><i class="fa-solid fa-hand-holding-dollar"></i> Deposit Rs. ${v.deposit.toLocaleString()}</span>` : ''}
             ${v.extraKmRate ? `<span class="rc-tag"><i class="fa-solid fa-road"></i> Extra Km: Rs. ${v.extraKmRate}</span>` : ''}
             ${v.extraHourRate ? `<span class="rc-tag"><i class="fa-solid fa-clock"></i> Extra Hr: Rs. ${v.extraHourRate}</span>` : ''}
             <span class="rc-tag"><i class="fa-solid fa-gas-pump"></i> ${escapeHTML(v.fuel || 'Petrol')}</span>
@@ -401,10 +405,10 @@ function renderVehiclesList(vehicles) {
           <hr class="rc-divider">
           <div class="rc-footer">
             <div class="rc-price">Rs. ${v.price24h ? v.price24h.toLocaleString() : 0} <sub>/day</sub></div>
-            <button class="rc-btn">BOOK NOW</button>
+            <button class="rc-btn" onclick="event.stopPropagation(); window.openBookingModalByJson('${vJson}')">BOOK NOW</button>
           </div>
         </div>
-      </a>
+      </div>
     `;
   }).join('');
 
@@ -679,4 +683,177 @@ async function initCustomerGallerySwap() {
       updateGalleryDisplay();
     }, 5000);
   }
+}
+
+// BOOKING INQUIRY MODAL LOGIC
+function initBookingInquiryModal() {
+  const overlay = document.getElementById('bookingModalOverlay');
+  const btnClose = document.getElementById('btnBmClose');
+  const form = document.getElementById('bookingInquiryForm');
+  const btnWhatsapp = document.getElementById('btnBmWhatsapp');
+
+  if (!overlay || !form) return;
+
+  const vehImg = document.getElementById('bmVehImg');
+  const vehName = document.getElementById('bmVehName');
+  const vehRate = document.getElementById('bmVehRate');
+  const inputPickupDate = document.getElementById('bmPickupDate');
+  const inputReturnDate = document.getElementById('bmReturnDate');
+  const estTotalEl = document.getElementById('bmEstTotal');
+
+  let activeVehPrice = 3000;
+  let activeVehName = "Honda Dio 110cc";
+
+  // Format date for datetime-local input
+  function formatDateForInput(d) {
+    const pad = n => String(n).padStart(2, '0');
+    return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+  }
+
+  // Set default dates if empty
+  const now = new Date();
+  now.setMinutes(0);
+  now.setSeconds(0);
+  const tomorrow = new Date(now.getTime() + 24 * 60 * 60 * 1000);
+
+  if (inputPickupDate && !inputPickupDate.value) {
+    inputPickupDate.value = formatDateForInput(now);
+  }
+  if (inputReturnDate && !inputReturnDate.value) {
+    inputReturnDate.value = formatDateForInput(tomorrow);
+  }
+
+  // Calculate rental duration & price estimate
+  function calcEstPrice() {
+    if (!inputPickupDate?.value || !inputReturnDate?.value) return;
+    const start = new Date(inputPickupDate.value);
+    const end = new Date(inputReturnDate.value);
+    const diffTime = Math.max(end - start, 0);
+    const diffHours = diffTime / (1000 * 60 * 60);
+    let days = Math.max(Math.ceil(diffHours / 24), 1);
+
+    const total = days * activeVehPrice;
+    if (estTotalEl) {
+      estTotalEl.innerHTML = `Rs. ${total.toLocaleString()} <span style="font-size: 0.8rem; font-weight: 500; color: rgba(255,255,255,0.7);">(${days} ${days === 1 ? 'Day' : 'Days'})</span>`;
+    }
+  }
+
+  inputPickupDate?.addEventListener('change', calcEstPrice);
+  inputReturnDate?.addEventListener('change', calcEstPrice);
+
+  window.openBookingModalByJson = function(vJsonStr) {
+    try {
+      let rawStr = vJsonStr;
+      if (rawStr.includes('&quot;')) {
+        rawStr = rawStr.replace(/&quot;/g, '"');
+      }
+      const veh = JSON.parse(rawStr);
+      window.openBookingModal(veh);
+    } catch (e) {
+      console.warn("openBookingModalByJson parse error:", e);
+      window.openBookingModal();
+    }
+  };
+
+  window.openBookingModal = function(veh) {
+    if (veh) {
+      activeVehPrice = veh.price24h || 3000;
+      activeVehName = veh.name || "Vehicle";
+      const rawImg = (veh.images && veh.images.length > 0) ? veh.images[0] : './assets/images/vehicles/fleet-banner.jpeg';
+      if (vehImg) vehImg.src = fixImgPath(rawImg, false);
+      if (vehName) vehName.textContent = veh.name;
+      if (vehRate) vehRate.textContent = `Rs. ${activeVehPrice.toLocaleString()} / day • ${veh.kmIncluded || 200} Free Km/Day`;
+    }
+    calcEstPrice();
+    overlay.classList.add('active');
+  };
+
+  window.closeBookingModal = function() {
+    overlay.classList.remove('active');
+  };
+
+  btnClose?.addEventListener('click', window.closeBookingModal);
+  overlay.addEventListener('click', (e) => {
+    if (e.target === overlay) window.closeBookingModal();
+  });
+
+  // Handle Book via WhatsApp Action
+  btnWhatsapp?.addEventListener('click', () => {
+    const fullName = document.getElementById('bmFullName')?.value.trim() || 'Customer';
+    const phone = document.getElementById('bmPhone')?.value.trim() || 'N/A';
+    const pickupDate = inputPickupDate?.value || 'N/A';
+    const returnDate = inputReturnDate?.value || 'N/A';
+    const location = document.getElementById('bmPickupLoc')?.value || 'Kandy';
+    const permit = document.getElementById('bmPermitStatus')?.value || 'Standard';
+    const notes = document.getElementById('bmNotes')?.value.trim() || 'None';
+
+    const start = new Date(pickupDate);
+    const end = new Date(returnDate);
+    const diffHours = Math.max((end - start) / (1000 * 60 * 60), 24);
+    const days = Math.max(Math.ceil(diffHours / 24), 1);
+    const estTotal = days * activeVehPrice;
+
+    const waPhone = window.siteSettings?.whatsapp || '94772013059';
+    const msg = `Hello Danan Rentals! 👋\n\nI would like to inquire about booking a vehicle:\n\n🚗 *Vehicle:* ${activeVehName}\n👤 *Name:* ${fullName}\n📞 *Phone:* ${phone}\n📍 *Location:* ${location}\n📅 *Pickup:* ${pickupDate.replace('T', ' ')}\n📅 *Return:* ${returnDate.replace('T', ' ')} (${days} ${days === 1 ? 'Day' : 'Days'})\n💰 *Est. Total:* Rs. ${estTotal.toLocaleString()}\n📜 *Permit:* ${permit}\n💬 *Notes:* ${notes}\n\nPlease confirm availability!`;
+
+    const waUrl = `https://wa.me/${waPhone}?text=${encodeURIComponent(msg)}`;
+    window.open(waUrl, '_blank');
+    window.closeBookingModal();
+  });
+
+  // Direct Submission to Firestore DB
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btnSubmit = document.getElementById('btnBmSubmit');
+    if (btnSubmit) {
+      btnSubmit.disabled = true;
+      btnSubmit.textContent = "Sending Inquiry...";
+    }
+
+    const fullName = document.getElementById('bmFullName').value.trim();
+    const phone = document.getElementById('bmPhone').value.trim();
+    const pickupDate = inputPickupDate.value;
+    const returnDate = inputReturnDate.value;
+    const location = document.getElementById('bmPickupLoc').value;
+    const permit = document.getElementById('bmPermitStatus').value;
+    const notes = document.getElementById('bmNotes').value.trim();
+
+    const start = new Date(pickupDate);
+    const end = new Date(returnDate);
+    const diffHours = Math.max((end - start) / (1000 * 60 * 60), 24);
+    const days = Math.max(Math.ceil(diffHours / 24), 1);
+    const estTotal = days * activeVehPrice;
+
+    const bookingId = `bk_${Date.now()}`;
+    const payload = {
+      id: bookingId,
+      vehicleName: activeVehName,
+      customerName: fullName,
+      phone: phone,
+      pickupDate: pickupDate,
+      returnDate: returnDate,
+      durationDays: days,
+      estimatedTotal: estTotal,
+      location: location,
+      permitStatus: permit,
+      notes: notes,
+      status: 'Pending',
+      createdAt: new Date().toISOString()
+    };
+
+    try {
+      const { saveDoc } = await import('./db.js');
+      await saveDoc('bookings', bookingId, payload);
+      alert(`🎉 Thank you ${fullName}!\n\nYour booking inquiry for ${activeVehName} has been received. Our team will contact you on WhatsApp / Phone shortly!`);
+      form.reset();
+      window.closeBookingModal();
+    } catch (err) {
+      alert("Error sending inquiry: " + err.message);
+    } finally {
+      if (btnSubmit) {
+        btnSubmit.disabled = false;
+        btnSubmit.innerHTML = `<i class="fa-solid fa-paper-plane"></i> Send Direct Inquiry`;
+      }
+    }
+  });
 }
