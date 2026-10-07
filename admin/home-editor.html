@@ -196,8 +196,30 @@
 
   <script type="module" src="../js/admin.js"></script>
   <script type="module">
-    import { getDoc, saveDoc, getCollection, deleteDoc, uploadImage, escapeHTML } from '../js/db.js';
+    import { getDoc, saveDoc, getCollection, deleteDoc, uploadImage, escapeHTML, fixImgPath } from '../js/db.js';
     import { showToast } from '../js/admin.js';
+
+    // Global window actions
+    window.deleteRule = async (id) => {
+      if (!confirm("Delete this rule?")) return;
+      await deleteDoc('rules', id);
+      showToast("Rule deleted.", "info");
+      await loadRulesTable();
+    };
+
+    window.deleteFaq = async (id) => {
+      if (!confirm("Delete this FAQ?")) return;
+      await deleteDoc('faqs', id);
+      showToast("FAQ deleted.", "info");
+      await loadFaqsTable();
+    };
+
+    window.deleteGalleryItem = async (id) => {
+      if (!confirm("Delete this gallery image?")) return;
+      await deleteDoc('gallery', id);
+      showToast("Photo deleted.", "info");
+      await loadGalleryTable();
+    };
 
     document.addEventListener('DOMContentLoaded', async () => {
       // 1. Load Hero Data
@@ -206,7 +228,7 @@
         document.getElementById('heroHeadline').value = homeData.hero.headline || '';
         document.getElementById('heroSubline').value = homeData.hero.subline || '';
         document.getElementById('heroBgUrl').value = homeData.hero.bgImage || '../assets/images/hero/sigiriya.jpg';
-        document.getElementById('heroBgPreview').src = homeData.hero.bgImage || '../assets/images/hero/sigiriya.jpg';
+        document.getElementById('heroBgPreview').src = fixImgPath(homeData.hero.bgImage || '../assets/images/hero/sigiriya.jpg');
       }
 
       // Hero Image Upload
@@ -216,7 +238,7 @@
           showToast("Uploading hero image...");
           const url = await uploadImage(file);
           document.getElementById('heroBgUrl').value = url;
-          document.getElementById('heroBgPreview').src = url;
+          document.getElementById('heroBgPreview').src = fixImgPath(url);
           showToast("Hero image uploaded!", "success");
         }
       });
@@ -314,13 +336,6 @@
           <td><button onclick="window.deleteRule('${r.id}')" style="background: var(--primary-red); color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer;">Delete</button></td>
         </tr>
       `).join('');
-
-      window.deleteRule = async (id) => {
-        if (!confirm("Delete this rule?")) return;
-        await deleteDoc('rules', id);
-        showToast("Rule deleted.", "info");
-        await loadRulesTable();
-      };
     }
 
     async function loadFaqsTable() {
@@ -337,13 +352,6 @@
           <td><button onclick="window.deleteFaq('${f.id}')" style="background: var(--primary-red); color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer;">Delete</button></td>
         </tr>
       `).join('');
-
-      window.deleteFaq = async (id) => {
-        if (!confirm("Delete this FAQ?")) return;
-        await deleteDoc('faqs', id);
-        showToast("FAQ deleted.", "info");
-        await loadFaqsTable();
-      };
     }
 
     async function loadGalleryTable() {
@@ -355,18 +363,11 @@
       }
       tbody.innerHTML = gallery.map(item => `
         <tr>
-          <td><img src="${escapeHTML(item.image)}" style="height: 50px; border-radius: 4px; object-fit: cover;"></td>
+          <td><img src="${escapeHTML(fixImgPath(item.image))}" style="height: 50px; border-radius: 4px; object-fit: cover;"></td>
           <td>${escapeHTML(item.caption || 'No caption')}</td>
           <td><button onclick="window.deleteGalleryItem('${item.id}')" style="background: var(--primary-red); color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer;">Delete</button></td>
         </tr>
       `).join('');
-
-      window.deleteGalleryItem = async (id) => {
-        if (!confirm("Delete this gallery image?")) return;
-        await deleteDoc('gallery', id);
-        showToast("Photo deleted.", "info");
-        await loadGalleryTable();
-      };
     }
   </script>
 </body>

@@ -94,6 +94,21 @@ export async function getDoc(collectionName, docId) {
 }
 
 // GET Collection
+// Helper to normalize image paths for admin vs root pages
+export function fixImgPath(path, isSubFolder = true) {
+  if (!path || typeof path !== 'string') return '';
+  if (path.startsWith('data:') || path.startsWith('http://') || path.startsWith('https://')) {
+    return path;
+  }
+  if (isSubFolder && path.startsWith('./assets/')) {
+    return '../' + path.substring(2);
+  }
+  if (!isSubFolder && path.startsWith('../assets/')) {
+    return './' + path.substring(3);
+  }
+  return path;
+}
+
 export async function getCollection(collectionName) {
   await initFirebase();
 
@@ -120,38 +135,35 @@ export async function getCollection(collectionName) {
     }
   }
 
-  // Local storage fallback with fresh JSON fetch fallback
+  // Check local storage fallback first
   const localKey = `danan_col_${collectionName}`;
   const localList = localStorage.getItem(localKey);
-  let parsedLocal = null;
   if (localList) {
     try {
-      parsedLocal = JSON.parse(localList);
+      const parsedLocal = JSON.parse(localList);
+      if (Array.isArray(parsedLocal)) {
+        return parsedLocal;
+      }
     } catch(e) {}
   }
 
+  // Fetch initial JSON fallback and populate local storage
   try {
     const res = await fetch(getDataPath(collectionName));
     if (res.ok) {
       const json = await res.json();
       let freshList = [];
-      if (Array.isArray(json) && json.length > 0) {
+      if (Array.isArray(json)) {
         freshList = json;
       } else if (typeof json === 'object') {
         freshList = Object.keys(json).map(key => ({ id: key, ...json[key] }));
       }
       
-      if (freshList.length > 0) {
-        localStorage.setItem(localKey, JSON.stringify(freshList));
-        return freshList;
-      }
+      localStorage.setItem(localKey, JSON.stringify(freshList));
+      return freshList;
     }
   } catch (err) {
     console.error(`Error fetching collection fallback ${collectionName}:`, err);
-  }
-
-  if (Array.isArray(parsedLocal) && parsedLocal.length > 0) {
-    return parsedLocal;
   }
 
   return [];
