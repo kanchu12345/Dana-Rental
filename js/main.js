@@ -1,4 +1,4 @@
-import { getDoc, getCollection, escapeHTML } from './db.js';
+import { getDoc, getCollection, escapeHTML, fixImgPath } from './db.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
   initHeroTabSwitcher();
@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   try { await loadVehiclesGrid(); } catch (e) { console.warn('loadVehiclesGrid error:', e); }
   try { await loadRulesAndFaqs(); } catch (e) { console.warn('loadRulesAndFaqs error:', e); }
   try { await loadReviewsTrack(); } catch (e) { console.warn('loadReviewsTrack error:', e); }
+  try { await initCustomerGallerySwap(); } catch (e) { console.warn('initCustomerGallerySwap error:', e); }
 });
 
 // SCROLL REVEAL ANIMATIONS
@@ -627,4 +628,55 @@ function initWhyCarousel() {
   createDots();
   updateSlider();
   startAutoSlide();
+}
+
+// AUTO-SWAP CUSTOMER GALLERY (Every 5 seconds)
+async function initCustomerGallerySwap() {
+  const imgMain = document.getElementById('aboutImgMain');
+  const imgOverlay = document.getElementById('aboutImgOverlay');
+  const captionText = document.getElementById('galleryCaptionText');
+  if (!imgMain || !imgOverlay) return;
+
+  const galleryItems = await getCollection('gallery');
+  if (!galleryItems || galleryItems.length === 0) return;
+
+  const items = galleryItems.map(item => ({
+    ...item,
+    image: fixImgPath(item.image, false)
+  }));
+
+  if (items.length === 0) return;
+
+  let currentIndex = 0;
+
+  function updateGalleryDisplay() {
+    const itemMain = items[currentIndex % items.length];
+    const itemOverlay = items[(currentIndex + 1) % items.length];
+
+    imgMain.classList.add('about-img-fade');
+    imgOverlay.classList.add('about-img-fade');
+
+    setTimeout(() => {
+      if (itemMain && itemMain.image) {
+        imgMain.src = itemMain.image;
+        if (captionText) captionText.textContent = itemMain.caption || "Verified Customer Photo";
+      }
+      if (itemOverlay && itemOverlay.image) {
+        imgOverlay.src = itemOverlay.image;
+      }
+
+      imgMain.classList.remove('about-img-fade');
+      imgOverlay.classList.remove('about-img-fade');
+    }, 450);
+  }
+
+  updateGalleryDisplay();
+
+  // If there are 2 or more images, auto-swap every 5 seconds (5000ms)
+  if (items.length > 1) {
+    setInterval(() => {
+      currentIndex = (currentIndex + 1) % items.length;
+      updateGalleryDisplay();
+    }, 5000);
+  }
 }
