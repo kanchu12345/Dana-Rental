@@ -10,23 +10,30 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 // Admin Authentication Enforcement
 async function checkAdminAuth() {
-  const isLoginPage = window.location.pathname.endsWith('login.html');
+  const isLoginPage = window.location.pathname.includes('login.html');
+  const isDemoLoggedIn = localStorage.getItem('danan_admin_logged_in') === 'true';
 
   if (isFirebaseConfigured() && auth) {
-    const { onAuthStateChanged } = await import('https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js');
-    onAuthStateChanged(auth, (user) => {
-      if (!user && !isLoginPage) {
+    try {
+      const { onAuthStateChanged } = await import('https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js');
+      onAuthStateChanged(auth, (user) => {
+        const hasAccess = !!user || isDemoLoggedIn;
+        if (!hasAccess && !isLoginPage) {
+          window.location.href = './login.html';
+        } else if (hasAccess && isLoginPage) {
+          window.location.href = './index.html';
+        }
+      });
+    } catch (err) {
+      if (!isDemoLoggedIn && !isLoginPage) {
         window.location.href = './login.html';
-      } else if (user && isLoginPage) {
-        window.location.href = './index.html';
       }
-    });
+    }
   } else {
     // Demo mode login fallback
-    const isLoggedIn = localStorage.getItem('danan_admin_logged_in') === 'true';
-    if (!isLoggedIn && !isLoginPage) {
+    if (!isDemoLoggedIn && !isLoginPage) {
       window.location.href = './login.html';
-    } else if (isLoggedIn && isLoginPage) {
+    } else if (isDemoLoggedIn && isLoginPage) {
       window.location.href = './index.html';
     }
   }
