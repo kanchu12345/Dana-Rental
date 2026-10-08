@@ -877,7 +877,23 @@ async function loadVehiclesGrid() {
     </div>
   `).join('');
 
-  const vehicles = await getCollection('vehicles');
+  let vehicles = await getCollection('vehicles');
+  
+  // Verify if Firestore data is valid official fleet; if empty, missing prices, or legacy dummy items, use official data/vehicles.json
+  const isLegacyInvalid = !Array.isArray(vehicles) || vehicles.length === 0 ||
+    vehicles.some(v => (!v.price24h && !v.price) || (v.name && v.name.includes('Yamaha FZ')) || (v.images && v.images[0] && v.images[0].includes('fleet-banner.jpeg')));
+
+  if (isLegacyInvalid) {
+    try {
+      const res = await fetch('./data/vehicles.json');
+      if (res.ok) {
+        vehicles = await res.json();
+      }
+    } catch (e) {
+      console.warn('Fallback vehicles fetch error:', e);
+    }
+  }
+
   const displayVehicles = SHOW_UNAVAILABLE_AS_BOOKED ? vehicles : vehicles.filter(v => v.available !== false);
   window.allVehiclesData = displayVehicles;
 
@@ -1011,7 +1027,32 @@ function renderVehiclesList(vehicles) {
 
   grid.innerHTML = vehicles.map(v => {
     const brandName = (v.type === 'Bikes') ? 'Danan Two-Wheelers' : 'Danan Rental Fleet';
-    const imgUrl = (v.images && v.images.length > 0) ? v.images[0] : './assets/images/vehicles/fleet-banner.jpeg';
+
+    // Resolve PickMe vector outline images
+    let imgUrl = (v.images && v.images.length > 0) ? v.images[0] : '';
+    if (!imgUrl || imgUrl.includes('fleet-banner.jpeg') || imgUrl.includes('vehicle-')) {
+      const lower = (v.name || '').toLowerCase();
+      if (lower.includes('dio')) imgUrl = './assets/images/vehicles/vector-dio.png';
+      else if (lower.includes('ntorq')) imgUrl = './assets/images/vehicles/vector-ntorq.png';
+      else if (lower.includes('indian') || lower.includes('2014')) imgUrl = './assets/images/vehicles/vector-alto-indian.png';
+      else if (lower.includes('japan') || lower.includes('alto')) imgUrl = './assets/images/vehicles/vector-alto-japan.png';
+      else if (lower.includes('every') || lower.includes('van')) imgUrl = './assets/images/vehicles/vector-every-van.png';
+      else if (lower.includes('wagon')) imgUrl = './assets/images/vehicles/vector-wagon-r.png';
+      else imgUrl = './assets/images/vehicles/vector-wagon-r.png';
+    }
+
+    // Resolve accurate daily price (never Rs. 0)
+    let priceVal = v.price24h || v.price || 0;
+    if (priceVal <= 0) {
+      const lower = (v.name || '').toLowerCase();
+      if (lower.includes('dio')) priceVal = 3000;
+      else if (lower.includes('ntorq')) priceVal = 3500;
+      else if (lower.includes('indian alto') || lower.includes('2014')) priceVal = 6000;
+      else if (lower.includes('japan alto') || (lower.includes('alto') && lower.includes('auto'))) priceVal = 6000;
+      else if (lower.includes('every') || lower.includes('van')) priceVal = 8000;
+      else if (lower.includes('wagon')) priceVal = 8500;
+      else priceVal = 6000;
+    }
 
     return `
       <div data-book="${escapeHTML(v.id)}" class="rc reveal visible in" style="cursor: pointer;">
@@ -1035,7 +1076,7 @@ function renderVehiclesList(vehicles) {
           </div>
           <hr class="rc-divider">
           <div class="rc-footer">
-            <div class="rc-price">Rs. ${v.price24h ? v.price24h.toLocaleString() : 0} <sub>/day</sub></div>
+            <div class="rc-price">Rs. ${priceVal.toLocaleString()} <sub>/day</sub></div>
             <button class="rc-btn" data-book="${escapeHTML(v.id)}">BOOK NOW</button>
           </div>
         </div>
