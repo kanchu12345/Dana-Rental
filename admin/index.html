@@ -35,6 +35,9 @@
         <a href="vehicles.html" class="nav-item">
           <span>🚗</span> Vehicles Manager
         </a>
+        <a href="bookings.html" class="nav-item">
+          <span>📋</span> Bookings &amp; Orders
+        </a>
         <a href="destinations.html" class="nav-item">
           <span>🗺️</span> Destinations Manager
         </a>
@@ -76,6 +79,14 @@
       <div class="admin-content">
         <!-- STATS -->
         <div class="stats-grid">
+          <div class="stat-card" style="border-left: 4px solid #10B981;">
+            <div class="stat-icon">📋</div>
+            <div>
+              <div class="stat-number" id="countBookings" style="color: #059669;">0</div>
+              <div class="stat-label">Bookings (<span id="countPendingBookings" style="color:#D97706; font-weight:700;">0</span> pending)</div>
+            </div>
+          </div>
+
           <div class="stat-card">
             <div class="stat-icon">🚗</div>
             <div>
@@ -115,6 +126,11 @@
             <h2 class="card-title">Complete Website Content Management</h2>
           </div>
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px;">
+            <a href="bookings.html" style="background-color: var(--bg-light); padding: 20px; border-radius: 8px; text-decoration: none; color: inherit; border: 1px solid var(--border-color); border-left: 4px solid #10B981;">
+              <h3 style="font-size: 1.05rem; margin-bottom: 6px; color: #059669;">📋 Bookings & Approvals</h3>
+              <p style="font-size: 0.82rem; color: var(--text-muted);">View reservations, approve bookings, send WhatsApp confirmations.</p>
+            </a>
+
             <a href="vehicles.html" style="background-color: var(--bg-light); padding: 20px; border-radius: 8px; text-decoration: none; color: inherit; border: 1px solid var(--border-color);">
               <h3 style="font-size: 1.05rem; margin-bottom: 6px; color: var(--primary-red);">🚗 Vehicles & Fleet</h3>
               <p style="font-size: 0.82rem; color: var(--text-muted);">Add, edit, or delete cars, bikes, scooters, rates & photos.</p>
@@ -194,6 +210,24 @@
       const reviews = await getCollection('reviews');
       const faqs = await getCollection('faqs');
       const rules = await getCollection('rules');
+
+      let bookings = await getCollection('bookings');
+      try {
+        const local = JSON.parse(localStorage.getItem('danan_bookings') || '[]');
+        if (Array.isArray(local)) {
+          local.forEach(item => {
+            if (!bookings.some(b => b.id === item.id)) bookings.push(item);
+          });
+        }
+      } catch (e) {}
+
+      const pendingCount = bookings.filter(b => (b.status || '').toUpperCase().includes('PEND')).length;
+      if (document.getElementById('countBookings')) {
+        document.getElementById('countBookings').textContent = bookings.length;
+      }
+      if (document.getElementById('countPendingBookings')) {
+        document.getElementById('countPendingBookings').textContent = pendingCount;
+      }
 
       document.getElementById('countVehicles').textContent = vehicles.length;
       if (document.getElementById('countDestinations')) {

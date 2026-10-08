@@ -335,7 +335,9 @@
   </button>
 
   <script type="module" src="./js/main.js"></script>
-  <script>
+  <script type="module">
+    import { getCollection, saveDoc, escapeHTML } from './js/db.js';
+
     // Ensure all content is immediately visible
     document.querySelectorAll('.reveal').forEach(el => el.classList.add('in', 'visible'));
 
@@ -344,10 +346,13 @@
       const select = document.getElementById('booking-vehicle-select');
       if (!select) return;
       try {
-        const res = await fetch('./data/vehicles.json');
-        const vehicles = await res.json();
+        let vehicles = await getCollection('vehicles');
+        if (!vehicles || vehicles.length === 0) {
+          const res = await fetch('./data/vehicles.json');
+          vehicles = await res.json();
+        }
         select.innerHTML = '<option value="">-- Choose a Vehicle --</option>' + 
-          vehicles.map(v => `<option value="${v.name}">${v.name} (Rs. ${v.price?.toLocaleString()} / day)</option>`).join('');
+          vehicles.map(v => `<option value="${escapeHTML(v.name)}">${escapeHTML(v.name)} (Rs. ${(v.price24h || v.price || 0).toLocaleString()} / day)</option>`).join('');
       } catch (e) {
         select.innerHTML = `
           <option value="Honda Dio 110cc">Honda Dio 110cc (Rs. 3,000 / day)</option>
@@ -367,7 +372,7 @@
     const bookingWaBtn = document.getElementById('bookingWaBtn');
     const bookingFeedback = document.getElementById('bookingFeedback');
 
-    pageBookingForm?.addEventListener('submit', (e) => {
+    pageBookingForm?.addEventListener('submit', async (e) => {
       e.preventDefault();
       const form = e.target;
       const data = new FormData(form);
@@ -390,45 +395,61 @@
       bookingSubmitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Processing...';
 
       const bookingRef = 'BK-' + Math.floor(10000 + Math.random() * 90000);
+      const newBooking = {
+        id: bookingRef,
+        createdAt: new Date().toISOString(),
+        date: new Date().toISOString(),
+        vehicle,
+        vehicleName: vehicle,
+        customerName: name,
+        name,
+        phone,
+        whatsapp: wa,
+        email,
+        pickupDate: pickup,
+        dropoffDate: dropoff,
+        pickupLocation: loc,
+        location: loc,
+        notes,
+        status: 'Pending'
+      };
 
-      setTimeout(() => {
+      try {
+        // 1. Save to database / Firestore & local storage mirror
+        await saveDoc('bookings', bookingRef, newBooking);
+
+        // 2. Mirror into danan_bookings array in localStorage
         try {
           const bookings = JSON.parse(localStorage.getItem('danan_bookings') || '[]');
-          bookings.push({
-            id: bookingRef,
-            date: new Date().toISOString(),
-            vehicle, name, phone, whatsapp: wa, email,
-            pickupDate: pickup, dropoffDate: dropoff, location: loc, notes,
-            status: 'PENDING CONFIRMATION'
-          });
+          bookings.unshift(newBooking);
           localStorage.setItem('danan_bookings', JSON.stringify(bookings));
-        } catch (err) {
-          console.error(err);
-        }
+        } catch (err) {}
+      } catch (err) {
+        console.warn('Booking save notice:', err);
+      }
 
-        bookingSubmitBtn.disabled = false;
-        bookingSubmitBtn.innerHTML = '<i class="fa-solid fa-check"></i> Request Received!';
+      bookingSubmitBtn.disabled = false;
+      bookingSubmitBtn.innerHTML = '<i class="fa-solid fa-check"></i> Request Received!';
 
-        if (bookingFeedback) {
-          bookingFeedback.style.display = 'block';
-          bookingFeedback.style.background = 'rgba(34, 197, 94, 0.15)';
-          bookingFeedback.style.color = '#4ade80';
-          bookingFeedback.style.border = '1px solid rgba(34, 197, 94, 0.3)';
-          bookingFeedback.innerHTML = `
-            <div style="font-size: 1.1rem; font-weight: 800; margin-bottom: 6px;">Reservation Request Submitted!</div>
-            <div style="font-size: 0.95rem; margin-bottom: 10px; color: #fff;">Your Reference ID: <strong style="color:var(--yellow); font-size:1.15rem;">${bookingRef}</strong></div>
-            <p style="font-size: 0.85rem; color: rgba(255,255,255,0.7); margin-bottom: 12px;">Our team will review availability and contact you via WhatsApp / Phone to confirm key handover.</p>
-            <a href="https://wa.me/94772013059?text=${encodeURIComponent(`Hello Danan Rentals, I just submitted booking reservation ${bookingRef} for ${vehicle}. Please confirm!`)}" target="_blank" class="btn-send-wa" style="display:inline-flex; width:auto; padding:10px 20px; font-size:13px;">
-              <i class="fa-brands fa-whatsapp"></i> Notify via WhatsApp
-            </a>
-          `;
-        }
+      if (bookingFeedback) {
+        bookingFeedback.style.display = 'block';
+        bookingFeedback.style.background = 'rgba(34, 197, 94, 0.15)';
+        bookingFeedback.style.color = '#4ade80';
+        bookingFeedback.style.border = '1px solid rgba(34, 197, 94, 0.3)';
+        bookingFeedback.innerHTML = `
+          <div style="font-size: 1.1rem; font-weight: 800; margin-bottom: 6px;">Reservation Request Submitted!</div>
+          <div style="font-size: 0.95rem; margin-bottom: 10px; color: #fff;">Your Reference ID: <strong style="color:var(--yellow); font-size:1.15rem;">${bookingRef}</strong></div>
+          <p style="font-size: 0.85rem; color: rgba(255,255,255,0.7); margin-bottom: 12px;">Your booking has been registered with status: <strong style="color:#f59e0b;">PENDING APPROVAL</strong>. Our team will review availability and notify you via WhatsApp.</p>
+          <a href="https://wa.me/94772013059?text=${encodeURIComponent(`Hello Danan Rentals, I just submitted booking reservation ${bookingRef} for ${vehicle}. Please approve!`)}" target="_blank" class="btn-send-wa" style="display:inline-flex; width:auto; padding:10px 20px; font-size:13px;">
+            <i class="fa-brands fa-whatsapp"></i> Notify via WhatsApp
+          </a>
+        `;
+      }
 
-        form.reset();
-        setTimeout(() => {
-          bookingSubmitBtn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Submit Reservation Request';
-        }, 5000);
-      }, 700);
+      form.reset();
+      setTimeout(() => {
+        bookingSubmitBtn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Submit Reservation Request';
+      }, 5000);
     });
 
     // Instant WhatsApp Booking
@@ -476,69 +497,108 @@
 
       let allBookings = [];
 
-      // 1. Check local storage bookings
+      // 1. Check live Firestore / Database
       try {
-        const local = JSON.parse(localStorage.getItem('danan_bookings') || '[]');
-        if (Array.isArray(local)) allBookings.push(...local);
-      } catch (e) {}
-
-      // 2. Fetch default bookings.json
-      try {
-        const res = await fetch('./data/bookings.json');
-        if (res.ok) {
-          const jsonList = await res.json();
-          if (Array.isArray(jsonList)) {
-            jsonList.forEach(item => {
-              if (!allBookings.some(b => b.id === item.id)) {
-                allBookings.push({
-                  id: item.id,
-                  name: item.customerName || item.name,
-                  vehicle: item.vehicleName || item.vehicle,
-                  pickupDate: item.pickupDate,
-                  dropoffDate: item.dropoffDate,
-                  phone: item.phone,
-                  status: item.status || 'Confirmed'
-                });
-              }
-            });
-          }
+        const remote = await getCollection('bookings');
+        if (Array.isArray(remote)) {
+          remote.forEach(item => {
+            if (item && item.id) allBookings.push(item);
+          });
         }
       } catch (e) {}
 
-      // 3. Fallback built-in demos
+      // 2. Merge local storage bookings
+      try {
+        const local = JSON.parse(localStorage.getItem('danan_bookings') || '[]');
+        if (Array.isArray(local)) {
+          local.forEach(item => {
+            const idx = allBookings.findIndex(b => b.id === item.id);
+            if (idx >= 0) allBookings[idx] = { ...allBookings[idx], ...item };
+            else allBookings.push(item);
+          });
+        }
+      } catch (e) {}
+
+      // 3. Fetch default bookings.json if empty
+      if (allBookings.length === 0) {
+        try {
+          const res = await fetch('./data/bookings.json');
+          if (res.ok) {
+            const jsonList = await res.json();
+            if (Array.isArray(jsonList)) {
+              jsonList.forEach(item => {
+                if (!allBookings.some(b => b.id === item.id)) {
+                  allBookings.push({
+                    id: item.id,
+                    name: item.customerName || item.name,
+                    vehicle: item.vehicleName || item.vehicle,
+                    pickupDate: item.pickupDate,
+                    dropoffDate: item.dropoffDate,
+                    phone: item.phone,
+                    status: item.status || 'Confirmed'
+                  });
+                }
+              });
+            }
+          }
+        } catch (e) {}
+      }
+
+      // 4. Fallback built-in demos
       const demoList = [
-        { id: 'BK-9021', name: 'Kamal Perera', vehicle: 'Toyota Wagon R Hybrid', pickupDate: '2026-10-10', dropoffDate: '2026-10-14', phone: '0771234567', status: 'CONFIRMED' },
-        { id: 'BK-9022', name: 'Sarah Jenkins', vehicle: 'Honda Dio 110cc Scooter', pickupDate: '2026-10-15', dropoffDate: '2026-10-18', phone: '07911123456', status: 'PENDING' }
+        { id: 'BK-9021', name: 'Kamal Perera', vehicle: 'Toyota Wagon R Hybrid', pickupDate: '2026-10-10', dropoffDate: '2026-10-14', phone: '0771234567', status: 'Confirmed' },
+        { id: 'BK-9022', name: 'Sarah Jenkins', vehicle: 'Honda Dio 110cc Scooter', pickupDate: '2026-10-15', dropoffDate: '2026-10-18', phone: '07911123456', status: 'Pending' }
       ];
       demoList.forEach(d => {
         if (!allBookings.some(b => b.id === d.id)) allBookings.push(d);
       });
 
-      // 4. Find match by exact ID, stripped digits (e.g. 9021 -> BK-9021), or phone number
+      // 5. Find match by exact ID, BK-prefix, stripped digits, or phone number
       const found = allBookings.find(b => {
         const bId = (b.id || '').toUpperCase();
-        const bPhoneDigits = (b.phone || '').replace(/\D/g, '');
+        const bPhoneDigits = (b.phone || b.whatsapp || '').replace(/\D/g, '');
         return (
           bId === query ||
           bId === 'BK-' + query ||
-          bId.replace(/\D/g, '') === cleanDigits ||
-          (cleanDigits.length >= 4 && bPhoneDigits.includes(cleanDigits))
+          (cleanDigits.length >= 4 && bId.replace(/\D/g, '') === cleanDigits) ||
+          (cleanDigits.length >= 7 && bPhoneDigits.includes(cleanDigits))
         );
       });
 
       if (found) {
-        const isConfirmed = (found.status || '').toUpperCase().includes('CONFIRM');
+        const rawStatus = (found.status || 'Pending').toUpperCase();
+        const isConfirmed = rawStatus.includes('CONFIRM');
+        const isCancelled = rawStatus.includes('CANCEL');
+
+        let badgeBg = '#f59e0b';
+        let badgeColor = '#000';
+        let statusBadgeText = '⏳ PENDING APPROVAL';
+        let statusDesc = 'Your reservation is currently under review by our booking desk. We will confirm shortly!';
+
+        if (isConfirmed) {
+          badgeBg = '#22c55e';
+          badgeColor = '#000';
+          statusBadgeText = '✅ CONFIRMED';
+          statusDesc = 'Your vehicle reservation has been officially APPROVED! The vehicle is reserved for your dates.';
+        } else if (isCancelled) {
+          badgeBg = '#ef4444';
+          badgeColor = '#fff';
+          statusBadgeText = '❌ CANCELLED';
+          statusDesc = 'This reservation was marked as cancelled. Please contact our hotline if you have any questions.';
+        }
+
         resultDiv.innerHTML = `
-          <div style="background: rgba(245,197,24,0.1); border: 1px solid rgba(245,197,24,0.3); border-radius: 12px; padding: 18px; text-align: left; animation: fadeIn 0.3s ease;">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-              <span style="font-weight:800; color:var(--yellow); font-size:1.1rem;"><i class="fa-solid fa-receipt"></i> ${found.id}</span>
-              <span style="background:${isConfirmed ? '#22c55e' : '#f59e0b'}; color:#000; font-size:11px; font-weight:800; padding:3px 10px; border-radius:12px;">${found.status || 'CONFIRMED'}</span>
+          <div style="background: rgba(245,197,24,0.08); border: 1px solid rgba(245,197,24,0.3); border-radius: 12px; padding: 18px; text-align: left; animation: fadeIn 0.3s ease;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:8px;">
+              <span style="font-weight:800; color:var(--yellow); font-size:1.15rem;"><i class="fa-solid fa-receipt"></i> ${escapeHTML(found.id)}</span>
+              <span style="background:${badgeBg}; color:${badgeColor}; font-size:11px; font-weight:800; padding:4px 12px; border-radius:12px;">${statusBadgeText}</span>
             </div>
-            <div style="font-size:14px; color:#fff; margin-bottom:4px;"><strong>Customer:</strong> ${found.name || found.customerName || 'Registered Guest'}</div>
-            <div style="font-size:14px; color:#fff; margin-bottom:4px;"><strong>Vehicle:</strong> ${found.vehicle || found.vehicleName || 'Rental Vehicle'}</div>
-            <div style="font-size:13px; color:rgba(255,255,255,0.7); margin-bottom:12px;"><strong>Dates:</strong> ${found.pickupDate || 'Scheduled'} to ${found.dropoffDate || 'Scheduled'}</div>
-            <a href="https://wa.me/94772013059?text=${encodeURIComponent(`Hello Danan Rentals, I am checking on my booking reference ${found.id}`)}" target="_blank" style="color:var(--yellow); font-size:13px; font-weight:700; text-decoration:none; display:inline-flex; align-items:center; gap:6px; background: rgba(0,0,0,0.4); padding: 8px 12px; border-radius: 6px;">
-              <i class="fa-brands fa-whatsapp" style="color: #25D366;"></i> Contact Desk Regarding Booking
+            <div style="font-size:14px; color:#fff; margin-bottom:4px;"><strong>Customer:</strong> ${escapeHTML(found.name || found.customerName || 'Registered Guest')}</div>
+            <div style="font-size:14px; color:#fff; margin-bottom:4px;"><strong>Vehicle:</strong> ${escapeHTML(found.vehicle || found.vehicleName || 'Rental Vehicle')}</div>
+            <div style="font-size:13px; color:rgba(255,255,255,0.7); margin-bottom:8px;"><strong>Dates:</strong> ${escapeHTML(found.pickupDate || 'Scheduled')} &rarr; ${escapeHTML(found.dropoffDate || 'Scheduled')}</div>
+            <div style="font-size:12px; color:rgba(255,255,255,0.8); background:rgba(0,0,0,0.3); padding:8px 12px; border-radius:6px; margin-bottom:12px;">${statusDesc}</div>
+            <a href="https://wa.me/94772013059?text=${encodeURIComponent(`Hello Danan Rentals, I am inquiring regarding my reservation reference ${found.id} (${found.vehicle || 'Vehicle'})`)}" target="_blank" style="color:var(--yellow); font-size:13px; font-weight:700; text-decoration:none; display:inline-flex; align-items:center; gap:6px; background: rgba(0,0,0,0.4); padding: 8px 14px; border-radius: 6px;">
+              <i class="fa-brands fa-whatsapp" style="color: #25D366;"></i> Chat with Rental Desk
             </a>
           </div>
         `;
