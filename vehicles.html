@@ -23,12 +23,13 @@
     </a>
 
     <ul class="nav-links">
-      <li><a href="index.html">Home</a></li>
-      <li><a href="vehicles.html" class="active">Rentals</a></li>
-      <li><a href="index.html#rules">Rules & Req</a></li>
-      <li><a href="index.html#about">About Us</a></li>
-      <li><a href="index.html#faqs">FAQ</a></li>
-      <li><a href="index.html#contact">Contact Us</a></li>
+      <li><a href="index.html">HOME</a></li>
+      <li><a href="vehicles.html" class="active">OUR FLEET</a></li>
+      <li><a href="bookings.html">BOOKINGS</a></li>
+      <li><a href="destinations.html">DESTINATIONS</a></li>
+      <li><a href="about.html">ABOUT US</a></li>
+      <li><a href="contact.html">CONTACT US</a></li>
+      <li><a href="faqs.html">FAQ</a></li>
     </ul>
 
     <div class="nav-btns">
@@ -49,12 +50,13 @@
       <button class="mobile-menu-close" id="menuClose"><i class="fa-solid fa-xmark"></i></button>
     </div>
     <ul class="mobile-nav-links">
-      <li><a href="index.html">Home</a></li>
-      <li><a href="vehicles.html" class="active">Rentals</a></li>
-      <li><a href="index.html#rules">Rules & Requirements</a></li>
-      <li><a href="index.html#about">About Us</a></li>
-      <li><a href="index.html#faqs">FAQ</a></li>
-      <li><a href="index.html#contact">Contact Us</a></li>
+      <li><a href="index.html">HOME</a></li>
+      <li><a href="vehicles.html" class="active">OUR FLEET</a></li>
+      <li><a href="bookings.html">BOOKINGS</a></li>
+      <li><a href="destinations.html">DESTINATIONS</a></li>
+      <li><a href="about.html">ABOUT US</a></li>
+      <li><a href="contact.html">CONTACT US</a></li>
+      <li><a href="faqs.html">FAQ</a></li>
     </ul>
     <div style="margin-top: 24px; display: flex; flex-direction: column; gap: 12px;">
       <a href="./admin/login.html" class="btn-nav-outline" style="text-align: center;">Admin Login</a>
@@ -62,21 +64,21 @@
     </div>
   </div>
 
-  <main style="padding-top: 100px; background: var(--dark-bg); min-height: 100vh;">
-
-    <!-- ═══ PAGE HEADER BANNER ═══ -->
-    <section style="padding: 60px 5% 40px; background: linear-gradient(180deg, rgba(15,23,42,0.8) 0%, rgba(7,7,10,1) 100%); text-align: center; border-bottom: 1px solid var(--card-border);">
-      <div class="container">
-        <span style="color: var(--yellow); font-weight: 900; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px;">Verified Rental Fleet</span>
-        <h1 style="font-size: 3rem; font-weight: 900; margin-top: 8px; color: #FFF;">EXPLORE OUR VEHICLE FLEET</h1>
-        <p style="color: var(--text-muted); max-width: 650px; margin: 12px auto 0; font-size: 1.05rem;">
-          200 Free Kilometers per Day &bull; Security Deposits Refundable &bull; Clean & Well-Maintained Vehicles in Kandy & Peradeniya
-        </p>
-        <div style="display: flex; justify-content: center; align-items: center; gap: 8px; margin-top: 20px; font-size: 0.88rem; color: var(--text-dim);">
-          <a href="index.html" style="color: var(--yellow);">Home</a>
-          <i class="fa-solid fa-chevron-right fa-xs"></i>
-          <span>Vehicles Fleet</span>
+  <main>
+    <!-- ═══ RENTAL FLEET HERO (SCENIC BACKGROUND) ═══ -->
+    <section class="rental-hero">
+      <div class="rental-hero-overlay"></div>
+      <div class="rental-hero-content reveal">
+        <div class="rental-breadcrumb">
+          <a href="index.html">HOME</a>
+          <span class="rental-breadcrumb-sep">/</span>
+          <span>OUR FLEET</span>
         </div>
+        <div class="rental-hero-label">VERIFIED RENTAL FLEET</div>
+        <h1 class="rental-hero-title">Book Your Perfect <br><span>Rental</span> in Sri Lanka</h1>
+        <p class="rental-hero-desc">
+          Choose from cars, hybrid hatchbacks, vans, and scooters &bull; Self drive or with chauffeur. Clean, road-tested, 200 free km per day with 24/7 dedicated on-road support.
+        </p>
       </div>
     </section>
 
@@ -430,10 +432,12 @@
         <div class="footer-col-title">Quick Links</div>
         <ul class="footer-links">
           <li><a href="index.html"><i class="fa-solid fa-chevron-right fa-xs"></i> Home</a></li>
-          <li><a href="vehicles.html"><i class="fa-solid fa-chevron-right fa-xs"></i> Vehicles Fleet</a></li>
-          <li><a href="index.html#how-it-works"><i class="fa-solid fa-chevron-right fa-xs"></i> How It Works</a></li>
-          <li><a href="index.html#about"><i class="fa-solid fa-chevron-right fa-xs"></i> About Us</a></li>
-          <li><a href="sitemap.html"><i class="fa-solid fa-chevron-right fa-xs"></i> Sitemap</a></li>
+          <li><a href="vehicles.html"><i class="fa-solid fa-chevron-right fa-xs"></i> Our Fleet</a></li>
+          <li><a href="bookings.html"><i class="fa-solid fa-chevron-right fa-xs"></i> Bookings</a></li>
+          <li><a href="destinations.html"><i class="fa-solid fa-chevron-right fa-xs"></i> Destinations</a></li>
+          <li><a href="about.html"><i class="fa-solid fa-chevron-right fa-xs"></i> About Us</a></li>
+          <li><a href="contact.html"><i class="fa-solid fa-chevron-right fa-xs"></i> Contact Us</a></li>
+          <li><a href="faqs.html"><i class="fa-solid fa-chevron-right fa-xs"></i> FAQ</a></li>
         </ul>
       </div>
 
@@ -590,6 +594,9 @@
   <script type="module" src="./js/main.js"></script>
 
   <script>
+    // Ensure all vehicle cards and content are immediately visible
+    document.querySelectorAll('.reveal').forEach(el => el.classList.add('in', 'visible'));
+
     // Inline mobile menu & scroll listeners
     document.addEventListener('DOMContentLoaded', () => {
       const menuToggle = document.getElementById('menuToggle');

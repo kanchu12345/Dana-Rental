@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Popular Destinations to Visit from Kandy | Danan Rentals</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Header -->
+    <!-- --- NAVBAR --- -->
+  <nav id="navbar">
+    <a href="index.html" class="nav-logo">
+      <img src="./assets/images/logo/logo.png" alt="Danan Logo">
+      <div class="nav-brand-title">DANAN <span>RENTALS</span></div>
+    </a>
+
+    <ul class="nav-links">
+      <li><a href="index.html">HOME</a></li>
+      <li><a href="vehicles.html">OUR FLEET</a></li>
+      <li><a href="bookings.html">BOOKINGS</a></li>
+      <li><a href="destinations.html" class="active">DESTINATIONS</a></li>
+      <li><a href="about.html">ABOUT US</a></li>
+      <li><a href="contact.html">CONTACT US</a></li>
+      <li><a href="faqs.html">FAQ</a></li>
+    </ul>
+
+    <div class="nav-btns">
+      <a href="./admin/login.html" class="btn-nav-outline">REGISTER</a>
+      <a href="./admin/login.html" class="btn-nav-yellow">LOGIN</a>
+    </div>
+
+    <button class="nav-toggle" id="menuToggle" aria-label="Toggle Navigation">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </nav>
+
+  <!-- MOBILE MENU OVERLAY -->
+  <div class="mobile-overlay" id="mobileOverlay"></div>
+  <div class="mobile-menu" id="mobileMenu">
+    <div class="mobile-menu-header">
+      <div class="nav-logo">
+        <img src="./assets/images/logo/logo.png" alt="Danan Logo">
+        <div class="nav-brand-title">DANAN <span>RENTALS</span></div>
+      </div>
+      <div class="mobile-close" id="menuClose">&#10005;</div>
+    </div>
+    <ul class="mobile-links">
+      <li><a href="index.html">HOME</a></li>
+      <li><a href="vehicles.html">OUR FLEET</a></li>
+      <li><a href="bookings.html">BOOKINGS</a></li>
+      <li><a href="destinations.html" class="active">DESTINATIONS</a></li>
+      <li><a href="about.html">ABOUT US</a></li>
+      <li><a href="contact.html">CONTACT US</a></li>
+      <li><a href="faqs.html">FAQ</a></li>
+      <li><a href="./admin/login.html">ADMIN LOGIN</a></li>
+    </ul>
+  </div>
+
+  <main>
+    <!-- ═══ DESTINATIONS HERO ═══ -->
+    <section class="destinations-hero">
+      <div class="destinations-hero-overlay"></div>
+      <div class="destinations-hero-content reveal in visible">
+        <div class="destinations-breadcrumb">
+          <a href="index.html">HOME</a>
+          <span class="destinations-breadcrumb-sep">/</span>
+          <span>DESTINATIONS</span>
+        </div>
+        <div class="destinations-hero-tag">DISCOVER SRI LANKA</div>
+        <h1>Explore Scenic Destinations<br>From <span style="color:var(--yellow)">Kandy</span></h1>
+        <p>
+          Rent a self-drive car or scooter with Danan Rentals and explore Sri Lanka's most iconic attractions at your own pace with 200 free kilometers per day.
+        </p>
+      </div>
+    </section>
+
+    <!-- ═══ DESTINATIONS SECTION ═══ -->
+    <section class="destinations-section" id="destinations">
+      <div class="container">
+
+        <!-- CATEGORY FILTERS -->
+        <div class="dest-filters reveal in visible">
+          <button class="dest-filter-btn active" data-filter="all">All Destinations</button>
+          <button class="dest-filter-btn" data-filter="culture">Culture &amp; Heritage</button>
+          <button class="dest-filter-btn" data-filter="nature">Hill Country &amp; Nature</button>
+          <button class="dest-filter-btn" data-filter="daytrip">Day Trips (&lt; 1 Hr)</button>
+        </div>
+
+        <div class="destinations-grid" id="destGrid">
+          
+          <!-- 1. Dalada Maligawa -->
+          <div class="dest-card reveal" data-category="culture daytrip">
+            <div class="dest-card-img-wrap">
+              <img src="./assets/images/destinations/dalada_maligawa.jpg" alt="Dalada Maligawa Temple of the Sacred Tooth Relic" loading="lazy">
+              <span class="dest-tag-badge"><i class="fa-solid fa-location-dot"></i> 5 Mins from Kandy</span>
+            </div>
+            <div class="dest-card-body">
+              <div class="dest-card-sub">Kandy City &bull; UNESCO Heritage</div>
+              <h3 class="dest-card-title">Dalada Maligawa (Temple of Tooth)</h3>
+              <p class="dest-card-desc">The sacred heart of Kandy housing the Tooth Relic of Lord Buddha, set beside the scenic Kandy Lake.</p>
+              <div class="dest-card-footer">
+                <a href="https://wa.me/94772013059?text=Hello%20Danan%20Rentals,%20I%20want%20to%20rent%20a%20vehicle%20to%20visit%20Dalada%20Maligawa" target="_blank" rel="noopener" class="dest-btn-wa">
+                  <i class="fa-brands fa-whatsapp"></i> Rent Vehicle to Visit
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2. Gampola Ambuluwawa -->
+          <div class="dest-card reveal" data-category="nature daytrip">
+            <div class="dest-card-img-wrap">
+              <img src="./assets/images/destinations/ambuluwawa.jpg" alt="Gampola Ambuluwawa Tower" loading="lazy">
+              <span class="dest-tag-badge"><i class="fa-solid fa-location-dot"></i> 45 Mins from Kandy</span>
+            </div>
+            <div class="dest-card-body">
+              <div class="dest-card-sub">Gampola &bull; 360° Mountain View</div>
+              <h3 class="dest-card-title">Gampola Ambuluwawa Tower</h3>
+              <p class="dest-card-desc">Iconic multi-religious spiral tower offering breathtaking 360-degree mountain views high above Gampola.</p>
+              <div class="dest-card-footer">
+                <a href="https://wa.me/94772013059?text=Hello%20Danan%20Rentals,%20I%20want%20to%20rent%20a%20vehicle%20to%20visit%20Ambuluwawa%20Tower" target="_blank" rel="noopener" class="dest-btn-wa">
+                  <i class="fa-brands fa-whatsapp"></i> Rent Vehicle to Visit
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3. Horton Plains -->
+          <div class="dest-card reveal" data-category="nature">
+            <div class="dest-card-img-wrap">
+              <img src="./assets/images/destinations/horton_plains.jpg" alt="Horton Plains World's End" loading="lazy">
+              <span class="dest-tag-badge"><i class="fa-solid fa-location-dot"></i> 3 Hours from Kandy</span>
+            </div>
+            <div class="dest-card-body">
+              <div class="dest-card-sub">Nuwara Eliya &bull; Cloud Forest</div>
+              <h3 class="dest-card-title">Horton Plains &amp; World's End</h3>
+              <p class="dest-card-desc">High-altitude plateau with misty cloud forests and the dramatic 4,000 ft vertical drop at World's End precipice.</p>
+              <div class="dest-card-footer">
+                <a href="https://wa.me/94772013059?text=Hello%20Danan%20Rentals,%20I%20want%20to%20rent%20a%20vehicle%20to%20visit%20Horton%20Plains" target="_blank" rel="noopener" class="dest-btn-wa">
+                  <i class="fa-brands fa-whatsapp"></i> Rent Vehicle to Visit
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- 4. Nuwara Eliya -->
+          <div class="dest-card reveal" data-category="nature">
+            <div class="dest-card-img-wrap">
+              <img src="./assets/images/destinations/nuwara_eliya.jpg" alt="Nuwara Eliya Tea Gardens" loading="lazy">
+              <span class="dest-tag-badge"><i class="fa-solid fa-location-dot"></i> 2.5 Hours from Kandy</span>
+            </div>
+            <div class="dest-card-body">
+              <div class="dest-card-sub">Central Highlands &bull; Tea Valleys</div>
+              <h3 class="dest-card-title">Nuwara Eliya (Little England)</h3>
+              <p class="dest-card-desc">Lush green tea plantations, cool mountain climate, Gregory Lake, colonial bungalows, and cascading waterfalls.</p>
+              <div class="dest-card-footer">
+                <a href="https://wa.me/94772013059?text=Hello%20Danan%20Rentals,%20I%20want%20to%20rent%20a%20vehicle%20to%20visit%20Nuwara%20Eliya" target="_blank" rel="noopener" class="dest-btn-wa">
+                  <i class="fa-brands fa-whatsapp"></i> Rent Vehicle to Visit
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- 5. Sigiriya Rock -->
+          <div class="dest-card reveal" data-category="culture">
+            <div class="dest-card-img-wrap">
+              <img src="./assets/images/destinations/sigiriya.jpg" alt="Sigiriya Lion Rock Fortress" loading="lazy">
+              <span class="dest-tag-badge"><i class="fa-solid fa-location-dot"></i> 2.5 Hours from Kandy</span>
+            </div>
+            <div class="dest-card-body">
+              <div class="dest-card-sub">UNESCO World Wonder</div>
+              <h3 class="dest-card-title">Sigiriya Lion Rock Fortress</h3>
+              <p class="dest-card-desc">Ancient 5th-century palace fortress built atop a 200m giant rock, renowned for ancient wall frescoes and water gardens.</p>
+              <div class="dest-card-footer">
+                <a href="https://wa.me/94772013059?text=Hello%20Danan%20Rentals,%20I%20want%20to%20rent%20a%20vehicle%20to%20visit%20Sigiriya" target="_blank" rel="noopener" class="dest-btn-wa">
+                  <i class="fa-brands fa-whatsapp"></i> Rent Vehicle to Visit
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- 6. Dambulla Cave Temple -->
+          <div class="dest-card reveal" data-category="culture">
+            <div class="dest-card-img-wrap">
+              <img src="./assets/images/destinations/dambulla.jpg" alt="Dambulla Royal Cave Temple" loading="lazy">
+              <span class="dest-tag-badge"><i class="fa-solid fa-location-dot"></i> 2 Hours from Kandy</span>
+            </div>
+            <div class="dest-card-body">
+              <div class="dest-card-sub">Matale District &bull; Ancient Cave Art</div>
+              <h3 class="dest-card-title">Dambulla Golden Cave Temple</h3>
+              <p class="dest-card-desc">Sri Lanka's largest preserved cave temple complex containing 153 statues of Lord Buddha and vibrant ceiling frescoes.</p>
+              <div class="dest-card-footer">
+                <a href="https://wa.me/94772013059?text=Hello%20Danan%20Rentals,%20I%20want%20to%20rent%20a%20vehicle%20to%20visit%20Dambulla%20Cave%20Temple" target="_blank" rel="noopener" class="dest-btn-wa">
+                  <i class="fa-brands fa-whatsapp"></i> Rent Vehicle to Visit
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- 7. Riverston Peak -->
+          <div class="dest-card reveal" data-category="nature">
+            <div class="dest-card-img-wrap">
+              <img src="./assets/images/destinations/riverston.jpg" alt="Riverston Peak Knuckles Range" loading="lazy">
+              <span class="dest-tag-badge"><i class="fa-solid fa-location-dot"></i> 2 Hours from Kandy</span>
+            </div>
+            <div class="dest-card-body">
+              <div class="dest-card-sub">Knuckles Mountain Range</div>
+              <h3 class="dest-card-title">Riverston Peak &amp; Pitawala Pathana</h3>
+              <p class="dest-card-desc">Windy mountain ridges, Mini World's End cliff view, and pristine trekking trails through Knuckles conservation forest.</p>
+              <div class="dest-card-footer">
+                <a href="https://wa.me/94772013059?text=Hello%20Danan%20Rentals,%20I%20want%20to%20rent%20a%20vehicle%20to%20visit%20Riverston" target="_blank" rel="noopener" class="dest-btn-wa">
+                  <i class="fa-brands fa-whatsapp"></i> Rent Vehicle to Visit
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- 8. Bahirawakanda Buddha -->
+          <div class="dest-card reveal" data-category="culture daytrip">
+            <div class="dest-card-img-wrap">
+              <img src="./assets/images/destinations/bahirawakanda.jpg" alt="Bahirawakanda Giant Buddha Statue" loading="lazy">
+              <span class="dest-tag-badge"><i class="fa-solid fa-location-dot"></i> 10 Mins from Kandy</span>
+            </div>
+            <div class="dest-card-body">
+              <div class="dest-card-sub">Kandy City &bull; Sunset Viewpoint</div>
+              <h3 class="dest-card-title">Bahirawakanda Buddha Statue</h3>
+              <p class="dest-card-desc">Towering 88ft giant white Buddha statue overlooking Kandy city, offering spectacular sunset and city lights view.</p>
+              <div class="dest-card-footer">
+                <a href="https://wa.me/94772013059?text=Hello%20Danan%20Rentals,%20I%20want%20to%20rent%20a%20vehicle%20to%20visit%20Bahirawakanda" target="_blank" rel="noopener" class="dest-btn-wa">
+                  <i class="fa-brands fa-whatsapp"></i> Rent Vehicle to Visit
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- 9. Ella Nine Arch -->
+          <div class="dest-card reveal" data-category="nature">
+            <div class="dest-card-img-wrap">
+              <img src="./assets/images/destinations/ella.jpg" alt="Ella Nine Arch Bridge" loading="lazy">
+              <span class="dest-tag-badge"><i class="fa-solid fa-location-dot"></i> 3.5 Hours from Kandy</span>
+            </div>
+            <div class="dest-card-body">
+              <div class="dest-card-sub">Ella Highlands &bull; Colonial Viaduct</div>
+              <h3 class="dest-card-title">Ella &amp; Nine Arch Bridge (ඇල්ල)</h3>
+              <p class="dest-card-desc">Iconic colonial stone railway bridge surrounded by lush tea valleys, Little Adam's Peak, and Ravana Falls.</p>
+              <div class="dest-card-footer">
+                <a href="https://wa.me/94772013059?text=Hello%20Danan%20Rentals,%20I%20want%20to%20rent%20a%20vehicle%20to%20visit%20Ella" target="_blank" rel="noopener" class="dest-btn-wa">
+                  <i class="fa-brands fa-whatsapp"></i> Rent Vehicle to Visit
+                </a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ TRAVEL TIPS SECTION ═══ -->
+    <section class="dest-tips-section">
+      <div class="dest-tips-grid">
+        <div class="dest-tip-card reveal">
+          <div class="dest-tip-icon"><i class="fa-solid fa-route"></i></div>
+          <h3>Scenic Mountain Roads</h3>
+          <p>Hill country roads feature breathtaking curves and misty views. Our automatic hatchbacks, hybrids, and automatic scooters make driving effortlessly smooth.</p>
+        </div>
+        <div class="dest-tip-card reveal">
+          <div class="dest-tip-icon"><i class="fa-solid fa-gauge-high"></i></div>
+          <h3>200 Free KM Every 24h</h3>
+          <p>Every Danan rental includes 200 free kilometers per day, allowing you to visit Sigiriya, Nuwara Eliya, or Ambuluwawa with zero mileage worries.</p>
+        </div>
+        <div class="dest-tip-card reveal">
+          <div class="dest-tip-icon"><i class="fa-solid fa-shield-heart"></i></div>
+          <h3>24/7 Roadside Support</h3>
+          <p>Travel with total peace of mind. Our friendly local team is always on call via WhatsApp to provide breakdown assistance and route guidance.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ CTA BANNER ═══ -->
+    <section class="bookings-cta-banner destinations-cta-banner">
+      <div class="bookings-cta-inner reveal">
+        <div class="bookings-cta-tag">PLAN YOUR DREAM ROAD TRIP</div>
+        <h2 class="bookings-cta-title">Ready to Explore Sri Lanka With Danan Rentals?</h2>
+        <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
+          <a href="vehicles.html" class="btn-get-started"><i class="fa-solid fa-car"></i> Browse Fleet</a>
+          <a href="https://wa.me/94772013059" target="_blank" rel="noopener" class="btn-cta-outline"><i class="fa-brands fa-whatsapp"></i> Inquire on WhatsApp</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- --- FOOTER --- -->
+  <footer>
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo">
+          <img src="./assets/images/logo/logo.png" alt="Danan Logo">
+        </div>
+        <p class="footer-addr">
+          Peradeniya & Kandy, Sri Lanka<br>
+          Phone: <a href="tel:0772013059" style="color: var(--yellow);">077 201 3059</a> / <a href="tel:0712832221" style="color: var(--yellow);">071 283 2221</a><br>
+          Email: dananrentals@gmail.com
+        </p>
+        <div class="footer-socials">
+          <a href="https://www.facebook.com/" target="_blank" rel="noopener" class="soc-icon-btn" aria-label="Facebook Page" id="footerFbLink"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="https://wa.me/94772013059" target="_blank" rel="noopener" class="soc-icon-btn" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+          <a href="tel:0772013059" class="soc-icon-btn" aria-label="Phone"><i class="fa-solid fa-phone"></i></a>
+          <a href="https://share.google/ICElyHmWpDjeHQLOY" target="_blank" rel="noopener" class="soc-icon-btn" aria-label="Location"><i class="fa-solid fa-location-dot"></i></a>
+        </div>
+      </div>
+
+      <div>
+        <div class="footer-col-title">Quick Links</div>
+        <ul class="footer-links">
+          <li><a href="index.html"><i class="fa-solid fa-chevron-right fa-xs"></i> Home</a></li>
+          <li><a href="vehicles.html"><i class="fa-solid fa-chevron-right fa-xs"></i> Our Fleet</a></li>
+          <li><a href="bookings.html"><i class="fa-solid fa-chevron-right fa-xs"></i> Bookings</a></li>
+          <li><a href="destinations.html"><i class="fa-solid fa-chevron-right fa-xs"></i> Destinations</a></li>
+          <li><a href="about.html"><i class="fa-solid fa-chevron-right fa-xs"></i> About Us</a></li>
+          <li><a href="contact.html"><i class="fa-solid fa-chevron-right fa-xs"></i> Contact Us</a></li>
+          <li><a href="faqs.html"><i class="fa-solid fa-chevron-right fa-xs"></i> FAQ</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="footer-col-title">Support</div>
+        <ul class="footer-links">
+          <li><a href="index.html#rules"><i class="fa-solid fa-chevron-right fa-xs"></i> Rules & Req</a></li>
+          <li><a href="faqs.html"><i class="fa-solid fa-chevron-right fa-xs"></i> FAQs</a></li>
+          <li><a href="contact.html"><i class="fa-solid fa-chevron-right fa-xs"></i> Contact Us</a></li>
+          <li><a href="./admin/login.html"><i class="fa-solid fa-chevron-right fa-xs"></i> Admin Login</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="footer-col-title">Google Map Location</div>
+        <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 10px;">Danan Car & Bike Rentals Peradeniya, Kandy</p>
+        <div class="footer-map-wrap" style="width: 100%; height: 160px; border-radius: 12px; overflow: hidden; border: 1px solid var(--card-border); margin-bottom: 12px;">
+          <iframe 
+            src="https://maps.google.com/maps?q=Danan%20Car%20%26%20Bike%20Rentals%20Peradeniya%20Kandy%20Sri%20Lanka&t=&z=14&ie=UTF8&iwloc=&output=embed" 
+            width="100%" 
+            height="100%" 
+            style="border:0;" 
+            allowfullscreen="" 
+            loading="lazy" 
+            referrerpolicy="no-referrer-when-downgrade"
+            title="Danan Car & Bike Rentals Location Map">
+          </iframe>
+        </div>
+        <a href="https://share.google/ICElyHmWpDjeHQLOY" target="_blank" rel="noopener" class="btn-nav-outline" style="display: inline-flex; align-items: center; gap: 8px; font-size: 0.75rem; padding: 6px 16px;">
+          <i class="fa-solid fa-map-location-dot"></i> Open Full Map
+        </a>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <!-- --- ANIMATED DRIVING TAXI --- -->
+      <div class="footer-road-track">
+        <div class="footer-taxi-anim">
+          <div class="taillight-glow"></div>
+          <div class="exhaust">
+            <span class="smoke s1"></span>
+            <span class="smoke s2"></span>
+            <span class="smoke s3"></span>
+          </div>
+          <svg class="taxi-svg" viewBox="0 0 70 30" width="56" height="24">
+            <path d="M 8 18 L 16 9 Q 20 6, 26 6 L 44 6 Q 50 6, 54 11 L 64 16 L 68 18 Q 70 20, 70 23 L 70 24 L 0 24 L 0 20 Q 0 18, 4 18 Z" fill="#FFC107"/>
+            <rect x="29" y="1.5" width="12" height="4.5" rx="1.5" fill="#111" stroke="#FFC107" stroke-width="0.5"/>
+            <text x="35" y="5" font-size="3.2" fill="#FFC107" font-weight="900" text-anchor="middle" font-family="sans-serif">TAXI</text>
+            <path d="M 18 8.5 L 31 8.5 L 31 15 L 12 15 Z" fill="#1E293B"/>
+            <path d="M 34 8.5 L 49 8.5 L 44.5 15 L 34 15 Z" fill="#1E293B"/>
+            <line x1="32.5" y1="6" x2="32.5" y2="23" stroke="#D97706" stroke-width="0.75"/>
+            <circle cx="15" cy="23" r="5" fill="#0F172A" stroke="#475569" stroke-width="1.2"/>
+            <circle cx="15" cy="23" r="2.2" fill="#94A3B8"/>
+            <circle cx="51" cy="23" r="5" fill="#0F172A" stroke="#475569" stroke-width="1.2"/>
+            <circle cx="51" cy="23" r="2.2" fill="#94A3B8"/>
+          </svg>
+          <div class="headlight-beam"></div>
+        </div>
+      </div>
+      <span>&copy; 2026 Danan Car & Bike Rentals. Peradeniya & Kandy, Sri Lanka.</span>
+      <span>Designed by <a href="https://infiniteweb.dev/index.html" target="_blank" rel="noopener" style="color: var(--yellow); font-weight: 700;">INFINITE Creative Web Design</a></span>
+    </div>
+  </footer>
+
+  <!-- FLOATING BUTTONS (STACKED ON BOTTOM RIGHT) -->
+  <a id="waBtn" href="https://wa.me/94772013059?text=Hello%20Danan%20Rentals,%20I%20want%20to%20rent%20a%20vehicle." target="_blank" aria-label="WhatsApp">
+    <i class="fa-brands fa-whatsapp" style="font-size: 28px;"></i>
+  </a>
+
+  <button id="scrollTopBtn" aria-label="Go to top">
+    <i class="fa-solid fa-chevron-up"></i>
+  </button>
+
+  <script type="module" src="./js/main.js"></script>
+  <script>
+    // Ensure all content and cards are immediately visible
+    document.querySelectorAll('.reveal').forEach(el => el.classList.add('in', 'visible'));
+
+    // Category Filter Handling
+    const filterBtns = document.querySelectorAll('.dest-filter-btn');
+    const destCards = document.querySelectorAll('#destGrid .dest-card');
+
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const filter = btn.getAttribute('data-filter');
+
+        destCards.forEach(card => {
+          const cats = card.getAttribute('data-category') || '';
+          if (filter === 'all' || cats.includes(filter)) {
+            card.style.display = 'flex';
+            setTimeout(() => card.classList.add('in', 'visible'), 20);
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      });
+    });
+
+    // Mobile Menu
+    const mobileMenu = document.getElementById('mobileMenu');
+    const menuToggle = document.getElementById('menuToggle');
+    const menuClose = document.getElementById('menuClose');
+    const mobileOverlay = document.getElementById('mobileOverlay');
+
+    function openMobileMenu() { mobileMenu?.classList.add('active'); mobileOverlay?.classList.add('active'); }
+    function closeMobileMenu() { mobileMenu?.classList.remove('active'); mobileOverlay?.classList.remove('active'); }
+    menuToggle?.addEventListener('click', openMobileMenu);
+    menuClose?.addEventListener('click', closeMobileMenu);
+    mobileOverlay?.addEventListener('click', closeMobileMenu);
+
+    // Scroll to Top
+    const scrollTopBtn = document.getElementById('scrollTopBtn');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 400) scrollTopBtn?.classList.add('show');
+      else scrollTopBtn?.classList.remove('show');
+      
+      const nav = document.getElementById('navbar');
+      if (window.scrollY > 50) nav?.classList.add('scrolled');
+      else nav?.classList.remove('scrolled');
+    });
+    scrollTopBtn?.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+  </script>
+</body>
+</html>

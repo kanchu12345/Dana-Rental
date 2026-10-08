@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rental Rules & Policies | Danan Car & Bike Rentals</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Header -->
+    <!-- --- NAVBAR --- -->
+  <nav id="navbar">
+    <a href="index.html" class="nav-logo">
+      <img src="./assets/images/logo/logo.png" alt="Danan Logo">
+      <div class="nav-brand-title">DANAN <span>RENTALS</span></div>
+    </a>
+
+    <ul class="nav-links">
+      <li><a href="index.html">HOME</a></li>
+      <li><a href="vehicles.html">OUR FLEET</a></li>
+      <li><a href="bookings.html">BOOKINGS</a></li>
+      <li><a href="destinations.html">DESTINATIONS</a></li>
+      <li><a href="about.html">ABOUT US</a></li>
+      <li><a href="contact.html">CONTACT US</a></li>
+      <li><a href="faqs.html" class="active">FAQ</a></li>
+    </ul>
+
+    <div class="nav-btns">
+      <a href="./admin/login.html" class="btn-nav-outline">REGISTER</a>
+      <a href="./admin/login.html" class="btn-nav-yellow">LOGIN</a>
+    </div>
+
+    <button class="nav-toggle" id="menuToggle" aria-label="Toggle Navigation">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </nav>
+
+  <!-- MOBILE MENU OVERLAY -->
+  <div class="mobile-overlay" id="mobileOverlay"></div>
+  <div class="mobile-menu" id="mobileMenu">
+    <div class="mobile-menu-header">
+      <div class="nav-logo">
+        <img src="./assets/images/logo/logo.png" alt="Danan Logo">
+        <div class="nav-brand-title">DANAN <span>RENTALS</span></div>
+      </div>
+      <div class="mobile-close" id="menuClose">&#10005;</div>
+    </div>
+    <ul class="mobile-links">
+      <li><a href="index.html">HOME</a></li>
+      <li><a href="vehicles.html">OUR FLEET</a></li>
+      <li><a href="bookings.html">BOOKINGS</a></li>
+      <li><a href="destinations.html">DESTINATIONS</a></li>
+      <li><a href="about.html">ABOUT US</a></li>
+      <li><a href="contact.html">CONTACT US</a></li>
+      <li><a href="faqs.html" class="active">FAQ</a></li>
+      <li><a href="./admin/login.html">ADMIN LOGIN</a></li>
+    </ul>
+  </div>
+
+  <main style="padding-top: 100px; background: var(--dark-bg); min-height: 80vh;">
+<!-- Banner -->
+  <section class="section" style="background-color: var(--bg-card); padding: 50px 0; border-bottom: 1px solid var(--border-color);">
+    <div class="container">
+      <h1 class="section-title" style="margin-bottom:10px;">RENTAL RULES & TERMS</h1>
+      <p style="color: var(--text-muted);">Please review our simple guidelines for a safe and hassle-free driving experience in Sri Lanka.</p>
+    </div>
+  </section>
+
+  <!-- Rules Grid -->
+  <section class="section">
+    <div class="container" style="max-width: 900px;">
+      
+      <div style="display: flex; flex-direction: column; gap: 24px;">
+        
+        <div style="background: var(--bg-card); border: 1px solid var(--border-color); padding: 30px; border-radius: var(--radius-lg);">
+          <h3 style="color: var(--accent-yellow); font-size: 1.3rem; margin-bottom: 12px;"><i class="fas fa-id-card"></i> 1. Required Documents</h3>
+          <ul style="color: var(--text-sub); line-height: 1.8; padding-left: 20px;">
+            <li><strong>For Foreign Tourists:</strong> Valid Passport, National Driving License from home country, and International Driving Permit (IDP) or Sri Lanka Driving Permit endorsement (AAC).</li>
+            <li><strong>For Sri Lankan Citizens:</strong> National Identity Card (NIC) / Driving License and proof of address.</li>
+          </ul>
+        </div>
+
+        <div style="background: var(--bg-card); border: 1px solid var(--border-color); padding: 30px; border-radius: var(--radius-lg);">
+          <h3 style="color: var(--accent-yellow); font-size: 1.3rem; margin-bottom: 12px;"><i class="fas fa-tachometer-alt"></i> 2. Mileage & 200 Free KM Policy</h3>
+          <p style="color: var(--text-sub); line-height: 1.7;">
+            Every 24-hour rental period comes with <strong>200 free kilometers</strong> included. Excess mileage beyond the cumulative free limit is calculated upon vehicle return at standard transparent rates (e.g. Rs. 40-70 per extra km depending on vehicle class).
+          </p>
+        </div>
+
+        <div style="background: var(--bg-card); border: 1px solid var(--border-color); padding: 30px; border-radius: var(--radius-lg);">
+          <h3 style="color: var(--accent-yellow); font-size: 1.3rem; margin-bottom: 12px;"><i class="fas fa-money-bill-wave"></i> 3. Security Deposit & Payments</h3>
+          <p style="color: var(--text-sub); line-height: 1.7;">
+            A refundable cash / card security deposit is collected during vehicle handover (Rs. 5,000 for Scooters, Rs. 15,000 for Cars). The deposit is refunded immediately upon returning the vehicle in good condition.
+          </p>
+        </div>
+
+        <div style="background: var(--bg-card); border: 1px solid var(--border-color); padding: 30px; border-radius: var(--radius-lg);">
+          <h3 style="color: var(--accent-yellow); font-size: 1.3rem; margin-bottom: 12px;"><i class="fas fa-hard-hat"></i> 4. Safety & Helmets</h3>
+          <p style="color: var(--text-sub); line-height: 1.7;">
+            All scooter and motorbike rentals include 2 clean helmets free of charge. Wearing helmets is mandatory by Sri Lankan traffic law for both rider and pillion passenger.
+          </p>
+        </div>
+
+        <div style="background: var(--bg-card); border: 1px solid var(--border-color); padding: 30px; border-radius: var(--radius-lg);">
+          <h3 style="color: var(--accent-yellow); font-size: 1.3rem; margin-bottom: 12px;"><i class="fas fa-gas-pump"></i> 5. Fuel Policy</h3>
+          <p style="color: var(--text-sub); line-height: 1.7;">
+            Vehicles are handed over with sufficient fuel to reach the nearest gas station. Please return the vehicle with the same level of fuel as at pickup.
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Footer -->
+    </main>
+
+  <!-- --- FOOTER --- -->
+  <footer>
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo">
+          <img src="./assets/images/logo/logo.png" alt="Danan Logo">
+        </div>
+        <p class="footer-addr">
+          Peradeniya & Kandy, Sri Lanka<br>
+          Phone: <a href="tel:0772013059" style="color: var(--yellow);">077 201 3059</a> / <a href="tel:0712832221" style="color: var(--yellow);">071 283 2221</a><br>
+          Email: dananrentals@gmail.com
+        </p>
+        <div class="footer-socials">
+          <a href="https://www.facebook.com/" target="_blank" rel="noopener" class="soc-icon-btn" aria-label="Facebook Page" id="footerFbLink"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="https://wa.me/94772013059" target="_blank" rel="noopener" class="soc-icon-btn" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+          <a href="tel:0772013059" class="soc-icon-btn" aria-label="Phone"><i class="fa-solid fa-phone"></i></a>
+          <a href="https://share.google/ICElyHmWpDjeHQLOY" target="_blank" rel="noopener" class="soc-icon-btn" aria-label="Location"><i class="fa-solid fa-location-dot"></i></a>
+        </div>
+      </div>
+
+      <div>
+        <div class="footer-col-title">Quick Links</div>
+        <ul class="footer-links">
+          <li><a href="index.html"><i class="fa-solid fa-chevron-right fa-xs"></i> Home</a></li>
+          <li><a href="vehicles.html"><i class="fa-solid fa-chevron-right fa-xs"></i> Our Fleet</a></li>
+          <li><a href="bookings.html"><i class="fa-solid fa-chevron-right fa-xs"></i> Bookings</a></li>
+          <li><a href="destinations.html"><i class="fa-solid fa-chevron-right fa-xs"></i> Destinations</a></li>
+          <li><a href="about.html"><i class="fa-solid fa-chevron-right fa-xs"></i> About Us</a></li>
+          <li><a href="contact.html"><i class="fa-solid fa-chevron-right fa-xs"></i> Contact Us</a></li>
+          <li><a href="faqs.html"><i class="fa-solid fa-chevron-right fa-xs"></i> FAQ</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="footer-col-title">Support</div>
+        <ul class="footer-links">
+          <li><a href="faqs.html"><i class="fa-solid fa-chevron-right fa-xs"></i> Rules & Req</a></li>
+          <li><a href="faqs.html"><i class="fa-solid fa-chevron-right fa-xs"></i> FAQs</a></li>
+          <li><a href="contact.html"><i class="fa-solid fa-chevron-right fa-xs"></i> Contact Us</a></li>
+          <li><a href="./admin/login.html"><i class="fa-solid fa-chevron-right fa-xs"></i> Admin Login</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="footer-col-title">Google Map Location</div>
+        <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 10px;">Danan Car & Bike Rentals Peradeniya, Kandy</p>
+        <div class="footer-map-wrap" style="width: 100%; height: 160px; border-radius: 12px; overflow: hidden; border: 1px solid var(--card-border); margin-bottom: 12px;">
+          <iframe 
+            src="https://maps.google.com/maps?q=Danan%20Car%20%26%20Bike%20Rentals%20Peradeniya%20Kandy%20Sri%20Lanka&t=&z=14&ie=UTF8&iwloc=&output=embed" 
+            width="100%" 
+            height="100%" 
+            style="border:0;" 
+            allowfullscreen="" 
+            loading="lazy" 
+            referrerpolicy="no-referrer-when-downgrade"
+            title="Danan Car & Bike Rentals Location Map">
+          </iframe>
+        </div>
+        <a href="https://share.google/ICElyHmWpDjeHQLOY" target="_blank" rel="noopener" class="btn-nav-outline" style="display: inline-flex; align-items: center; gap: 8px; font-size: 0.75rem; padding: 6px 16px;">
+          <i class="fa-solid fa-map-location-dot"></i> Open Full Map
+        </a>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <!-- --- ANIMATED DRIVING TAXI --- -->
+      <div class="footer-road-track">
+        <div class="footer-taxi-anim">
+          <div class="taillight-glow"></div>
+          <div class="exhaust">
+            <span class="smoke s1"></span>
+            <span class="smoke s2"></span>
+            <span class="smoke s3"></span>
+          </div>
+          <svg class="taxi-svg" viewBox="0 0 70 30" width="56" height="24">
+            <path d="M 8 18 L 16 9 Q 20 6, 26 6 L 44 6 Q 50 6, 54 11 L 64 16 L 68 18 Q 70 20, 70 23 L 70 24 L 0 24 L 0 20 Q 0 18, 4 18 Z" fill="#FFC107"/>
+            <rect x="29" y="1.5" width="12" height="4.5" rx="1.5" fill="#111" stroke="#FFC107" stroke-width="0.5"/>
+            <text x="35" y="5" font-size="3.2" fill="#FFC107" font-weight="900" text-anchor="middle" font-family="sans-serif">TAXI</text>
+            <path d="M 18 8.5 L 31 8.5 L 31 15 L 12 15 Z" fill="#1E293B"/>
+            <path d="M 34 8.5 L 49 8.5 L 44.5 15 L 34 15 Z" fill="#1E293B"/>
+            <line x1="32.5" y1="6" x2="32.5" y2="23" stroke="#D97706" stroke-width="0.75"/>
+            <circle cx="15" cy="23" r="5" fill="#0F172A" stroke="#475569" stroke-width="1.2"/>
+            <circle cx="15" cy="23" r="2.2" fill="#94A3B8"/>
+            <circle cx="51" cy="23" r="5" fill="#0F172A" stroke="#475569" stroke-width="1.2"/>
+            <circle cx="51" cy="23" r="2.2" fill="#94A3B8"/>
+          </svg>
+          <div class="headlight-beam"></div>
+        </div>
+      </div>
+      <span>&copy; 2026 Danan Car & Bike Rentals. Peradeniya & Kandy, Sri Lanka.</span>
+      <span>Designed by <a href="https://infiniteweb.dev/index.html" target="_blank" rel="noopener" style="color: var(--yellow); font-weight: 700;">INFINITE Creative Web Design</a></span>
+    </div>
+  </footer>
+
+  <!-- FLOATING BUTTONS (STACKED ON BOTTOM RIGHT) -->
+  <a id="waBtn" href="https://wa.me/94772013059?text=Hello%20Danan%20Rentals,%20I%20want%20to%20rent%20a%20vehicle." target="_blank" aria-label="WhatsApp">
+    <i class="fa-brands fa-whatsapp" style="font-size: 28px;"></i>
+  </a>
+
+  <button id="scrollTopBtn" aria-label="Go to top">
+    <i class="fa-solid fa-chevron-up"></i>
+  </button>
+
+  <script type="module" src="./js/main.js"></script>
+  <script>
+    // Mobile Menu
+    const mobileMenu = document.getElementById('mobileMenu');
+    const menuToggle = document.getElementById('menuToggle');
+    const menuClose = document.getElementById('menuClose');
+    const mobileOverlay = document.getElementById('mobileOverlay');
+
+    function openMobileMenu() { mobileMenu?.classList.add('active'); mobileOverlay?.classList.add('active'); }
+    function closeMobileMenu() { mobileMenu?.classList.remove('active'); mobileOverlay?.classList.remove('active'); }
+    menuToggle?.addEventListener('click', openMobileMenu);
+    menuClose?.addEventListener('click', closeMobileMenu);
+    mobileOverlay?.addEventListener('click', closeMobileMenu);
+
+    // Scroll to Top
+    const scrollTopBtn = document.getElementById('scrollTopBtn');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 400) scrollTopBtn?.classList.add('show');
+      else scrollTopBtn?.classList.remove('show');
+      
+      const nav = document.getElementById('navbar');
+      if (window.scrollY > 50) nav?.classList.add('scrolled');
+      else nav?.classList.remove('scrolled');
+    });
+    scrollTopBtn?.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+  </script>
+</body>
+</html>

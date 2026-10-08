@@ -296,7 +296,7 @@ export async function uploadImage(file) {
 export async function seedInitialData() {
   await initFirebase();
 
-  const collections = ['settings', 'home', 'vehicles', 'faqs', 'rules', 'reviews', 'gallery'];
+  const collections = ['settings', 'home', 'vehicles', 'faqs', 'rules', 'reviews', 'gallery', 'backgrounds'];
   const results = [];
 
   for (const name of collections) {
@@ -307,6 +307,9 @@ export async function seedInitialData() {
         if (name === 'settings') {
           await saveDoc('settings', 'site', json);
           results.push(`settings/site seeded.`);
+        } else if (name === 'backgrounds') {
+          await saveDoc('backgrounds', 'main', json);
+          results.push(`backgrounds seeded.`);
         } else if (name === 'home') {
           await saveDoc('pages', 'home', json);
           results.push(`pages/home seeded.`);

@@ -1,6 +1,6 @@
 import { getDoc, getCollection, escapeHTML, fixImgPath } from './db.js';
 
-document.addEventListener('DOMContentLoaded', async () => {
+async function initApp() {
   initHeroTabSwitcher();
   initTestimonialsCarousel();
   initWhyCarousel();
@@ -9,15 +9,25 @@ document.addEventListener('DOMContentLoaded', async () => {
   initFlatpickrDates();
   initBookingInquiryModal();
   try { await loadSiteSettings(); } catch (e) { console.warn('loadSiteSettings error:', e); }
+  try { await applyDynamicBackgrounds(); } catch (e) { console.warn('applyDynamicBackgrounds error:', e); }
   try { await loadHomePageData(); } catch (e) { console.warn('loadHomePageData error:', e); }
   try { await loadVehiclesGrid(); } catch (e) { console.warn('loadVehiclesGrid error:', e); }
   try { await loadRulesAndFaqs(); } catch (e) { console.warn('loadRulesAndFaqs error:', e); }
   try { await loadReviewsTrack(); } catch (e) { console.warn('loadReviewsTrack error:', e); }
   try { await initCustomerGallerySwap(); } catch (e) { console.warn('initCustomerGallerySwap error:', e); }
-});
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initApp);
+} else {
+  initApp();
+}
 
 // SCROLL REVEAL ANIMATIONS
 function initScrollReveal() {
+  // Ensure elements are immediately visible and not stuck hidden
+  document.querySelectorAll('.reveal').forEach(el => el.classList.add('in', 'visible'));
+
   if ('IntersectionObserver' in window) {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
@@ -25,11 +35,9 @@ function initScrollReveal() {
           entry.target.classList.add('in', 'visible');
         }
       });
-    }, { threshold: 0.1 });
+    }, { threshold: 0.05 });
 
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-  } else {
-    document.querySelectorAll('.reveal').forEach(el => el.classList.add('in', 'visible'));
   }
 }
 
@@ -204,6 +212,166 @@ async function loadSiteSettings() {
     if (settings.theme.primaryRed) {
       document.documentElement.style.setProperty('--primary-red', settings.theme.primaryRed);
     }
+  }
+}
+
+// DYNAMIC WEBSITE BACKGROUNDS MANAGER
+async function applyDynamicBackgrounds() {
+  try {
+    const bgData = await getDoc('backgrounds', 'main') || await getDoc('settings', 'backgrounds');
+    if (!bgData) return;
+
+    const isSub = window.location.pathname.includes('/admin/');
+    const resolveBg = (val) => {
+      if (!val) return '';
+      return fixImgPath(val, isSub);
+    };
+
+    // 1. Home Hero (index.html)
+    if (bgData.homeHero) {
+      const heroSec = document.querySelector('.hero');
+      if (heroSec) {
+        const resolved = resolveBg(bgData.homeHero);
+        heroSec.style.backgroundImage = `linear-gradient(180deg, rgba(7, 7, 10, 0.25) 0%, rgba(7, 7, 10, 0.65) 100%), url('${resolved}')`;
+        heroSec.style.backgroundSize = 'cover';
+        heroSec.style.backgroundPosition = 'center center';
+        heroSec.style.backgroundRepeat = 'no-repeat';
+      }
+    }
+
+    // 2. Our Fleet Hero (vehicles.html)
+    if (bgData.fleetHero) {
+      const fleetHero = document.querySelector('.rental-hero');
+      if (fleetHero) {
+        const resolved = resolveBg(bgData.fleetHero);
+        fleetHero.style.backgroundImage = `url('${resolved}')`;
+        fleetHero.style.backgroundSize = 'cover';
+        fleetHero.style.backgroundPosition = 'center center';
+        fleetHero.style.backgroundRepeat = 'no-repeat';
+      }
+    }
+
+    // 3. Bookings Hero (bookings.html)
+    if (bgData.bookingsHero) {
+      const bookingsHero = document.querySelector('.bookings-hero');
+      if (bookingsHero) {
+        const resolved = resolveBg(bgData.bookingsHero);
+        bookingsHero.style.backgroundImage = `url('${resolved}')`;
+        bookingsHero.style.backgroundSize = 'cover';
+        bookingsHero.style.backgroundPosition = 'center center';
+        bookingsHero.style.backgroundRepeat = 'no-repeat';
+      }
+    }
+
+    // 4. Bookings CTA Banner (bookings.html)
+    if (bgData.bookingsCta) {
+      const bookingsCta = document.querySelector('.bookings-cta-banner:not(.destinations-cta-banner)');
+      if (bookingsCta) {
+        const resolved = resolveBg(bgData.bookingsCta);
+        bookingsCta.style.backgroundImage = `url('${resolved}')`;
+        bookingsCta.style.backgroundSize = 'cover';
+        bookingsCta.style.backgroundPosition = 'center center';
+        bookingsCta.style.backgroundRepeat = 'no-repeat';
+      }
+    }
+
+    // 5. Destinations Hero (destinations.html)
+    if (bgData.destinationsHero) {
+      const destHero = document.querySelector('.destinations-hero');
+      if (destHero) {
+        const resolved = resolveBg(bgData.destinationsHero);
+        destHero.style.backgroundImage = `url('${resolved}')`;
+        destHero.style.backgroundSize = 'cover';
+        destHero.style.backgroundPosition = 'center center';
+        destHero.style.backgroundRepeat = 'no-repeat';
+      }
+    }
+
+    // 6. Destinations CTA Banner (destinations.html)
+    const destCtaUrl = bgData.destinationsCta || bgData.bookingsCta;
+    if (destCtaUrl) {
+      const destCta = document.querySelector('.destinations-cta-banner');
+      if (destCta) {
+        const resolved = resolveBg(destCtaUrl);
+        destCta.style.backgroundImage = `url('${resolved}')`;
+        destCta.style.backgroundSize = 'cover';
+        destCta.style.backgroundPosition = 'center center';
+        destCta.style.backgroundRepeat = 'no-repeat';
+      }
+    }
+
+    // 7. About Us Hero (about.html)
+    if (bgData.aboutHero) {
+      const aboutHero = document.querySelector('.about-hero');
+      if (aboutHero) {
+        const resolved = resolveBg(bgData.aboutHero);
+        aboutHero.style.backgroundImage = `url('${resolved}')`;
+        aboutHero.style.backgroundSize = 'cover';
+        aboutHero.style.backgroundPosition = 'center center';
+        aboutHero.style.backgroundRepeat = 'no-repeat';
+      }
+    }
+
+    // 8. About Us Intro / Story Parallax (about.html)
+    if (bgData.aboutIntro) {
+      const aboutIntro = document.querySelector('.about-intro');
+      if (aboutIntro) {
+        const resolved = resolveBg(bgData.aboutIntro);
+        aboutIntro.style.backgroundImage = `url('${resolved}')`;
+        aboutIntro.style.backgroundSize = 'cover';
+        aboutIntro.style.backgroundPosition = 'center center';
+      }
+    }
+
+    // 9. About Us CTA Banner (about.html)
+    if (bgData.aboutCta) {
+      const aboutCta = document.querySelector('.about-cta-banner');
+      if (aboutCta) {
+        const resolved = resolveBg(bgData.aboutCta);
+        aboutCta.style.backgroundImage = `url('${resolved}')`;
+        aboutCta.style.backgroundSize = 'cover';
+        aboutCta.style.backgroundPosition = 'center center';
+        aboutCta.style.backgroundRepeat = 'no-repeat';
+      }
+    }
+
+    // 10. Contact Us Hero (contact.html)
+    if (bgData.contactHero) {
+      const contactHero = document.querySelector('.contact-hero');
+      if (contactHero) {
+        const resolved = resolveBg(bgData.contactHero);
+        contactHero.style.backgroundImage = `url('${resolved}')`;
+        contactHero.style.backgroundSize = 'cover';
+        contactHero.style.backgroundPosition = 'center center';
+        contactHero.style.backgroundRepeat = 'no-repeat';
+      }
+    }
+
+    // 11. Contact Us CTA Banner (contact.html)
+    if (bgData.contactCta) {
+      const contactCta = document.querySelector('.contact-cta-banner');
+      if (contactCta) {
+        const resolved = resolveBg(bgData.contactCta);
+        contactCta.style.backgroundImage = `url('${resolved}')`;
+        contactCta.style.backgroundSize = 'cover';
+        contactCta.style.backgroundPosition = 'center center';
+        contactCta.style.backgroundRepeat = 'no-repeat';
+      }
+    }
+
+    // 12. FAQ Top Guidance Banner (faqs.html)
+    if (bgData.faqsHero) {
+      const faqsBanner = document.querySelector('.faqs-hero-banner');
+      if (faqsBanner) {
+        const resolved = resolveBg(bgData.faqsHero);
+        faqsBanner.style.backgroundImage = `linear-gradient(rgba(10, 10, 10, 0.82), rgba(10, 10, 10, 0.92)), url('${resolved}')`;
+        faqsBanner.style.backgroundSize = 'cover';
+        faqsBanner.style.backgroundPosition = 'center center';
+        faqsBanner.style.backgroundRepeat = 'no-repeat';
+      }
+    }
+  } catch (err) {
+    console.warn('Dynamic background styling error:', err);
   }
 }
 

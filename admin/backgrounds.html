@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Website Backgrounds Manager | Danan Admin</title>
+  <link rel="icon" href="../assets/images/logo/logo.png" type="image/jpeg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/admin.css">
+  <style>
+    .bg-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+      gap: 24px;
+      margin-bottom: 32px;
+    }
+    @media (max-width: 600px) {
+      .bg-grid { grid-template-columns: 1fr; }
+    }
+    .bg-card {
+      background: #FFFFFF;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .bg-card:hover {
+      box-shadow: var(--shadow-md);
+    }
+    .bg-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 16px;
+      gap: 12px;
+    }
+    .bg-card-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #111;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .bg-card-badge {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 4px 8px;
+      border-radius: 4px;
+      background: #EBF8FF;
+      color: #2B6CB0;
+      white-space: nowrap;
+    }
+    .bg-card-desc {
+      font-size: 0.84rem;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+      line-height: 1.45;
+    }
+    .bg-preview-wrap {
+      position: relative;
+      width: 100%;
+      height: 200px;
+      background: #1A1A1A;
+      border-radius: 8px;
+      overflow: hidden;
+      margin-bottom: 16px;
+      border: 2px dashed #CBD5E0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .bg-preview-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.3s ease;
+    }
+    .bg-preview-wrap:hover img {
+      transform: scale(1.02);
+    }
+    .bg-preview-tag {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: rgba(0,0,0,0.7);
+      color: #FFF;
+      font-size: 0.7rem;
+      padding: 3px 8px;
+      border-radius: 4px;
+      backdrop-filter: blur(4px);
+    }
+    .bg-controls {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: auto;
+    }
+    .bg-upload-btn-wrap {
+      position: relative;
+      overflow: hidden;
+      display: inline-block;
+      width: 100%;
+    }
+    .bg-upload-label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      padding: 10px 16px;
+      background: #F7FAFC;
+      border: 1px solid #CBD5E0;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #2D3748;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .bg-upload-label:hover {
+      background: #EDF2F7;
+      border-color: #A0AEC0;
+      color: #1A202C;
+    }
+    .bg-file-input {
+      display: none;
+    }
+    .bg-url-input {
+      width: 100%;
+      padding: 9px 12px;
+      border: 1px solid #E2E8F0;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      color: #333;
+      box-sizing: border-box;
+      transition: border-color 0.2s;
+    }
+    .bg-url-input:focus {
+      outline: none;
+      border-color: var(--primary-red);
+    }
+    .bg-action-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 6px;
+    }
+    .btn-reset-default {
+      background: transparent;
+      border: none;
+      color: #718096;
+      font-size: 0.78rem;
+      cursor: pointer;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 6px;
+      border-radius: 4px;
+    }
+    .btn-reset-default:hover {
+      color: var(--primary-red);
+      background: #FFF5F5;
+    }
+    .filter-pills {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+    }
+    .filter-pill {
+      background: #FFF;
+      border: 1px solid #E2E8F0;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #4A5568;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .filter-pill:hover, .filter-pill.active {
+      background: var(--primary-red);
+      color: #FFF;
+      border-color: var(--primary-red);
+    }
+    .sticky-save-bar {
+      position: sticky;
+      bottom: 20px;
+      z-index: 99;
+      background: #1A202C;
+      color: #FFF;
+      padding: 16px 24px;
+      border-radius: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+      margin-top: 24px;
+    }
+    .btn-save-all {
+      background: var(--primary-red);
+      color: #FFF;
+      border: none;
+      padding: 12px 28px;
+      border-radius: 6px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: background 0.2s;
+    }
+    .btn-save-all:hover {
+      background: #B51F1F;
+    }
+  </style>
+</head>
+<body>
+  <div class="admin-layout">
+    <!-- SIDEBAR -->
+    <aside class="admin-sidebar">
+      <div class="sidebar-header">
+        <img src="../assets/images/logo/logo.png" alt="Logo" class="sidebar-logo">
+        <div class="sidebar-brand">
+          <h3>Danan Admin</h3>
+          <p>Management Panel</p>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <a href="index.html" class="nav-item"><span>📊</span> Dashboard</a>
+        <a href="settings.html" class="nav-item"><span>⚙️</span> Site Settings</a>
+        <a href="home-editor.html" class="nav-item"><span>🏠</span> Home Page Editor</a>
+        <a href="vehicles.html" class="nav-item"><span>🚗</span> Vehicles Manager</a>
+        <a href="backgrounds.html" class="nav-item active"><span>🖼️</span> Backgrounds Manager</a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button id="btnSeedData" style="width: 100%; padding: 10px; background: #282828; color: #FFAA00; border: 1px solid #444; border-radius: 6px; cursor: pointer; font-weight: 600; margin-bottom: 12px;">⚡ Seed Default Data</button>
+        <button id="btnLogout" style="width: 100%; padding: 10px; background: var(--primary-red); color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: 600;">🚪 Log Out</button>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="admin-main">
+      <header class="admin-topbar">
+        <div>
+          <h1 class="topbar-title">Website Background Images Manager</h1>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 2px;">Customize and update all hero banners and section backgrounds across every page of your website.</p>
+        </div>
+        <div class="topbar-user" style="display: flex; gap: 12px; align-items: center;">
+          <a href="../index.html" target="_blank" style="color: var(--primary-red); font-weight: 600; text-decoration: none;">🌐 View Live Website ↗</a>
+        </div>
+      </header>
+
+      <div class="admin-content">
+        <!-- FILTER PILLS -->
+        <div class="filter-pills">
+          <button class="filter-pill active" data-filter="all">All Pages (12)</button>
+          <button class="filter-pill" data-filter="home">Home Page</button>
+          <button class="filter-pill" data-filter="fleet">Our Fleet</button>
+          <button class="filter-pill" data-filter="bookings">Bookings</button>
+          <button class="filter-pill" data-filter="destinations">Destinations</button>
+          <button class="filter-pill" data-filter="about">About Us</button>
+          <button class="filter-pill" data-filter="contact">Contact Us</button>
+          <button class="filter-pill" data-filter="faqs">FAQ Page</button>
+        </div>
+
+        <form id="backgroundsForm">
+          <div class="bg-grid">
+
+            <!-- 1. HOME HERO -->
+            <div class="bg-card" data-category="home">
+              <div class="bg-card-header">
+                <div>
+                  <div class="bg-card-title"><span>🏠</span> Home Hero Banner</div>
+                  <div class="bg-card-desc">Top banner on index.html with Sigiriya scenic view</div>
+                </div>
+                <span class="bg-card-badge">Home Page</span>
+              </div>
+              <div class="bg-preview-wrap">
+                <span class="bg-preview-tag">Preview (1920x1080)</span>
+                <img id="prev_homeHero" src="../assets/images/hero/sigiriya.jpg" alt="Home Hero Preview">
+              </div>
+              <div class="bg-controls">
+                <div class="bg-upload-btn-wrap">
+                  <label class="bg-upload-label" for="file_homeHero">
+                    📁 Upload Image from PC
+                  </label>
+                  <input type="file" id="file_homeHero" class="bg-file-input" accept="image/*" data-target="homeHero">
+                </div>
+                <input type="text" id="url_homeHero" class="bg-url-input" placeholder="Or enter image URL / relative path" data-target="homeHero" value="./assets/images/hero/sigiriya.jpg">
+                <div class="bg-action-bar">
+                  <span style="font-size: 0.74rem; color: #A0AEC0;">Key: homeHero</span>
+                  <button type="button" class="btn-reset-default" data-target="homeHero" data-default="./assets/images/hero/sigiriya.jpg">↺ Reset Default</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- 2. FLEET HERO -->
+            <div class="bg-card" data-category="fleet">
+              <div class="bg-card-header">
+                <div>
+                  <div class="bg-card-title"><span>🚗</span> Our Fleet Hero Banner</div>
+                  <div class="bg-card-desc">Fixed parallax top banner on vehicles.html</div>
+                </div>
+                <span class="bg-card-badge">Our Fleet</span>
+              </div>
+              <div class="bg-preview-wrap">
+                <span class="bg-preview-tag">Preview (1920x1080)</span>
+                <img id="prev_fleetHero" src="../assets/images/vehicles/fleet-hero-bg.jpg" alt="Fleet Hero Preview">
+              </div>
+              <div class="bg-controls">
+                <div class="bg-upload-btn-wrap">
+                  <label class="bg-upload-label" for="file_fleetHero">
+                    📁 Upload Image from PC
+                  </label>
+                  <input type="file" id="file_fleetHero" class="bg-file-input" accept="image/*" data-target="fleetHero">
+                </div>
+                <input type="text" id="url_fleetHero" class="bg-url-input" placeholder="Or enter image URL / relative path" data-target="fleetHero" value="./assets/images/vehicles/fleet-hero-bg.jpg">
+                <div class="bg-action-bar">
+                  <span style="font-size: 0.74rem; color: #A0AEC0;">Key: fleetHero</span>
+                  <button type="button" class="btn-reset-default" data-target="fleetHero" data-default="./assets/images/vehicles/fleet-hero-bg.jpg">↺ Reset Default</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- 3. BOOKINGS HERO -->
+            <div class="bg-card" data-category="bookings">
+              <div class="bg-card-header">
+                <div>
+                  <div class="bg-card-title"><span>📅</span> Bookings Hero Banner</div>
+                  <div class="bg-card-desc">Top scenic highway crossover hero on bookings.html</div>
+                </div>
+                <span class="bg-card-badge">Bookings</span>
+              </div>
+              <div class="bg-preview-wrap">
+                <span class="bg-preview-tag">Preview (1920x1080)</span>
+                <img id="prev_bookingsHero" src="../assets/images/bookings/bookings-hero-bg.jpg" alt="Bookings Hero Preview">
+              </div>
+              <div class="bg-controls">
+                <div class="bg-upload-btn-wrap">
+                  <label class="bg-upload-label" for="file_bookingsHero">
+                    📁 Upload Image from PC
+                  </label>
+                  <input type="file" id="file_bookingsHero" class="bg-file-input" accept="image/*" data-target="bookingsHero">
+                </div>
+                <input type="text" id="url_bookingsHero" class="bg-url-input" placeholder="Or enter image URL / relative path" data-target="bookingsHero" value="./assets/images/bookings/bookings-hero-bg.jpg">
+                <div class="bg-action-bar">
+                  <span style="font-size: 0.74rem; color: #A0AEC0;">Key: bookingsHero</span>
+                  <button type="button" class="btn-reset-default" data-target="bookingsHero" data-default="./assets/images/bookings/bookings-hero-bg.jpg">↺ Reset Default</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- 4. BOOKINGS CTA BANNER -->
+            <div class="bg-card" data-category="bookings">
+              <div class="bg-card-header">
+                <div>
+                  <div class="bg-card-title"><span>📣</span> Bookings Bottom CTA Banner</div>
+                  <div class="bg-card-desc">Bottom "Need Personalized Assistance?" strip on bookings.html</div>
+                </div>
+                <span class="bg-card-badge">Bookings CTA</span>
+              </div>
+              <div class="bg-preview-wrap">
+                <span class="bg-preview-tag">Preview (1920x800)</span>
+                <img id="prev_bookingsCta" src="../assets/images/bookings/bookings-cta-bg.jpg" alt="Bookings CTA Preview">
+              </div>
+              <div class="bg-controls">
+                <div class="bg-upload-btn-wrap">
+                  <label class="bg-upload-label" for="file_bookingsCta">
+                    📁 Upload Image from PC
+                  </label>
+                  <input type="file" id="file_bookingsCta" class="bg-file-input" accept="image/*" data-target="bookingsCta">
+                </div>
+                <input type="text" id="url_bookingsCta" class="bg-url-input" placeholder="Or enter image URL / relative path" data-target="bookingsCta" value="./assets/images/bookings/bookings-cta-bg.jpg">
+                <div class="bg-action-bar">
+                  <span style="font-size: 0.74rem; color: #A0AEC0;">Key: bookingsCta</span>
+                  <button type="button" class="btn-reset-default" data-target="bookingsCta" data-default="./assets/images/bookings/bookings-cta-bg.jpg">↺ Reset Default</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- 5. DESTINATIONS HERO -->
+            <div class="bg-card" data-category="destinations">
+              <div class="bg-card-header">
+                <div>
+                  <div class="bg-card-title"><span>🗺️</span> Destinations Hero Banner</div>
+                  <div class="bg-card-desc">Sigiriya sunrise top hero on destinations.html</div>
+                </div>
+                <span class="bg-card-badge">Destinations</span>
+              </div>
+              <div class="bg-preview-wrap">
+                <span class="bg-preview-tag">Preview (1920x1080)</span>
+                <img id="prev_destinationsHero" src="../assets/images/destinations/destinations-hero-bg.jpg" alt="Destinations Hero Preview">
+              </div>
+              <div class="bg-controls">
+                <div class="bg-upload-btn-wrap">
+                  <label class="bg-upload-label" for="file_destinationsHero">
+                    📁 Upload Image from PC
+                  </label>
+                  <input type="file" id="file_destinationsHero" class="bg-file-input" accept="image/*" data-target="destinationsHero">
+                </div>
+                <input type="text" id="url_destinationsHero" class="bg-url-input" placeholder="Or enter image URL / relative path" data-target="destinationsHero" value="./assets/images/destinations/destinations-hero-bg.jpg">
+                <div class="bg-action-bar">
+                  <span style="font-size: 0.74rem; color: #A0AEC0;">Key: destinationsHero</span>
+                  <button type="button" class="btn-reset-default" data-target="destinationsHero" data-default="./assets/images/destinations/destinations-hero-bg.jpg">↺ Reset Default</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- 6. DESTINATIONS CTA BANNER -->
+            <div class="bg-card" data-category="destinations">
+              <div class="bg-card-header">
+                <div>
+                  <div class="bg-card-title"><span>🌟</span> Destinations Bottom CTA Banner</div>
+                  <div class="bg-card-desc">Bottom "Ready to Explore Sri Lanka?" strip on destinations.html</div>
+                </div>
+                <span class="bg-card-badge">Destinations CTA</span>
+              </div>
+              <div class="bg-preview-wrap">
+                <span class="bg-preview-tag">Preview (1920x800)</span>
+                <img id="prev_destinationsCta" src="../assets/images/bookings/bookings-cta-bg.jpg" alt="Destinations CTA Preview">
+              </div>
+              <div class="bg-controls">
+                <div class="bg-upload-btn-wrap">
+                  <label class="bg-upload-label" for="file_destinationsCta">
+                    📁 Upload Image from PC
+                  </label>
+                  <input type="file" id="file_destinationsCta" class="bg-file-input" accept="image/*" data-target="destinationsCta">
+                </div>
+                <input type="text" id="url_destinationsCta" class="bg-url-input" placeholder="Or enter image URL / relative path" data-target="destinationsCta" value="./assets/images/bookings/bookings-cta-bg.jpg">
+                <div class="bg-action-bar">
+                  <span style="font-size: 0.74rem; color: #A0AEC0;">Key: destinationsCta</span>
+                  <button type="button" class="btn-reset-default" data-target="destinationsCta" data-default="./assets/images/bookings/bookings-cta-bg.jpg">↺ Reset Default</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- 7. ABOUT HERO -->
+            <div class="bg-card" data-category="about">
+              <div class="bg-card-header">
+                <div>
+                  <div class="bg-card-title"><span>🏔️</span> About Us Hero Banner</div>
+                  <div class="bg-card-desc">Misty mountains landscape top banner on about.html</div>
+                </div>
+                <span class="bg-card-badge">About Us</span>
+              </div>
+              <div class="bg-preview-wrap">
+                <span class="bg-preview-tag">Preview (1920x1080)</span>
+                <img id="prev_aboutHero" src="../assets/images/about/about-hero-bg.jpg" alt="About Hero Preview">
+              </div>
+              <div class="bg-controls">
+                <div class="bg-upload-btn-wrap">
+                  <label class="bg-upload-label" for="file_aboutHero">
+                    📁 Upload Image from PC
+                  </label>
+                  <input type="file" id="file_aboutHero" class="bg-file-input" accept="image/*" data-target="aboutHero">
+                </div>
+                <input type="text" id="url_aboutHero" class="bg-url-input" placeholder="Or enter image URL / relative path" data-target="aboutHero" value="./assets/images/about/about-hero-bg.jpg">
+                <div class="bg-action-bar">
+                  <span style="font-size: 0.74rem; color: #A0AEC0;">Key: aboutHero</span>
+                  <button type="button" class="btn-reset-default" data-target="aboutHero" data-default="./assets/images/about/about-hero-bg.jpg">↺ Reset Default</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- 8. ABOUT STORY / INTRO -->
+            <div class="bg-card" data-category="about">
+              <div class="bg-card-header">
+                <div>
+                  <div class="bg-card-title"><span>🌴</span> About Us Story & Intro Parallax</div>
+                  <div class="bg-card-desc">Parallax background behind "Our Story & Legacy" section</div>
+                </div>
+                <span class="bg-card-badge">About Story</span>
+              </div>
+              <div class="bg-preview-wrap">
+                <span class="bg-preview-tag">Preview (1920x1080)</span>
+                <img id="prev_aboutIntro" src="../assets/images/about/about-palm-bg.jpg" alt="About Intro Preview">
+              </div>
+              <div class="bg-controls">
+                <div class="bg-upload-btn-wrap">
+                  <label class="bg-upload-label" for="file_aboutIntro">
+                    📁 Upload Image from PC
+                  </label>
+                  <input type="file" id="file_aboutIntro" class="bg-file-input" accept="image/*" data-target="aboutIntro">
+                </div>
+                <input type="text" id="url_aboutIntro" class="bg-url-input" placeholder="Or enter image URL / relative path" data-target="aboutIntro" value="./assets/images/about/about-palm-bg.jpg">
+                <div class="bg-action-bar">
+                  <span style="font-size: 0.74rem; color: #A0AEC0;">Key: aboutIntro</span>
+                  <button type="button" class="btn-reset-default" data-target="aboutIntro" data-default="./assets/images/about/about-palm-bg.jpg">↺ Reset Default</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- 9. ABOUT CTA BANNER -->
+            <div class="bg-card" data-category="about">
+              <div class="bg-card-header">
+                <div>
+                  <div class="bg-card-title"><span>🚀</span> About Us Bottom CTA Banner</div>
+                  <div class="bg-card-desc">Bottom "Explore Sri Lanka With Danan Rentals" banner</div>
+                </div>
+                <span class="bg-card-badge">About CTA</span>
+              </div>
+              <div class="bg-preview-wrap">
+                <span class="bg-preview-tag">Preview (1920x800)</span>
+                <img id="prev_aboutCta" src="../assets/images/about/about-hero-bg.jpg" alt="About CTA Preview">
+              </div>
+              <div class="bg-controls">
+                <div class="bg-upload-btn-wrap">
+                  <label class="bg-upload-label" for="file_aboutCta">
+                    📁 Upload Image from PC
+                  </label>
+                  <input type="file" id="file_aboutCta" class="bg-file-input" accept="image/*" data-target="aboutCta">
+                </div>
+                <input type="text" id="url_aboutCta" class="bg-url-input" placeholder="Or enter image URL / relative path" data-target="aboutCta" value="./assets/images/about/about-hero-bg.jpg">
+                <div class="bg-action-bar">
+                  <span style="font-size: 0.74rem; color: #A0AEC0;">Key: aboutCta</span>
+                  <button type="button" class="btn-reset-default" data-target="aboutCta" data-default="./assets/images/about/about-hero-bg.jpg">↺ Reset Default</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- 10. CONTACT HERO -->
+            <div class="bg-card" data-category="contact">
+              <div class="bg-card-header">
+                <div>
+                  <div class="bg-card-title"><span>🌊</span> Contact Us Hero Banner</div>
+                  <div class="bg-card-desc">Scenic coastline road top hero banner on contact.html</div>
+                </div>
+                <span class="bg-card-badge">Contact Us</span>
+              </div>
+              <div class="bg-preview-wrap">
+                <span class="bg-preview-tag">Preview (1920x1080)</span>
+                <img id="prev_contactHero" src="../assets/images/contact/contact-hero-bg.jpg" alt="Contact Hero Preview">
+              </div>
+              <div class="bg-controls">
+                <div class="bg-upload-btn-wrap">
+                  <label class="bg-upload-label" for="file_contactHero">
+                    📁 Upload Image from PC
+                  </label>
+                  <input type="file" id="file_contactHero" class="bg-file-input" accept="image/*" data-target="contactHero">
+                </div>
+                <input type="text" id="url_contactHero" class="bg-url-input" placeholder="Or enter image URL / relative path" data-target="contactHero" value="./assets/images/contact/contact-hero-bg.jpg">
+                <div class="bg-action-bar">
+                  <span style="font-size: 0.74rem; color: #A0AEC0;">Key: contactHero</span>
+                  <button type="button" class="btn-reset-default" data-target="contactHero" data-default="./assets/images/contact/contact-hero-bg.jpg">↺ Reset Default</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- 11. CONTACT CTA BANNER -->
+            <div class="bg-card" data-category="contact">
+              <div class="bg-card-header">
+                <div>
+                  <div class="bg-card-title"><span>💬</span> Contact Us Bottom CTA Banner</div>
+                  <div class="bg-card-desc">Bottom "Ready to Hit the Open Road?" banner on contact.html</div>
+                </div>
+                <span class="bg-card-badge">Contact CTA</span>
+              </div>
+              <div class="bg-preview-wrap">
+                <span class="bg-preview-tag">Preview (1920x800)</span>
+                <img id="prev_contactCta" src="../assets/images/contact/contact-cta-bg.jpg" alt="Contact CTA Preview">
+              </div>
+              <div class="bg-controls">
+                <div class="bg-upload-btn-wrap">
+                  <label class="bg-upload-label" for="file_contactCta">
+                    📁 Upload Image from PC
+                  </label>
+                  <input type="file" id="file_contactCta" class="bg-file-input" accept="image/*" data-target="contactCta">
+                </div>
+                <input type="text" id="url_contactCta" class="bg-url-input" placeholder="Or enter image URL / relative path" data-target="contactCta" value="./assets/images/contact/contact-cta-bg.jpg">
+                <div class="bg-action-bar">
+                  <span style="font-size: 0.74rem; color: #A0AEC0;">Key: contactCta</span>
+                  <button type="button" class="btn-reset-default" data-target="contactCta" data-default="./assets/images/contact/contact-cta-bg.jpg">↺ Reset Default</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- 12. FAQ HERO BANNER -->
+            <div class="bg-card" data-category="faqs">
+              <div class="bg-card-header">
+                <div>
+                  <div class="bg-card-title"><span>❓</span> FAQ Page Header Banner</div>
+                  <div class="bg-card-desc">Top guidance header banner on faqs.html</div>
+                </div>
+                <span class="bg-card-badge">FAQ Page</span>
+              </div>
+              <div class="bg-preview-wrap">
+                <span class="bg-preview-tag">Preview (1920x600)</span>
+                <img id="prev_faqsHero" src="../assets/images/hero/sigiriya.jpg" alt="FAQ Hero Preview">
+              </div>
+              <div class="bg-controls">
+                <div class="bg-upload-btn-wrap">
+                  <label class="bg-upload-label" for="file_faqsHero">
+                    📁 Upload Image from PC
+                  </label>
+                  <input type="file" id="file_faqsHero" class="bg-file-input" accept="image/*" data-target="faqsHero">
+                </div>
+                <input type="text" id="url_faqsHero" class="bg-url-input" placeholder="Or enter image URL / relative path" data-target="faqsHero" value="./assets/images/hero/sigiriya.jpg">
+                <div class="bg-action-bar">
+                  <span style="font-size: 0.74rem; color: #A0AEC0;">Key: faqsHero</span>
+                  <button type="button" class="btn-reset-default" data-target="faqsHero" data-default="./assets/images/hero/sigiriya.jpg">↺ Reset Default</button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- STICKY ACTION BAR -->
+          <div class="sticky-save-bar">
+            <div>
+              <strong style="display: block; font-size: 1.05rem;">Save Background Image Changes</strong>
+              <span style="font-size: 0.85rem; color: #CBD5E0;">All modifications will immediately update across your live website.</span>
+            </div>
+            <button type="submit" id="btnSubmitAll" class="btn-save-all">
+              💾 Save All Backgrounds
+            </button>
+          </div>
+        </form>
+      </div>
+    </main>
+  </div>
+
+  <script type="module" src="../js/admin.js"></script>
+  <script type="module">
+    import { getDoc, saveDoc, uploadImage, fixImgPath, escapeHTML } from '../js/db.js';
+    import { showToast } from '../js/admin.js';
+
+    const keys = [
+      'homeHero',
+      'fleetHero',
+      'bookingsHero',
+      'bookingsCta',
+      'destinationsHero',
+      'destinationsCta',
+      'aboutHero',
+      'aboutIntro',
+      'aboutCta',
+      'contactHero',
+      'contactCta',
+      'faqsHero'
+    ];
+
+    // Hold current pending files
+    const pendingFiles = {};
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      // 1. Filter Pills
+      document.querySelectorAll('.filter-pill').forEach(pill => {
+        pill.addEventListener('click', () => {
+          document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+          pill.classList.add('active');
+          const filter = pill.getAttribute('data-filter');
+          document.querySelectorAll('.bg-card').forEach(card => {
+            if (filter === 'all' || card.getAttribute('data-category') === filter) {
+              card.style.display = 'flex';
+            } else {
+              card.style.display = 'none';
+            }
+          });
+        });
+      });
+
+      // 2. Load stored backgrounds
+      await loadBackgrounds();
+
+      // 3. File Input changes
+      document.querySelectorAll('.bg-file-input').forEach(input => {
+        input.addEventListener('change', (e) => {
+          const target = input.getAttribute('data-target');
+          const file = e.target.files[0];
+          if (!file) return;
+
+          pendingFiles[target] = file;
+          const reader = new FileReader();
+          reader.onload = (re) => {
+            const previewEl = document.getElementById(`prev_${target}`);
+            if (previewEl) previewEl.src = re.target.result;
+            const urlInput = document.getElementById(`url_${target}`);
+            if (urlInput) {
+              urlInput.value = `[Uploaded File: ${file.name}]`;
+              urlInput.dataset.realValue = re.target.result;
+            }
+          };
+          reader.readAsDataURL(file);
+        });
+      });
+
+      // 4. URL input typing/pasting
+      document.querySelectorAll('.bg-url-input').forEach(input => {
+        input.addEventListener('input', () => {
+          const target = input.getAttribute('data-target');
+          delete pendingFiles[target];
+          const val = input.value.trim();
+          input.dataset.realValue = val;
+          const previewEl = document.getElementById(`prev_${target}`);
+          if (previewEl && val && !val.startsWith('[')) {
+            previewEl.src = fixImgPath(val, true);
+          }
+        });
+      });
+
+      // 5. Reset to default buttons
+      document.querySelectorAll('.btn-reset-default').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const target = btn.getAttribute('data-target');
+          const def = btn.getAttribute('data-default');
+          delete pendingFiles[target];
+          const input = document.getElementById(`url_${target}`);
+          const previewEl = document.getElementById(`prev_${target}`);
+          const fileInput = document.getElementById(`file_${target}`);
+          if (input) {
+            input.value = def;
+            input.dataset.realValue = def;
+          }
+          if (previewEl) previewEl.src = fixImgPath(def, true);
+          if (fileInput) fileInput.value = '';
+          showToast(`Reset ${target} to default.`, 'info');
+        });
+      });
+
+      // 6. Form Submission
+      const form = document.getElementById('backgroundsForm');
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const btn = document.getElementById('btnSubmitAll');
+        btn.disabled = true;
+        btn.innerHTML = '⏳ Saving Backgrounds...';
+        showToast('Processing background updates...', 'info');
+
+        try {
+          // Fetch existing data so we don't clobber any extra fields
+          const currentData = (await getDoc('backgrounds', 'main')) || {};
+          const updated = { id: 'main', ...currentData };
+
+          for (const key of keys) {
+            if (pendingFiles[key]) {
+              showToast(`Uploading ${key}...`, 'info');
+              const uploadedUrl = await uploadImage(pendingFiles[key]);
+              updated[key] = uploadedUrl;
+            } else {
+              const urlInput = document.getElementById(`url_${key}`);
+              if (urlInput) {
+                const val = urlInput.value.trim();
+                if (val.startsWith('[')) {
+                  updated[key] = urlInput.dataset.realValue || currentData[key] || '';
+                } else {
+                  updated[key] = val;
+                }
+              }
+            }
+          }
+
+          // Save to database
+          await saveDoc('backgrounds', 'main', updated);
+          
+          // Also synchronize home hero with pages/home if homeHero updated
+          if (updated.homeHero) {
+            const homeDoc = await getDoc('pages', 'home') || {};
+            homeDoc.hero = homeDoc.hero || {};
+            homeDoc.hero.bgImage = updated.homeHero;
+            await saveDoc('pages', 'home', homeDoc);
+          }
+
+          showToast('All website backgrounds saved successfully!', 'success');
+          // Clear pending
+          for (const k in pendingFiles) delete pendingFiles[k];
+          await loadBackgrounds();
+        } catch (err) {
+          console.error('Error saving backgrounds:', err);
+          showToast('Failed to save backgrounds: ' + err.message, 'error');
+        } finally {
+          btn.disabled = false;
+          btn.innerHTML = '💾 Save All Backgrounds';
+        }
+      });
+    });
+
+    async function loadBackgrounds() {
+      try {
+        const bgData = (await getDoc('backgrounds', 'main')) || {};
+        keys.forEach(key => {
+          const val = bgData[key];
+          const previewEl = document.getElementById(`prev_${key}`);
+          const urlInput = document.getElementById(`url_${key}`);
+          if (val) {
+            if (urlInput) {
+              urlInput.dataset.realValue = val;
+              if (val.startsWith('data:')) {
+                urlInput.value = `[Uploaded Image: ${val.substring(5, 30)}...]`;
+              } else {
+                urlInput.value = val;
+              }
+            }
+            if (previewEl) previewEl.src = fixImgPath(val, true);
+          }
+        });
+      } catch (err) {
+        console.warn('Could not load backgrounds:', err);
+      }
+    }
+  </script>
+</body>
+</html>

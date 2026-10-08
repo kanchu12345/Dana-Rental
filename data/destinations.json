@@ -1,0 +1,68 @@
+[
+  {
+    "id": "dest-1",
+    "badge": "5 Mins from Kandy",
+    "category": "KANDY CITY",
+    "title": "Dalada Maligawa (Temple of Tooth)",
+    "description": "The sacred heart of Kandy housing the Tooth Relic of Lord Buddha, set beside the scenic Kandy Lake.",
+    "image": "https://images.unsplash.com/photo-1588598198321-9735fd52455b?q=80&w=800&auto=format&fit=crop",
+    "buttonText": "RENT VEHICLE TO VISIT",
+    "featured": true,
+    "distance": "2 km from city center"
+  },
+  {
+    "id": "dest-2",
+    "badge": "45 Mins from Kandy",
+    "category": "GAMPOLA",
+    "title": "Gampola Ambuluwawa Tower",
+    "description": "Iconic multi-religious spiral tower offering breathtaking 360-degree mountain views high above Gampola.",
+    "image": "https://images.unsplash.com/photo-1578632767115-351597cf2477?q=80&w=800&auto=format&fit=crop",
+    "buttonText": "RENT VEHICLE TO VISIT",
+    "featured": true,
+    "distance": "25 km from Kandy"
+  },
+  {
+    "id": "dest-3",
+    "badge": "3 Hours from Kandy",
+    "category": "NUWARA ELIYA DISTRICT",
+    "title": "Horton Plains & World's End",
+    "description": "High-altitude plateau with misty cloud forests and the dramatic 4,000 ft vertical drop at World's End precipice.",
+    "image": "https://images.unsplash.com/photo-1546708973-b339540b5162?q=80&w=800&auto=format&fit=crop",
+    "buttonText": "RENT VEHICLE TO VISIT",
+    "featured": true,
+    "distance": "85 km from Kandy"
+  },
+  {
+    "id": "dest-4",
+    "badge": "2.5 Hours from Kandy",
+    "category": "MATALE DISTRICT",
+    "title": "Sigiriya Rock Fortress",
+    "description": "UNESCO World Heritage ancient rock fortress featuring 5th-century frescoes, water gardens, and panoramic jungle vistas.",
+    "image": "https://images.unsplash.com/photo-1586861635167-e5223aadc9fe?q=80&w=800&auto=format&fit=crop",
+    "buttonText": "RENT VEHICLE TO VISIT",
+    "featured": true,
+    "distance": "90 km from Kandy"
+  },
+  {
+    "id": "dest-5",
+    "badge": "3.5 Hours from Kandy",
+    "category": "BADULLA DISTRICT",
+    "title": "Ella & Nine Arch Bridge",
+    "description": "Famous colonial-era viaduct bridge surrounded by lush green tea estates and dramatic mountain hiking trails.",
+    "image": "https://images.unsplash.com/photo-1589308078059-be1415eab4c3?q=80&w=800&auto=format&fit=crop",
+    "buttonText": "RENT VEHICLE TO VISIT",
+    "featured": false,
+    "distance": "135 km from Kandy"
+  },
+  {
+    "id": "dest-6",
+    "badge": "2 Hours from Kandy",
+    "category": "MATALE DISTRICT",
+    "title": "Riverston & Knuckles Range",
+    "description": "Picturesque windy gap and mountain range known for mini World's End, cloud forests, and serene trekking paths.",
+    "image": "https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=800&auto=format&fit=crop",
+    "buttonText": "RENT VEHICLE TO VISIT",
+    "featured": false,
+    "distance": "60 km from Kandy"
+  }
+]

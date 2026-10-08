@@ -1,0 +1,15 @@
+{
+  "id": "main",
+  "homeHero": "./assets/images/hero/sigiriya.jpg",
+  "fleetHero": "./assets/images/vehicles/fleet-hero-bg.jpg",
+  "bookingsHero": "./assets/images/bookings/bookings-hero-bg.jpg",
+  "bookingsCta": "./assets/images/bookings/bookings-cta-bg.jpg",
+  "destinationsHero": "./assets/images/destinations/destinations-hero-bg.jpg",
+  "destinationsCta": "./assets/images/bookings/bookings-cta-bg.jpg",
+  "aboutHero": "./assets/images/about/about-hero-bg.jpg",
+  "aboutIntro": "./assets/images/about/about-palm-bg.jpg",
+  "aboutCta": "./assets/images/about/about-hero-bg.jpg",
+  "contactHero": "./assets/images/contact/contact-hero-bg.jpg",
+  "contactCta": "./assets/images/contact/contact-cta-bg.jpg",
+  "faqsHero": "./assets/images/hero/sigiriya.jpg"
+}

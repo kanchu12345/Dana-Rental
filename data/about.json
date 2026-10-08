@@ -1,0 +1,16 @@
+{
+  "title": "About Danan Car & Bike Rentals Kandy",
+  "subtitle": "Providing premier self-drive mobility solutions in Kandy with trust, transparency, and top-quality vehicles.",
+  "story": "Founded in Kandy, Danan Car & Bike Rentals has established itself as the leading self-drive vehicle rental service in the hill capital of Sri Lanka. Whether you're exploring the sacred Temple of the Tooth, ascending Ambuluwawa Tower, or embarking on an island-wide road trip to Nuwara Eliya and Sigiriya, our modern fleet of well-maintained cars, scooters, and motorbikes ensures a safe and memorable journey.",
+  "mission": "Our mission is to give every traveler freedom of movement with 200 free km per day, transparent pricing with zero hidden fees, and dedicated 24/7 customer support.",
+  "values": [
+    { "title": "Transparent Pricing", "desc": "No surprise charges. Daily rates include 200 free km with clear excess km rates." },
+    { "title": "Safety & Cleanliness", "desc": "Sanitized and thoroughly inspected vehicles prior to every handover." },
+    { "title": "Customer First", "desc": "Friendly local advice, road trip assistance, and instant WhatsApp support." }
+  ],
+  "gallery": [
+    { "caption": "Happy Customers with Scooter", "url": "https://images.unsplash.com/photo-1558981806-ec527fa84c39?q=80&w=800&auto=format&fit=crop" },
+    { "caption": "Self-drive Car handover in Kandy", "url": "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?q=80&w=800&auto=format&fit=crop" },
+    { "caption": "Scenic Kandy Mountain Road Trip", "url": "https://images.unsplash.com/photo-1578632767115-351597cf2477?q=80&w=800&auto=format&fit=crop" }
+  ]
+}

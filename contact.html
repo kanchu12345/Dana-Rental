@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us | Danan Car & Bike Rentals Kandy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Header -->
+    <!-- --- NAVBAR --- -->
+  <nav id="navbar">
+    <a href="index.html" class="nav-logo">
+      <img src="./assets/images/logo/logo.png" alt="Danan Logo">
+      <div class="nav-brand-title">DANAN <span>RENTALS</span></div>
+    </a>
+
+    <ul class="nav-links">
+      <li><a href="index.html">HOME</a></li>
+      <li><a href="vehicles.html">OUR FLEET</a></li>
+      <li><a href="bookings.html">BOOKINGS</a></li>
+      <li><a href="destinations.html">DESTINATIONS</a></li>
+      <li><a href="about.html">ABOUT US</a></li>
+      <li><a href="contact.html" class="active">CONTACT US</a></li>
+      <li><a href="faqs.html">FAQ</a></li>
+    </ul>
+
+    <div class="nav-btns">
+      <a href="./admin/login.html" class="btn-nav-outline">REGISTER</a>
+      <a href="./admin/login.html" class="btn-nav-yellow">LOGIN</a>
+    </div>
+
+    <button class="nav-toggle" id="menuToggle" aria-label="Toggle Navigation">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </nav>
+
+  <!-- MOBILE MENU OVERLAY -->
+  <div class="mobile-overlay" id="mobileOverlay"></div>
+  <div class="mobile-menu" id="mobileMenu">
+    <div class="mobile-menu-header">
+      <div class="nav-logo">
+        <img src="./assets/images/logo/logo.png" alt="Danan Logo">
+        <div class="nav-brand-title">DANAN <span>RENTALS</span></div>
+      </div>
+      <div class="mobile-close" id="menuClose">&#10005;</div>
+    </div>
+    <ul class="mobile-links">
+      <li><a href="index.html">HOME</a></li>
+      <li><a href="vehicles.html">OUR FLEET</a></li>
+      <li><a href="bookings.html">BOOKINGS</a></li>
+      <li><a href="destinations.html">DESTINATIONS</a></li>
+      <li><a href="about.html">ABOUT US</a></li>
+      <li><a href="contact.html" class="active">CONTACT US</a></li>
+      <li><a href="faqs.html">FAQ</a></li>
+      <li><a href="./admin/login.html">ADMIN LOGIN</a></li>
+    </ul>
+  </div>
+
+  <main>
+    <!-- ═══ CONTACT HERO ═══ -->
+    <section class="contact-hero">
+      <div class="contact-hero-overlay"></div>
+      <div class="contact-hero-content reveal in visible">
+        <div class="contact-breadcrumb">
+          <a href="index.html">HOME</a>
+          <span class="contact-breadcrumb-sep">/</span>
+          <span>CONTACT US</span>
+        </div>
+        <h1>Get In Touch<br>With <span style="color:var(--yellow)">Danan</span></h1>
+        <p>Questions about permits, rentals or transfers? Our Sri Lanka–based team is here to help — reach us by phone, email or WhatsApp.</p>
+      </div>
+    </section>
+
+    <!-- ═══ CONTACT MAIN ═══ -->
+    <section class="contact-main">
+      <div class="contact-main-inner">
+
+        <!-- LEFT — FORM -->
+        <div class="contact-form-box reveal in visible">
+          <div class="contact-form-badge">Contact Us</div>
+          <h2>Send Us a Message</h2>
+          <form id="contactForm">
+            <div class="contact-field">
+              <label>Your Name</label>
+              <input type="text" id="cName" name="customername" placeholder="Your full name" required>
+            </div>
+            <div class="contact-field">
+              <label>Email Address</label>
+              <input type="email" id="cEmail" name="email" placeholder="you@example.com" required>
+            </div>
+            <div class="contact-field">
+              <label>Phone Number</label>
+              <input type="tel" id="cPhone" name="phone_number" placeholder="+94 77 000 0000">
+            </div>
+            <div class="contact-field">
+              <label>Subject</label>
+              <input type="text" id="cSubject" name="msg_subject" placeholder="How can we help?">
+            </div>
+            <div class="contact-field">
+              <label>Message</label>
+              <textarea id="cMsg" name="msg" placeholder="Tell us more about your enquiry..." required></textarea>
+            </div>
+
+            <div class="contact-form-actions">
+              <button type="submit" class="btn-send" id="contactSendBtn">
+                <i class="fa-solid fa-paper-plane"></i> Send Message
+              </button>
+              <button type="button" class="btn-send-wa" id="contactWaBtn">
+                <i class="fa-brands fa-whatsapp" style="font-size: 1.2rem;"></i> Instant WhatsApp Chat
+              </button>
+            </div>
+            <div id="contactFeedback" style="margin-top: 15px; display: none; padding: 12px 16px; border-radius: 10px; font-size: 14px; font-weight: 600; text-align: center;"></div>
+          </form>
+        </div>
+
+        <!-- RIGHT — INFO + MAP -->
+        <div class="contact-info-box reveal in visible">
+          <p class="contact-info-text">
+            We're a team of travel enthusiasts dedicated to making every journey in Sri Lanka seamless, memorable, and extraordinary. Reach out to us through any of the channels below and we'll get back to you within 24 hours.
+          </p>
+
+          <div class="contact-info-grid">
+            <div class="contact-info-card">
+              <div class="contact-info-icon">
+                <i class="fa-solid fa-phone"></i>
+              </div>
+              <h4>Phone Number</h4>
+              <p>
+                <a href="tel:0772013059">+94 77 201 3059</a><br>
+                <a href="tel:0712832221">+94 71 283 2221</a>
+              </p>
+            </div>
+
+            <div class="contact-info-card">
+              <div class="contact-info-icon">
+                <i class="fa-solid fa-envelope"></i>
+              </div>
+              <h4>Email Address</h4>
+              <p>
+                <a href="mailto:dananrentals@gmail.com">dananrentals@gmail.com</a>
+              </p>
+            </div>
+
+            <div class="contact-info-card">
+              <div class="contact-info-icon">
+                <i class="fa-brands fa-whatsapp"></i>
+              </div>
+              <h4>WhatsApp</h4>
+              <p>
+                <a href="https://wa.me/94772013059" target="_blank" rel="noopener">+94 77 201 3059</a>
+              </p>
+            </div>
+
+            <div class="contact-info-card">
+              <div class="contact-info-icon">
+                <i class="fa-solid fa-location-dot"></i>
+              </div>
+              <h4>Our Office</h4>
+              <p>
+                Peradeniya &amp; Kandy,<br>
+                Central Province,<br>
+                Sri Lanka
+              </p>
+            </div>
+          </div>
+
+          <!-- MAP CARD WITH HEADER -->
+          <div class="contact-map-card">
+            <div class="contact-map-header">
+              <span><i class="fa-solid fa-map-location-dot" style="color:var(--yellow); margin-right:6px;"></i> Danan Rentals Office Map</span>
+              <a href="https://share.google/ICElyHmWpDjeHQLOY" target="_blank" rel="noopener" class="contact-map-link">
+                Open in Maps <i class="fa-solid fa-arrow-up-right-from-square"></i>
+              </a>
+            </div>
+            <div class="contact-map">
+              <iframe 
+                src="https://maps.google.com/maps?q=Danan%20Car%20%26%20Bike%20Rentals%20Peradeniya%20Kandy%20Sri%20Lanka&t=&z=14&ie=UTF8&iwloc=&output=embed" 
+                loading="lazy" 
+                referrerpolicy="no-referrer-when-downgrade"
+                title="Danan Car & Bike Rentals Location Map">
+              </iframe>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ═══ CTA BANNER ═══ -->
+    <section class="contact-cta-banner">
+      <div class="contact-cta-inner reveal in visible">
+        <div class="contact-cta-tag">Ready When You Are</div>
+        <h2 class="contact-cta-title">Let's make your Sri Lanka travel plans easier — permit, rental or transfer.</h2>
+        <a href="vehicles.html" class="btn-get-started">Get Started</a>
+      </div>
+    </section>
+
+    <!-- ═══ CTA STRIP ═══ -->
+    <div class="cta-strip">
+      <div class="cta-left">
+        <div class="cta-icon">
+          <i class="fa-solid fa-headset"></i>
+        </div>
+        <div>
+          <div class="cta-micro">Call us for more information</div>
+          <div class="cta-headline">Our customer care is<br>here to help anytime.</div>
+        </div>
+      </div>
+      <div class="cta-right">
+        <div class="cta-call-wrap">
+          <div class="cta-call-circle">
+            <i class="fa-solid fa-phone"></i>
+          </div>
+          <div>
+            <div class="cta-call-label">Call us now</div>
+            <div class="cta-call-num"><a href="tel:0772013059">+94 77 201 3059</a></div>
+          </div>
+        </div>
+        <a href="vehicles.html" class="btn-contact">Our Fleet</a>
+      </div>
+    </div>
+  </main>
+
+  <!-- --- FOOTER --- -->
+  <footer>
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo">
+          <img src="./assets/images/logo/logo.png" alt="Danan Logo">
+        </div>
+        <p class="footer-addr">
+          Peradeniya & Kandy, Sri Lanka<br>
+          Phone: <a href="tel:0772013059" style="color: var(--yellow);">077 201 3059</a> / <a href="tel:0712832221" style="color: var(--yellow);">071 283 2221</a><br>
+          Email: dananrentals@gmail.com
+        </p>
+        <div class="footer-socials">
+          <a href="https://www.facebook.com/" target="_blank" rel="noopener" class="soc-icon-btn" aria-label="Facebook Page" id="footerFbLink"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="https://wa.me/94772013059" target="_blank" rel="noopener" class="soc-icon-btn" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+          <a href="tel:0772013059" class="soc-icon-btn" aria-label="Phone"><i class="fa-solid fa-phone"></i></a>
+          <a href="https://share.google/ICElyHmWpDjeHQLOY" target="_blank" rel="noopener" class="soc-icon-btn" aria-label="Location"><i class="fa-solid fa-location-dot"></i></a>
+        </div>
+      </div>
+
+      <div>
+        <div class="footer-col-title">Quick Links</div>
+        <ul class="footer-links">
+          <li><a href="index.html"><i class="fa-solid fa-chevron-right fa-xs"></i> Home</a></li>
+          <li><a href="vehicles.html"><i class="fa-solid fa-chevron-right fa-xs"></i> Our Fleet</a></li>
+          <li><a href="bookings.html"><i class="fa-solid fa-chevron-right fa-xs"></i> Bookings</a></li>
+          <li><a href="destinations.html"><i class="fa-solid fa-chevron-right fa-xs"></i> Destinations</a></li>
+          <li><a href="about.html"><i class="fa-solid fa-chevron-right fa-xs"></i> About Us</a></li>
+          <li><a href="contact.html"><i class="fa-solid fa-chevron-right fa-xs"></i> Contact Us</a></li>
+          <li><a href="faqs.html"><i class="fa-solid fa-chevron-right fa-xs"></i> FAQ</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="footer-col-title">Support</div>
+        <ul class="footer-links">
+          <li><a href="index.html#rules"><i class="fa-solid fa-chevron-right fa-xs"></i> Rules & Req</a></li>
+          <li><a href="faqs.html"><i class="fa-solid fa-chevron-right fa-xs"></i> FAQs</a></li>
+          <li><a href="contact.html"><i class="fa-solid fa-chevron-right fa-xs"></i> Contact Us</a></li>
+          <li><a href="./admin/login.html"><i class="fa-solid fa-chevron-right fa-xs"></i> Admin Login</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="footer-col-title">Google Map Location</div>
+        <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 10px;">Danan Car & Bike Rentals Peradeniya, Kandy</p>
+        <div class="footer-map-wrap" style="width: 100%; height: 160px; border-radius: 12px; overflow: hidden; border: 1px solid var(--card-border); margin-bottom: 12px;">
+          <iframe 
+            src="https://maps.google.com/maps?q=Danan%20Car%20%26%20Bike%20Rentals%20Peradeniya%20Kandy%20Sri%20Lanka&t=&z=14&ie=UTF8&iwloc=&output=embed" 
+            width="100%" 
+            height="100%" 
+            style="border:0;" 
+            allowfullscreen="" 
+            loading="lazy" 
+            referrerpolicy="no-referrer-when-downgrade"
+            title="Danan Car & Bike Rentals Location Map">
+          </iframe>
+        </div>
+        <a href="https://share.google/ICElyHmWpDjeHQLOY" target="_blank" rel="noopener" class="btn-nav-outline" style="display: inline-flex; align-items: center; gap: 8px; font-size: 0.75rem; padding: 6px 16px;">
+          <i class="fa-solid fa-map-location-dot"></i> Open Full Map
+        </a>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <!-- --- ANIMATED DRIVING TAXI --- -->
+      <div class="footer-road-track">
+        <div class="footer-taxi-anim">
+          <div class="taillight-glow"></div>
+          <div class="exhaust">
+            <span class="smoke s1"></span>
+            <span class="smoke s2"></span>
+            <span class="smoke s3"></span>
+          </div>
+          <svg class="taxi-svg" viewBox="0 0 70 30" width="56" height="24">
+            <path d="M 8 18 L 16 9 Q 20 6, 26 6 L 44 6 Q 50 6, 54 11 L 64 16 L 68 18 Q 70 20, 70 23 L 70 24 L 0 24 L 0 20 Q 0 18, 4 18 Z" fill="#FFC107"/>
+            <rect x="29" y="1.5" width="12" height="4.5" rx="1.5" fill="#111" stroke="#FFC107" stroke-width="0.5"/>
+            <text x="35" y="5" font-size="3.2" fill="#FFC107" font-weight="900" text-anchor="middle" font-family="sans-serif">TAXI</text>
+            <path d="M 18 8.5 L 31 8.5 L 31 15 L 12 15 Z" fill="#1E293B"/>
+            <path d="M 34 8.5 L 49 8.5 L 44.5 15 L 34 15 Z" fill="#1E293B"/>
+            <line x1="32.5" y1="6" x2="32.5" y2="23" stroke="#D97706" stroke-width="0.75"/>
+            <circle cx="15" cy="23" r="5" fill="#0F172A" stroke="#475569" stroke-width="1.2"/>
+            <circle cx="15" cy="23" r="2.2" fill="#94A3B8"/>
+            <circle cx="51" cy="23" r="5" fill="#0F172A" stroke="#475569" stroke-width="1.2"/>
+            <circle cx="51" cy="23" r="2.2" fill="#94A3B8"/>
+          </svg>
+          <div class="headlight-beam"></div>
+        </div>
+      </div>
+      <span>&copy; 2026 Danan Car & Bike Rentals. Peradeniya & Kandy, Sri Lanka.</span>
+      <span>Designed by <a href="https://infiniteweb.dev/index.html" target="_blank" rel="noopener" style="color: var(--yellow); font-weight: 700;">INFINITE Creative Web Design</a></span>
+    </div>
+  </footer>
+
+  <!-- FLOATING BUTTONS (STACKED ON BOTTOM RIGHT) -->
+  <a id="waBtn" href="https://wa.me/94772013059?text=Hello%20Danan%20Rentals,%20I%20want%20to%20rent%20a%20vehicle." target="_blank" aria-label="WhatsApp">
+    <i class="fa-brands fa-whatsapp" style="font-size: 28px;"></i>
+  </a>
+
+  <button id="scrollTopBtn" aria-label="Go to top">
+    <i class="fa-solid fa-chevron-up"></i>
+  </button>
+
+  <script type="module" src="./js/main.js"></script>
+  <script>
+    // Ensure all content is immediately visible
+    document.querySelectorAll('.reveal').forEach(el => el.classList.add('in', 'visible'));
+
+    // Modern Contact Form Handling
+    const contactForm = document.getElementById('contactForm');
+    const contactSendBtn = document.getElementById('contactSendBtn');
+    const contactWaBtn = document.getElementById('contactWaBtn');
+    const contactFeedback = document.getElementById('contactFeedback');
+
+    // Submit via Message Form (Local Database & Confirmation)
+    contactForm?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('cName')?.value.trim();
+      const email = document.getElementById('cEmail')?.value.trim();
+      const phone = document.getElementById('cPhone')?.value.trim();
+      const subject = document.getElementById('cSubject')?.value.trim() || 'General Inquiry';
+      const message = document.getElementById('cMsg')?.value.trim();
+
+      if (!name || !email || !message) {
+        showFeedback('Please fill in all required fields.', 'error');
+        return;
+      }
+
+      contactSendBtn.disabled = true;
+      contactSendBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Sending...';
+
+      // Store inquiry in localStorage
+      setTimeout(() => {
+        try {
+          const inquiries = JSON.parse(localStorage.getItem('danan_inquiries') || '[]');
+          inquiries.push({
+            id: 'INQ-' + Date.now(),
+            date: new Date().toISOString(),
+            name, email, phone, subject, message
+          });
+          localStorage.setItem('danan_inquiries', JSON.stringify(inquiries));
+        } catch (err) {
+          console.error(err);
+        }
+
+        contactSendBtn.disabled = false;
+        contactSendBtn.innerHTML = '<i class="fa-solid fa-check"></i> Message Sent!';
+        showFeedback(`Thank you ${name}! Your inquiry has been received. Our team will get back to you within 24 hours.`, 'success');
+        contactForm.reset();
+
+        setTimeout(() => {
+          contactSendBtn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Send Message';
+        }, 4000);
+      }, 700);
+    });
+
+    // Instant WhatsApp Action
+    contactWaBtn?.addEventListener('click', () => {
+      const name = document.getElementById('cName')?.value.trim();
+      const email = document.getElementById('cEmail')?.value.trim();
+      const phone = document.getElementById('cPhone')?.value.trim();
+      const subject = document.getElementById('cSubject')?.value.trim();
+      const message = document.getElementById('cMsg')?.value.trim();
+
+      let msg = `*NEW INQUIRY - DANAN CAR & BIKE RENTALS*\n\n`;
+      if (name) msg += `*Name:* ${name}\n`;
+      if (phone) msg += `*Phone:* ${phone}\n`;
+      if (email) msg += `*Email:* ${email}\n`;
+      if (subject) msg += `*Subject:* ${subject}\n`;
+      if (message) msg += `*Message:* ${message}\n\n`;
+      if (!name && !message) msg += `Hello Danan Rentals, I would like to inquire about your vehicle rental options.\n\n`;
+      msg += `Sent from Danan Rentals Contact Portal`;
+
+      const url = `https://wa.me/94772013059?text=${encodeURIComponent(msg)}`;
+      window.open(url, '_blank');
+    });
+
+    function showFeedback(text, type) {
+      if (!contactFeedback) return;
+      contactFeedback.style.display = 'block';
+      if (type === 'success') {
+        contactFeedback.style.background = 'rgba(34, 197, 94, 0.15)';
+        contactFeedback.style.color = '#4ade80';
+        contactFeedback.style.border = '1px solid rgba(34, 197, 94, 0.3)';
+      } else {
+        contactFeedback.style.background = 'rgba(239, 68, 68, 0.15)';
+        contactFeedback.style.color = '#f87171';
+        contactFeedback.style.border = '1px solid rgba(239, 68, 68, 0.3)';
+      }
+      contactFeedback.textContent = text;
+    }
+    // Mobile Menu
+    const mobileMenu = document.getElementById('mobileMenu');
+    const menuToggle = document.getElementById('menuToggle');
+    const menuClose = document.getElementById('menuClose');
+    const mobileOverlay = document.getElementById('mobileOverlay');
+
+    function openMobileMenu() { mobileMenu?.classList.add('active'); mobileOverlay?.classList.add('active'); }
+    function closeMobileMenu() { mobileMenu?.classList.remove('active'); mobileOverlay?.classList.remove('active'); }
+    menuToggle?.addEventListener('click', openMobileMenu);
+    menuClose?.addEventListener('click', closeMobileMenu);
+    mobileOverlay?.addEventListener('click', closeMobileMenu);
+
+    // Scroll to Top
+    const scrollTopBtn = document.getElementById('scrollTopBtn');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 400) scrollTopBtn?.classList.add('show');
+      else scrollTopBtn?.classList.remove('show');
+      
+      const nav = document.getElementById('navbar');
+      if (window.scrollY > 50) nav?.classList.add('scrolled');
+      else nav?.classList.remove('scrolled');
+    });
+    scrollTopBtn?.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+  </script>
+</body>
+</html>

@@ -1,37 +1,18 @@
 [
   {
-    "id": "faq-1",
-    "question": "What documents do I need to present when picking up a vehicle?",
-    "answer": "You need a valid Driving License (Sri Lankan License or International Driving Permit), your NIC, and a recent utility bill proof or official Job ID.",
-    "order": 1,
-    "visible": true
+    "question": "What documents are required to rent a car or scooter?",
+    "answer": "For foreign tourists: Passport, valid National Driving License, and International Driving Permit (IDP) or Sri Lankan Driving Permit endorsement. For Sri Lankan citizens: National Identity Card (NIC), valid Sri Lanka Driving License, and billing proof."
   },
   {
-    "id": "faq-2",
-    "question": "How far in advance should I book my rental?",
-    "answer": "We require all bookings to be made at least 3 days prior to your requested pickup date to guarantee vehicle availability.",
-    "order": 2,
-    "visible": true
+    "question": "How does the 200 free km per day work?",
+    "answer": "Every 24-hour rental period comes with 200 free kilometers included. For example, a 3-day rental gives you 600 total free km. Any extra mileage beyond the total free limit is calculated at a minimal per-km rate."
   },
   {
-    "id": "faq-3",
-    "question": "What is the advance booking fee required?",
-    "answer": "Advance payment is Rs. 1,000 for bikes/scooters and Rs. 2,000 for cars or vans. This advance confirms your reservation.",
-    "order": 3,
-    "visible": true
+    "question": "Is a security deposit required upon pickup?",
+    "answer": "Yes, a refundable security deposit is required when picking up the vehicle (amount varies by vehicle category, e.g., Rs. 5,000 - 15,000). It is refunded immediately upon vehicle return in good condition."
   },
   {
-    "id": "faq-4",
-    "question": "Is the security deposit refundable?",
-    "answer": "Yes, the security deposit is fully refundable when you return the vehicle in good condition with no damages.",
-    "order": 4,
-    "visible": true
-  },
-  {
-    "id": "faq-5",
-    "question": "How many kilometers are included per day?",
-    "answer": "Each 24-hour rental period includes 200 free kilometers. Additional distance is billed at the specified per-km rate for that vehicle.",
-    "order": 5,
-    "visible": true
+    "question": "Can I pick up or drop off the vehicle at Kandy Railway Station or hotel?",
+    "answer": "Yes! We offer convenient vehicle delivery and collection at Kandy Railway Station, major Kandy hotels, or our main shop on Peradeniya Road."
   }
 ]
