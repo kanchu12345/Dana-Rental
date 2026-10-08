@@ -205,54 +205,62 @@
     import { getCollection, escapeHTML } from '../js/db.js';
 
     document.addEventListener('DOMContentLoaded', async () => {
-      const vehicles = await getCollection('vehicles');
-      const destinations = await getCollection('destinations');
-      const reviews = await getCollection('reviews');
-      const faqs = await getCollection('faqs');
-      const rules = await getCollection('rules');
-
-      let bookings = await getCollection('bookings');
       try {
-        const local = JSON.parse(localStorage.getItem('danan_bookings') || '[]');
-        if (Array.isArray(local)) {
-          local.forEach(item => {
-            if (!bookings.some(b => b.id === item.id)) bookings.push(item);
-          });
+        const vehicles = await getCollection('vehicles');
+        const destinations = await getCollection('destinations');
+        const reviews = await getCollection('reviews');
+        const faqs = await getCollection('faqs');
+        const rules = await getCollection('rules');
+
+        let bookings = await getCollection('bookings');
+        try {
+          const local = JSON.parse(localStorage.getItem('danan_bookings') || '[]');
+          if (Array.isArray(local)) {
+            local.forEach(item => {
+              if (!bookings.some(b => b.id === item.id)) bookings.push(item);
+            });
+          }
+        } catch (e) {}
+
+        const pendingCount = bookings.filter(b => (b.status || '').toUpperCase().includes('PEND')).length;
+        if (document.getElementById('countBookings')) {
+          document.getElementById('countBookings').textContent = bookings.length;
         }
-      } catch (e) {}
+        if (document.getElementById('countPendingBookings')) {
+          document.getElementById('countPendingBookings').textContent = pendingCount;
+        }
 
-      const pendingCount = bookings.filter(b => (b.status || '').toUpperCase().includes('PEND')).length;
-      if (document.getElementById('countBookings')) {
-        document.getElementById('countBookings').textContent = bookings.length;
-      }
-      if (document.getElementById('countPendingBookings')) {
-        document.getElementById('countPendingBookings').textContent = pendingCount;
-      }
+        document.getElementById('countVehicles').textContent = vehicles.length;
+        if (document.getElementById('countDestinations')) {
+          document.getElementById('countDestinations').textContent = destinations.length;
+        }
+        document.getElementById('countReviews').textContent = reviews.length;
+        document.getElementById('countFaqs').textContent = faqs.length;
 
-      document.getElementById('countVehicles').textContent = vehicles.length;
-      if (document.getElementById('countDestinations')) {
-        document.getElementById('countDestinations').textContent = destinations.length;
-      }
-      document.getElementById('countReviews').textContent = reviews.length;
-      document.getElementById('countFaqs').textContent = faqs.length;
-
-      const tbody = document.getElementById('dashVehiclesTable');
-      if (vehicles.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding: 20px;">No vehicles found. Click "Seed Default Data" in sidebar to populate.</td></tr>`;
-      } else {
-        tbody.innerHTML = vehicles.slice(0, 6).map(v => `
-          <tr>
-            <td><strong>${escapeHTML(v.name)}</strong></td>
-            <td>${escapeHTML(v.type || 'N/A')}</td>
-            <td>Rs. ${v.price24h ? v.price24h.toLocaleString() : 0}</td>
-            <td>Rs. ${v.deposit ? v.deposit.toLocaleString() : 0}</td>
-            <td>
-              <span class="badge ${v.available !== false ? 'badge-success' : 'badge-warning'}">
-                ${v.available !== false ? 'Available' : 'Unavailable'}
-              </span>
-            </td>
-          </tr>
-        `).join('');
+        const tbody = document.getElementById('dashVehiclesTable');
+        if (vehicles.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding: 20px;">No vehicles found. Click "Seed Default Data" in sidebar to populate.</td></tr>`;
+        } else {
+          tbody.innerHTML = vehicles.slice(0, 6).map(v => {
+            const rate = v.rate24h || v.price24h || v.price || 0;
+            const deposit = v.deposit || 0;
+            return `
+              <tr>
+                <td><strong>${escapeHTML(v.name)}</strong></td>
+                <td>${escapeHTML(v.type || 'N/A')}</td>
+                <td>Rs. ${rate.toLocaleString()}</td>
+                <td>Rs. ${deposit.toLocaleString()}</td>
+                <td>
+                  <span class="badge ${v.available !== false ? 'badge-success' : 'badge-warning'}">
+                    ${v.available !== false ? 'Available' : 'Unavailable'}
+                  </span>
+                </td>
+              </tr>
+            `;
+          }).join('');
+        }
+      } catch (err) {
+        console.error("Dashboard data load error:", err);
       }
     });
   </script>

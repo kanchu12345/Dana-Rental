@@ -1,9 +1,97 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
+
+    // Helper: checks if user is logged into Firebase Auth
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    // Helper: Admin verification
+    // Checks if the authenticated user is an authorized admin email or has an admin claim
+    function isAdmin() {
+      return isAuthenticated() && (
+        request.auth.token.email in [
+          'dananrentals@gmail.com',
+          'admin@dananrentals.com',
+          'kanchu12345@gmail.com'
+        ] ||
+        (request.auth.token.keys().hasAny(['admin']) && request.auth.token.admin == true)
+      );
+    }
+
+    // Site content collections (public read, admin-only write & delete)
+    match /{collection}/{docId} {
+      allow read: if collection in [
+        'settings',
+        'backgrounds',
+        'pages',
+        'vehicles',
+        'destinations',
+        'faqs',
+        'rules',
+        'reviews',
+        'gallery'
+      ];
+      allow write, delete: if isAdmin() && collection in [
+        'settings',
+        'backgrounds',
+        'pages',
+        'vehicles',
+        'destinations',
+        'faqs',
+        'rules',
+        'reviews',
+        'gallery'
+      ];
+    }
+
+    // Customer Vehicle Bookings & Reservations collection
+    match /bookings/{bookingId} {
+      // Admin has full management privileges (read, update status, delete)
+      allow read, update, delete: if isAdmin();
+
+      // Public visitors can ONLY create a new reservation request with strict validation
+      allow create: if isValidBooking(request.resource.data);
+    }
+
+    // Strict validation function for public booking creation
+    function isValidBooking(data) {
+      let allowedKeys = [
+        'id', 'vehicleName', 'vehicle', 'vehicleId',
+        'customerName', 'name', 'phone', 'whatsapp', 'email',
+        'pickupDate', 'dropoffDate', 'returnDate', 'durationDays',
+        'pickupLocation', 'location', 'estimatedTotal',
+        'permitStatus', 'notes', 'status', 'createdAt', 'date', 'updatedAt'
+      ];
+
+      return data.keys().hasOnly(allowedKeys) &&
+             // ID must be string
+             data.id is string && data.id.size() > 0 && data.id.size() <= 64 &&
+             // Status must strictly start as Pending on public creation
+             (data.status == 'Pending' || data.status == 'PENDING CONFIRMATION') &&
+             // Customer Name validation
+             (
+               (('customerName' in data) && data.customerName is string && data.customerName.size() > 0 && data.customerName.size() <= 120) ||
+               (('name' in data) && data.name is string && data.name.size() > 0 && data.name.size() <= 120)
+             ) &&
+             // Contact Phone validation
+             (
+               (('phone' in data) && data.phone is string && data.phone.size() >= 7 && data.phone.size() <= 30) ||
+               (('whatsapp' in data) && data.whatsapp is string && data.whatsapp.size() >= 7 && data.whatsapp.size() <= 30)
+             ) &&
+             // Vehicle name must be string
+             (
+               (('vehicleName' in data) && data.vehicleName is string && data.vehicleName.size() <= 150) ||
+               (('vehicle' in data) && data.vehicle is string && data.vehicle.size() <= 150)
+             ) &&
+             // Optional notes bounded to prevent abuse
+             (!('notes' in data) || (data.notes is string && data.notes.size() <= 1500));
+    }
+
+    // Default deny rule for all other paths
     match /{document=**} {
-      allow read: if true;
-      allow write: if request.auth != null;
+      allow read, write: if false;
     }
   }
 }

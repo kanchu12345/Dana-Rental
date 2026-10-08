@@ -32,6 +32,11 @@ body {
   line-height: 1.5;
 }
 
+/* Prevent flash of unauthenticated UI on protected admin pages */
+body:not(.auth-ready):not(.login-body) .admin-layout {
+  display: none !important;
+}
+
 .admin-layout {
   display: flex;
   min-height: 100vh;

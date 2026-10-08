@@ -1,4 +1,19 @@
-import { getDoc, getCollection, escapeHTML, fixImgPath } from './db.js';
+// Main interactive script for Danan Car & Bike Rentals public website
+import { 
+  getDoc, 
+  getCollection, 
+  escapeHTML, 
+  sanitizeHTML, 
+  sanitizeCSSUrl, 
+  normalizeWhatsAppNumber, 
+  sanitizeTel, 
+  sanitizeMailto, 
+  fixImgPath, 
+  saveDoc 
+} from './db.js';
+
+// Feature Flag: Set to true if unavailable vehicles should remain visible with a "BOOKED" badge
+export const SHOW_UNAVAILABLE_AS_BOOKED = false;
 
 async function initApp() {
   initHeroTabSwitcher();
@@ -8,6 +23,7 @@ async function initApp() {
   initScrollReveal();
   initFlatpickrDates();
   initBookingInquiryModal();
+  
   try { await loadSiteSettings(); } catch (e) { console.warn('loadSiteSettings error:', e); }
   try { await applyDynamicBackgrounds(); } catch (e) { console.warn('applyDynamicBackgrounds error:', e); }
   try { await loadHomePageData(); } catch (e) { console.warn('loadHomePageData error:', e); }
@@ -29,7 +45,6 @@ if (document.readyState === 'loading') {
 
 // SCROLL REVEAL ANIMATIONS
 function initScrollReveal() {
-  // Ensure elements are immediately visible and not stuck hidden
   document.querySelectorAll('.reveal').forEach(el => el.classList.add('in', 'visible'));
 
   if ('IntersectionObserver' in window) {
@@ -48,63 +63,30 @@ function initScrollReveal() {
 // FLATPICKR DATEPICKER ANIMATIONS
 function initFlatpickrDates() {
   if (typeof flatpickr !== 'undefined') {
-    const today = new Date();
-    const tomorrow = new Date();
-    tomorrow.setDate(today.getDate() + 1);
-
-    const endInput = document.getElementById('home-enddate');
-    let endPicker = null;
-    if (endInput) {
-      endPicker = flatpickr('#home-enddate', {
-        minDate: tomorrow,
-        dateFormat: 'Y-m-d',
-        defaultDate: tomorrow
-      });
-    }
-
-    const startInput = document.getElementById('home-startdate');
-    if (startInput) {
-      flatpickr('#home-startdate', {
-        minDate: today,
-        dateFormat: 'Y-m-d',
-        defaultDate: today,
-        onChange: function(dates) {
-          if (dates[0] && endPicker) {
-            const minOut = new Date(dates[0]);
-            minOut.setDate(minOut.getDate() + 1);
-            endPicker.set('minDate', minOut);
-            if (!endPicker.selectedDates[0] || endPicker.selectedDates[0] < minOut) {
-              endPicker.setDate(minOut, true);
-            }
-          }
-        }
-      });
-    }
+    flatpickr('.datepicker', {
+      enableTime: false,
+      dateFormat: "Y-m-d",
+      minDate: "today",
+      altInput: true,
+      altFormat: "F j, Y",
+      theme: "dark"
+    });
   }
 }
 
-// SCROLL & MOBILE MENU LISTENERS
+// SCROLL & MOBILE LISTENERS
 function initScrollAndMobileListeners() {
   const navbar = document.getElementById('navbar');
-  const stickySearch = document.getElementById('stickySearch');
   const scrollTopBtn = document.getElementById('scrollTopBtn');
 
   window.addEventListener('scroll', () => {
-    const scrollY = window.scrollY || window.pageYOffset;
+    const scrollY = window.scrollY;
 
     if (navbar) {
-      if (scrollY > 50) {
+      if (scrollY > 60) {
         navbar.classList.add('scrolled');
       } else {
         navbar.classList.remove('scrolled');
-      }
-    }
-
-    if (stickySearch) {
-      if (scrollY > 350) {
-        stickySearch.classList.add('visible');
-      } else {
-        stickySearch.classList.remove('visible');
       }
     }
 
@@ -179,44 +161,81 @@ function initHeroTabSwitcher() {
         if (type === 'all') {
           renderVehiclesList(window.allVehiclesData);
         } else {
-          const filtered = window.allVehiclesData.filter(v => 
-            (v.type || '').toLowerCase().includes(type.toLowerCase())
-          );
+          const filtered = window.allVehiclesData.filter(v => (v.type || '').toLowerCase() === type.toLowerCase());
           renderVehiclesList(filtered);
         }
       }
-      const grid = document.getElementById('rentals');
-      if (grid) grid.scrollIntoView({ behavior: 'smooth' });
     });
   }
 }
 
-// LOAD GLOBAL SITE SETTINGS
+// LOAD GLOBAL SITE SETTINGS (Single Source of Truth)
 async function loadSiteSettings() {
-  const settings = await getDoc('settings', 'site');
-  window.siteSettings = settings || {};
+  const settings = await getDoc('settings', 'site') || {};
+  window.siteSettings = settings;
 
-  if (!settings) return;
-
-  // Favicon
+  // 1. Favicon
   if (settings.favicon) {
     let faviconLink = document.querySelector("link[rel='icon']");
     if (faviconLink) faviconLink.href = settings.favicon;
   }
 
-  // Logos
+  // 2. Logos
   const logoImgs = document.querySelectorAll('.nav-logo img, .footer-logo img');
   logoImgs.forEach(img => {
     if (settings.logo) img.src = settings.logo;
     img.alt = settings.businessName || 'Danan Rentals';
   });
 
-  // Theme colors override
-  if (settings.theme) {
-    if (settings.theme.primaryRed) {
-      document.documentElement.style.setProperty('--primary-red', settings.theme.primaryRed);
-    }
+  // 3. Theme colors override
+  if (settings.theme && settings.theme.primaryRed) {
+    document.documentElement.style.setProperty('--primary-red', settings.theme.primaryRed);
   }
+
+  // 4. WhatsApp Number Normalization (Default 94772013059)
+  const normWa = normalizeWhatsAppNumber(settings.whatsapp || '94772013059');
+  const waBtn = document.getElementById('waBtn');
+  if (waBtn) {
+    waBtn.href = `https://wa.me/${normWa}?text=${encodeURIComponent('Hello Danan Rentals, I want to rent a vehicle.')}`;
+  }
+
+  // 5. Update wa.me links everywhere on the page
+  document.querySelectorAll('a[href*="wa.me"]').forEach(link => {
+    try {
+      const url = new URL(link.href);
+      const textParam = url.searchParams.get('text');
+      const newUrl = `https://wa.me/${normWa}${textParam ? '?text=' + encodeURIComponent(textParam) : ''}`;
+      link.href = newUrl;
+    } catch (e) {
+      link.href = `https://wa.me/${normWa}`;
+    }
+  });
+
+  // 6. Phones & Email
+  const primaryPhone = Array.isArray(settings.phones) && settings.phones.length > 0 
+    ? settings.phones[0] 
+    : (settings.phones || '077 201 3059');
+  
+  document.querySelectorAll('a[href^="tel:"]').forEach(link => {
+    link.href = `tel:${sanitizeTel(primaryPhone)}`;
+  });
+
+  const email = settings.email || 'dananrentals@gmail.com';
+  document.querySelectorAll('a[href^="mailto:"]').forEach(link => {
+    link.href = `mailto:${sanitizeMailto(email)}`;
+  });
+
+  // 7. Social Links (Facebook: hide icon if empty)
+  const fbLinks = document.querySelectorAll('#footerFbLink, a.soc-icon-btn[aria-label="Facebook Page"]');
+  fbLinks.forEach(link => {
+    const fbUrl = settings.facebook ? String(settings.facebook).trim() : '';
+    if (fbUrl) {
+      link.href = fbUrl;
+      link.style.display = '';
+    } else {
+      link.style.display = 'none';
+    }
+  });
 }
 
 // DYNAMIC WEBSITE BACKGROUNDS MANAGER
@@ -225,10 +244,10 @@ async function applyDynamicBackgrounds() {
     const bgData = await getDoc('backgrounds', 'main') || await getDoc('settings', 'backgrounds');
     if (!bgData) return;
 
-    const isSub = window.location.pathname.includes('/admin/');
+    const isSub = typeof window !== 'undefined' && window.location.pathname.includes('/admin/');
     const resolveBg = (val) => {
       if (!val) return '';
-      return fixImgPath(val, isSub);
+      return sanitizeCSSUrl(fixImgPath(val, isSub));
     };
 
     // 1. Home Hero (index.html)
@@ -236,10 +255,12 @@ async function applyDynamicBackgrounds() {
       const heroSec = document.querySelector('.hero');
       if (heroSec) {
         const resolved = resolveBg(bgData.homeHero);
-        heroSec.style.backgroundImage = `linear-gradient(180deg, rgba(7, 7, 10, 0.25) 0%, rgba(7, 7, 10, 0.65) 100%), url('${resolved}')`;
-        heroSec.style.backgroundSize = 'cover';
-        heroSec.style.backgroundPosition = 'center center';
-        heroSec.style.backgroundRepeat = 'no-repeat';
+        if (resolved) {
+          heroSec.style.backgroundImage = `linear-gradient(180deg, rgba(7, 7, 10, 0.25) 0%, rgba(7, 7, 10, 0.65) 100%), url('${resolved}')`;
+          heroSec.style.backgroundSize = 'cover';
+          heroSec.style.backgroundPosition = 'center center';
+          heroSec.style.backgroundRepeat = 'no-repeat';
+        }
       }
     }
 
@@ -248,10 +269,12 @@ async function applyDynamicBackgrounds() {
       const fleetHero = document.querySelector('.rental-hero');
       if (fleetHero) {
         const resolved = resolveBg(bgData.fleetHero);
-        fleetHero.style.backgroundImage = `url('${resolved}')`;
-        fleetHero.style.backgroundSize = 'cover';
-        fleetHero.style.backgroundPosition = 'center center';
-        fleetHero.style.backgroundRepeat = 'no-repeat';
+        if (resolved) {
+          fleetHero.style.backgroundImage = `url('${resolved}')`;
+          fleetHero.style.backgroundSize = 'cover';
+          fleetHero.style.backgroundPosition = 'center center';
+          fleetHero.style.backgroundRepeat = 'no-repeat';
+        }
       }
     }
 
@@ -260,10 +283,12 @@ async function applyDynamicBackgrounds() {
       const bookingsHero = document.querySelector('.bookings-hero');
       if (bookingsHero) {
         const resolved = resolveBg(bgData.bookingsHero);
-        bookingsHero.style.backgroundImage = `url('${resolved}')`;
-        bookingsHero.style.backgroundSize = 'cover';
-        bookingsHero.style.backgroundPosition = 'center center';
-        bookingsHero.style.backgroundRepeat = 'no-repeat';
+        if (resolved) {
+          bookingsHero.style.backgroundImage = `url('${resolved}')`;
+          bookingsHero.style.backgroundSize = 'cover';
+          bookingsHero.style.backgroundPosition = 'center center';
+          bookingsHero.style.backgroundRepeat = 'no-repeat';
+        }
       }
     }
 
@@ -272,10 +297,12 @@ async function applyDynamicBackgrounds() {
       const bookingsCta = document.querySelector('.bookings-cta-banner:not(.destinations-cta-banner)');
       if (bookingsCta) {
         const resolved = resolveBg(bgData.bookingsCta);
-        bookingsCta.style.backgroundImage = `url('${resolved}')`;
-        bookingsCta.style.backgroundSize = 'cover';
-        bookingsCta.style.backgroundPosition = 'center center';
-        bookingsCta.style.backgroundRepeat = 'no-repeat';
+        if (resolved) {
+          bookingsCta.style.backgroundImage = `url('${resolved}')`;
+          bookingsCta.style.backgroundSize = 'cover';
+          bookingsCta.style.backgroundPosition = 'center center';
+          bookingsCta.style.backgroundRepeat = 'no-repeat';
+        }
       }
     }
 
@@ -284,10 +311,12 @@ async function applyDynamicBackgrounds() {
       const destHero = document.querySelector('.destinations-hero');
       if (destHero) {
         const resolved = resolveBg(bgData.destinationsHero);
-        destHero.style.backgroundImage = `url('${resolved}')`;
-        destHero.style.backgroundSize = 'cover';
-        destHero.style.backgroundPosition = 'center center';
-        destHero.style.backgroundRepeat = 'no-repeat';
+        if (resolved) {
+          destHero.style.backgroundImage = `url('${resolved}')`;
+          destHero.style.backgroundSize = 'cover';
+          destHero.style.backgroundPosition = 'center center';
+          destHero.style.backgroundRepeat = 'no-repeat';
+        }
       }
     }
 
@@ -297,10 +326,12 @@ async function applyDynamicBackgrounds() {
       const destCta = document.querySelector('.destinations-cta-banner');
       if (destCta) {
         const resolved = resolveBg(destCtaUrl);
-        destCta.style.backgroundImage = `url('${resolved}')`;
-        destCta.style.backgroundSize = 'cover';
-        destCta.style.backgroundPosition = 'center center';
-        destCta.style.backgroundRepeat = 'no-repeat';
+        if (resolved) {
+          destCta.style.backgroundImage = `url('${resolved}')`;
+          destCta.style.backgroundSize = 'cover';
+          destCta.style.backgroundPosition = 'center center';
+          destCta.style.backgroundRepeat = 'no-repeat';
+        }
       }
     }
 
@@ -309,10 +340,12 @@ async function applyDynamicBackgrounds() {
       const aboutHero = document.querySelector('.about-hero');
       if (aboutHero) {
         const resolved = resolveBg(bgData.aboutHero);
-        aboutHero.style.backgroundImage = `url('${resolved}')`;
-        aboutHero.style.backgroundSize = 'cover';
-        aboutHero.style.backgroundPosition = 'center center';
-        aboutHero.style.backgroundRepeat = 'no-repeat';
+        if (resolved) {
+          aboutHero.style.backgroundImage = `url('${resolved}')`;
+          aboutHero.style.backgroundSize = 'cover';
+          aboutHero.style.backgroundPosition = 'center center';
+          aboutHero.style.backgroundRepeat = 'no-repeat';
+        }
       }
     }
 
@@ -321,9 +354,11 @@ async function applyDynamicBackgrounds() {
       const aboutIntro = document.querySelector('.about-intro');
       if (aboutIntro) {
         const resolved = resolveBg(bgData.aboutIntro);
-        aboutIntro.style.backgroundImage = `url('${resolved}')`;
-        aboutIntro.style.backgroundSize = 'cover';
-        aboutIntro.style.backgroundPosition = 'center center';
+        if (resolved) {
+          aboutIntro.style.backgroundImage = `url('${resolved}')`;
+          aboutIntro.style.backgroundSize = 'cover';
+          aboutIntro.style.backgroundPosition = 'center center';
+        }
       }
     }
 
@@ -332,10 +367,12 @@ async function applyDynamicBackgrounds() {
       const aboutCta = document.querySelector('.about-cta-banner');
       if (aboutCta) {
         const resolved = resolveBg(bgData.aboutCta);
-        aboutCta.style.backgroundImage = `url('${resolved}')`;
-        aboutCta.style.backgroundSize = 'cover';
-        aboutCta.style.backgroundPosition = 'center center';
-        aboutCta.style.backgroundRepeat = 'no-repeat';
+        if (resolved) {
+          aboutCta.style.backgroundImage = `url('${resolved}')`;
+          aboutCta.style.backgroundSize = 'cover';
+          aboutCta.style.backgroundPosition = 'center center';
+          aboutCta.style.backgroundRepeat = 'no-repeat';
+        }
       }
     }
 
@@ -344,10 +381,12 @@ async function applyDynamicBackgrounds() {
       const contactHero = document.querySelector('.contact-hero');
       if (contactHero) {
         const resolved = resolveBg(bgData.contactHero);
-        contactHero.style.backgroundImage = `url('${resolved}')`;
-        contactHero.style.backgroundSize = 'cover';
-        contactHero.style.backgroundPosition = 'center center';
-        contactHero.style.backgroundRepeat = 'no-repeat';
+        if (resolved) {
+          contactHero.style.backgroundImage = `url('${resolved}')`;
+          contactHero.style.backgroundSize = 'cover';
+          contactHero.style.backgroundPosition = 'center center';
+          contactHero.style.backgroundRepeat = 'no-repeat';
+        }
       }
     }
 
@@ -356,10 +395,12 @@ async function applyDynamicBackgrounds() {
       const contactCta = document.querySelector('.contact-cta-banner');
       if (contactCta) {
         const resolved = resolveBg(bgData.contactCta);
-        contactCta.style.backgroundImage = `url('${resolved}')`;
-        contactCta.style.backgroundSize = 'cover';
-        contactCta.style.backgroundPosition = 'center center';
-        contactCta.style.backgroundRepeat = 'no-repeat';
+        if (resolved) {
+          contactCta.style.backgroundImage = `url('${resolved}')`;
+          contactCta.style.backgroundSize = 'cover';
+          contactCta.style.backgroundPosition = 'center center';
+          contactCta.style.backgroundRepeat = 'no-repeat';
+        }
       }
     }
 
@@ -368,10 +409,12 @@ async function applyDynamicBackgrounds() {
       const faqsBanner = document.querySelector('.faqs-hero-banner');
       if (faqsBanner) {
         const resolved = resolveBg(bgData.faqsHero);
-        faqsBanner.style.backgroundImage = `linear-gradient(rgba(10, 10, 10, 0.82), rgba(10, 10, 10, 0.92)), url('${resolved}')`;
-        faqsBanner.style.backgroundSize = 'cover';
-        faqsBanner.style.backgroundPosition = 'center center';
-        faqsBanner.style.backgroundRepeat = 'no-repeat';
+        if (resolved) {
+          faqsBanner.style.backgroundImage = `linear-gradient(rgba(10, 10, 10, 0.82), rgba(10, 10, 10, 0.92)), url('${resolved}')`;
+          faqsBanner.style.backgroundSize = 'cover';
+          faqsBanner.style.backgroundPosition = 'center center';
+          faqsBanner.style.backgroundRepeat = 'no-repeat';
+        }
       }
     }
   } catch (err) {
@@ -387,7 +430,7 @@ async function loadHomePageData() {
   if (homeData.hero) {
     const heroTitle = document.querySelector('.hero-title');
     if (heroTitle && homeData.hero.headline) {
-      heroTitle.innerHTML = escapeHTML(homeData.hero.headline).replace(/Kandy & Peradeniya/g, '<span>Kandy & Peradeniya</span>');
+      heroTitle.innerHTML = sanitizeHTML(homeData.hero.headline);
     }
 
     const heroDesc = document.querySelector('.hero-desc');
@@ -398,7 +441,10 @@ async function loadHomePageData() {
     if (homeData.hero.bgImage) {
       const heroSec = document.querySelector('.hero');
       if (heroSec) {
-        heroSec.style.background = `linear-gradient(180deg, rgba(7, 7, 10, 0.25) 0%, rgba(7, 7, 10, 0.65) 100%), url('${homeData.hero.bgImage}') center center / cover no-repeat`;
+        const cleanBg = sanitizeCSSUrl(homeData.hero.bgImage);
+        if (cleanBg) {
+          heroSec.style.background = `linear-gradient(180deg, rgba(7, 7, 10, 0.25) 0%, rgba(7, 7, 10, 0.65) 100%), url('${cleanBg}') center center / cover no-repeat`;
+        }
       }
     }
   }
@@ -437,7 +483,7 @@ async function loadAboutPageData() {
     const heroTag = document.querySelector('.about-hero-tag');
     if (heroTag && about.hero.tag) heroTag.textContent = about.hero.tag;
     const heroTitle = document.querySelector('.about-hero-content h1');
-    if (heroTitle && about.hero.title) heroTitle.innerHTML = about.hero.title;
+    if (heroTitle && about.hero.title) heroTitle.innerHTML = sanitizeHTML(about.hero.title);
     const heroSub = document.querySelector('.about-hero-content p');
     if (heroSub && about.hero.subline) heroSub.textContent = about.hero.subline;
   }
@@ -447,7 +493,7 @@ async function loadAboutPageData() {
     const secTag = document.querySelector('.about-intro-text .section-tag');
     if (secTag && about.intro.tag) secTag.textContent = about.intro.tag;
     const introTitle = document.querySelector('.about-intro-text h2');
-    if (introTitle && about.intro.title) introTitle.innerHTML = about.intro.title;
+    if (introTitle && about.intro.title) introTitle.innerHTML = sanitizeHTML(about.intro.title);
 
     const introPs = document.querySelectorAll('.about-intro-text > p');
     if (introPs.length >= 2) {
@@ -520,7 +566,7 @@ async function loadDestinationsPageData() {
     const heroTag = document.querySelector('.destinations-hero-tag');
     if (heroTag && pageDoc.hero.tag) heroTag.textContent = pageDoc.hero.tag;
     const heroTitle = document.querySelector('.destinations-hero-content h1');
-    if (heroTitle && pageDoc.hero.title) heroTitle.innerHTML = pageDoc.hero.title;
+    if (heroTitle && pageDoc.hero.title) heroTitle.innerHTML = sanitizeHTML(pageDoc.hero.title);
     const heroSub = document.querySelector('.destinations-hero-content p');
     if (heroSub && pageDoc.hero.subline) heroSub.textContent = pageDoc.hero.subline;
   }
@@ -528,6 +574,8 @@ async function loadDestinationsPageData() {
   const destinations = await getCollection('destinations');
   if (destinations && destinations.length > 0) {
     window.allDestinationsData = destinations;
+    const targetWa = normalizeWhatsAppNumber(window.siteSettings?.whatsapp || '94772013059');
+
     destGrid.innerHTML = destinations.map(d => {
       const imgPath = fixImgPath(d.image || './assets/images/destinations/dalada_maligawa.jpg', false);
       const category = d.category || 'culture';
@@ -545,7 +593,7 @@ async function loadDestinationsPageData() {
             <h3 class="dest-card-title">${escapeHTML(d.title)}</h3>
             <p class="dest-card-desc">${escapeHTML(d.description)}</p>
             <div class="dest-card-footer">
-              <a href="https://wa.me/94772013059?text=${waText}" target="_blank" rel="noopener" class="dest-btn-wa">
+              <a href="https://wa.me/${targetWa}?text=${waText}" target="_blank" rel="noopener" class="dest-btn-wa">
                 <i class="fa-brands fa-whatsapp"></i> Rent Vehicle to Visit
               </a>
             </div>
@@ -592,7 +640,7 @@ async function loadBookingsPageData() {
     const heroTag = document.querySelector('.bookings-hero-tag');
     if (heroTag && bookingsData.hero.tag) heroTag.textContent = bookingsData.hero.tag;
     const heroTitle = document.querySelector('.bookings-hero-content h1');
-    if (heroTitle && bookingsData.hero.title) heroTitle.innerHTML = bookingsData.hero.title;
+    if (heroTitle && bookingsData.hero.title) heroTitle.innerHTML = sanitizeHTML(bookingsData.hero.title);
     const heroSub = document.querySelector('.bookings-hero-content p');
     if (heroSub && bookingsData.hero.subline) heroSub.textContent = bookingsData.hero.subline;
   }
@@ -601,31 +649,31 @@ async function loadBookingsPageData() {
   const vSelect = document.getElementById('booking-vehicle-select');
   if (vSelect) {
     const vehicles = await getCollection('vehicles');
-    const available = vehicles.filter(v => v.available !== false);
+    const available = SHOW_UNAVAILABLE_AS_BOOKED ? vehicles : vehicles.filter(v => v.available !== false);
     if (available.length > 0) {
       vSelect.innerHTML = available.map(v => `
-        <option value="${escapeHTML(v.id)}" data-rate="${v.rate24h || 0}">${escapeHTML(v.name)} (${escapeHTML(v.type)}) - Rs. ${Number(v.rate24h || 0).toLocaleString()}/day</option>
+        <option value="${escapeHTML(v.name)}">${escapeHTML(v.name)} (${escapeHTML(v.type || 'Vehicle')}) - Rs. ${(v.price24h || 0).toLocaleString()}/day</option>
       `).join('');
     }
   }
 
-  // Policies / Requirements
+  // 4 Rental Policies
   if (Array.isArray(bookingsData.policies) && bookingsData.policies.length > 0) {
-    const reqList = document.querySelector('.booking-req-list');
-    if (reqList) {
-      reqList.innerHTML = bookingsData.policies.map(p => `
-        <li class="booking-req-item">
-          <i class="${escapeHTML(p.icon || 'fa-solid fa-circle-check')}"></i>
-          <span><strong>${escapeHTML(p.title)}:</strong> ${escapeHTML(p.desc)}</span>
-        </li>
-      `).join('');
-    }
+    const polCards = document.querySelectorAll('.booking-policy-card');
+    bookingsData.policies.forEach((pol, idx) => {
+      if (polCards[idx]) {
+        const h4 = polCards[idx].querySelector('h4');
+        const p = polCards[idx].querySelector('p');
+        if (h4 && pol.title) h4.textContent = pol.title;
+        if (p && pol.desc) p.textContent = pol.desc;
+      }
+    });
   }
 
   // CTA
   if (bookingsData.cta) {
-    const ctaTitle = document.querySelector('.bookings-cta-title');
-    if (ctaTitle && bookingsData.cta.title) ctaTitle.textContent = bookingsData.cta.title;
+    const ctaH2 = document.querySelector('.bookings-cta-content h2');
+    if (ctaH2 && bookingsData.cta.title) ctaH2.textContent = bookingsData.cta.title;
   }
 }
 
@@ -638,7 +686,7 @@ async function loadContactPageData() {
 
   if (contactData && contactData.hero) {
     const heroTitle = document.querySelector('.contact-hero-content h1');
-    if (heroTitle && contactData.hero.title) heroTitle.innerHTML = contactData.hero.title;
+    if (heroTitle && contactData.hero.title) heroTitle.innerHTML = sanitizeHTML(contactData.hero.title);
     const heroSub = document.querySelector('.contact-hero-content p');
     if (heroSub && contactData.hero.subline) heroSub.textContent = contactData.hero.subline;
   }
@@ -648,7 +696,7 @@ async function loadContactPageData() {
   if (phones && phones.length > 0) {
     const phoneWrap = document.querySelector('.contact-info-card:nth-child(1) p');
     if (phoneWrap) {
-      phoneWrap.innerHTML = phones.map(p => `<a href="tel:${p.replace(/\s+/g, '')}">${escapeHTML(p)}</a>`).join('<br>');
+      phoneWrap.innerHTML = phones.map(p => `<a href="tel:${sanitizeTel(p)}">${escapeHTML(p)}</a>`).join('<br>');
     }
   }
 
@@ -656,7 +704,7 @@ async function loadContactPageData() {
   if (email) {
     const emailLink = document.querySelector('.contact-info-card:nth-child(2) p a');
     if (emailLink) {
-      emailLink.href = `mailto:${email}`;
+      emailLink.href = `mailto:${sanitizeMailto(email)}`;
       emailLink.textContent = email;
     }
   }
@@ -665,8 +713,9 @@ async function loadContactPageData() {
   if (whatsapp) {
     const waLink = document.querySelector('.contact-info-card:nth-child(3) p a');
     if (waLink) {
-      waLink.href = `https://wa.me/${whatsapp}`;
-      waLink.textContent = `+${whatsapp}`;
+      const targetWa = normalizeWhatsAppNumber(whatsapp);
+      waLink.href = `https://wa.me/${targetWa}`;
+      waLink.textContent = `+${targetWa}`;
     }
   }
 
@@ -683,7 +732,7 @@ async function loadContactPageData() {
   }
 }
 
-// LOAD VEHICLES GRID (RENTO STYLE `.rc.reveal` WITH AUTO-SWAP CAROUSEL)
+// LOAD VEHICLES GRID
 async function loadVehiclesGrid() {
   const grid = document.getElementById('featuredVehiclesGrid');
   if (!grid) return;
@@ -702,12 +751,11 @@ async function loadVehiclesGrid() {
   `).join('');
 
   const vehicles = await getCollection('vehicles');
-  const available = vehicles.filter(v => v.available !== false);
-  window.allVehiclesData = available;
+  const displayVehicles = SHOW_UNAVAILABLE_AS_BOOKED ? vehicles : vehicles.filter(v => v.available !== false);
+  window.allVehiclesData = displayVehicles;
 
-  renderVehiclesList(available);
+  renderVehiclesList(displayVehicles);
 
-  // Initialize auto-swap 4-card carousel if wrapper exists on page
   if (document.querySelector('.fleet-carousel-wrapper')) {
     setTimeout(initFleetCarousel, 100);
   }
@@ -739,60 +787,59 @@ function initFleetCarousel() {
     return Math.max(0, cards.length - visible);
   }
 
-  function updateCarousel() {
-    const visible = getVisibleCards();
+  function updateSlider() {
     const maxIdx = getMaxIndex();
-
     if (currentIndex > maxIdx) currentIndex = 0;
     if (currentIndex < 0) currentIndex = maxIdx;
 
-    // Shift track percentages accurately
-    const cardStep = 100 / visible;
-    track.style.transform = `translateX(-${currentIndex * (cardStep + 1.8)}%)`;
+    const card = cards[0];
+    if (!card) return;
+    const cardWidth = card.offsetWidth;
+    const gap = 24;
+    const offset = (cardWidth + gap) * currentIndex;
 
-    // Update Dots
+    track.style.transition = 'transform 0.45s cubic-bezier(0.25, 1, 0.5, 1)';
+    track.style.transform = `translateX(-${offset}px)`;
+
     if (dotsContainer) {
-      const dotCount = maxIdx + 1;
-      dotsContainer.innerHTML = Array(dotCount).fill(0).map((_, i) => `
-        <span class="fleet-dot ${i === currentIndex ? 'active' : ''}" data-idx="${i}"></span>
-      `).join('');
-
-      dotsContainer.querySelectorAll('.fleet-dot').forEach(dot => {
-        dot.onclick = () => {
-          currentIndex = parseInt(dot.getAttribute('data-idx'));
-          updateCarousel();
-          resetTimer();
-        };
+      dotsContainer.querySelectorAll('.fleet-dot').forEach((d, idx) => {
+        d.classList.toggle('active', idx === currentIndex);
       });
+    }
+  }
+
+  function createDots() {
+    if (!dotsContainer) return;
+    dotsContainer.innerHTML = '';
+    const maxIdx = getMaxIndex();
+
+    for (let i = 0; i <= maxIdx; i++) {
+      const dot = document.createElement('div');
+      dot.className = `fleet-dot ${i === 0 ? 'active' : ''}`;
+      dot.addEventListener('click', () => {
+        currentIndex = i;
+        updateSlider();
+        resetTimer();
+      });
+      dotsContainer.appendChild(dot);
     }
   }
 
   function nextSlide() {
     const maxIdx = getMaxIndex();
-    if (currentIndex >= maxIdx) {
-      currentIndex = 0;
-    } else {
-      currentIndex++;
-    }
-    updateCarousel();
+    currentIndex = currentIndex >= maxIdx ? 0 : currentIndex + 1;
+    updateSlider();
   }
 
   function prevSlide() {
     const maxIdx = getMaxIndex();
-    if (currentIndex <= 0) {
-      currentIndex = maxIdx;
-    } else {
-      currentIndex--;
-    }
-    updateCarousel();
+    currentIndex = currentIndex <= 0 ? maxIdx : currentIndex - 1;
+    updateSlider();
   }
-
-  if (nextBtn) nextBtn.onclick = () => { nextSlide(); resetTimer(); };
-  if (prevBtn) prevBtn.onclick = () => { prevSlide(); resetTimer(); };
 
   function startTimer() {
     stopTimer();
-    fleetCarouselTimer = setInterval(nextSlide, 3500);
+    fleetCarouselTimer = setInterval(nextSlide, 4500);
   }
 
   function stopTimer() {
@@ -800,14 +847,23 @@ function initFleetCarousel() {
   }
 
   function resetTimer() {
+    stopTimer();
     startTimer();
   }
 
-  wrapper.onmouseenter = stopTimer;
-  wrapper.onmouseleave = startTimer;
-  window.onresize = updateCarousel;
+  if (nextBtn) nextBtn.addEventListener('click', () => { nextSlide(); resetTimer(); });
+  if (prevBtn) prevBtn.addEventListener('click', () => { prevSlide(); resetTimer(); });
 
-  updateCarousel();
+  wrapper.addEventListener('mouseenter', stopTimer);
+  wrapper.addEventListener('mouseleave', startTimer);
+
+  window.addEventListener('resize', () => {
+    createDots();
+    updateSlider();
+  });
+
+  createDots();
+  updateSlider();
   startTimer();
 }
 
@@ -815,26 +871,23 @@ function renderVehiclesList(vehicles) {
   const grid = document.getElementById('featuredVehiclesGrid');
   if (!grid) return;
 
-  if (!vehicles || vehicles.length === 0) {
-    grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 40px; font-size: 1.1rem;">No vehicles found in this category.</div>`;
+  if (vehicles.length === 0) {
+    grid.innerHTML = `
+      <div style="grid-column: 1 / -1; text-align: center; padding: 60px 20px; color: var(--text-muted);">
+        <i class="fa-solid fa-car-tunnel" style="font-size: 2.5rem; margin-bottom: 12px; color: var(--yellow);"></i>
+        <h3>No vehicles currently match your selection.</h3>
+        <p style="font-size: 0.95rem;">Please check back soon or contact us directly on WhatsApp.</p>
+      </div>
+    `;
     return;
   }
 
-  const whatsappPhone = window.siteSettings?.whatsapp || '94772013059';
-
   grid.innerHTML = vehicles.map(v => {
+    const brandName = (v.type === 'Bikes') ? 'Danan Two-Wheelers' : 'Danan Rental Fleet';
     const imgUrl = (v.images && v.images.length > 0) ? v.images[0] : './assets/images/vehicles/fleet-banner.jpeg';
-    const brandName = (v.name.split(' ')[0] || 'VEHICLE').toUpperCase();
-    const vJson = escapeHTML(JSON.stringify({
-      id: v.id,
-      name: v.name,
-      price24h: v.price24h || 0,
-      kmIncluded: v.kmIncluded || 200,
-      images: [imgUrl]
-    }));
 
     return `
-      <div onclick="window.openBookingModalByJson('${vJson}')" class="rc reveal visible in" style="cursor: pointer;">
+      <div data-book="${escapeHTML(v.id)}" class="rc reveal visible in" style="cursor: pointer;">
         <div class="rc-img">
           <img src="${escapeHTML(fixImgPath(imgUrl, false))}" alt="${escapeHTML(v.name)}" loading="lazy">
           <div class="rc-badge">${(v.available !== false) ? 'AVAILABLE' : 'BOOKED'}</div>
@@ -856,7 +909,7 @@ function renderVehiclesList(vehicles) {
           <hr class="rc-divider">
           <div class="rc-footer">
             <div class="rc-price">Rs. ${v.price24h ? v.price24h.toLocaleString() : 0} <sub>/day</sub></div>
-            <button class="rc-btn" onclick="event.stopPropagation(); window.openBookingModalByJson('${vJson}')">BOOK NOW</button>
+            <button class="rc-btn" data-book="${escapeHTML(v.id)}">BOOK NOW</button>
           </div>
         </div>
       </div>
@@ -874,7 +927,9 @@ async function loadRulesAndFaqs() {
   const rulesContainer = document.getElementById('rulesContainer');
   if (rulesContainer) {
     const rules = await getCollection('rules');
-    if (rules.length > 0) {
+    if (rules.length === 0) {
+      rulesContainer.innerHTML = `<p style="color: var(--text-muted); font-size: 0.95rem;">No specific rental rules listed at this time.</p>`;
+    } else {
       rulesContainer.innerHTML = rules.map(r => `
         <div style="background: var(--card-bg); border: 1px solid var(--card-border); border-left: 4px solid var(--yellow); border-radius: var(--radius-sm); padding: 18px; margin-bottom: 14px;">
           <h4 style="font-size: 1.05rem; color: var(--white); margin-bottom: 6px;">${escapeHTML(r.title)}</h4>
@@ -887,7 +942,9 @@ async function loadRulesAndFaqs() {
   const faqsContainer = document.getElementById('faqsContainer');
   if (faqsContainer) {
     const faqs = await getCollection('faqs');
-    if (faqs.length > 0) {
+    if (faqs.length === 0) {
+      faqsContainer.innerHTML = `<p style="color: var(--text-muted); font-size: 0.95rem;">No frequently asked questions listed at this time.</p>`;
+    } else {
       faqsContainer.innerHTML = faqs.map(f => `
         <div style="background: var(--card-bg); border: 1px solid var(--card-border); border-radius: var(--radius-sm); padding: 18px; margin-bottom: 14px;">
           <h4 style="font-size: 1.05rem; color: var(--white); margin-bottom: 6px;">${escapeHTML(f.question)}</h4>
@@ -912,7 +969,7 @@ async function loadReviewsTrack() {
     <div class="testi-card">
       <div class="testi-head">
         <div class="testi-av">
-          <img src="${escapeHTML(r.photo || './assets/images/customers/customer-1.jpeg')}" alt="${escapeHTML(r.name)}">
+          <img src="${escapeHTML(fixImgPath(r.photo || './assets/images/customers/customer-1.jpeg', false))}" alt="${escapeHTML(r.name)}">
         </div>
         <div>
           <div class="testi-name">${escapeHTML(r.name)}</div>
@@ -922,11 +979,7 @@ async function loadReviewsTrack() {
         </div>
       </div>
       <div class="testi-stars">
-        <i class="fa-solid fa-star" style="color:#FFB800;"></i>
-        <i class="fa-solid fa-star" style="color:#FFB800;"></i>
-        <i class="fa-solid fa-star" style="color:#FFB800;"></i>
-        <i class="fa-solid fa-star" style="color:#FFB800;"></i>
-        <i class="fa-solid fa-star" style="color:#FFB800;"></i>
+        ${Array(Math.min(r.rating || 5, 5)).fill('<i class="fa-solid fa-star" style="color:#FFB800;"></i>').join('')}
       </div>
       <p class="testi-text">"${escapeHTML(r.text)}"</p>
     </div>
@@ -956,7 +1009,7 @@ function initTestimonialsCarousel() {
   });
 }
 
-// WHY CHOOSE US AUTO-SWAP CAROUSEL (12 CARDS, 4 VISIBLE AT A TIME)
+// WHY CHOOSE US AUTO-SWAP CAROUSEL
 function initWhyCarousel() {
   const track = document.getElementById('whyTrack');
   const prevBtn = document.getElementById('whyPrevBtn');
@@ -976,7 +1029,7 @@ function initWhyCarousel() {
     if (width <= 520) return 1;
     if (width <= 800) return 2;
     if (width <= 1100) return 3;
-    return 4; // 4 cards at a time on desktop
+    return 4;
   }
 
   function getMaxIndex() {
@@ -994,7 +1047,6 @@ function initWhyCarousel() {
     const moveAmount = (itemWidth + gap) * currentIndex;
     track.style.transform = `translateX(-${moveAmount}px)`;
 
-    // Update dots
     if (dotsContainer) {
       const dots = dotsContainer.querySelectorAll('.why-dot');
       dots.forEach((dot, idx) => {
@@ -1034,7 +1086,7 @@ function initWhyCarousel() {
 
   function startAutoSlide() {
     stopAutoSlide();
-    autoSlideTimer = setInterval(nextSlide, 3500); // Auto swaps every 3.5 seconds
+    autoSlideTimer = setInterval(nextSlide, 5000);
   }
 
   function stopAutoSlide() {
@@ -1060,20 +1112,8 @@ function initWhyCarousel() {
     });
   }
 
-  // Pause on hover
   track.parentElement.addEventListener('mouseenter', stopAutoSlide);
   track.parentElement.addEventListener('mouseleave', startAutoSlide);
-
-  // Touch swipe support
-  let touchStartX = 0;
-  let touchEndX = 0;
-  track.addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].screenX; stopAutoSlide(); }, { passive: true });
-  track.addEventListener('touchend', e => {
-    touchEndX = e.changedTouches[0].screenX;
-    if (touchStartX - touchEndX > 40) nextSlide();
-    if (touchEndX - touchStartX > 40) prevSlide();
-    startAutoSlide();
-  }, { passive: true });
 
   window.addEventListener('resize', () => {
     createDots();
@@ -1085,7 +1125,7 @@ function initWhyCarousel() {
   startAutoSlide();
 }
 
-// AUTO-SWAP CUSTOMER GALLERY (Every 5 seconds)
+// AUTO-SWAP CUSTOMER GALLERY
 async function initCustomerGallerySwap() {
   const imgMain = document.getElementById('aboutImgMain');
   const imgOverlay = document.getElementById('aboutImgOverlay');
@@ -1127,7 +1167,6 @@ async function initCustomerGallerySwap() {
 
   updateGalleryDisplay();
 
-  // If there are 2 or more images, auto-swap every 5 seconds (5000ms)
   if (items.length > 1) {
     setInterval(() => {
       currentIndex = (currentIndex + 1) % items.length;
@@ -1155,13 +1194,11 @@ function initBookingInquiryModal() {
   let activeVehPrice = 3000;
   let activeVehName = "Honda Dio 110cc";
 
-  // Format date for datetime-local input
   function formatDateForInput(d) {
     const pad = n => String(n).padStart(2, '0');
     return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
   }
 
-  // Set default dates if empty
   const now = new Date();
   now.setMinutes(0);
   now.setSeconds(0);
@@ -1174,7 +1211,6 @@ function initBookingInquiryModal() {
     inputReturnDate.value = formatDateForInput(tomorrow);
   }
 
-  // Calculate rental duration & price estimate
   function calcEstPrice() {
     if (!inputPickupDate?.value || !inputReturnDate?.value) return;
     const start = new Date(inputPickupDate.value);
@@ -1192,16 +1228,29 @@ function initBookingInquiryModal() {
   inputPickupDate?.addEventListener('change', calcEstPrice);
   inputReturnDate?.addEventListener('change', calcEstPrice);
 
+  // Delegated click listener for data-book vehicles (avoids JS break with apostrophes)
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-book]');
+    if (!btn) return;
+    if (e.target.closest('.rc-wishlist')) return;
+
+    const vehId = btn.getAttribute('data-book');
+    const veh = (window.allVehiclesData || []).find(v => String(v.id) === String(vehId));
+    if (veh) {
+      window.openBookingModal(veh);
+    }
+  });
+
+  // Backward compatibility helper
   window.openBookingModalByJson = function(vJsonStr) {
     try {
       let rawStr = vJsonStr;
-      if (rawStr.includes('&quot;')) {
+      if (typeof rawStr === 'string' && rawStr.includes('&quot;')) {
         rawStr = rawStr.replace(/&quot;/g, '"');
       }
-      const veh = JSON.parse(rawStr);
+      const veh = typeof rawStr === 'string' ? JSON.parse(rawStr) : rawStr;
       window.openBookingModal(veh);
     } catch (e) {
-      console.warn("openBookingModalByJson parse error:", e);
       window.openBookingModal();
     }
   };
@@ -1228,8 +1277,8 @@ function initBookingInquiryModal() {
     if (e.target === overlay) window.closeBookingModal();
   });
 
-  // Process Booking Inquiry & Send to WhatsApp (0772013059)
-  async function submitBookingInquiry() {
+  // Process Booking Inquiry & Send to WhatsApp Synchronously
+  function submitBookingInquiry() {
     const fullName = document.getElementById('bmFullName')?.value.trim() || '';
     const phone = document.getElementById('bmPhone')?.value.trim() || '';
     const pickupDate = inputPickupDate?.value || '';
@@ -1239,68 +1288,80 @@ function initBookingInquiryModal() {
     const notes = document.getElementById('bmNotes')?.value.trim() || 'None';
 
     if (!fullName || !phone || !pickupDate || !returnDate) {
-      alert("Please enter your Name, WhatsApp Phone Number, and Pickup/Return dates.");
+      alert("Please enter your Name, Phone Number, and Pickup/Return dates.");
       return;
     }
 
-    const btnSubmit = document.getElementById('btnBmSubmit');
-    if (btnSubmit) {
-      btnSubmit.disabled = true;
-      btnSubmit.textContent = "Processing...";
+    const cleanDigits = phone.replace(/\D/g, '');
+    if (cleanDigits.length < 7) {
+      alert("Please enter a valid phone number (at least 7 digits).");
+      return;
     }
 
     const start = new Date(pickupDate);
     const end = new Date(returnDate);
+    const nowThreshold = new Date(Date.now() - 60 * 60 * 1000); // 1hr skew grace
+
+    if (start < nowThreshold) {
+      alert("Pick-up date and time cannot be in the past. Please choose an upcoming date.");
+      return;
+    }
+
+    if (end <= start) {
+      alert("Drop-off / Return date must be after your pick-up date.");
+      return;
+    }
+
     const diffHours = Math.max((end - start) / (1000 * 60 * 60), 24);
     const days = Math.max(Math.ceil(diffHours / 24), 1);
     const estTotal = days * activeVehPrice;
 
-    const bookingId = `bk_${Date.now()}`;
+    const bookingId = `BK-${Math.floor(10000 + Math.random() * 90000)}`;
     const payload = {
       id: bookingId,
       vehicleName: activeVehName,
       customerName: fullName,
       phone: phone,
+      whatsapp: phone,
       pickupDate: pickupDate,
       returnDate: returnDate,
+      dropoffDate: returnDate,
       durationDays: days,
       estimatedTotal: estTotal,
       location: location,
+      pickupLocation: location,
       permitStatus: permit,
       notes: notes,
       status: 'Pending',
       createdAt: new Date().toISOString()
     };
 
-    // Save inquiry to Database
-    try {
-      const { saveDoc } = await import('./db.js');
-      await saveDoc('bookings', bookingId, payload);
-    } catch (err) {
-      console.warn("Save booking error:", err);
-    }
-
-    // Format WhatsApp Message to 0772013059 (94772013059)
-    const waPhone = '94772013059';
+    // Format WhatsApp Message to single source of truth number
+    const targetWa = normalizeWhatsAppNumber(window.siteSettings?.whatsapp || '94772013059');
     const msg = `Hello Danan Rentals! 👋\n\nI would like to book a vehicle:\n\n🚗 *Vehicle:* ${activeVehName}\n👤 *Name:* ${fullName}\n📞 *Phone:* ${phone}\n📍 *Location:* ${location}\n📅 *Pickup:* ${pickupDate.replace('T', ' ')}\n📅 *Return:* ${returnDate.replace('T', ' ')} (${days} ${days === 1 ? 'Day' : 'Days'})\n💰 *Est. Total:* Rs. ${estTotal.toLocaleString()}\n📜 *Permit:* ${permit}\n💬 *Notes:* ${notes}\n\nPlease confirm availability & booking!`;
 
-    const waUrl = `https://wa.me/${waPhone}?text=${encodeURIComponent(msg)}`;
+    const waUrl = `https://wa.me/${targetWa}?text=${encodeURIComponent(msg)}`;
+
+    // Open WhatsApp SYNCHRONOUSLY on the user click to prevent iOS Safari tab blocking!
     window.open(waUrl, '_blank');
 
+    // Save inquiry to Database in the background (NON-AWAITED before window.open)
+    saveDoc('bookings', bookingId, payload).catch(err => {
+      console.warn("Background save booking notice:", err);
+    });
+
+    const btnSubmit = document.getElementById('btnBmSubmit');
     if (btnSubmit) {
-      btnSubmit.disabled = false;
-      btnSubmit.innerHTML = `<i class="fa-solid fa-paper-plane"></i> Send Direct Inquiry`;
+      btnSubmit.innerHTML = `<i class="fa-solid fa-paper-plane"></i> Send Inquiry via WhatsApp`;
     }
 
     window.closeBookingModal();
   }
 
-  // Handle Book via WhatsApp Action
   btnWhatsapp?.addEventListener('click', submitBookingInquiry);
 
-  // Direct Form Submission
-  form.addEventListener('submit', async (e) => {
+  form.addEventListener('submit', (e) => {
     e.preventDefault();
-    await submitBookingInquiry();
+    submitBookingInquiry();
   });
 }

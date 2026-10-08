@@ -202,10 +202,14 @@
       const file = e.target.files[0];
       if (file) {
         showToast("Uploading avatar...");
-        const url = await uploadImage(file);
-        document.getElementById('rPhotoUrl').value = url;
-        document.getElementById('rPhotoPreview').src = fixImgPath(url);
-        showToast("Avatar uploaded!", "success");
+        try {
+          const url = await uploadImage(file);
+          document.getElementById('rPhotoUrl').value = url;
+          document.getElementById('rPhotoPreview').src = fixImgPath(url);
+          showToast("Avatar uploaded!", "success");
+        } catch (err) {
+          showToast("Upload failed: " + err.message, "error");
+        }
       }
     });
 
@@ -215,7 +219,11 @@
 
     document.getElementById('reviewForm').addEventListener('submit', async (e) => {
       e.preventDefault();
-      const id = document.getElementById('rId').value.trim() || `rev-${Date.now()}`;
+      const existingId = document.getElementById('rId').value.trim();
+      const id = existingId || `rev-${Date.now()}`;
+      const existingItem = reviewsCache.find(r => r.id === id);
+      const maxOrder = reviewsCache.reduce((max, item) => Math.max(max, item.order || 0), 0);
+
       const payload = {
         id,
         name: document.getElementById('rName').value.trim(),
@@ -223,7 +231,9 @@
         rating: parseInt(document.getElementById('rRating').value) || 5,
         visible: document.getElementById('rVisible').value === 'true',
         text: document.getElementById('rText').value.trim(),
-        photo: document.getElementById('rPhotoUrl').value.trim()
+        photo: document.getElementById('rPhotoUrl').value.trim(),
+        order: existingItem && existingItem.order !== undefined ? existingItem.order : (maxOrder + 1),
+        updatedAt: new Date().toISOString()
       };
 
       try {
@@ -240,34 +250,46 @@
       const tbody = document.getElementById('reviewsAdminTable');
       tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 20px;">Loading reviews...</td></tr>';
 
-      const items = await getCollection('reviews');
-      reviewsCache = items;
+      try {
+        const items = await getCollection('reviews');
+        reviewsCache = items;
 
-      if (items.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 20px; color: var(--text-muted);">No reviews found. Click "+ Add New Review" or Seed Default Data.</td></tr>';
-        return;
+        if (items.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 20px; color: var(--text-muted);">No reviews found. Click "+ Add New Review" or Seed Default Data.</td></tr>';
+          return;
+        }
+
+        tbody.innerHTML = items.map(r => `
+          <tr>
+            <td>
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <img src="${fixImgPath(r.photo || './assets/images/customers/customer-1.jpeg')}" class="rev-avatar" alt="${escapeHTML(r.name)}">
+                <strong>${escapeHTML(r.name)}</strong>
+              </div>
+            </td>
+            <td><span style="font-size: 0.82rem; background: #EDF2F7; padding: 4px 8px; border-radius: 4px;">${escapeHTML(r.source || 'Google')}</span></td>
+            <td><span class="stars-display">${'★'.repeat(r.rating || 5)}</span></td>
+            <td style="max-width: 320px; font-size: 0.85rem; color: #4A5568;">"${escapeHTML(r.text)}"</td>
+            <td><span style="color: ${r.visible !== false ? '#38A169' : '#E53E3E'}; font-weight: 700;">${r.visible !== false ? 'Active' : 'Hidden'}</span></td>
+            <td>
+              <div class="action-btn-group">
+                <button class="btn-action edit" data-edit-review="${escapeHTML(r.id)}">✏️ Edit</button>
+                <button class="btn-action delete" data-delete-review="${escapeHTML(r.id)}">🗑️ Delete</button>
+              </div>
+            </td>
+          </tr>
+        `).join('');
+
+        tbody.querySelectorAll('[data-edit-review]').forEach(btn => {
+          btn.addEventListener('click', () => window.editReview(btn.getAttribute('data-edit-review')));
+        });
+        tbody.querySelectorAll('[data-delete-review]').forEach(btn => {
+          btn.addEventListener('click', () => window.deleteReview(btn.getAttribute('data-delete-review')));
+        });
+      } catch (err) {
+        tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; padding: 20px; color: red;">Error loading reviews: ${escapeHTML(err.message)}</td></tr>`;
+        showToast("Error loading reviews: " + err.message, "error");
       }
-
-      tbody.innerHTML = items.map(r => `
-        <tr>
-          <td>
-            <div style="display: flex; align-items: center; gap: 12px;">
-              <img src="${fixImgPath(r.photo || './assets/images/customers/customer-1.jpeg')}" class="rev-avatar" alt="${escapeHTML(r.name)}">
-              <strong>${escapeHTML(r.name)}</strong>
-            </div>
-          </td>
-          <td><span style="font-size: 0.82rem; background: #EDF2F7; padding: 4px 8px; border-radius: 4px;">${escapeHTML(r.source || 'Google')}</span></td>
-          <td><span class="stars-display">${'★'.repeat(r.rating || 5)}</span></td>
-          <td style="max-width: 320px; font-size: 0.85rem; color: #4A5568;">"${escapeHTML(r.text)}"</td>
-          <td><span style="color: ${r.visible !== false ? '#38A169' : '#E53E3E'}; font-weight: 700;">${r.visible !== false ? 'Active' : 'Hidden'}</span></td>
-          <td>
-            <div class="action-btn-group">
-              <button class="btn-action edit" onclick="window.editReview('${r.id}')">✏️ Edit</button>
-              <button class="btn-action delete" onclick="window.deleteReview('${r.id}')">🗑️ Delete</button>
-            </div>
-          </td>
-        </tr>
-      `).join('');
     }
 
     document.addEventListener('DOMContentLoaded', loadReviewsTable);

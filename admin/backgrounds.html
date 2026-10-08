@@ -690,17 +690,13 @@
           if (!file) return;
 
           pendingFiles[target] = file;
-          const reader = new FileReader();
-          reader.onload = (re) => {
-            const previewEl = document.getElementById(`prev_${target}`);
-            if (previewEl) previewEl.src = re.target.result;
-            const urlInput = document.getElementById(`url_${target}`);
-            if (urlInput) {
-              urlInput.value = `[Uploaded File: ${file.name}]`;
-              urlInput.dataset.realValue = re.target.result;
-            }
-          };
-          reader.readAsDataURL(file);
+          const previewEl = document.getElementById(`prev_${target}`);
+          if (previewEl) previewEl.src = URL.createObjectURL(file);
+          const urlInput = document.getElementById(`url_${target}`);
+          if (urlInput) {
+            urlInput.value = `[Selected File: ${file.name}]`;
+            urlInput.dataset.realValue = '';
+          }
         });
       });
 
@@ -760,9 +756,7 @@
               const urlInput = document.getElementById(`url_${key}`);
               if (urlInput) {
                 const val = urlInput.value.trim();
-                if (val.startsWith('[')) {
-                  updated[key] = urlInput.dataset.realValue || currentData[key] || '';
-                } else {
+                if (!val.startsWith('[')) {
                   updated[key] = val;
                 }
               }

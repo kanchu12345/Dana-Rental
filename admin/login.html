@@ -22,15 +22,19 @@
     <form id="loginForm">
       <div class="form-group">
         <label for="adminEmail">Email Address</label>
-        <input type="email" id="adminEmail" class="form-control" placeholder="admin@dananrentals.com">
+        <input type="email" id="adminEmail" class="form-control" placeholder="admin@dananrentals.com" required autocomplete="username">
       </div>
 
-      <div class="form-group">
+      <div class="form-group" style="margin-bottom: 8px;">
         <label for="adminPassword">Password</label>
-        <input type="password" id="adminPassword" class="form-control" placeholder="••••••••">
+        <input type="password" id="adminPassword" class="form-control" placeholder="••••••••" required autocomplete="current-password">
       </div>
 
-      <button type="submit" id="btnLoginSubmit" class="btn btn-primary" style="width: 100%; margin-top: 10px; background-color: var(--primary-red); color: white; padding: 12px; border: none; border-radius: 6px; font-weight: 700; cursor: pointer;">
+      <div style="text-align: right; margin-bottom: 16px;">
+        <a href="#" id="btnForgotPassword" style="font-size: 0.78rem; color: #666; text-decoration: underline;">Forgot Password?</a>
+      </div>
+
+      <button type="submit" id="btnLoginSubmit" class="btn btn-primary" style="width: 100%; margin-top: 4px; background-color: var(--primary-red); color: white; padding: 12px; border: none; border-radius: 6px; font-weight: 700; cursor: pointer;">
         Sign In with Email
       </button>
 
@@ -46,15 +50,57 @@
       </button>
 
       <div id="demoNotice" style="margin-top: 20px; font-size: 0.8rem; color: #888888; text-align: center; background-color: #F8F8F8; padding: 10px; border-radius: 6px;">
-        💡 <strong>Connected to Firebase:</strong> Sign in using your Google account or Email/Password.
+        💡 <strong>Admin Portal:</strong> Use your registered administrator credentials to access the panel.
       </div>
     </form>
   </div>
 
   <script type="module">
-    import { auth } from '../js/db.js';
-    import { isFirebaseConfigured } from '../js/firebase-config.js';
+    import { initFirebase, auth } from '../js/db.js';
     import { showToast } from '../js/admin.js';
+
+    let activeAuth = null;
+
+    // Check existing auth state on load
+    document.addEventListener('DOMContentLoaded', async () => {
+      try {
+        const { auth: fbAuth } = await initFirebase();
+        activeAuth = fbAuth || auth;
+
+        if (activeAuth) {
+          const { onAuthStateChanged } = await import('https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js');
+          onAuthStateChanged(activeAuth, (user) => {
+            if (user) {
+              window.location.replace('./index.html');
+            }
+          });
+        }
+      } catch (e) {
+        console.warn("Auth initialization notice:", e);
+      }
+    });
+
+    function formatAuthError(err) {
+      if (!err || !err.code) return err.message || "Authentication failed.";
+      switch (err.code) {
+        case 'auth/user-not-found':
+        case 'auth/wrong-password':
+        case 'auth/invalid-credential':
+          return "Invalid email address or password.";
+        case 'auth/invalid-email':
+          return "Please enter a valid email address.";
+        case 'auth/user-disabled':
+          return "This administrator account has been disabled.";
+        case 'auth/too-many-requests':
+          return "Too many failed attempts. Please wait a few minutes and try again.";
+        case 'auth/popup-closed-by-user':
+          return "Google Sign-In popup was closed before completion.";
+        case 'auth/network-request-failed':
+          return "Network error. Please check your internet connection.";
+        default:
+          return err.message;
+      }
+    }
 
     // Email/Password login handler
     document.getElementById('loginForm').addEventListener('submit', async (e) => {
@@ -71,21 +117,26 @@
       btn.disabled = true;
       btn.textContent = "Verifying...";
 
-      if (isFirebaseConfigured() && auth) {
-        try {
-          const { signInWithEmailAndPassword } = await import('https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js');
-          await signInWithEmailAndPassword(auth, email, password);
-          showToast("Login successful!", "success");
-          window.location.href = './index.html';
-        } catch (err) {
-          showToast("Login failed: " + err.message, "error");
-          btn.disabled = false;
-          btn.textContent = "Sign In with Email";
+      try {
+        if (!activeAuth) {
+          const { auth: fbAuth } = await initFirebase();
+          activeAuth = fbAuth || auth;
         }
-      } else {
-        localStorage.setItem('danan_admin_logged_in', 'true');
-        showToast("Logged in via Demo Mode", "success");
-        setTimeout(() => { window.location.href = './index.html'; }, 500);
+
+        if (!activeAuth) {
+          throw new Error("Firebase Auth service is unavailable.");
+        }
+
+        const { signInWithEmailAndPassword } = await import('https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js');
+        await signInWithEmailAndPassword(activeAuth, email, password);
+        showToast("Login successful!", "success");
+        setTimeout(() => {
+          window.location.replace('./index.html');
+        }, 500);
+      } catch (err) {
+        showToast("Login failed: " + formatAuthError(err), "error");
+        btn.disabled = false;
+        btn.textContent = "Sign In with Email";
       }
     });
 
@@ -95,22 +146,47 @@
       btn.disabled = true;
       btn.style.opacity = '0.7';
 
-      if (isFirebaseConfigured() && auth) {
-        try {
-          const { GoogleAuthProvider, signInWithPopup } = await import('https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js');
-          const provider = new GoogleAuthProvider();
-          await signInWithPopup(auth, provider);
-          showToast("Signed in with Google successfully!", "success");
-          window.location.href = './index.html';
-        } catch (err) {
-          showToast("Google Sign-In failed: " + err.message, "error");
-          btn.disabled = false;
-          btn.style.opacity = '1';
+      try {
+        if (!activeAuth) {
+          const { auth: fbAuth } = await initFirebase();
+          activeAuth = fbAuth || auth;
         }
-      } else {
-        localStorage.setItem('danan_admin_logged_in', 'true');
-        showToast("Logged in via Demo Mode", "success");
-        setTimeout(() => { window.location.href = './index.html'; }, 500);
+
+        if (!activeAuth) {
+          throw new Error("Firebase Auth service is unavailable.");
+        }
+
+        const { GoogleAuthProvider, signInWithPopup } = await import('https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js');
+        const provider = new GoogleAuthProvider();
+        await signInWithPopup(activeAuth, provider);
+        showToast("Signed in with Google successfully!", "success");
+        setTimeout(() => {
+          window.location.replace('./index.html');
+        }, 500);
+      } catch (err) {
+        showToast("Google Sign-In failed: " + formatAuthError(err), "error");
+        btn.disabled = false;
+        btn.style.opacity = '1';
+      }
+    });
+
+    // Password Reset handler
+    document.getElementById('btnForgotPassword')?.addEventListener('click', async (e) => {
+      e.preventDefault();
+      const emailInput = document.getElementById('adminEmail').value.trim();
+      const email = emailInput || prompt("Enter your administrator email to receive a password reset link:");
+      if (!email) return;
+
+      try {
+        if (!activeAuth) {
+          const { auth: fbAuth } = await initFirebase();
+          activeAuth = fbAuth || auth;
+        }
+        const { sendPasswordResetEmail } = await import('https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js');
+        await sendPasswordResetEmail(activeAuth, email);
+        showToast("Password reset email sent to " + email + ". Check your inbox!", "success");
+      } catch (err) {
+        showToast("Password reset failed: " + formatAuthError(err), "error");
       }
     });
   </script>

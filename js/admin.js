@@ -1,4 +1,5 @@
-import { auth, seedInitialData } from './db.js';
+// Admin management script: auth gating, navigation, seeding and toasts
+import { initFirebase, auth, getDoc, seedInitialData } from './db.js';
 import { isFirebaseConfigured } from './firebase-config.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
@@ -8,33 +9,42 @@ document.addEventListener('DOMContentLoaded', async () => {
   initLogoutButton();
 });
 
-// Admin Authentication Enforcement
-async function checkAdminAuth() {
+// Admin Authentication Enforcement: Strictly gated on Firebase Auth user
+export async function checkAdminAuth() {
   const isLoginPage = window.location.pathname.includes('login.html');
-  const isDemoLoggedIn = localStorage.getItem('danan_admin_logged_in') === 'true';
 
-  if (isFirebaseConfigured() && auth) {
-    try {
-      const { onAuthStateChanged } = await import('https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js');
-      onAuthStateChanged(auth, (user) => {
-        const hasAccess = !!user || isDemoLoggedIn;
-        if (!hasAccess && !isLoginPage) {
-          window.location.href = './login.html';
-        } else if (hasAccess && isLoginPage) {
-          window.location.href = './index.html';
-        }
-      });
-    } catch (err) {
-      if (!isDemoLoggedIn && !isLoginPage) {
-        window.location.href = './login.html';
+  try {
+    const { auth: initializedAuth } = await initFirebase();
+    const activeAuth = initializedAuth || auth;
+
+    if (!activeAuth) {
+      if (!isLoginPage) {
+        window.location.replace('./login.html');
       }
+      return;
     }
-  } else {
-    // Demo mode login fallback
-    if (!isDemoLoggedIn && !isLoginPage) {
-      window.location.href = './login.html';
-    } else if (isDemoLoggedIn && isLoginPage) {
-      window.location.href = './index.html';
+
+    const { onAuthStateChanged } = await import('https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js');
+
+    onAuthStateChanged(activeAuth, (user) => {
+      if (user) {
+        // Authenticated admin user
+        if (isLoginPage) {
+          window.location.replace('./index.html');
+        } else {
+          document.body.classList.add('auth-ready');
+        }
+      } else {
+        // Unauthenticated visitor
+        if (!isLoginPage) {
+          window.location.replace('./login.html');
+        }
+      }
+    });
+  } catch (err) {
+    console.error("Admin auth verification error:", err);
+    if (!isLoginPage) {
+      window.location.replace('./login.html');
     }
   }
 }
@@ -45,7 +55,8 @@ function initAdminNavigation() {
   const navItems = document.querySelectorAll('.sidebar-nav .nav-item');
   
   navItems.forEach(item => {
-    if (currentPath.includes(item.getAttribute('href'))) {
+    const href = item.getAttribute('href');
+    if (href && currentPath.endsWith(href)) {
       item.classList.add('active');
     }
   });
@@ -60,52 +71,80 @@ function initAdminNavigation() {
   }
 }
 
-// Seed Data Handler
-function initSeedButton() {
+// Seed Data Handler with protection against overwriting admin changes
+async function initSeedButton() {
   const btnSeed = document.getElementById('btnSeedData');
-  if (btnSeed) {
-    btnSeed.addEventListener('click', async () => {
-      if (!confirm("Are you sure you want to seed default data? This will overwrite or initialize default site data.")) return;
+  if (!btnSeed) return;
 
-      btnSeed.disabled = true;
-      btnSeed.textContent = "Seeding data...";
-      showToast("Seeding initial website content...");
+  // Check if data is already seeded in Firestore
+  try {
+    const meta = await getDoc('settings', 'meta');
+    if (meta && meta.seeded) {
+      btnSeed.title = "Default content is already seeded. Click to re-seed (requires typing RESET).";
+    }
+  } catch (e) {}
 
-      try {
-        const logs = await seedInitialData();
-        showToast("Initial data seeded successfully!", "success");
-        setTimeout(() => location.reload(), 1500);
-      } catch (err) {
-        console.error("Seed failed:", err);
-        showToast("Error seeding data: " + err.message, "error");
-      } finally {
-        btnSeed.disabled = false;
-        btnSeed.textContent = "Seed Default Data";
+  btnSeed.addEventListener('click', async () => {
+    let force = false;
+    try {
+      const meta = await getDoc('settings', 'meta');
+      if (meta && meta.seeded) {
+        const confirmWord = prompt("Default site data is already seeded in Firestore!\n\nTo safely fill any MISSING items without overwriting, click OK with a blank box.\n\nTo OVERWRITE/RESET all documents back to initial defaults, type 'RESET' below:");
+        if (confirmWord === null) return;
+        if (confirmWord.trim() === 'RESET') {
+          force = true;
+        }
+      } else {
+        if (!confirm("Are you sure you want to seed default site data into Firestore?")) return;
       }
-    });
-  }
+    } catch (e) {
+      if (!confirm("Seed default data to Firestore?")) return;
+    }
+
+    btnSeed.disabled = true;
+    const oldText = btnSeed.textContent;
+    btnSeed.textContent = "⏳ Seeding data...";
+    showToast("Writing content to Firestore...", "info");
+
+    try {
+      const result = await seedInitialData(force);
+      showToast("Default data seeded successfully!", "success");
+      setTimeout(() => location.reload(), 1200);
+    } catch (err) {
+      console.error("Seed failed:", err);
+      showToast("Error seeding data: " + err.message, "error");
+    } finally {
+      btnSeed.disabled = false;
+      btnSeed.textContent = oldText;
+    }
+  });
 }
 
 // Logout Action
 function initLogoutButton() {
   const logoutBtn = document.getElementById('btnLogout');
-  if (logoutBtn) {
-    logoutBtn.addEventListener('click', async (e) => {
-      e.preventDefault();
-      if (isFirebaseConfigured() && auth) {
+  if (!logoutBtn) return;
+
+  logoutBtn.addEventListener('click', async (e) => {
+    e.preventDefault();
+    try {
+      const { auth: initializedAuth } = await initFirebase();
+      const activeAuth = initializedAuth || auth;
+      if (activeAuth) {
         const { signOut } = await import('https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js');
-        await signOut(auth);
+        await signOut(activeAuth);
       }
-      localStorage.removeItem('danan_admin_logged_in');
-      showToast("Logged out successfully.");
-      setTimeout(() => {
-        window.location.href = './login.html';
-      }, 500);
-    });
-  }
+    } catch (err) {
+      console.warn("Sign-out notice:", err);
+    }
+    showToast("Logged out successfully.");
+    setTimeout(() => {
+      window.location.replace('./login.html');
+    }, 400);
+  });
 }
 
-// Global Toast Notification Helper
+// Global Toast Notification Helper with XSS escaping via textContent
 export function showToast(message, type = 'info') {
   let container = document.querySelector('.toast-container');
   if (!container) {
@@ -116,13 +155,14 @@ export function showToast(message, type = 'info') {
 
   const toast = document.createElement('div');
   toast.className = `toast toast-${type}`;
-  toast.innerHTML = `
-    <span>${message}</span>
-  `;
+  
+  const span = document.createElement('span');
+  span.textContent = String(message);
+  toast.appendChild(span);
 
   container.appendChild(toast);
 
   setTimeout(() => {
     toast.remove();
-  }, 4000);
+  }, 4500);
 }

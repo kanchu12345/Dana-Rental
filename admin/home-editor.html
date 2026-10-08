@@ -272,23 +272,35 @@
     // Global window actions
     window.deleteRule = async (id) => {
       if (!confirm("Delete this rule?")) return;
-      await deleteDoc('rules', id);
-      showToast("Rule deleted.", "info");
-      await loadRulesTable();
+      try {
+        await deleteDoc('rules', id);
+        showToast("Rule deleted.", "info");
+        await loadRulesTable();
+      } catch (err) {
+        showToast("Delete failed: " + err.message, "error");
+      }
     };
 
     window.deleteFaq = async (id) => {
       if (!confirm("Delete this FAQ?")) return;
-      await deleteDoc('faqs', id);
-      showToast("FAQ deleted.", "info");
-      await loadFaqsTable();
+      try {
+        await deleteDoc('faqs', id);
+        showToast("FAQ deleted.", "info");
+        await loadFaqsTable();
+      } catch (err) {
+        showToast("Delete failed: " + err.message, "error");
+      }
     };
 
     window.deleteGalleryItem = async (id) => {
       if (!confirm("Delete this gallery image?")) return;
-      await deleteDoc('gallery', id);
-      showToast("Photo deleted.", "info");
-      await loadGalleryTable();
+      try {
+        await deleteDoc('gallery', id);
+        showToast("Photo deleted.", "info");
+        await loadGalleryTable();
+      } catch (err) {
+        showToast("Delete failed: " + err.message, "error");
+      }
     };
 
     document.addEventListener('DOMContentLoaded', async () => {
@@ -306,10 +318,14 @@
         const file = e.target.files[0];
         if (file) {
           showToast("Uploading hero image...");
-          const url = await uploadImage(file);
-          document.getElementById('heroBgUrl').value = url;
-          document.getElementById('heroBgPreview').src = fixImgPath(url);
-          showToast("Hero image uploaded!", "success");
+          try {
+            const url = await uploadImage(file);
+            document.getElementById('heroBgUrl').value = url;
+            document.getElementById('heroBgPreview').src = fixImgPath(url);
+            showToast("Hero image uploaded!", "success");
+          } catch (err) {
+            showToast("Upload failed: " + err.message, "error");
+          }
         }
       });
 
@@ -387,28 +403,42 @@
       await loadRulesTable();
       document.getElementById('addRuleForm').addEventListener('submit', async (e) => {
         e.preventDefault();
-        const title = document.getElementById('ruleTitle').value.trim();
-        const body = document.getElementById('ruleBody').value.trim();
-        const id = `rule_${Date.now()}`;
-        await saveDoc('rules', id, { id, title, body, order: Date.now() });
-        showToast("Rule added!", "success");
-        document.getElementById('ruleTitle').value = '';
-        document.getElementById('ruleBody').value = '';
-        await loadRulesTable();
+        try {
+          const title = document.getElementById('ruleTitle').value.trim();
+          const body = document.getElementById('ruleBody').value.trim();
+          const id = `rule_${Date.now()}`;
+          const currentRules = await getCollection('rules');
+          let maxOrder = 0;
+          currentRules.forEach(r => { if (typeof r.order === 'number' && r.order > maxOrder) maxOrder = r.order; });
+          await saveDoc('rules', id, { id, title, body, order: maxOrder + 1 });
+          showToast("Rule added!", "success");
+          document.getElementById('ruleTitle').value = '';
+          document.getElementById('ruleBody').value = '';
+          await loadRulesTable();
+        } catch (err) {
+          showToast("Failed to add rule: " + err.message, "error");
+        }
       });
 
       // 3. FAQ Manager
       await loadFaqsTable();
       document.getElementById('addFaqForm').addEventListener('submit', async (e) => {
         e.preventDefault();
-        const question = document.getElementById('faqQuestion').value.trim();
-        const answer = document.getElementById('faqAnswer').value.trim();
-        const id = `faq_${Date.now()}`;
-        await saveDoc('faqs', id, { id, question, answer, visible: true, order: Date.now() });
-        showToast("FAQ added!", "success");
-        document.getElementById('faqQuestion').value = '';
-        document.getElementById('faqAnswer').value = '';
-        await loadFaqsTable();
+        try {
+          const question = document.getElementById('faqQuestion').value.trim();
+          const answer = document.getElementById('faqAnswer').value.trim();
+          const id = `faq_${Date.now()}`;
+          const currentFaqs = await getCollection('faqs');
+          let maxOrder = 0;
+          currentFaqs.forEach(f => { if (typeof f.order === 'number' && f.order > maxOrder) maxOrder = f.order; });
+          await saveDoc('faqs', id, { id, question, answer, visible: true, order: maxOrder + 1 });
+          showToast("FAQ added!", "success");
+          document.getElementById('faqQuestion').value = '';
+          document.getElementById('faqAnswer').value = '';
+          await loadFaqsTable();
+        } catch (err) {
+          showToast("Failed to add FAQ: " + err.message, "error");
+        }
       });
 
       // 4. Load Gallery Table

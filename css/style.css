@@ -824,7 +824,7 @@ select option {
    ========================================================================== */
 .why-about-wrapper {
   position: relative;
-  background: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.88)), url('https://aa.rento.lk/NewUI/images/pexels-freestockpro-319893.jpg') center center / cover no-repeat;
+  background: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.88)), url('../assets/images/about/pexels-freestockpro-319893.jpg') center center / cover no-repeat;
   background-attachment: fixed;
   padding: 120px 0 100px;
   border-top: none;

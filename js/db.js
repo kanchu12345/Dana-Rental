@@ -1,15 +1,31 @@
-// Database abstraction layer supporting Firebase Firestore with JSON/LocalStorage fallback
+// Database abstraction layer supporting Firebase Firestore with Cloudinary uploads
 import { firebaseConfig, isFirebaseConfigured } from './firebase-config.js';
 import { cloudinaryConfig, isCloudinaryConfigured } from './cloudinary-config.js';
 
 let app = null;
 let db = null;
 let auth = null;
-
 let initializePromise = null;
 
+// Per-page-load memoization cache for collection reads to avoid duplicate Firestore reads
+const collectionMemoCache = new Map();
+
+export function clearCollectionCache(collectionName) {
+  if (collectionName) {
+    collectionMemoCache.delete(collectionName);
+  } else {
+    collectionMemoCache.clear();
+  }
+}
+
+// Determine if the current script is running within the Admin panel
+export function isAdminContext() {
+  return typeof window !== 'undefined' && 
+    (window.location.pathname.includes('/admin/') || window.location.href.includes('/admin/'));
+}
+
 // Initialize Firebase if configured
-async function initFirebase() {
+export async function initFirebase() {
   if (initializePromise) return initializePromise;
 
   initializePromise = (async () => {
@@ -22,19 +38,24 @@ async function initFirebase() {
         app = initializeApp(firebaseConfig);
         db = getFirestore(app);
         auth = getAuth(app);
-        console.log("Firebase initialized successfully.");
       } catch (err) {
-        console.warn("Firebase initialization failed, falling back to local storage:", err);
+        console.warn("Firebase initialization failed:", err);
+        if (isAdminContext()) {
+          throw new Error("Firebase initialization failed: " + (err.message || err));
+        }
       }
     } else {
-      console.log("Firebase credentials not configured. Using local JSON / LocalStorage fallback.");
+      if (isAdminContext()) {
+        throw new Error("Firebase is not configured in js/firebase-config.js. Cannot perform admin operations.");
+      }
     }
+    return { app, db, auth };
   })();
 
   return initializePromise;
 }
 
-// XSS Prevention helper
+// XSS Sanitizer: complete character escape
 export function escapeHTML(str) {
   if (str === null || str === undefined) return '';
   if (typeof str !== 'string') return String(str);
@@ -46,9 +67,69 @@ export function escapeHTML(str) {
     .replace(/'/g, '&#039;');
 }
 
+// Whitelist HTML sanitizer allowing only <span>, <strong>, <em>, <br>
+export function sanitizeHTML(html) {
+  if (html === null || html === undefined) return '';
+  if (typeof html !== 'string') return String(html);
+
+  const div = document.createElement('div');
+  div.textContent = html;
+  let escaped = div.innerHTML;
+
+  // Unescape safe allowed tags
+  escaped = escaped
+    .replace(/&lt;br\s*\/?&gt;/gi, '<br>')
+    .replace(/&lt;strong&gt;/gi, '<strong>')
+    .replace(/&lt;\/strong&gt;/gi, '</strong>')
+    .replace(/&lt;em&gt;/gi, '<em>')
+    .replace(/&lt;\/em&gt;/gi, '</em>')
+    .replace(/&lt;span&gt;/gi, '<span>')
+    .replace(/&lt;span class="([a-zA-Z0-9_\-\s]+)"&gt;/gi, '<span class="$1">')
+    .replace(/&lt;span style="([a-zA-Z0-9_\-\s:;#]+)"&gt;/gi, '<span style="$1">')
+    .replace(/&lt;\/span&gt;/gi, '</span>');
+
+  return escaped;
+}
+
+// CSS URL Sanitizer to prevent CSS breakout or javascript: protocol
+export function sanitizeCSSUrl(url) {
+  if (!url || typeof url !== 'string') return '';
+  const clean = url.trim();
+  const lower = clean.toLowerCase();
+  if (lower.startsWith('javascript:') || lower.startsWith('vbscript:') || 
+      clean.includes('"') || clean.includes("'") || clean.includes(')')) {
+    return '';
+  }
+  return clean;
+}
+
+// Normalize WhatsApp number to international format with country code (defaults to Sri Lanka +94)
+export function normalizeWhatsAppNumber(raw) {
+  if (!raw) return '94772013059';
+  let clean = String(raw).replace(/\D/g, '');
+  if (clean.startsWith('0')) {
+    clean = '94' + clean.slice(1);
+  } else if (!clean.startsWith('94') && clean.length === 9) {
+    clean = '94' + clean;
+  }
+  return clean || '94772013059';
+}
+
+// Sanitize telephone number for tel: links
+export function sanitizeTel(phone) {
+  if (!phone) return '';
+  return String(phone).replace(/[^\d+]/g, '');
+}
+
+// Sanitize email address for mailto: links
+export function sanitizeMailto(email) {
+  if (!email) return '';
+  return encodeURIComponent(String(email).trim());
+}
+
 // Helper to determine relative path to data folder from current location
 function getDataPath(filename, docId) {
-  const isSubFolder = window.location.pathname.includes('/admin/');
+  const isSubFolder = typeof window !== 'undefined' && window.location.pathname.includes('/admin/');
   const prefix = isSubFolder ? '../data/' : './data/';
   if (filename === 'pages' && docId) {
     if (docId === 'destinations') return `${prefix}destinations-page.json`;
@@ -61,6 +142,21 @@ function getDataPath(filename, docId) {
   };
   const target = fileMap[filename] || filename;
   return `${prefix}${target}.json`;
+}
+
+// Helper to normalize image paths for admin vs root pages
+export function fixImgPath(path, isSubFolder = true) {
+  if (!path || typeof path !== 'string') return '';
+  if (path.startsWith('data:') || path.startsWith('http://') || path.startsWith('https://')) {
+    return path;
+  }
+  if (isSubFolder && path.startsWith('./assets/')) {
+    return '../' + path.substring(2);
+  }
+  if (!isSubFolder && path.startsWith('../assets/')) {
+    return './' + path.substring(3);
+  }
+  return path;
 }
 
 // GET Single Document
@@ -76,17 +172,14 @@ export async function getDoc(collectionName, docId) {
         return { id: snap.id, ...snap.data() };
       }
     } catch (e) {
-      console.warn(`Firestore getDoc(${collectionName}/${docId}) error, checking local fallback:`, e);
+      console.warn(`Firestore getDoc(${collectionName}/${docId}) failed:`, e);
+      if (isAdminContext()) {
+        throw new Error(`Firestore read error (${collectionName}/${docId}): ` + (e.message || e));
+      }
     }
   }
 
-  // Fallback: local storage override or JSON file
-  const localKey = `danan_${collectionName}_${docId}`;
-  const localData = localStorage.getItem(localKey);
-  if (localData) {
-    return JSON.parse(localData);
-  }
-
+  // Fallback to static JSON file only when Firestore is unavailable
   try {
     const res = await fetch(getDataPath(collectionName, docId));
     if (res.ok) {
@@ -104,69 +197,49 @@ export async function getDoc(collectionName, docId) {
 }
 
 // GET Collection
-// Helper to normalize image paths for admin vs root pages
-export function fixImgPath(path, isSubFolder = true) {
-  if (!path || typeof path !== 'string') return '';
-  if (path.startsWith('data:') || path.startsWith('http://') || path.startsWith('https://')) {
-    return path;
+export async function getCollection(collectionName, forceFresh = false) {
+  if (!forceFresh && collectionMemoCache.has(collectionName)) {
+    return collectionMemoCache.get(collectionName);
   }
-  if (isSubFolder && path.startsWith('./assets/')) {
-    return '../' + path.substring(2);
-  }
-  if (!isSubFolder && path.startsWith('../assets/')) {
-    return './' + path.substring(3);
-  }
-  return path;
-}
 
-export async function getCollection(collectionName) {
   await initFirebase();
-
-  const deletedKey = `danan_deleted_${collectionName}`;
-  const deletedIds = JSON.parse(localStorage.getItem(deletedKey) || '[]');
-
-  function filterDeleted(list) {
-    if (!Array.isArray(list)) return [];
-    if (deletedIds.length === 0) return list;
-    return list.filter(item => item && !deletedIds.includes(item.id));
-  }
 
   if (db) {
     try {
-      const { collection, getDocs, query, orderBy } = await import('https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js');
+      const { collection, getDocs } = await import('https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js');
       const colRef = collection(db, collectionName);
-      let snap;
-      try {
-        const q = query(colRef, orderBy("order", "asc"));
-        snap = await getDocs(q);
-      } catch (err) {
-        snap = await getDocs(colRef);
-      }
-      if (!snap.empty) {
-        const list = [];
-        snap.forEach(docSnap => {
-          list.push({ id: docSnap.id, ...docSnap.data() });
-        });
-        return filterDeleted(list);
-      }
+      
+      // Fetch collection without orderBy to avoid dropping documents missing the 'order' field
+      const snap = await getDocs(colRef);
+      
+      // When Firestore succeeds without error, Firestore is the authoritative source of truth,
+      // even if the collection is empty (e.g. admin deleted all items).
+      const list = [];
+      snap.forEach(docSnap => {
+        list.push({ id: docSnap.id, ...docSnap.data() });
+      });
+
+      // Client-side sort by 'order' (missing order goes to end, then tie-break by date/id)
+      list.sort((a, b) => {
+        const orderA = (typeof a.order === 'number') ? a.order : 999999;
+        const orderB = (typeof b.order === 'number') ? b.order : 999999;
+        if (orderA !== orderB) return orderA - orderB;
+        const dateA = a.createdAt || a.updatedAt || a.id || '';
+        const dateB = b.createdAt || b.updatedAt || b.id || '';
+        return String(dateA).localeCompare(String(dateB));
+      });
+
+      collectionMemoCache.set(collectionName, list);
+      return list;
     } catch (e) {
-      console.warn(`Firestore getCollection(${collectionName}) failed, using local fallback:`, e);
+      console.warn(`Firestore getCollection(${collectionName}) failed, using static fallback:`, e);
+      if (isAdminContext()) {
+        throw new Error(`Firestore read error on collection '${collectionName}': ` + (e.message || e));
+      }
     }
   }
 
-  // Check local storage fallback first
-  const localKey = `danan_col_${collectionName}`;
-  const localList = localStorage.getItem(localKey);
-  if (localList) {
-    try {
-      const parsedLocal = JSON.parse(localList);
-      if (Array.isArray(parsedLocal)) {
-        return filterDeleted(parsedLocal);
-      }
-    } catch(e) {}
-  }
-
-  // Fetch initial JSON fallback and populate local storage
+  // Fallback to static JSON file ONLY when Firestore is unreachable or unconfigured
   try {
     const res = await fetch(getDataPath(collectionName));
     if (res.ok) {
@@ -177,9 +250,8 @@ export async function getCollection(collectionName) {
       } else if (typeof json === 'object') {
         freshList = Object.keys(json).map(key => ({ id: key, ...json[key] }));
       }
-      
-      localStorage.setItem(localKey, JSON.stringify(freshList));
-      return filterDeleted(freshList);
+      collectionMemoCache.set(collectionName, freshList);
+      return freshList;
     }
   } catch (err) {
     console.error(`Error fetching collection fallback ${collectionName}:`, err);
@@ -195,48 +267,42 @@ export async function saveDoc(collectionName, docId, data) {
   const timestamp = new Date().toISOString();
   const payload = { ...data, updatedAt: timestamp };
 
-  let savedInFirestore = false;
+  if (isAdminContext() && !db) {
+    throw new Error("Cannot save: Firebase Firestore is not initialized or offline. Please check your admin login.");
+  }
+
   if (db) {
     try {
       const { doc, setDoc } = await import('https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js');
       const docRef = doc(db, collectionName, docId);
       await setDoc(docRef, payload, { merge: true });
-      savedInFirestore = true;
     } catch (e) {
-      console.warn(`Firestore setDoc error in ${collectionName}/${docId}:`, e);
+      console.error(`Firestore saveDoc error in ${collectionName}/${docId}:`, e);
+      // In admin context, throw immediately so the admin is informed of save failure!
+      if (isAdminContext()) {
+        throw new Error(`Firestore save failed (${e.code || 'error'}): ${e.message || e}`);
+      }
+      throw e;
+    }
+  } else {
+    if (isAdminContext()) {
+      throw new Error("Firestore is not available. Changes were not saved to database.");
     }
   }
 
-  // Remove from deleted tracking if re-added
-  const deletedKey = `danan_deleted_${collectionName}`;
-  let deletedIds = JSON.parse(localStorage.getItem(deletedKey) || '[]');
-  if (deletedIds.includes(docId)) {
-    deletedIds = deletedIds.filter(id => id !== docId);
-    localStorage.setItem(deletedKey, JSON.stringify(deletedIds));
-  }
+  // Clear memoized cache for this collection so subsequent reads get the fresh data
+  clearCollectionCache(collectionName);
 
-  // Always update localStorage fallback for responsive UI & offline capability
-  if (docId) {
-    localStorage.setItem(`danan_${collectionName}_${docId}`, JSON.stringify({ id: docId, ...payload }));
-  }
-
-  // If array collection, sync local collection array
-  const localColKey = `danan_col_${collectionName}`;
-  let existingCol = JSON.parse(localStorage.getItem(localColKey) || '[]');
-  const idx = existingCol.findIndex(item => item.id === docId);
-  if (idx >= 0) {
-    existingCol[idx] = { id: docId, ...payload };
-  } else {
-    existingCol.push({ id: docId, ...payload });
-  }
-  localStorage.setItem(localColKey, JSON.stringify(existingCol));
-
-  return { id: docId, firestore: savedInFirestore, ...payload };
+  return { id: docId, ...payload };
 }
 
 // DELETE Document
 export async function deleteDoc(collectionName, docId) {
   await initFirebase();
+
+  if (isAdminContext() && !db) {
+    throw new Error("Cannot delete: Firebase Firestore is not initialized or offline.");
+  }
 
   if (db) {
     try {
@@ -244,65 +310,87 @@ export async function deleteDoc(collectionName, docId) {
       const docRef = doc(db, collectionName, docId);
       await firestoreDelete(docRef);
     } catch (e) {
-      console.warn(`Firestore deleteDoc error:`, e);
+      console.error(`Firestore deleteDoc error in ${collectionName}/${docId}:`, e);
+      if (isAdminContext()) {
+        throw new Error(`Firestore delete failed (${e.code || 'error'}): ${e.message || e}`);
+      }
+      throw e;
+    }
+  } else {
+    if (isAdminContext()) {
+      throw new Error("Firestore is not available. Delete operation aborted.");
     }
   }
 
-  // Record deleted ID in local tracking
-  const deletedKey = `danan_deleted_${collectionName}`;
-  let deletedIds = JSON.parse(localStorage.getItem(deletedKey) || '[]');
-  if (!deletedIds.includes(docId)) {
-    deletedIds.push(docId);
-    localStorage.setItem(deletedKey, JSON.stringify(deletedIds));
-  }
-
-  localStorage.removeItem(`danan_${collectionName}_${docId}`);
-  const localColKey = `danan_col_${collectionName}`;
-  let existingCol = JSON.parse(localStorage.getItem(localColKey) || '[]');
-  existingCol = existingCol.filter(item => item.id !== docId);
-  localStorage.setItem(localColKey, JSON.stringify(existingCol));
+  // Clear memoized cache for this collection
+  clearCollectionCache(collectionName);
 
   return true;
 }
 
-// UPLOAD Image (Cloudinary or Base64 Data URL fallback)
-export async function uploadImage(file) {
-  if (isCloudinaryConfigured()) {
-    try {
-      const formData = new FormData();
-      formData.append('file', file);
-      formData.append('upload_preset', cloudinaryConfig.uploadPreset);
+// UPLOAD Image - Cloudinary is the ONLY upload path in admin (no base64 fallback)
+export async function uploadImage(file, onProgress) {
+  if (!file) throw new Error("No file selected for upload.");
 
-      const res = await fetch(`https://api.cloudinary.com/v1_1/${cloudinaryConfig.cloudName}/image/upload`, {
-        method: 'POST',
-        body: formData
-      });
-
-      if (res.ok) {
-        const data = await res.json();
-        return data.secure_url;
-      } else {
-        console.error("Cloudinary upload failed:", await res.text());
-      }
-    } catch (err) {
-      console.error("Cloudinary upload error:", err);
-    }
+  // Validate file type
+  if (!file.type || !file.type.startsWith('image/')) {
+    throw new Error("Invalid file type. Please upload a valid image (JPG, PNG, WebP, GIF, SVG).");
   }
 
-  // Fallback to base64 Data URL for local testing
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = error => reject(error);
-    reader.readAsDataURL(file);
+  // Validate max size (5 MB)
+  const maxSize = 5 * 1024 * 1024;
+  if (file.size > maxSize) {
+    const sizeMB = (file.size / (1024 * 1024)).toFixed(2);
+    throw new Error(`Image size (${sizeMB} MB) exceeds maximum allowed limit of 5 MB.`);
+  }
+
+  if (!isCloudinaryConfigured()) {
+    throw new Error("Cloudinary image upload is not configured. Please enter your Cloud Name and Unsigned Upload Preset in 'js/cloudinary-config.js'.");
+  }
+
+  const formData = new FormData();
+  formData.append('file', file);
+  formData.append('upload_preset', cloudinaryConfig.uploadPreset);
+
+  const endpoint = `https://api.cloudinary.com/v1_1/${cloudinaryConfig.cloudName}/image/upload`;
+  const res = await fetch(endpoint, {
+    method: 'POST',
+    body: formData
   });
+
+  if (!res.ok) {
+    const errText = await res.text();
+    let msg = "Image upload failed";
+    try {
+      const parsed = JSON.parse(errText);
+      if (parsed.error && parsed.error.message) msg += `: ${parsed.error.message}`;
+    } catch (e) {
+      msg += `: ${errText}`;
+    }
+    throw new Error(msg);
+  }
+
+  const data = await res.json();
+  if (!data.secure_url) {
+    throw new Error("Cloudinary response did not include a secure image URL.");
+  }
+  return data.secure_url;
 }
 
-// SEED Initial Data to Firestore
-export async function seedInitialData() {
+// SEED Initial Data to Firestore with meta.seeded protection
+export async function seedInitialData(force = false) {
   await initFirebase();
 
-  const results = [];
+  if (!db) {
+    throw new Error("Cannot seed: Firestore is not connected.");
+  }
+
+  const meta = await getDoc('settings', 'meta');
+  if (meta && meta.seeded && !force) {
+    throw new Error("Initial data is already seeded! Use force reset if you explicitly want to re-seed.");
+  }
+
+  const results = { success: [], failed: [] };
 
   // 1. Single Page & Configuration Documents
   const docSeeds = [
@@ -317,14 +405,23 @@ export async function seedInitialData() {
 
   for (const s of docSeeds) {
     try {
+      // Check if doc exists in Firestore; do not overwrite if not force
+      if (!force) {
+        const existing = await getDoc(s.col, s.id);
+        if (existing) {
+          results.success.push(`Skipped existing document ${s.col}/${s.id}`);
+          continue;
+        }
+      }
+
       const res = await fetch(getDataPath(s.file, s.id));
       if (res.ok) {
         const json = await res.json();
         await saveDoc(s.col, s.id, json);
-        results.push(`${s.col}/${s.id} seeded successfully.`);
+        results.success.push(`Seeded ${s.col}/${s.id}`);
       }
     } catch (e) {
-      console.warn(`Failed to seed ${s.col}/${s.id}:`, e);
+      results.failed.push(`Failed to seed ${s.col}/${s.id}: ${e.message}`);
     }
   }
 
@@ -336,17 +433,37 @@ export async function seedInitialData() {
       if (res.ok) {
         const list = await res.json();
         if (Array.isArray(list)) {
-          for (const item of list) {
-            await saveDoc(colName, item.id || `item_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`, item);
+          let count = 0;
+          for (let i = 0; i < list.length; i++) {
+            const item = list[i];
+            const itemId = item.id || `${colName}_${i + 1}`;
+            if (!force) {
+              const existing = await getDoc(colName, itemId);
+              if (existing) continue;
+            }
+            const itemPayload = { ...item, order: typeof item.order === 'number' ? item.order : i + 1 };
+            await saveDoc(colName, itemId, itemPayload);
+            count++;
           }
-          results.push(`${colName} collection (${list.length} items) seeded.`);
+          results.success.push(`Seeded ${count} items in ${colName}`);
         }
       }
     } catch (e) {
-      console.warn(`Failed to seed collection ${colName}:`, e);
+      results.failed.push(`Failed to seed ${colName}: ${e.message}`);
     }
   }
 
+  if (results.failed.length > 0) {
+    throw new Error(`Seeding partially failed: ${results.failed.join(', ')}`);
+  }
+
+  // Set meta.seeded = true in Firestore
+  await saveDoc('settings', 'meta', {
+    seeded: true,
+    seededAt: new Date().toISOString()
+  });
+
+  clearCollectionCache();
   return results;
 }
 

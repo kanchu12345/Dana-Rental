@@ -262,10 +262,14 @@
       const file = e.target.files[0];
       if (file) {
         showToast("Uploading intro image...");
-        const url = await uploadImage(file);
-        document.getElementById('introImgUrl').value = url;
-        document.getElementById('introImgPreview').src = fixImgPath(url);
-        showToast("Image uploaded!", "success");
+        try {
+          const url = await uploadImage(file);
+          document.getElementById('introImgUrl').value = url;
+          document.getElementById('introImgPreview').src = fixImgPath(url);
+          showToast("Image uploaded!", "success");
+        } catch (err) {
+          showToast("Upload failed: " + err.message, "error");
+        }
       }
     });
 

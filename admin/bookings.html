@@ -268,21 +268,14 @@
 
   <script type="module" src="../js/admin.js"></script>
   <script type="module">
-    import { getCollection, saveDoc, deleteDoc, escapeHTML } from '../js/db.js';
+    import { getCollection, saveDoc, deleteDoc, escapeHTML, normalizeWhatsAppNumber } from '../js/db.js';
     import { showToast } from '../js/admin.js';
 
     let bookingsCache = [];
     let currentFilter = 'all';
 
     function formatWaPhone(rawPhone) {
-      if (!rawPhone) return '';
-      let clean = rawPhone.replace(/\D/g, '');
-      if (clean.startsWith('0')) {
-        clean = '94' + clean.slice(1);
-      } else if (!clean.startsWith('94') && clean.length === 9) {
-        clean = '94' + clean;
-      }
-      return clean;
+      return normalizeWhatsAppNumber(rawPhone);
     }
 
     // Global Action: APPROVE / CONFIRM BOOKING
@@ -588,12 +581,15 @@
       // 1. Get from database collection
       try {
         const colList = await getCollection('bookings');
-        if (Array.isArray(colList) && colList.length > 0) {
+        if (Array.isArray(colList)) {
           list = colList;
         }
-      } catch (e) {}
+      } catch (e) {
+        console.error("Error fetching bookings:", e);
+        showToast("Error loading bookings from Firestore: " + e.message, "error");
+      }
 
-      // 2. Merge local storage bookings
+      // 2. Merge local storage bookings if any
       try {
         const local = JSON.parse(localStorage.getItem('danan_bookings') || '[]');
         if (Array.isArray(local)) {
@@ -604,14 +600,6 @@
           });
         }
       } catch (e) {}
-
-      // 3. Fallback to data/bookings.json if empty
-      if (list.length === 0) {
-        try {
-          const res = await fetch('../data/bookings.json');
-          if (res.ok) list = await res.json();
-        } catch (e) {}
-      }
 
       bookingsCache = list;
 

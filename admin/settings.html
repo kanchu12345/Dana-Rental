@@ -92,6 +92,11 @@
               <input type="text" id="hours" class="form-control" required>
             </div>
 
+            <div class="form-group">
+              <label for="facebook">Facebook Page URL (Leave empty to hide icon)</label>
+              <input type="url" id="facebook" class="form-control" placeholder="https://www.facebook.com/yourpage">
+            </div>
+
             <div class="form-group" style="grid-column: 1 / -1;">
               <label>Logo Image</label>
               <div style="display: flex; align-items: center; gap: 16px;">
@@ -162,6 +167,7 @@
       document.getElementById('address').value = settings.address || 'Peradeniya & Kandy, Sri Lanka';
       document.getElementById('mapLink').value = settings.mapLink || 'https://share.google/ICElyHmWpDjeHQLOY';
       document.getElementById('hours').value = settings.hours || 'Open 24/7 - Daily & Weekly Rentals';
+      document.getElementById('facebook').value = settings.facebook || '';
       document.getElementById('footerText').value = settings.footerText || '';
       document.getElementById('bank').value = settings.bank || '';
       document.getElementById('logoUrl').value = settings.logo || '../assets/images/logo/logo.png';
@@ -178,10 +184,14 @@
         const file = e.target.files[0];
         if (file) {
           showToast("Uploading logo image...");
-          const url = await uploadImage(file);
-          document.getElementById('logoUrl').value = url;
-          document.getElementById('logoPreview').src = url;
-          showToast("Logo image uploaded!", "success");
+          try {
+            const url = await uploadImage(file);
+            document.getElementById('logoUrl').value = url;
+            document.getElementById('logoPreview').src = url;
+            showToast("Logo image uploaded!", "success");
+          } catch (err) {
+            showToast("Upload failed: " + err.message, "error");
+          }
         }
       });
 
@@ -201,6 +211,7 @@
           address: document.getElementById('address').value.trim(),
           mapLink: document.getElementById('mapLink').value.trim(),
           hours: document.getElementById('hours').value.trim(),
+          facebook: document.getElementById('facebook').value.trim(),
           footerText: document.getElementById('footerText').value.trim(),
           bank: document.getElementById('bank').value.trim(),
           logo: document.getElementById('logoUrl').value.trim(),

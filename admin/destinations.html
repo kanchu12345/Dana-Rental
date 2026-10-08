@@ -224,6 +224,11 @@
       document.getElementById('destForm').reset();
       document.getElementById('dId').value = '';
       document.getElementById('dImgPreview').src = '../assets/images/destinations/dalada_maligawa.jpg';
+      let maxOrder = 0;
+      destinationsCache.forEach(d => {
+        if (typeof d.order === 'number' && d.order > maxOrder) maxOrder = d.order;
+      });
+      document.getElementById('dOrder').value = maxOrder + 1;
       openModal();
     });
 
@@ -235,10 +240,14 @@
       const file = e.target.files[0];
       if (file) {
         showToast("Uploading photo...");
-        const url = await uploadImage(file);
-        document.getElementById('dImgUrl').value = url;
-        document.getElementById('dImgPreview').src = fixImgPath(url);
-        showToast("Photo uploaded successfully!", "success");
+        try {
+          const url = await uploadImage(file);
+          document.getElementById('dImgUrl').value = url;
+          document.getElementById('dImgPreview').src = fixImgPath(url);
+          showToast("Photo uploaded successfully!", "success");
+        } catch (err) {
+          showToast("Upload failed: " + err.message, "error");
+        }
       }
     });
 
@@ -274,17 +283,17 @@
     // Save Hero Header
     document.getElementById('destHeroForm').addEventListener('submit', async (e) => {
       e.preventDefault();
-      const current = await getDoc('pages', 'destinations') || {};
-      const payload = {
-        ...current,
-        hero: {
-          tag: document.getElementById('destHeroTag').value.trim(),
-          title: document.getElementById('destHeroTitle').value.trim(),
-          subline: document.getElementById('destHeroSubline').value.trim()
-        }
-      };
-
       try {
+        const current = await getDoc('pages', 'destinations') || {};
+        const payload = {
+          ...current,
+          hero: {
+            tag: document.getElementById('destHeroTag').value.trim(),
+            title: document.getElementById('destHeroTitle').value.trim(),
+            subline: document.getElementById('destHeroSubline').value.trim()
+          }
+        };
+
         await saveDoc('pages', 'destinations', payload);
         showToast("Hero header saved successfully!", "success");
       } catch (err) {
@@ -313,22 +322,32 @@
         return;
       }
 
-      tbody.innerHTML = items.map(d => `
-        <tr>
-          <td><img src="${fixImgPath(d.image)}" class="dest-thumb" alt="${escapeHTML(d.title)}"></td>
-          <td><strong>${escapeHTML(d.title)}</strong></td>
-          <td>${escapeHTML(d.subtitle || '')}</td>
-          <td><span class="badge-pill">${escapeHTML(d.badge || '')}</span></td>
-          <td><code>${escapeHTML(d.category || '')}</code></td>
-          <td>${d.order || 1}</td>
-          <td>
-            <div class="action-btn-group">
-              <button class="btn-action edit" onclick="window.editDestination('${d.id}')">✏️ Edit</button>
-              <button class="btn-action delete" onclick="window.deleteDestination('${d.id}')">🗑️ Delete</button>
-            </div>
-          </td>
-        </tr>
-      `).join('');
+      tbody.innerHTML = items.map(d => {
+        const safeId = escapeHTML(d.id);
+        return `
+          <tr>
+            <td><img src="${fixImgPath(d.image)}" class="dest-thumb" alt="${escapeHTML(d.title)}"></td>
+            <td><strong>${escapeHTML(d.title)}</strong></td>
+            <td>${escapeHTML(d.subtitle || '')}</td>
+            <td><span class="badge-pill">${escapeHTML(d.badge || '')}</span></td>
+            <td><code>${escapeHTML(d.category || '')}</code></td>
+            <td>${d.order || 1}</td>
+            <td>
+              <div class="action-btn-group">
+                <button class="btn-action edit btn-d-edit" data-id="${safeId}">✏️ Edit</button>
+                <button class="btn-action delete btn-d-del" data-id="${safeId}">🗑️ Delete</button>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join('');
+
+      tbody.querySelectorAll('.btn-d-edit').forEach(b => {
+        b.addEventListener('click', () => window.editDestination(b.getAttribute('data-id')));
+      });
+      tbody.querySelectorAll('.btn-d-del').forEach(b => {
+        b.addEventListener('click', () => window.deleteDestination(b.getAttribute('data-id')));
+      });
     }
 
     document.addEventListener('DOMContentLoaded', async () => {
