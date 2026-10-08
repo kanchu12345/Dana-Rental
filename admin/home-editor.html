@@ -154,10 +154,166 @@
           </button>
         </form>
 
-        <!-- RULES MANAGER -->
+        <!-- 3. OUR MISSION & HERITAGE SECTION -->
+        <form id="missionForm" class="admin-card editor-section">
+          <div class="card-header">
+            <h2 class="card-title">3. Our Mission &amp; Heritage Section (Home Page)</h2>
+          </div>
+
+          <div class="form-group">
+            <label for="missionTitleInput">Section Title</label>
+            <input type="text" id="missionTitleInput" class="form-control" placeholder="Our Mission & Heritage" required>
+          </div>
+
+          <div class="form-group">
+            <label for="missionDescInput">Description Paragraph</label>
+            <textarea id="missionDescInput" class="form-control" rows="3" placeholder="Danan Rentals was founded on a simple vision..." required></textarea>
+          </div>
+
+          <div class="form-grid-2">
+            <!-- Main Photo -->
+            <div class="form-group">
+              <label>1. Main Feature Photo</label>
+              <div style="display: flex; gap: 14px; align-items: center;">
+                <div class="img-preview-box" style="width: 110px; height: 85px; flex-shrink: 0;">
+                  <img id="missionMainPreview" src="../assets/images/about/pexels-pixabay-271618.jpg" alt="Main Photo">
+                </div>
+                <div style="flex: 1;">
+                  <input type="file" id="missionMainFileInput" accept="image/*" class="form-control" style="margin-bottom: 6px;">
+                  <input type="text" id="missionMainUrl" class="form-control" placeholder="Or relative path / Cloudinary URL" required>
+                </div>
+              </div>
+            </div>
+
+            <!-- Overlay Photo -->
+            <div class="form-group">
+              <label>2. Overlapping Corner Photo</label>
+              <div style="display: flex; gap: 14px; align-items: center;">
+                <div class="img-preview-box" style="width: 110px; height: 85px; flex-shrink: 0;">
+                  <img id="missionOverlayPreview" src="../assets/images/about/pexels-rpnickson-2417842.jpg" alt="Overlay Photo">
+                </div>
+                <div style="flex: 1;">
+                  <input type="file" id="missionOverlayFileInput" accept="image/*" class="form-control" style="margin-bottom: 6px;">
+                  <input type="text" id="missionOverlayUrl" class="form-control" placeholder="Or relative path / Cloudinary URL" required>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="background-color: var(--primary-red); color: white; border: none; padding: 10px 24px; border-radius: 6px; font-weight: 700; cursor: pointer; margin-top: 8px;">
+            💾 Save Mission &amp; Heritage Section
+          </button>
+        </form>
+
+        <!-- 4. 4-STEP HOW IT WORKS PROCESS STRIP -->
+        <form id="stepsForm" class="admin-card editor-section">
+          <div class="card-header">
+            <h2 class="card-title">4. 4-Step 'How It Works' Process Strip (Home Page)</h2>
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px;">
+            <!-- Step 1 -->
+            <div style="background: var(--bg-light); padding: 16px; border-radius: 8px;">
+              <h4 style="margin-bottom: 10px; color: var(--primary-red);">Step 01</h4>
+              <div class="form-group">
+                <label>Step Title</label>
+                <input type="text" id="step1TitleInput" class="form-control" placeholder="Apply Online" required>
+              </div>
+              <div class="form-group">
+                <label>Step Caption</label>
+                <input type="text" id="step1CaptionInput" class="form-control" placeholder="Choose your permit, rental or transfer and book in minutes." required>
+              </div>
+              <div class="form-group">
+                <label>Step Photo</label>
+                <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 6px;">
+                  <div class="img-preview-box" style="width: 70px; height: 50px; flex-shrink: 0; margin-bottom: 0;">
+                    <img id="step1Preview" src="../assets/images/about/pexels-thilina-alagiyawanna-3266092-31039336.jpg" alt="Step 1">
+                  </div>
+                  <input type="file" id="step1FileInput" accept="image/*" class="form-control" style="font-size: 0.8rem;">
+                </div>
+                <input type="text" id="step1Url" class="form-control" placeholder="Or image path / URL" required>
+              </div>
+            </div>
+
+            <!-- Step 2 -->
+            <div style="background: var(--bg-light); padding: 16px; border-radius: 8px;">
+              <h4 style="margin-bottom: 10px; color: var(--primary-red);">Step 02</h4>
+              <div class="form-group">
+                <label>Step Title</label>
+                <input type="text" id="step2TitleInput" class="form-control" placeholder="Get Verified Fast" required>
+              </div>
+              <div class="form-group">
+                <label>Step Caption</label>
+                <input type="text" id="step2CaptionInput" class="form-control" placeholder="We process your permit and confirm your booking within 24 hours." required>
+              </div>
+              <div class="form-group">
+                <label>Step Photo</label>
+                <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 6px;">
+                  <div class="img-preview-box" style="width: 70px; height: 50px; flex-shrink: 0; margin-bottom: 0;">
+                    <img id="step2Preview" src="../assets/images/about/pexels-thilina-alagiyawanna-3266092-31039339.jpg" alt="Step 2">
+                  </div>
+                  <input type="file" id="step2FileInput" accept="image/*" class="form-control" style="font-size: 0.8rem;">
+                </div>
+                <input type="text" id="step2Url" class="form-control" placeholder="Or image path / URL" required>
+              </div>
+            </div>
+
+            <!-- Step 3 -->
+            <div style="background: var(--bg-light); padding: 16px; border-radius: 8px;">
+              <h4 style="margin-bottom: 10px; color: var(--primary-red);">Step 03</h4>
+              <div class="form-group">
+                <label>Step Title</label>
+                <input type="text" id="step3TitleInput" class="form-control" placeholder="Hit the Road" required>
+              </div>
+              <div class="form-group">
+                <label>Step Caption</label>
+                <input type="text" id="step3CaptionInput" class="form-control" placeholder="Drive Sri Lanka your way, with local support a message away." required>
+              </div>
+              <div class="form-group">
+                <label>Step Photo</label>
+                <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 6px;">
+                  <div class="img-preview-box" style="width: 70px; height: 50px; flex-shrink: 0; margin-bottom: 0;">
+                    <img id="step3Preview" src="../assets/images/about/pexels-thilina-alagiyawanna-3266092-34861066.jpg" alt="Step 3">
+                  </div>
+                  <input type="file" id="step3FileInput" accept="image/*" class="form-control" style="font-size: 0.8rem;">
+                </div>
+                <input type="text" id="step3Url" class="form-control" placeholder="Or image path / URL" required>
+              </div>
+            </div>
+
+            <!-- Step 4 -->
+            <div style="background: var(--bg-light); padding: 16px; border-radius: 8px;">
+              <h4 style="margin-bottom: 10px; color: var(--primary-red);">Step 04</h4>
+              <div class="form-group">
+                <label>Step Title</label>
+                <input type="text" id="step4TitleInput" class="form-control" placeholder="Delivered to You" required>
+              </div>
+              <div class="form-group">
+                <label>Step Caption</label>
+                <input type="text" id="step4CaptionInput" class="form-control" placeholder="Your permit and vehicle reach your hotel or address smoothly." required>
+              </div>
+              <div class="form-group">
+                <label>Step Photo</label>
+                <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 6px;">
+                  <div class="img-preview-box" style="width: 70px; height: 50px; flex-shrink: 0; margin-bottom: 0;">
+                    <img id="step4Preview" src="../assets/images/about/pexels-thilina-alagiyawanna-3266092-34861077.jpg" alt="Step 4">
+                  </div>
+                  <input type="file" id="step4FileInput" accept="image/*" class="form-control" style="font-size: 0.8rem;">
+                </div>
+                <input type="text" id="step4Url" class="form-control" placeholder="Or image path / URL" required>
+              </div>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="background-color: var(--primary-red); color: white; border: none; padding: 10px 24px; border-radius: 6px; font-weight: 700; cursor: pointer; margin-top: 16px;">
+            💾 Save 4-Step Process Strip
+          </button>
+        </form>
+
+        <!-- 5. RULES MANAGER -->
         <div class="admin-card editor-section">
           <div class="card-header">
-            <h2 class="card-title">3. Required Rules &amp; Documents Manager</h2>
+            <h2 class="card-title">5. Required Rules &amp; Documents Manager</h2>
           </div>
 
           <form id="addRuleForm" style="display: grid; grid-template-columns: 1fr 2fr auto; gap: 16px; align-items: end; margin-bottom: 24px; background: var(--bg-light); padding: 16px; border-radius: 8px;">
@@ -400,7 +556,178 @@
         }
       });
 
-      // 2. Rules Manager
+      // 3. Mission & Heritage Section
+      const missionData = homeData.mission || {
+        title: "Our Mission & Heritage",
+        description: "Danan Rentals was founded on a simple vision: securing road-legal driving permits and renting clean, reliable vehicles in Sri Lanka should be fast and transparent. Today we connect international and local travelers with verified AA Ceylon permits, premium fleets, and punctual private transfers.",
+        mainImage: "../assets/images/about/pexels-pixabay-271618.jpg",
+        overlayImage: "../assets/images/about/pexels-rpnickson-2417842.jpg"
+      };
+
+      document.getElementById('missionTitleInput').value = missionData.title || '';
+      document.getElementById('missionDescInput').value = missionData.description || '';
+      document.getElementById('missionMainUrl').value = missionData.mainImage || '';
+      document.getElementById('missionMainPreview').src = fixImgPath(missionData.mainImage || '../assets/images/about/pexels-pixabay-271618.jpg');
+      document.getElementById('missionOverlayUrl').value = missionData.overlayImage || '';
+      document.getElementById('missionOverlayPreview').src = fixImgPath(missionData.overlayImage || '../assets/images/about/pexels-rpnickson-2417842.jpg');
+
+      // Mission Main Image Upload
+      document.getElementById('missionMainFileInput').addEventListener('change', async (e) => {
+        const file = e.target.files[0];
+        if (file) {
+          showToast("Uploading main photo...");
+          try {
+            const url = await uploadImage(file);
+            document.getElementById('missionMainUrl').value = url;
+            document.getElementById('missionMainPreview').src = fixImgPath(url);
+            showToast("Main photo uploaded!", "success");
+          } catch (err) {
+            showToast("Upload failed: " + err.message, "error");
+          }
+        }
+      });
+      document.getElementById('missionMainUrl').addEventListener('input', (e) => {
+        document.getElementById('missionMainPreview').src = fixImgPath(e.target.value);
+      });
+
+      // Mission Overlay Image Upload
+      document.getElementById('missionOverlayFileInput').addEventListener('change', async (e) => {
+        const file = e.target.files[0];
+        if (file) {
+          showToast("Uploading overlay photo...");
+          try {
+            const url = await uploadImage(file);
+            document.getElementById('missionOverlayUrl').value = url;
+            document.getElementById('missionOverlayPreview').src = fixImgPath(url);
+            showToast("Overlay photo uploaded!", "success");
+          } catch (err) {
+            showToast("Upload failed: " + err.message, "error");
+          }
+        }
+      });
+      document.getElementById('missionOverlayUrl').addEventListener('input', (e) => {
+        document.getElementById('missionOverlayPreview').src = fixImgPath(e.target.value);
+      });
+
+      // Save Mission Form
+      document.getElementById('missionForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const current = await getDoc('pages', 'home') || {};
+        const payload = {
+          ...current,
+          mission: {
+            title: document.getElementById('missionTitleInput').value.trim(),
+            description: document.getElementById('missionDescInput').value.trim(),
+            mainImage: document.getElementById('missionMainUrl').value.trim(),
+            overlayImage: document.getElementById('missionOverlayUrl').value.trim()
+          }
+        };
+
+        try {
+          await saveDoc('pages', 'home', payload);
+          showToast("Mission & Heritage section saved successfully!", "success");
+        } catch (err) {
+          showToast("Error saving: " + err.message, "error");
+        }
+      });
+
+      // 4. Load & Save 4-Step How It Works Process Strip
+      const defaultSteps = [
+        { step: '01', title: 'Apply Online', caption: 'Choose your permit, rental or transfer and book in minutes.', image: '../assets/images/about/pexels-thilina-alagiyawanna-3266092-31039336.jpg' },
+        { step: '02', title: 'Get Verified Fast', caption: 'We process your permit and confirm your booking within 24 hours.', image: '../assets/images/about/pexels-thilina-alagiyawanna-3266092-31039339.jpg' },
+        { step: '03', title: 'Hit the Road', caption: 'Drive Sri Lanka your way, with local support a message away.', image: '../assets/images/about/pexels-thilina-alagiyawanna-3266092-34861066.jpg' },
+        { step: '04', title: 'Delivered to You', caption: 'Your permit and vehicle reach your hotel or address smoothly.', image: '../assets/images/about/pexels-thilina-alagiyawanna-3266092-34861077.jpg' }
+      ];
+      const stepsData = (homeData.steps && Array.isArray(homeData.steps) && homeData.steps.length === 4) ? homeData.steps : defaultSteps;
+
+      for (let s = 1; s <= 4; s++) {
+        const item = stepsData[s - 1] || defaultSteps[s - 1];
+        const tEl = document.getElementById(`step${s}TitleInput`);
+        const cEl = document.getElementById(`step${s}CaptionInput`);
+        const uEl = document.getElementById(`step${s}Url`);
+        const pEl = document.getElementById(`step${s}Preview`);
+        if (tEl) tEl.value = item.title || '';
+        if (cEl) cEl.value = item.caption || '';
+        if (uEl) uEl.value = item.image || '';
+        if (pEl) pEl.src = fixImgPath(item.image || '');
+
+        const fEl = document.getElementById(`step${s}FileInput`);
+        if (fEl) {
+          fEl.addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (file) {
+              showToast(`Uploading Step ${s} photo...`);
+              try {
+                const url = await uploadImage(file);
+                if (uEl) uEl.value = url;
+                if (pEl) pEl.src = fixImgPath(url);
+                showToast(`Step ${s} photo uploaded!`, "success");
+              } catch (err) {
+                showToast("Upload failed: " + err.message, "error");
+              }
+            }
+          });
+        }
+        if (uEl && pEl) {
+          uEl.addEventListener('input', (e) => {
+            pEl.src = fixImgPath(e.target.value);
+          });
+        }
+      }
+
+      // Save Steps Form
+      document.getElementById('stepsForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const current = await getDoc('pages', 'home') || {};
+        const stepsPayload = [];
+        for (let s = 1; s <= 4; s++) {
+          stepsPayload.push({
+            step: `0${s}`,
+            title: document.getElementById(`step${s}TitleInput`).value.trim(),
+            caption: document.getElementById(`step${s}CaptionInput`).value.trim(),
+            image: document.getElementById(`step${s}Url`).value.trim()
+          });
+        }
+
+        const payload = {
+          ...current,
+          steps: stepsPayload
+        };
+
+        try {
+          await saveDoc('pages', 'home', payload);
+          showToast("4-Step Process Strip saved successfully!", "success");
+        } catch (err) {
+          showToast("Error saving: " + err.message, "error");
+        }
+      });
+
+      // FAQ Edit Form Modal Listeners
+      document.getElementById('editFaqForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const id = document.getElementById('editFaqId').value;
+        const question = document.getElementById('editFaqQuestion').value.trim();
+        const answer = document.getElementById('editFaqAnswer').value.trim();
+        const existing = currentFaqsList.find(item => item.id === id) || {};
+
+        try {
+          await saveDoc('faqs', id, { ...existing, question, answer });
+          showToast("FAQ updated successfully!", "success");
+          document.getElementById('faqEditModal').style.display = 'none';
+          await loadFaqsTable();
+        } catch (err) {
+          showToast("Error updating FAQ: " + err.message, "error");
+        }
+      });
+
+      document.getElementById('btnCloseFaqModal').addEventListener('click', () => {
+        document.getElementById('faqEditModal').style.display = 'none';
+      });
+      document.getElementById('btnCancelFaqModal').addEventListener('click', () => {
+        document.getElementById('faqEditModal').style.display = 'none';
+      });
+
+      // 5. Rules Manager
       await loadRulesTable();
       document.getElementById('addRuleForm').addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -490,9 +817,20 @@
       `).join('');
     }
 
+    let currentFaqsList = [];
+    window.editFaq = (id) => {
+      const f = currentFaqsList.find(item => item.id === id);
+      if (!f) return;
+      document.getElementById('editFaqId').value = f.id;
+      document.getElementById('editFaqQuestion').value = f.question || '';
+      document.getElementById('editFaqAnswer').value = f.answer || '';
+      document.getElementById('faqEditModal').style.display = 'flex';
+    };
+
     async function loadFaqsTable() {
       const tbody = document.getElementById('faqsAdminTable');
       const faqs = await getCollection('faqs');
+      currentFaqsList = faqs;
       if (faqs.length === 0) {
         tbody.innerHTML = `<tr><td colspan="3" style="text-align:center; padding: 16px;">No FAQs added.</td></tr>`;
         return;
@@ -501,7 +839,10 @@
         <tr>
           <td><strong>${escapeHTML(f.question)}</strong></td>
           <td>${escapeHTML(f.answer)}</td>
-          <td><button onclick="window.deleteFaq('${f.id}')" style="background: var(--primary-red); color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer;">Delete</button></td>
+          <td style="white-space: nowrap;">
+            <button onclick="window.editFaq('${escapeHTML(f.id)}')" style="background: #333; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; margin-right: 6px; font-weight: 600;">Edit</button>
+            <button onclick="window.deleteFaq('${escapeHTML(f.id)}')" style="background: var(--primary-red); color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-weight: 600;">Delete</button>
+          </td>
         </tr>
       `).join('');
     }
@@ -522,5 +863,30 @@
       `).join('');
     }
   </script>
+
+  <!-- EDIT FAQ MODAL -->
+  <div id="faqEditModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); z-index: 9999; align-items: center; justify-content: center; padding: 20px;">
+    <div style="background: white; border-radius: 12px; width: 100%; max-width: 600px; padding: 28px; box-shadow: 0 20px 60px rgba(0,0,0,0.3);">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px;">
+        <h3 style="font-size: 1.2rem; margin: 0;">Edit Frequently Asked Question</h3>
+        <button id="btnCloseFaqModal" style="background: none; border: none; font-size: 1.5rem; cursor: pointer;">&times;</button>
+      </div>
+      <form id="editFaqForm">
+        <input type="hidden" id="editFaqId">
+        <div class="form-group">
+          <label for="editFaqQuestion">Question</label>
+          <input type="text" id="editFaqQuestion" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label for="editFaqAnswer">Answer</label>
+          <textarea id="editFaqAnswer" class="form-control" rows="4" required></textarea>
+        </div>
+        <div style="display: flex; gap: 12px; justify-content: flex-end; margin-top: 20px;">
+          <button type="button" id="btnCancelFaqModal" class="btn" style="background: #E2E8F0; color: #333; padding: 10px 20px; border-radius: 6px; border: none; cursor: pointer; font-weight: 600;">Cancel</button>
+          <button type="submit" class="btn btn-primary" style="background: var(--primary-red); color: white; padding: 10px 24px; border-radius: 6px; border: none; cursor: pointer; font-weight: 700;">Update FAQ</button>
+        </div>
+      </form>
+    </div>
+  </div>
 </body>
 </html>

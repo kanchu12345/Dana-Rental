@@ -478,12 +478,39 @@ async function loadHomePageData() {
     }
   }
 
-  // Home About Text
+  // Home About Text (Why Drivers Choose Our Fleet)
   if (homeData.about) {
-    const aboutTitle = document.querySelector('.about-text-col h3');
+    const aboutTitle = document.querySelector('.about-row:first-child .about-text-col h3');
     if (aboutTitle && homeData.about.title) aboutTitle.textContent = homeData.about.title;
-    const aboutDesc = document.querySelector('.about-text-col p');
+    const aboutDesc = document.querySelector('.about-row:first-child .about-text-col p');
     if (aboutDesc && homeData.about.description) aboutDesc.textContent = homeData.about.description;
+  }
+
+  // Home Mission & Heritage
+  if (homeData.mission) {
+    const mTitle = document.getElementById('missionTitle');
+    if (mTitle && homeData.mission.title) mTitle.textContent = homeData.mission.title;
+    const mDesc = document.getElementById('missionDesc');
+    if (mDesc && homeData.mission.description) mDesc.textContent = homeData.mission.description;
+    const mMainImg = document.getElementById('missionImgMain');
+    if (mMainImg && homeData.mission.mainImage) mMainImg.src = fixImgPath(homeData.mission.mainImage, false);
+    const mOverlayImg = document.getElementById('missionImgOverlay');
+    if (mOverlayImg && homeData.mission.overlayImage) mOverlayImg.src = fixImgPath(homeData.mission.overlayImage, false);
+  }
+
+  // 4-Step Process Strip (How It Works)
+  if (homeData.steps && Array.isArray(homeData.steps) && homeData.steps.length > 0) {
+    const stepStrips = document.querySelectorAll('#how-it-works .gallery-strip');
+    homeData.steps.forEach((st, idx) => {
+      if (stepStrips[idx]) {
+        const img = stepStrips[idx].querySelector('img');
+        const lbl = stepStrips[idx].querySelector('.gallery-label');
+        const cap = stepStrips[idx].querySelector('.gallery-caption');
+        if (img && st.image) img.src = fixImgPath(st.image, false);
+        if (lbl && st.title) lbl.textContent = st.title;
+        if (cap && st.caption) cap.textContent = st.caption;
+      }
+    });
   }
 }
 

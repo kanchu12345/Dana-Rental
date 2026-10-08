@@ -36,5 +36,37 @@
         "description": "Our dedicated support team is just a WhatsApp message or call away wherever your journey takes you."
       }
     ]
-  }
+  },
+  "mission": {
+    "title": "Our Mission & Heritage",
+    "description": "Danan Rentals was founded on a simple vision: securing road-legal driving permits and renting clean, reliable vehicles in Sri Lanka should be fast and transparent. Today we connect international and local travelers with verified AA Ceylon permits, premium fleets, and punctual private transfers.",
+    "mainImage": "./assets/images/about/pexels-pixabay-271618.jpg",
+    "overlayImage": "./assets/images/about/pexels-rpnickson-2417842.jpg"
+  },
+  "steps": [
+    {
+      "step": "01",
+      "title": "Apply Online",
+      "caption": "Choose your permit, rental or transfer and book in minutes.",
+      "image": "./assets/images/about/pexels-thilina-alagiyawanna-3266092-31039336.jpg"
+    },
+    {
+      "step": "02",
+      "title": "Get Verified Fast",
+      "caption": "We process your permit and confirm your booking within 24 hours.",
+      "image": "./assets/images/about/pexels-thilina-alagiyawanna-3266092-31039339.jpg"
+    },
+    {
+      "step": "03",
+      "title": "Hit the Road",
+      "caption": "Drive Sri Lanka your way, with local support a message away.",
+      "image": "./assets/images/about/pexels-thilina-alagiyawanna-3266092-34861066.jpg"
+    },
+    {
+      "step": "04",
+      "title": "Delivered to You",
+      "caption": "Your permit and vehicle reach your hotel or address smoothly.",
+      "image": "./assets/images/about/pexels-thilina-alagiyawanna-3266092-34861077.jpg"
+    }
+  ]
 }
