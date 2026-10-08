@@ -2,7 +2,7 @@
 // Replace with your Cloudinary Cloud Name and Unsigned Upload Preset
 export const cloudinaryConfig = {
   cloudName: "ygkhhyaj",
-  uploadPreset: "YOUR_CLOUDINARY_UNSIGNED_PRESET"
+  uploadPreset: "danan_rentals"
 };
 
 export function isCloudinaryConfigured() {
