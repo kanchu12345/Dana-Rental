@@ -516,10 +516,18 @@ async function loadAboutPageData() {
       if (about.intro.p2) introPs[1].textContent = about.intro.p2;
     }
 
-    const badgeNum = document.querySelector('.about-intro-img-badge .badge-num');
-    if (badgeNum && about.intro.badgeNum) badgeNum.textContent = about.intro.badgeNum;
-    const badgeLabel = document.querySelector('.about-intro-img-badge .badge-label');
-    if (badgeLabel && about.intro.badgeLabel) badgeLabel.textContent = about.intro.badgeLabel;
+    const badgeWrap = document.querySelector('.about-intro-img-badge');
+    if (badgeWrap) {
+      if (!about.intro.badgeNum || String(about.intro.badgeNum).trim() === '') {
+        badgeWrap.style.display = 'none';
+      } else {
+        badgeWrap.style.display = '';
+        const badgeNum = badgeWrap.querySelector('.badge-num');
+        if (badgeNum) badgeNum.textContent = about.intro.badgeNum;
+        const badgeLabel = badgeWrap.querySelector('.badge-label');
+        if (badgeLabel && about.intro.badgeLabel) badgeLabel.textContent = about.intro.badgeLabel;
+      }
+    }
 
     const introImg = document.querySelector('.about-intro-img');
     if (introImg && about.intro.image) introImg.src = fixImgPath(about.intro.image, false);
