@@ -34,6 +34,9 @@
 html {
   scroll-behavior: smooth;
   font-size: 16px;
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100%;
 }
 
 body {
@@ -42,6 +45,9 @@ body {
   color: var(--white);
   line-height: 1.6;
   overflow-x: hidden;
+  width: 100%;
+  max-width: 100%;
+  position: relative;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -253,20 +259,24 @@ img {
 .mobile-menu {
   position: fixed;
   top: 0;
-  right: -320px;
+  right: 0;
+  transform: translateX(100%);
   width: 320px;
+  max-width: 85vw;
   height: 100vh;
+  height: 100dvh;
   background-color: #11111A;
   z-index: 99999;
   padding: 32px 24px;
   display: flex;
   flex-direction: column;
-  transition: var(--transition);
+  transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
   border-left: 1px solid var(--card-border);
+  box-sizing: border-box;
 }
 
 .mobile-menu.active {
-  right: 0;
+  transform: translateX(0);
 }
 
 .mobile-menu-header {
@@ -4165,8 +4175,10 @@ footer {
 @media (max-width: 1023px) {
   /* Prevent horizontal scroll overflow globally */
   html, body {
-    overflow-x: hidden;
-    max-width: 100vw;
+    overflow-x: hidden !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    position: relative !important;
   }
 
   /* Parallax backgrounds: replace fixed attachment with scroll for smooth Android/iOS scrolling */
@@ -4208,9 +4220,12 @@ footer {
 
 /* ── 2. TABLET-PORTRAIT & SMALL LAPTOPS (MAX-WIDTH: 768px) ── */
 @media (max-width: 768px) {
-  /* Container padding */
+  /* Container padding & overflow protection */
   .container {
     padding: 0 16px;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
   }
 
   /* Sections padding */
@@ -4220,26 +4235,54 @@ footer {
   .destinations-main,
   .about-intro-sec,
   .bookings-section {
-    padding: 56px 0;
+    padding: 48px 0;
   }
 
-  /* Navbar adjustments */
+  /* Navbar adjustments - Perfectly aligned, no clipping */
   #navbar {
-    height: 70px;
-    padding: 0 16px;
+    height: 68px;
+    padding: 0 16px !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+  .nav-logo {
+    gap: 10px;
+    flex-shrink: 1;
+    min-width: 0;
   }
   .nav-logo img {
-    height: 52px;
+    height: 48px !important;
+    max-height: 48px !important;
+    flex-shrink: 0;
   }
   .nav-brand-title {
-    font-size: 1.15rem;
+    font-size: 1.12rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   .nav-toggle {
-    display: flex;
+    display: flex !important;
     min-width: 44px;
     min-height: 44px;
+    width: 44px;
+    height: 44px;
     justify-content: center;
     align-items: center;
+    flex-shrink: 0;
+    margin: 0 !important;
+    padding: 6px !important;
+    position: relative;
+    z-index: 10000;
+  }
+  .nav-toggle span {
+    width: 24px;
+    height: 2.5px;
+    background-color: var(--white);
+    border-radius: 2px;
   }
 
   /* Mobile slide-out menu drawer */
@@ -4267,68 +4310,92 @@ footer {
     font-size: 1rem;
   }
 
-  /* Hero Section: Dynamic dvh heights & no address bar jump */
+  /* Hero Section: Compact, no address bar jump */
   .hero {
-    min-height: 100vh;
-    min-height: 100svh;
-    padding: 100px 16px 50px;
+    min-height: auto;
+    padding: 95px 16px 36px;
+  }
+  .hero-body {
+    width: 100%;
+    max-width: 100%;
   }
   .hero-title {
-    font-size: clamp(1.85rem, 6.5vw, 2.6rem);
+    font-size: clamp(1.75rem, 6.2vw, 2.3rem);
     letter-spacing: -0.5px;
-    line-height: 1.2;
-    margin-bottom: 16px;
+    line-height: 1.25;
+    margin-bottom: 12px;
+  }
+  .hero-title br {
+    display: none;
   }
   .hero-desc {
-    font-size: 0.95rem;
-    line-height: 1.55;
-    margin-bottom: 24px;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin-bottom: 20px;
+    max-width: 100%;
   }
 
-  /* Hero tabs: full width interactive pills */
+  /* Hero tabs: Single sleek horizontal pill bar (Never vertical stack) */
   .hero-tabs {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    width: 100%;
-    max-width: 420px;
-    margin: 0 auto 28px;
-    border-radius: 30px;
-    padding: 4px;
+    display: inline-flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    justify-content: center !important;
+    align-items: center !important;
+    width: auto !important;
+    max-width: 100% !important;
+    margin: 0 auto 20px !important;
+    border-radius: 30px !important;
+    padding: 4px !important;
+    gap: 4px !important;
+    background: rgba(0, 0, 0, 0.65) !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
   }
   .hero-tab {
-    flex: 1 1 auto;
-    justify-content: center;
-    min-height: 44px;
-    padding: 8px 16px;
-    font-size: 0.85rem;
+    flex: 0 0 auto !important;
+    justify-content: center !important;
+    min-height: 38px !important;
+    padding: 8px 14px !important;
+    font-size: 0.82rem !important;
+    border-radius: 24px !important;
+    white-space: nowrap !important;
   }
 
   /* Hero Search Container: 1 column card format */
   .search-container {
     grid-template-columns: 1fr;
-    gap: 14px;
-    padding: 18px 16px;
+    gap: 10px;
+    padding: 16px 14px;
     border-radius: 14px;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
   }
   .search-group {
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 10px;
-    padding: 10px 14px;
+    padding: 8px 12px;
+  }
+  .search-label {
+    font-size: 0.68rem;
+    margin-bottom: 3px;
   }
   .search-input {
     font-size: 16px !important; /* Prevents auto zoom-on-focus in Android/iOS */
-    min-height: 38px;
+    min-height: 34px;
   }
   .btn-search {
     width: 100%;
-    min-height: 48px;
-    font-size: 1rem;
-    margin-top: 4px;
+    min-height: 46px;
+    font-size: 0.95rem;
+    margin-top: 2px;
+    border-radius: 10px;
   }
 
-  /* Hide sticky search bar on small screens to prevent covering content & buttons */
+  /* Hide sticky search bar on small screens */
   .ss-bar-wrap {
     display: none !important;
   }
@@ -4372,6 +4439,28 @@ footer {
     font-size: 0.88rem;
   }
 
+  /* Fleet Carousel: No hanging buttons on mobile, swipe + dots only */
+  .fleet-carousel-wrapper {
+    overflow: hidden !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+  .fleet-nav-btn {
+    display: none !important;
+  }
+  .fleet-viewport {
+    padding: 10px 0 16px 0;
+  }
+
+  /* Prevent negative offset badge/overlay elements from horizontal overflow */
+  .about-overlay {
+    display: none !important;
+  }
+  .about-intro-img-badge {
+    left: 14px !important;
+    bottom: 14px !important;
+  }
+
   /* Carousels on Mobile: 1 card visible, touch swipe */
   .why-item {
     flex: 0 0 100% !important;
@@ -4404,8 +4493,8 @@ footer {
     gap: 16px;
   }
   .testi-card {
-    min-width: calc(100vw - 48px);
-    max-width: calc(100vw - 48px);
+    min-width: calc(100% - 32px);
+    max-width: calc(100% - 32px);
     padding: 24px 20px;
     scroll-snap-align: center;
   }
@@ -4493,24 +4582,32 @@ footer {
 /* ── 3. STANDARD MOBILE (MAX-WIDTH: 480px) ── */
 @media (max-width: 480px) {
   #navbar {
-    height: 66px;
-    padding: 0 14px;
+    height: 64px;
+    padding: 0 12px !important;
   }
   .nav-logo img {
-    height: 46px;
+    height: 42px !important;
   }
   .nav-brand-title {
-    font-size: 1.05rem;
+    font-size: 0.98rem !important;
+  }
+  .hero {
+    padding: 84px 12px 32px;
   }
   .hero-title {
-    font-size: clamp(1.65rem, 6.2vw, 2.1rem);
+    font-size: clamp(1.55rem, 5.8vw, 1.95rem);
   }
   .hero-tabs {
-    gap: 4px;
+    gap: 3px !important;
+    padding: 3px !important;
   }
   .hero-tab {
-    padding: 6px 12px;
-    font-size: 0.8rem;
+    padding: 6px 11px !important;
+    font-size: 0.78rem !important;
+    min-height: 36px !important;
+  }
+  .hero-tab i {
+    font-size: 0.82rem;
   }
   .rc-footer {
     flex-direction: column;
@@ -4541,42 +4638,62 @@ footer {
 /* ── 4. ULTRA-COMPACT SMARTPHONES (MAX-WIDTH: 360px) ── */
 @media (max-width: 360px) {
   #navbar {
-    height: 60px;
-    padding: 0 10px;
+    height: 58px;
+    padding: 0 10px !important;
   }
   .nav-logo {
-    gap: 8px;
+    gap: 6px;
   }
   .nav-logo img {
-    height: 40px;
+    height: 36px !important;
   }
   .nav-brand-title {
-    font-size: 0.92rem;
+    font-size: 0.86rem !important;
     letter-spacing: 0;
   }
+  .nav-toggle {
+    min-width: 38px;
+    min-height: 38px;
+    width: 38px;
+    height: 38px;
+  }
+  .nav-toggle span {
+    width: 20px;
+  }
   .hero {
-    padding: 85px 12px 40px;
+    padding: 76px 10px 26px;
   }
   .hero-title {
-    font-size: 1.55rem;
+    font-size: 1.45rem;
   }
   .hero-desc {
-    font-size: 0.88rem;
+    font-size: 0.82rem;
   }
+  /* Single-row compact pills for 360px */
   .hero-tabs {
-    flex-direction: column;
-    border-radius: 16px;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    border-radius: 24px !important;
+    gap: 2px !important;
+    padding: 2px !important;
   }
   .hero-tab {
-    width: 100%;
-    border-radius: 12px;
+    width: auto !important;
+    border-radius: 20px !important;
+    padding: 5px 8px !important;
+    font-size: 0.72rem !important;
+    min-height: 32px !important;
+  }
+  .hero-tab i {
+    font-size: 0.75rem;
   }
   .search-container {
-    padding: 14px 12px;
+    padding: 12px 10px;
+    gap: 8px;
   }
   .testi-card {
-    min-width: calc(100vw - 32px);
-    max-width: calc(100vw - 32px);
+    min-width: calc(100% - 20px);
+    max-width: calc(100% - 20px);
     padding: 18px 14px;
   }
   .booking-modal-body {

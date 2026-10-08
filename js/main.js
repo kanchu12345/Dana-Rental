@@ -1000,6 +1000,38 @@ function initFleetCarousel() {
   wrapper.addEventListener('mouseenter', stopTimer);
   wrapper.addEventListener('mouseleave', startTimer);
 
+  // Touch swipe support for mobile touchscreens
+  let touchStartX = 0;
+  let touchStartY = 0;
+  let isSwiping = false;
+
+  wrapper.addEventListener('touchstart', (e) => {
+    if (e.touches && e.touches.length === 1) {
+      touchStartX = e.touches[0].clientX;
+      touchStartY = e.touches[0].clientY;
+      isSwiping = true;
+      stopTimer();
+    }
+  }, { passive: true });
+
+  wrapper.addEventListener('touchend', (e) => {
+    if (!isSwiping) return;
+    isSwiping = false;
+    if (e.changedTouches && e.changedTouches.length === 1) {
+      const diffX = touchStartX - e.changedTouches[0].clientX;
+      const diffY = touchStartY - e.changedTouches[0].clientY;
+      // Trigger slide only if horizontal swipe dominates over vertical scrolling
+      if (Math.abs(diffX) > 40 && Math.abs(diffX) > Math.abs(diffY)) {
+        if (diffX > 0) {
+          nextSlide();
+        } else {
+          prevSlide();
+        }
+      }
+    }
+    startTimer();
+  }, { passive: true });
+
   window.addEventListener('resize', () => {
     createDots();
     updateSlider();
