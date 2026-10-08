@@ -4062,6 +4062,88 @@ footer {
   .rental-hero-content { padding: 60px 20px 40px; }
 }
 
+/* ═══ VIDEO LIGHTBOX MODAL & SHOWCASE CARDS ═══ */
+.video-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.92);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 10000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.video-modal-overlay.active {
+  display: flex;
+}
+.video-modal-container {
+  position: relative;
+  width: 100%;
+  max-width: 920px;
+  background: #000;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+.video-modal-close {
+  position: absolute;
+  top: -46px;
+  right: 0;
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 38px;
+  cursor: pointer;
+  line-height: 1;
+  padding: 4px 8px;
+  transition: color 0.2s, transform 0.2s;
+}
+.video-modal-close:hover {
+  color: var(--yellow);
+  transform: scale(1.15);
+}
+.video-modal-responsive {
+  position: relative;
+  padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+  height: 0;
+  overflow: hidden;
+}
+.video-modal-responsive iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+.disc-img {
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.disc-img:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+.disc-img:hover .disc-play-btn {
+  transform: scale(1.15);
+  background: #ffcc00;
+  box-shadow: 0 0 25px rgba(234, 179, 8, 0.7);
+}
+.disc-play-btn {
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), background 0.25s ease, box-shadow 0.25s ease;
+}
+.disc-video-iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+  object-fit: cover;
+}
+
 /* ==========================================================================
    /* ===== MOBILE FIXES ===== */
    Android / Mobile Optimization (max-width: 1023px, 768px, 480px, 360px)
@@ -4495,6 +4577,19 @@ footer {
   .bm-vehicle-img {
     width: 60px;
     height: 44px;
+  }
+  .video-modal-overlay {
+    padding: 10px;
+  }
+  .video-modal-close {
+    top: -40px;
+    font-size: 32px;
+  }
+  .disc-img {
+    height: 180px;
+  }
+  .disc-img-wide {
+    height: 220px;
   }
 }
 

@@ -310,10 +310,110 @@
           </button>
         </form>
 
-        <!-- 5. RULES MANAGER -->
+        <!-- 5. EXPERIENCE SRI LANKA & VIDEO SHOWCASE -->
         <div class="admin-card editor-section">
           <div class="card-header">
-            <h2 class="card-title">5. Required Rules &amp; Documents Manager</h2>
+            <h2 class="card-title">5. Experience Sri Lanka &amp; Video Showcase (Home Page)</h2>
+          </div>
+          <p style="font-size: 0.9rem; color: #666; margin-bottom: 16px;">
+            Customize the heading, description, images, and YouTube videos for the 3 visual showcase cards.
+          </p>
+
+          <form id="experienceForm">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px;">
+              <div class="form-group" style="grid-column: 1 / -1;">
+                <label>Section Heading (HTML allowed, e.g. &lt;span class="text-yellow"&gt;...&lt;/span&gt;)</label>
+                <input type="text" id="expTitleInput" class="form-control" placeholder='EXPERIENCE &lt;span class="text-yellow"&gt;SRI LANKA&lt;/span&gt;&lt;br&gt;WITH TOTAL&lt;br&gt;INDEPENDENCE' required>
+              </div>
+              <div class="form-group" style="grid-column: 1 / -1;">
+                <label>Section Description</label>
+                <textarea id="expDescInput" class="form-control" rows="3" placeholder="Go from airport arrival to taking the wheel in record time..." required></textarea>
+              </div>
+              <div class="form-group" style="grid-column: 1 / -1;">
+                <label>Video Playback Mode</label>
+                <select id="expVideoMode" class="form-control" style="font-weight: 600;">
+                  <option value="popup">▶ Click to Play in Video Popup with Sound (Recommended - Fast &amp; Mobile-friendly)</option>
+                  <option value="inline">🔄 Autoplay Muted Video directly inside Card (Continuous Background Loop)</option>
+                </select>
+                <small style="color: #666; display: block; margin-top: 4px;">
+                  Note: Browsers automatically mute all autoplay videos. For videos with audio, "Video Popup with Sound" is the best experience.
+                </small>
+              </div>
+            </div>
+
+            <!-- 3 Cards -->
+            <div style="display: grid; grid-template-columns: 1fr; gap: 20px;">
+              <!-- Card 1: Wide Top Card -->
+              <div style="background: var(--bg-light); padding: 16px; border-radius: 8px; border: 1px solid var(--border-color);">
+                <div style="font-weight: 700; margin-bottom: 12px; color: var(--primary-red);">Card 1 (Main Wide Card - Top)</div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                  <div>
+                    <label style="font-size: 0.85rem; font-weight: 600;">Card 1 Image / Thumbnail</label>
+                    <div style="display: flex; gap: 12px; align-items: center; margin-bottom: 8px;">
+                      <img id="expCard1Preview" src="../assets/images/about/pexels-malindabandaralk-16508228.jpg" style="width: 100px; height: 65px; object-fit: cover; border-radius: 4px; border: 1px solid #ddd;">
+                      <input type="file" id="expCard1FileInput" accept="image/*" class="form-control" style="font-size: 0.8rem;">
+                    </div>
+                    <input type="text" id="expCard1ImgUrl" class="form-control" placeholder="Or image path / URL (leave blank to auto-use YouTube thumbnail)">
+                  </div>
+                  <div>
+                    <label style="font-size: 0.85rem; font-weight: 600;">YouTube Video Link (Optional)</label>
+                    <input type="text" id="expCard1VideoUrl" class="form-control" placeholder="e.g. https://www.youtube.com/watch?v=... or https://youtu.be/...">
+                    <small style="color: #666;">Paste any YouTube video link here.</small>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Card 2: Bottom Left Card -->
+              <div style="background: var(--bg-light); padding: 16px; border-radius: 8px; border: 1px solid var(--border-color);">
+                <div style="font-weight: 700; margin-bottom: 12px; color: var(--primary-red);">Card 2 (Bottom Left Card)</div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                  <div>
+                    <label style="font-size: 0.85rem; font-weight: 600;">Card 2 Image / Thumbnail</label>
+                    <div style="display: flex; gap: 12px; align-items: center; margin-bottom: 8px;">
+                      <img id="expCard2Preview" src="../assets/images/about/607105091.jpg" style="width: 100px; height: 65px; object-fit: cover; border-radius: 4px; border: 1px solid #ddd;">
+                      <input type="file" id="expCard2FileInput" accept="image/*" class="form-control" style="font-size: 0.8rem;">
+                    </div>
+                    <input type="text" id="expCard2ImgUrl" class="form-control" placeholder="Or image path / URL">
+                  </div>
+                  <div>
+                    <label style="font-size: 0.85rem; font-weight: 600;">YouTube Video Link (Optional)</label>
+                    <input type="text" id="expCard2VideoUrl" class="form-control" placeholder="e.g. https://www.youtube.com/watch?v=...">
+                    <small style="color: #666;">Paste any YouTube video link here.</small>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Card 3: Bottom Right Card -->
+              <div style="background: var(--bg-light); padding: 16px; border-radius: 8px; border: 1px solid var(--border-color);">
+                <div style="font-weight: 700; margin-bottom: 12px; color: var(--primary-red);">Card 3 (Bottom Right Card)</div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                  <div>
+                    <label style="font-size: 0.85rem; font-weight: 600;">Card 3 Image / Thumbnail</label>
+                    <div style="display: flex; gap: 12px; align-items: center; margin-bottom: 8px;">
+                      <img id="expCard3Preview" src="../assets/images/about/766476498.jpg" style="width: 100px; height: 65px; object-fit: cover; border-radius: 4px; border: 1px solid #ddd;">
+                      <input type="file" id="expCard3FileInput" accept="image/*" class="form-control" style="font-size: 0.8rem;">
+                    </div>
+                    <input type="text" id="expCard3ImgUrl" class="form-control" placeholder="Or image path / URL">
+                  </div>
+                  <div>
+                    <label style="font-size: 0.85rem; font-weight: 600;">YouTube Video Link (Optional)</label>
+                    <input type="text" id="expCard3VideoUrl" class="form-control" placeholder="e.g. https://www.youtube.com/watch?v=...">
+                    <small style="color: #666;">Paste any YouTube video link here.</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="background-color: var(--primary-red); color: white; border: none; padding: 10px 24px; border-radius: 6px; font-weight: 700; cursor: pointer; margin-top: 20px;">
+              💾 Save Experience &amp; Video Showcase Section
+            </button>
+          </form>
+        </div>
+
+        <!-- 6. RULES MANAGER -->
+        <div class="admin-card editor-section">
+          <div class="card-header">
+            <h2 class="card-title">6. Required Rules &amp; Documents Manager</h2>
           </div>
 
           <form id="addRuleForm" style="display: grid; grid-template-columns: 1fr 2fr auto; gap: 16px; align-items: end; margin-bottom: 24px; background: var(--bg-light); padding: 16px; border-radius: 8px;">
@@ -349,7 +449,7 @@
         <!-- FAQ MANAGER -->
         <div class="admin-card editor-section">
           <div class="card-header">
-            <h2 class="card-title">3. Frequently Asked Questions (FAQs)</h2>
+            <h2 class="card-title">7. Frequently Asked Questions (FAQs)</h2>
           </div>
 
           <form id="addFaqForm" style="display: grid; grid-template-columns: 1fr 2fr auto; gap: 16px; align-items: end; margin-bottom: 24px; background: var(--bg-light); padding: 16px; border-radius: 8px;">
@@ -385,7 +485,7 @@
         <!-- CUSTOMER GALLERY MANAGER -->
         <div class="admin-card editor-section">
           <div class="card-header">
-            <h2 class="card-title">4. Customer Photos & Gallery Manager</h2>
+            <h2 class="card-title">8. Customer Photos & Gallery Manager</h2>
           </div>
 
           <form id="addGalleryForm" style="display: grid; grid-template-columns: 1fr 1fr auto; gap: 16px; align-items: end; margin-bottom: 24px; background: var(--bg-light); padding: 16px; border-radius: 8px;">
@@ -697,6 +797,102 @@
         try {
           await saveDoc('pages', 'home', payload);
           showToast("4-Step Process Strip saved successfully!", "success");
+        } catch (err) {
+          showToast("Error saving: " + err.message, "error");
+        }
+      });
+
+      // 5. Load & Save Experience Sri Lanka & Video Showcase Section
+      const defaultExp = {
+        title: 'EXPERIENCE <span class="text-yellow">SRI LANKA</span><br>WITH TOTAL<br>INDEPENDENCE',
+        description: 'Go from airport arrival to taking the wheel in record time — vehicle prepped, official permits confirmed, and the open road awaiting. From golden southern palm beaches to the mists of Kandy highlands, experience paradise on your own schedule.',
+        videoMode: 'popup',
+        card1: {
+          image: '../assets/images/about/pexels-malindabandaralk-16508228.jpg',
+          videoUrl: ''
+        },
+        card2: {
+          image: '../assets/images/about/607105091.jpg',
+          videoUrl: ''
+        },
+        card3: {
+          image: '../assets/images/about/766476498.jpg',
+          videoUrl: ''
+        }
+      };
+
+      const expData = homeData.experience || defaultExp;
+      const expTitleInput = document.getElementById('expTitleInput');
+      const expDescInput = document.getElementById('expDescInput');
+      const expVideoModeSelect = document.getElementById('expVideoMode');
+
+      if (expTitleInput) expTitleInput.value = expData.title || defaultExp.title;
+      if (expDescInput) expDescInput.value = expData.description || defaultExp.description;
+      if (expVideoModeSelect) expVideoModeSelect.value = expData.videoMode || 'popup';
+
+      for (let c = 1; c <= 3; c++) {
+        const cardObj = expData[`card${c}`] || defaultExp[`card${c}`] || {};
+        const imgInput = document.getElementById(`expCard${c}ImgUrl`);
+        const videoInput = document.getElementById(`expCard${c}VideoUrl`);
+        const prevImg = document.getElementById(`expCard${c}Preview`);
+        const fileInput = document.getElementById(`expCard${c}FileInput`);
+
+        if (imgInput) imgInput.value = cardObj.image || '';
+        if (videoInput) videoInput.value = cardObj.videoUrl || '';
+        if (prevImg) prevImg.src = fixImgPath(cardObj.image || '');
+
+        if (fileInput) {
+          fileInput.addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (file) {
+              showToast(`Uploading Card ${c} photo...`);
+              try {
+                const url = await uploadImage(file);
+                if (imgInput) imgInput.value = url;
+                if (prevImg) prevImg.src = fixImgPath(url);
+                showToast(`Card ${c} photo uploaded!`, "success");
+              } catch (err) {
+                showToast("Upload failed: " + err.message, "error");
+              }
+            }
+          });
+        }
+
+        if (imgInput && prevImg) {
+          imgInput.addEventListener('input', (e) => {
+            prevImg.src = fixImgPath(e.target.value);
+          });
+        }
+      }
+
+      // Save Experience Section
+      document.getElementById('experienceForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const current = await getDoc('pages', 'home') || {};
+        const payload = {
+          ...current,
+          experience: {
+            title: document.getElementById('expTitleInput').value.trim(),
+            description: document.getElementById('expDescInput').value.trim(),
+            videoMode: document.getElementById('expVideoMode').value,
+            card1: {
+              image: document.getElementById('expCard1ImgUrl').value.trim(),
+              videoUrl: document.getElementById('expCard1VideoUrl').value.trim()
+            },
+            card2: {
+              image: document.getElementById('expCard2ImgUrl').value.trim(),
+              videoUrl: document.getElementById('expCard2VideoUrl').value.trim()
+            },
+            card3: {
+              image: document.getElementById('expCard3ImgUrl').value.trim(),
+              videoUrl: document.getElementById('expCard3VideoUrl').value.trim()
+            }
+          }
+        };
+
+        try {
+          await saveDoc('pages', 'home', payload);
+          showToast("Experience & Video Showcase saved successfully!", "success");
         } catch (err) {
           showToast("Error saving: " + err.message, "error");
         }

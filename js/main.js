@@ -23,6 +23,7 @@ async function initApp() {
   initScrollReveal();
   initFlatpickrDates();
   initBookingInquiryModal();
+  initVideoLightboxModal();
   
   try { await loadSiteSettings(); } catch (e) { console.warn('loadSiteSettings error:', e); }
   try { await applyDynamicBackgrounds(); } catch (e) { console.warn('applyDynamicBackgrounds error:', e); }
@@ -137,6 +138,9 @@ function initScrollAndMobileListeners() {
       closeMobileMenu();
       if (typeof window.closeBookingModal === 'function') {
         window.closeBookingModal();
+      }
+      if (typeof window.closeVideoModal === 'function') {
+        window.closeVideoModal();
       }
     }
   });
@@ -509,6 +513,59 @@ async function loadHomePageData() {
         if (img && st.image) img.src = fixImgPath(st.image, false);
         if (lbl && st.title) lbl.textContent = st.title;
         if (cap && st.caption) cap.textContent = st.caption;
+      }
+    });
+  }
+
+  // 5. Experience Sri Lanka & Video Showcase Section
+  if (homeData.experience) {
+    const dTitle = document.getElementById('discoverTitle');
+    if (dTitle && homeData.experience.title) dTitle.innerHTML = sanitizeHTML(homeData.experience.title);
+    const dDesc = document.getElementById('discoverDesc');
+    if (dDesc && homeData.experience.description) dDesc.textContent = homeData.experience.description;
+
+    const mode = homeData.experience.videoMode || 'popup';
+    const cardDefs = [
+      { cardEl: document.getElementById('discCard1'), imgEl: document.getElementById('discImg1'), data: homeData.experience.card1 },
+      { cardEl: document.getElementById('discCard2'), imgEl: document.getElementById('discImg2'), data: homeData.experience.card2 },
+      { cardEl: document.getElementById('discCard3'), imgEl: document.getElementById('discImg3'), data: homeData.experience.card3 }
+    ];
+
+    cardDefs.forEach(({ cardEl, imgEl, data }) => {
+      if (!cardEl || !data) return;
+      const yId = extractYouTubeId(data.videoUrl);
+
+      if (data.image && imgEl) {
+        imgEl.src = fixImgPath(data.image, false);
+      } else if (yId && imgEl && !data.image) {
+        imgEl.src = `https://img.youtube.com/vi/${yId}/hqdefault.jpg`;
+      }
+
+      if (mode === 'inline' && yId) {
+        cardEl.innerHTML = `
+          <iframe class="disc-video-iframe" 
+            src="https://www.youtube.com/embed/${yId}?autoplay=1&mute=1&loop=1&playlist=${yId}&controls=0&modestbranding=1&rel=0&playsinline=1" 
+            frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+          <div class="disc-play" style="pointer-events: auto; opacity: 0.35; transition: opacity 0.2s;" onmouseenter="this.style.opacity='1'" onmouseleave="this.style.opacity='0.35'">
+            <div class="disc-play-btn" title="Click to watch with sound">
+              <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            </div>
+          </div>
+        `;
+        const playBtn = cardEl.querySelector('.disc-play');
+        if (playBtn) {
+          playBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (typeof window.openVideoModal === 'function') window.openVideoModal(yId);
+          });
+        }
+      } else {
+        if (yId) {
+          cardEl.style.cursor = 'pointer';
+          cardEl.onclick = () => {
+            if (typeof window.openVideoModal === 'function') window.openVideoModal(yId);
+          };
+        }
       }
     });
   }
@@ -1482,3 +1539,42 @@ function initBookingInquiryModal() {
     submitBookingInquiry();
   });
 }
+
+// YOUTUBE VIDEO HELPER
+function extractYouTubeId(url) {
+  if (!url) return null;
+  const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|shorts\/|watch\?v=[&]?(?:amp;)?|&v=)([^#&?]*).*/;
+  const match = String(url).match(regExp);
+  return (match && match[2].length === 11) ? match[2] : null;
+}
+
+// VIDEO LIGHTBOX MODAL CONTROLLER
+function initVideoLightboxModal() {
+  const overlay = document.getElementById('videoModalOverlay');
+  const iframe = document.getElementById('videoModalIframe');
+  const closeBtn = document.getElementById('btnVideoModalClose');
+
+  window.openVideoModal = function(videoId) {
+    if (!overlay || !iframe) return;
+    iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1`;
+    overlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  };
+
+  window.closeVideoModal = function() {
+    if (!overlay || !iframe) return;
+    iframe.src = '';
+    overlay.classList.remove('active');
+    document.body.style.overflow = '';
+  };
+
+  if (closeBtn) {
+    closeBtn.addEventListener('click', window.closeVideoModal);
+  }
+  if (overlay) {
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) window.closeVideoModal();
+    });
+  }
+}
+

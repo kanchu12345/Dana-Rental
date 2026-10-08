@@ -539,26 +539,26 @@
     <!-- ═══ DISCOVER SRI LANKA SECTION ═══ -->
     <section class="discover">
       <div class="discover-left reveal">
-        <h2>EXPERIENCE <span class="text-yellow">SRI LANKA</span><br>WITH TOTAL<br>INDEPENDENCE</h2>
-        <p>Go from airport arrival to taking the wheel in record time — vehicle prepped, official permits confirmed, and the open road awaiting. From golden southern palm beaches to the mists of Kandy highlands, experience paradise on your own schedule.</p>
+        <h2 id="discoverTitle">EXPERIENCE <span class="text-yellow">SRI LANKA</span><br>WITH TOTAL<br>INDEPENDENCE</h2>
+        <p id="discoverDesc">Go from airport arrival to taking the wheel in record time — vehicle prepped, official permits confirmed, and the open road awaiting. From golden southern palm beaches to the mists of Kandy highlands, experience paradise on your own schedule.</p>
       </div>
 
       <div class="discover-imgs reveal">
-        <div class="disc-img disc-img-wide">
-          <img src="./assets/images/about/pexels-malindabandaralk-16508228.jpg" alt="Sri Lanka Drive" loading="lazy" decoding="async">
-          <div class="disc-play">
+        <div class="disc-img disc-img-wide" id="discCard1">
+          <img id="discImg1" src="./assets/images/about/pexels-malindabandaralk-16508228.jpg" alt="Sri Lanka Drive" loading="lazy" decoding="async">
+          <div class="disc-play" id="discPlay1">
             <div class="disc-play-btn"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
           </div>
         </div>
-        <div class="disc-img">
-          <img src="./assets/images/about/607105091.jpg" alt="Sri Lanka Scenic" loading="lazy" decoding="async">
-          <div class="disc-play">
+        <div class="disc-img" id="discCard2">
+          <img id="discImg2" src="./assets/images/about/607105091.jpg" alt="Sri Lanka Scenic" loading="lazy" decoding="async">
+          <div class="disc-play" id="discPlay2">
             <div class="disc-play-btn"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
           </div>
         </div>
-        <div class="disc-img">
-          <img src="./assets/images/about/766476498.jpg" alt="Sri Lanka Coast" loading="lazy" decoding="async">
-          <div class="disc-play">
+        <div class="disc-img" id="discCard3">
+          <img id="discImg3" src="./assets/images/about/766476498.jpg" alt="Sri Lanka Coast" loading="lazy" decoding="async">
+          <div class="disc-play" id="discPlay3">
             <div class="disc-play-btn"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
           </div>
         </div>
@@ -797,6 +797,16 @@
           </div>
         </form>
 
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ VIDEO LIGHTBOX MODAL ═══ -->
+  <div class="video-modal-overlay" id="videoModalOverlay">
+    <div class="video-modal-container">
+      <button class="video-modal-close" id="btnVideoModalClose" aria-label="Close video">&times;</button>
+      <div class="video-modal-responsive">
+        <iframe id="videoModalIframe" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
       </div>
     </div>
   </div>

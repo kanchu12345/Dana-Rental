@@ -68,5 +68,23 @@
       "caption": "Your permit and vehicle reach your hotel or address smoothly.",
       "image": "./assets/images/about/pexels-thilina-alagiyawanna-3266092-34861077.jpg"
     }
-  ]
+  ],
+  "experience": {
+    "title": "EXPERIENCE <span class=\"text-yellow\">SRI LANKA</span><br>WITH TOTAL<br>INDEPENDENCE",
+    "description": "Go from airport arrival to taking the wheel in record time — vehicle prepped, official permits confirmed, and the open road awaiting. From golden southern palm beaches to the mists of Kandy highlands, experience paradise on your own schedule.",
+    "videoMode": "popup",
+    "card1": {
+      "image": "./assets/images/about/pexels-malindabandaralk-16508228.jpg",
+      "videoUrl": ""
+    },
+    "card2": {
+      "image": "./assets/images/about/607105091.jpg",
+      "videoUrl": ""
+    },
+    "card3": {
+      "image": "./assets/images/about/766476498.jpg",
+      "videoUrl": ""
+    }
+  }
 }
+
