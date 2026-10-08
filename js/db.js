@@ -345,7 +345,11 @@ export async function uploadImage(file, onProgress) {
   }
 
   if (!isCloudinaryConfigured()) {
-    throw new Error("Cloudinary image upload is not configured. Please enter your Cloud Name and Unsigned Upload Preset in 'js/cloudinary-config.js'.");
+    const errorMsg = "Cloudinary image upload is not configured. Please enter your Cloud Name and Unsigned Upload Preset in 'js/cloudinary-config.js'. Alternatively, you can paste an image web URL or relative path directly into the input box.";
+    if (typeof window !== 'undefined' && window.alert) {
+      window.alert("⚠️ Cloudinary Configuration Required:\n\nDirect device upload requires Cloudinary.\n\n1. Please set your Cloud Name & Upload Preset in 'js/cloudinary-config.js'.\n\n2. OR simply paste any image web URL or local path (e.g. ./assets/images/about/about-banner.jpg) directly into the text box next to 'Choose File'.");
+    }
+    throw new Error(errorMsg);
   }
 
   const formData = new FormData();
@@ -377,17 +381,25 @@ export async function uploadImage(file, onProgress) {
   return data.secure_url;
 }
 
+// Helper to check if a document explicitly exists in Firestore (without fallback to static JSON)
+async function checkDocExistsInFirestore(collectionName, docId) {
+  if (!db) return false;
+  try {
+    const { doc, getDoc: getFirestoreDoc } = await import('https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js');
+    const docRef = doc(db, collectionName, docId);
+    const snap = await getFirestoreDoc(docRef);
+    return snap.exists();
+  } catch (e) {
+    return false;
+  }
+}
+
 // SEED Initial Data to Firestore with meta.seeded protection
 export async function seedInitialData(force = false) {
   await initFirebase();
 
   if (!db) {
     throw new Error("Cannot seed: Firestore is not connected.");
-  }
-
-  const meta = await getDoc('settings', 'meta');
-  if (meta && meta.seeded && !force) {
-    throw new Error("Initial data is already seeded! Use force reset if you explicitly want to re-seed.");
   }
 
   const results = { success: [], failed: [] };
@@ -407,7 +419,7 @@ export async function seedInitialData(force = false) {
     try {
       // Check if doc exists in Firestore; do not overwrite if not force
       if (!force) {
-        const existing = await getDoc(s.col, s.id);
+        const existing = await checkDocExistsInFirestore(s.col, s.id);
         if (existing) {
           results.success.push(`Skipped existing document ${s.col}/${s.id}`);
           continue;
@@ -438,7 +450,7 @@ export async function seedInitialData(force = false) {
             const item = list[i];
             const itemId = item.id || `${colName}_${i + 1}`;
             if (!force) {
-              const existing = await getDoc(colName, itemId);
+              const existing = await checkDocExistsInFirestore(colName, itemId);
               if (existing) continue;
             }
             const itemPayload = { ...item, order: typeof item.order === 'number' ? item.order : i + 1 };
