@@ -1,7 +1,7 @@
 // Cloudinary Configuration placeholder
 // Replace with your Cloudinary Cloud Name and Unsigned Upload Preset
 export const cloudinaryConfig = {
-  cloudName: "YOUR_CLOUDINARY_CLOUD_NAME",
+  cloudName: "ygkhhyaj",
   uploadPreset: "YOUR_CLOUDINARY_UNSIGNED_PRESET"
 };
 
