@@ -72,18 +72,18 @@
   "experience": {
     "title": "EXPERIENCE <span class=\"text-yellow\">SRI LANKA</span><br>WITH TOTAL<br>INDEPENDENCE",
     "description": "Go from airport arrival to taking the wheel in record time — vehicle prepped, official permits confirmed, and the open road awaiting. From golden southern palm beaches to the mists of Kandy highlands, experience paradise on your own schedule.",
-    "videoMode": "popup",
+    "videoMode": "inline",
     "card1": {
       "image": "./assets/images/about/pexels-malindabandaralk-16508228.jpg",
-      "videoUrl": ""
+      "videoUrl": "https://www.youtube.com/watch?v=5PyX0KZ8KR8"
     },
     "card2": {
       "image": "./assets/images/about/607105091.jpg",
-      "videoUrl": ""
+      "videoUrl": "https://www.youtube.com/watch?v=l2rSbdjSpn4"
     },
     "card3": {
       "image": "./assets/images/about/766476498.jpg",
-      "videoUrl": ""
+      "videoUrl": "https://www.youtube.com/watch?v=5PyX0KZ8KR8"
     }
   }
 }

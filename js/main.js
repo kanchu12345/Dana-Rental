@@ -518,57 +518,67 @@ async function loadHomePageData() {
   }
 
   // 5. Experience Sri Lanka & Video Showcase Section
-  if (homeData.experience) {
-    const dTitle = document.getElementById('discoverTitle');
-    if (dTitle && homeData.experience.title) dTitle.innerHTML = sanitizeHTML(homeData.experience.title);
-    const dDesc = document.getElementById('discoverDesc');
-    if (dDesc && homeData.experience.description) dDesc.textContent = homeData.experience.description;
+  const defaultExp = {
+    title: 'EXPERIENCE <span class="text-yellow">SRI LANKA</span><br>WITH TOTAL<br>INDEPENDENCE',
+    description: 'Go from airport arrival to taking the wheel in record time — vehicle prepped, official permits confirmed, and the open road awaiting. From golden southern palm beaches to the mists of Kandy highlands, experience paradise on your own schedule.',
+    videoMode: 'inline',
+    card1: {
+      image: './assets/images/about/pexels-malindabandaralk-16508228.jpg',
+      videoUrl: 'https://www.youtube.com/watch?v=5PyX0KZ8KR8'
+    },
+    card2: {
+      image: './assets/images/about/607105091.jpg',
+      videoUrl: 'https://www.youtube.com/watch?v=l2rSbdjSpn4'
+    },
+    card3: {
+      image: './assets/images/about/766476498.jpg',
+      videoUrl: 'https://www.youtube.com/watch?v=5PyX0KZ8KR8'
+    }
+  };
 
-    const mode = homeData.experience.videoMode || 'popup';
-    const cardDefs = [
-      { cardEl: document.getElementById('discCard1'), imgEl: document.getElementById('discImg1'), data: homeData.experience.card1 },
-      { cardEl: document.getElementById('discCard2'), imgEl: document.getElementById('discImg2'), data: homeData.experience.card2 },
-      { cardEl: document.getElementById('discCard3'), imgEl: document.getElementById('discImg3'), data: homeData.experience.card3 }
-    ];
+  const expData = homeData.experience || defaultExp;
+  const dTitle = document.getElementById('discoverTitle');
+  if (dTitle && expData.title) dTitle.innerHTML = sanitizeHTML(expData.title);
+  const dDesc = document.getElementById('discoverDesc');
+  if (dDesc && expData.description) dDesc.textContent = expData.description;
 
-    cardDefs.forEach(({ cardEl, imgEl, data }) => {
-      if (!cardEl || !data) return;
-      const yId = extractYouTubeId(data.videoUrl);
+  const mode = expData.videoMode || 'inline';
+  const cardDefs = [
+    { cardEl: document.getElementById('discCard1'), data: expData.card1 || defaultExp.card1 },
+    { cardEl: document.getElementById('discCard2'), data: expData.card2 || defaultExp.card2 },
+    { cardEl: document.getElementById('discCard3'), data: expData.card3 || defaultExp.card3 }
+  ];
 
-      if (data.image && imgEl) {
-        imgEl.src = fixImgPath(data.image, false);
-      } else if (yId && imgEl && !data.image) {
-        imgEl.src = `https://img.youtube.com/vi/${yId}/hqdefault.jpg`;
-      }
+  cardDefs.forEach(({ cardEl, data }) => {
+    if (!cardEl || !data) return;
+    const yId = extractYouTubeId(data.videoUrl);
 
-      if (mode === 'inline' && yId) {
-        cardEl.innerHTML = `
-          <iframe class="disc-video-iframe" 
-            src="https://www.youtube.com/embed/${yId}?autoplay=1&mute=1&loop=1&playlist=${yId}&controls=0&modestbranding=1&rel=0&playsinline=1" 
-            frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-          <div class="disc-play" style="pointer-events: auto; opacity: 0.35; transition: opacity 0.2s;" onmouseenter="this.style.opacity='1'" onmouseleave="this.style.opacity='0.35'">
-            <div class="disc-play-btn" title="Click to watch with sound">
-              <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-            </div>
+    if (mode === 'inline' && yId) {
+      cardEl.setAttribute('data-video', yId);
+      cardEl.innerHTML = `
+        <iframe class="disc-video-iframe" 
+          src="https://www.youtube.com/embed/${yId}?autoplay=1&mute=1&loop=1&playlist=${yId}&controls=0&modestbranding=1&rel=0&playsinline=1&enablejsapi=1" 
+          title="Sri Lanka Showcase" 
+          frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        <div class="disc-play">
+          <div class="disc-play-btn" title="Watch full video with sound">
+            <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
           </div>
-        `;
-        const playBtn = cardEl.querySelector('.disc-play');
-        if (playBtn) {
-          playBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            if (typeof window.openVideoModal === 'function') window.openVideoModal(yId);
-          });
-        }
-      } else {
-        if (yId) {
-          cardEl.style.cursor = 'pointer';
-          cardEl.onclick = () => {
-            if (typeof window.openVideoModal === 'function') window.openVideoModal(yId);
-          };
-        }
-      }
-    });
-  }
+        </div>
+      `;
+    } else {
+      const imgSrc = data.image ? fixImgPath(data.image, false) : (yId ? `https://img.youtube.com/vi/${yId}/hqdefault.jpg` : '');
+      if (yId) cardEl.setAttribute('data-video', yId);
+      cardEl.innerHTML = `
+        <img src="${escapeHTML(imgSrc)}" alt="Sri Lanka Showcase" loading="lazy" decoding="async">
+        <div class="disc-play">
+          <div class="disc-play-btn" title="Watch video with sound">
+            <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          </div>
+        </div>
+      `;
+    }
+  });
 }
 
 // LOAD ABOUT US PAGE DATA
@@ -1576,5 +1586,16 @@ function initVideoLightboxModal() {
       if (e.target === overlay) window.closeVideoModal();
     });
   }
+
+  // Handle click on any discover cards with video
+  document.addEventListener('click', (e) => {
+    const card = e.target.closest('.disc-img');
+    if (card) {
+      const vid = card.getAttribute('data-video');
+      if (vid && typeof window.openVideoModal === 'function') {
+        window.openVideoModal(vid);
+      }
+    }
+  });
 }
 
