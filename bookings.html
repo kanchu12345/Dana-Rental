@@ -104,7 +104,13 @@
             <div class="booking-field">
               <label>Select Vehicle *</label>
               <select name="vehicleId" id="booking-vehicle-select" required>
-                <!-- Populated dynamically -->
+                <option value="">-- Choose a Vehicle --</option>
+                <option value="Honda Dio 110cc (2025)">Honda Dio 110cc (2025) (Rs. 3,000 / day)</option>
+                <option value="TVS Ntorq 125cc">TVS Ntorq 125cc (Rs. 3,500 / day)</option>
+                <option value="Indian Alto 2014">Indian Alto 2014 (Rs. 6,000 / day)</option>
+                <option value="Japan Alto Auto">Japan Alto Auto (Rs. 6,000 / day)</option>
+                <option value="Suzuki Every Van Buddy – Auto">Suzuki Every Van Buddy – Auto (Rs. 8,000 / day)</option>
+                <option value="Suzuki Wagon R">Suzuki Wagon R (Rs. 8,500 / day)</option>
               </select>
             </div>
 
@@ -364,12 +370,13 @@
           vehicles.map(v => `<option value="${escapeHTML(v.name)}">${escapeHTML(v.name)} (Rs. ${(v.price24h || v.price || 0).toLocaleString()} / day)</option>`).join('');
       } catch (e) {
         select.innerHTML = `
-          <option value="Honda Dio 110cc">Honda Dio 110cc (Rs. 3,000 / day)</option>
+          <option value="">-- Choose a Vehicle --</option>
+          <option value="Honda Dio 110cc (2025)">Honda Dio 110cc (2025) (Rs. 3,000 / day)</option>
           <option value="TVS Ntorq 125cc">TVS Ntorq 125cc (Rs. 3,500 / day)</option>
-          <option value="Suzuki Indian Alto 800">Suzuki Indian Alto 800 (Rs. 6,500 / day)</option>
-          <option value="Suzuki Japanese Alto (Auto)">Suzuki Japanese Alto Auto (Rs. 7,500 / day)</option>
-          <option value="Toyota Wagon R Hybrid">Toyota Wagon R Hybrid (Rs. 8,500 / day)</option>
-          <option value="KDH Super GL Van">Toyota KDH Super GL Van (Rs. 18,000 / day)</option>
+          <option value="Indian Alto 2014">Indian Alto 2014 (Rs. 6,000 / day)</option>
+          <option value="Japan Alto Auto">Japan Alto Auto (Rs. 6,000 / day)</option>
+          <option value="Suzuki Every Van Buddy – Auto">Suzuki Every Van Buddy – Auto (Rs. 8,000 / day)</option>
+          <option value="Suzuki Wagon R">Suzuki Wagon R (Rs. 8,500 / day)</option>
         `;
       }
     }

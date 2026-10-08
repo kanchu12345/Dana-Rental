@@ -46,7 +46,10 @@
     <main class="admin-main">
       <header class="admin-topbar">
         <h1 class="topbar-title">Vehicle Fleet Manager</h1>
-        <div class="topbar-user">
+        <div class="topbar-user" style="display: flex; gap: 10px; align-items: center;">
+          <button id="btnSyncOfficialFleet" class="btn" style="background-color: #282828; color: #FFAA00; border: 1px solid #555; padding: 10px 18px; border-radius: 6px; font-weight: 700; cursor: pointer;">
+            ⚡ Sync Official Fleet (6 Vehicles)
+          </button>
           <button id="btnOpenAddModal" class="btn btn-primary" style="background-color: var(--primary-red); color: white; border: none; padding: 10px 20px; border-radius: 6px; font-weight: 700; cursor: pointer;">
             + Add New Vehicle
           </button>
@@ -239,6 +242,45 @@
         resetForm();
         document.getElementById('modalTitle').textContent = 'Add New Vehicle';
         modal.style.display = 'flex';
+      });
+
+      // 1-Click Sync Official Fleet (6 Vehicles)
+      document.getElementById('btnSyncOfficialFleet')?.addEventListener('click', async () => {
+        if (!confirm("Are you sure you want to sync the 6 official vehicles to the database?\\n\\nThis will write the official fleet into Firestore:\\n1. Honda Dio 110cc (Rs. 3,000/day)\\n2. TVS Ntorq 125cc (Rs. 3,500/day)\\n3. Indian Alto 2014 (Rs. 6,000/day)\\n4. Japan Alto Auto (Rs. 6,000/day)\\n5. Suzuki Every Van Buddy – Auto (Rs. 8,000/day)\\n6. Suzuki Wagon R (Rs. 8,500/day)")) return;
+
+        const btn = document.getElementById('btnSyncOfficialFleet');
+        btn.disabled = true;
+        const originalText = btn.textContent;
+        btn.textContent = "⏳ Syncing fleet...";
+        showToast("Syncing official 6 vehicles...", "info");
+
+        try {
+          const res = await fetch('../data/vehicles.json');
+          if (!res.ok) throw new Error("Could not load official vehicles data file.");
+          const officialList = await res.json();
+
+          // Clean up old vehicles not in official list
+          for (const item of currentVehiclesList) {
+            if (!officialList.some(o => o.id === item.id)) {
+              try { await deleteDoc('vehicles', item.id); } catch (e) {}
+            }
+          }
+
+          // Save each official vehicle
+          for (let i = 0; i < officialList.length; i++) {
+            const v = officialList[i];
+            await saveDoc('vehicles', v.id, { ...v, order: i + 1 });
+          }
+
+          showToast("Official fleet synced successfully!", "success");
+          await loadVehiclesTable();
+        } catch (err) {
+          console.error("Fleet sync error:", err);
+          showToast("Sync failed: " + err.message, "error");
+        } finally {
+          btn.disabled = false;
+          btn.textContent = originalText;
+        }
       });
 
       document.getElementById('btnCloseModal').addEventListener('click', () => modal.style.display = 'none');
