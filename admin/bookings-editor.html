@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bookings & Policies Editor | Danan Admin</title>
+  <link rel="icon" href="../assets/images/logo/logo.png" type="image/jpeg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/admin.css">
+</head>
+<body>
+  <div class="admin-layout">
+    <!-- SIDEBAR -->
+    <aside class="admin-sidebar">
+      <div class="sidebar-header">
+        <img src="../assets/images/logo/logo.png" alt="Logo" class="sidebar-logo">
+        <div class="sidebar-brand">
+          <h3>Danan Admin</h3>
+          <p>Management Panel</p>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <a href="index.html" class="nav-item"><span>📊</span> Dashboard</a>
+        <a href="settings.html" class="nav-item"><span>⚙️</span> Site Settings</a>
+        <a href="home-editor.html" class="nav-item"><span>🏠</span> Home Page Editor</a>
+        <a href="vehicles.html" class="nav-item"><span>🚗</span> Vehicles Manager</a>
+        <a href="destinations.html" class="nav-item"><span>🗺️</span> Destinations Manager</a>
+        <a href="about-editor.html" class="nav-item"><span>ℹ️</span> About Us Editor</a>
+        <a href="bookings-editor.html" class="nav-item active"><span>📅</span> Bookings & Policies</a>
+        <a href="reviews.html" class="nav-item"><span>⭐</span> Customer Reviews</a>
+        <a href="backgrounds.html" class="nav-item"><span>🖼️</span> Backgrounds Manager</a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button id="btnSeedData" style="width: 100%; padding: 10px; background: #282828; color: #FFAA00; border: 1px solid #444; border-radius: 6px; cursor: pointer; font-weight: 600; margin-bottom: 12px;">⚡ Seed Default Data</button>
+        <button id="btnLogout" style="width: 100%; padding: 10px; background: var(--primary-red); color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: 600;">🚪 Log Out</button>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="admin-main">
+      <header class="admin-topbar">
+        <h1 class="topbar-title">Bookings Page Content & Policies Manager</h1>
+        <div class="topbar-user">
+          <a href="../bookings.html" target="_blank" style="color: var(--primary-red); font-weight: 600; text-decoration: none;">🌐 View Page ↗</a>
+        </div>
+      </header>
+
+      <div class="admin-content">
+        <form id="bookingsEditorForm">
+
+          <!-- 1. HERO HEADER -->
+          <div class="admin-card" style="margin-bottom: 24px;">
+            <div class="card-header">
+              <h2 class="card-title">1. Bookings Page Hero Header</h2>
+            </div>
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="bHeroTag">Hero Tag / Category</label>
+                <input type="text" id="bHeroTag" class="form-control" placeholder="ONLINE RESERVATIONS" required>
+              </div>
+              <div class="form-group">
+                <label for="bHeroTitle">Hero Headline (HTML span allowed)</label>
+                <input type="text" id="bHeroTitle" class="form-control" placeholder="Reserve Your Vehicle With <span style='color:var(--yellow)'>Danan Rentals</span>" required>
+              </div>
+              <div class="form-group" style="grid-column: 1 / -1;">
+                <label for="bHeroSubline">Hero Description Subline</label>
+                <textarea id="bHeroSubline" class="form-control" rows="2" required></textarea>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2. RENTAL REQUIREMENTS & POLICIES -->
+          <div class="admin-card" style="margin-bottom: 24px;">
+            <div class="card-header">
+              <h2 class="card-title">2. Rental Requirements & Policies (Sidebar Cards)</h2>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+              <!-- Policy 1 -->
+              <div style="background: var(--bg-light); padding: 16px; border-radius: 8px;">
+                <h4 style="margin-bottom: 10px;">Policy 1 (ID & Passport)</h4>
+                <div class="form-group">
+                  <label>Title</label>
+                  <input type="text" id="polTitle0" class="form-control" value="Valid ID / Passport" required>
+                </div>
+                <div class="form-group">
+                  <label>Description</label>
+                  <textarea id="polDesc0" class="form-control" rows="2" required></textarea>
+                </div>
+              </div>
+
+              <!-- Policy 2 -->
+              <div style="background: var(--bg-light); padding: 16px; border-radius: 8px;">
+                <h4 style="margin-bottom: 10px;">Policy 2 (Driving Permit)</h4>
+                <div class="form-group">
+                  <label>Title</label>
+                  <input type="text" id="polTitle1" class="form-control" value="Driving Permit" required>
+                </div>
+                <div class="form-group">
+                  <label>Description</label>
+                  <textarea id="polDesc1" class="form-control" rows="2" required></textarea>
+                </div>
+              </div>
+
+              <!-- Policy 3 -->
+              <div style="background: var(--bg-light); padding: 16px; border-radius: 8px;">
+                <h4 style="margin-bottom: 10px;">Policy 3 (Free KM Limit)</h4>
+                <div class="form-group">
+                  <label>Title</label>
+                  <input type="text" id="polTitle2" class="form-control" value="200 Free KM / Day" required>
+                </div>
+                <div class="form-group">
+                  <label>Description</label>
+                  <textarea id="polDesc2" class="form-control" rows="2" required></textarea>
+                </div>
+              </div>
+
+              <!-- Policy 4 -->
+              <div style="background: var(--bg-light); padding: 16px; border-radius: 8px;">
+                <h4 style="margin-bottom: 10px;">Policy 4 (Security Deposit)</h4>
+                <div class="form-group">
+                  <label>Title</label>
+                  <input type="text" id="polTitle3" class="form-control" value="Security Deposit" required>
+                </div>
+                <div class="form-group">
+                  <label>Description</label>
+                  <textarea id="polDesc3" class="form-control" rows="2" required></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3. BOTTOM CTA -->
+          <div class="admin-card" style="margin-bottom: 24px;">
+            <div class="card-header">
+              <h2 class="card-title">3. Bottom CTA Banner</h2>
+            </div>
+            <div class="form-grid">
+              <div class="form-group" style="grid-column: 1 / -1;">
+                <label for="bCtaTitle">CTA Headline</label>
+                <input type="text" id="bCtaTitle" class="form-control" placeholder="Need Custom Itinerary, Chauffeur, or Airport Delivery?" required>
+              </div>
+            </div>
+          </div>
+
+          <div style="position: sticky; bottom: 20px; z-index: 99; background: #1A202C; padding: 16px 24px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 10px 25px rgba(0,0,0,0.25);">
+            <span style="color: #FFF; font-weight: 600;">Save all changes to Bookings page</span>
+            <button type="submit" class="btn btn-primary" style="background-color: var(--primary-red); color: white; border: none; padding: 12px 28px; border-radius: 6px; font-weight: 700; cursor: pointer;">
+              💾 Save Bookings Page Content
+            </button>
+          </div>
+
+        </form>
+      </div>
+    </main>
+  </div>
+
+  <script type="module" src="../js/admin.js"></script>
+  <script type="module">
+    import { getDoc, saveDoc } from '../js/db.js';
+    import { showToast } from '../js/admin.js';
+
+    async function loadBookingsEditorData() {
+      const data = await getDoc('pages', 'bookings') || {};
+
+      if (data.hero) {
+        document.getElementById('bHeroTag').value = data.hero.tag || '';
+        document.getElementById('bHeroTitle').value = data.hero.title || '';
+        document.getElementById('bHeroSubline').value = data.hero.subline || '';
+      }
+
+      if (Array.isArray(data.policies)) {
+        for (let i = 0; i < 4; i++) {
+          const p = data.policies[i] || {};
+          const tEl = document.getElementById(`polTitle${i}`);
+          const dEl = document.getElementById(`polDesc${i}`);
+          if (tEl) tEl.value = p.title || '';
+          if (dEl) dEl.value = p.desc || '';
+        }
+      }
+
+      if (data.cta) {
+        document.getElementById('bCtaTitle').value = data.cta.title || '';
+      }
+    }
+
+    document.getElementById('bookingsEditorForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const payload = {
+        hero: {
+          tag: document.getElementById('bHeroTag').value.trim(),
+          title: document.getElementById('bHeroTitle').value.trim(),
+          subline: document.getElementById('bHeroSubline').value.trim()
+        },
+        policies: [
+          { icon: 'fa-solid fa-circle-check', title: document.getElementById('polTitle0').value.trim(), desc: document.getElementById('polDesc0').value.trim() },
+          { icon: 'fa-solid fa-circle-check', title: document.getElementById('polTitle1').value.trim(), desc: document.getElementById('polDesc1').value.trim() },
+          { icon: 'fa-solid fa-circle-check', title: document.getElementById('polTitle2').value.trim(), desc: document.getElementById('polDesc2').value.trim() },
+          { icon: 'fa-solid fa-circle-check', title: document.getElementById('polTitle3').value.trim(), desc: document.getElementById('polDesc3').value.trim() }
+        ],
+        cta: {
+          title: document.getElementById('bCtaTitle').value.trim()
+        }
+      };
+
+      try {
+        await saveDoc('pages', 'bookings', payload);
+        showToast("Bookings page saved successfully!", "success");
+      } catch (err) {
+        showToast("Error saving: " + err.message, "error");
+      }
+    });
+
+    document.addEventListener('DOMContentLoaded', loadBookingsEditorData);
+  </script>
+</body>
+</html>

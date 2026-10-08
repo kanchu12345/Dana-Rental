@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Us Page Editor | Danan Admin</title>
+  <link rel="icon" href="../assets/images/logo/logo.png" type="image/jpeg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/admin.css">
+</head>
+<body>
+  <div class="admin-layout">
+    <!-- SIDEBAR -->
+    <aside class="admin-sidebar">
+      <div class="sidebar-header">
+        <img src="../assets/images/logo/logo.png" alt="Logo" class="sidebar-logo">
+        <div class="sidebar-brand">
+          <h3>Danan Admin</h3>
+          <p>Management Panel</p>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <a href="index.html" class="nav-item"><span>📊</span> Dashboard</a>
+        <a href="settings.html" class="nav-item"><span>⚙️</span> Site Settings</a>
+        <a href="home-editor.html" class="nav-item"><span>🏠</span> Home Page Editor</a>
+        <a href="vehicles.html" class="nav-item"><span>🚗</span> Vehicles Manager</a>
+        <a href="destinations.html" class="nav-item"><span>🗺️</span> Destinations Manager</a>
+        <a href="about-editor.html" class="nav-item active"><span>ℹ️</span> About Us Editor</a>
+        <a href="bookings-editor.html" class="nav-item"><span>📅</span> Bookings & Policies</a>
+        <a href="reviews.html" class="nav-item"><span>⭐</span> Customer Reviews</a>
+        <a href="backgrounds.html" class="nav-item"><span>🖼️</span> Backgrounds Manager</a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button id="btnSeedData" style="width: 100%; padding: 10px; background: #282828; color: #FFAA00; border: 1px solid #444; border-radius: 6px; cursor: pointer; font-weight: 600; margin-bottom: 12px;">⚡ Seed Default Data</button>
+        <button id="btnLogout" style="width: 100%; padding: 10px; background: var(--primary-red); color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: 600;">🚪 Log Out</button>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="admin-main">
+      <header class="admin-topbar">
+        <h1 class="topbar-title">About Us Page Content Manager</h1>
+        <div class="topbar-user">
+          <a href="../about.html" target="_blank" style="color: var(--primary-red); font-weight: 600; text-decoration: none;">🌐 View Page ↗</a>
+        </div>
+      </header>
+
+      <div class="admin-content">
+        <form id="aboutForm">
+
+          <!-- 1. HERO HEADER -->
+          <div class="admin-card" style="margin-bottom: 24px;">
+            <div class="card-header">
+              <h2 class="card-title">1. Hero Banner Content</h2>
+            </div>
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="heroTag">Hero Tag / Category</label>
+                <input type="text" id="heroTag" class="form-control" placeholder="WHO WE ARE" required>
+              </div>
+              <div class="form-group">
+                <label for="heroTitle">Main Headline (HTML span allowed)</label>
+                <input type="text" id="heroTitle" class="form-control" placeholder="Making Travel in Sri Lanka <span>Effortless</span>" required>
+              </div>
+              <div class="form-group" style="grid-column: 1 / -1;">
+                <label for="heroSubline">Hero Description Subline</label>
+                <textarea id="heroSubline" class="form-control" rows="2" required></textarea>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2. STORY & INTRO SECTION -->
+          <div class="admin-card" style="margin-bottom: 24px;">
+            <div class="card-header">
+              <h2 class="card-title">2. Company Story & Feature Image</h2>
+            </div>
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="introTag">Section Tag</label>
+                <input type="text" id="introTag" class="form-control" placeholder="ABOUT DANAN RENTALS" required>
+              </div>
+              <div class="form-group">
+                <label for="introTitle">Section Heading (HTML span allowed)</label>
+                <input type="text" id="introTitle" class="form-control" placeholder="Your Trusted Partner for <span>Sri Lanka Travel</span>" required>
+              </div>
+              <div class="form-group" style="grid-column: 1 / -1;">
+                <label for="introP1">Story Paragraph 1 (Founding & Mission)</label>
+                <textarea id="introP1" class="form-control" rows="3" required></textarea>
+              </div>
+              <div class="form-group" style="grid-column: 1 / -1;">
+                <label for="introP2">Story Paragraph 2 (Services & Commitment)</label>
+                <textarea id="introP2" class="form-control" rows="3" required></textarea>
+              </div>
+
+              <!-- Badge Numbers -->
+              <div class="form-group">
+                <label for="badgeNum">Experience Badge Number</label>
+                <input type="text" id="badgeNum" class="form-control" placeholder="5+" required>
+              </div>
+              <div class="form-group">
+                <label for="badgeLabel">Experience Badge Label</label>
+                <input type="text" id="badgeLabel" class="form-control" placeholder="Years of Excellence" required>
+              </div>
+
+              <!-- Feature Photo -->
+              <div class="form-group" style="grid-column: 1 / -1;">
+                <label>Intro Feature Image</label>
+                <div style="display: flex; gap: 16px; align-items: center;">
+                  <div class="img-preview-box">
+                    <img id="introImgPreview" src="../assets/images/about/about-feature.jpg" alt="Intro Preview">
+                  </div>
+                  <div style="flex: 1;">
+                    <input type="file" id="introFileInput" accept="image/*" class="form-control" style="margin-bottom: 8px;">
+                    <input type="text" id="introImgUrl" class="form-control" placeholder="Or relative path / URL" required>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 4 Checkpoints -->
+              <div class="form-group" style="grid-column: 1 / -1;">
+                <label>4 Intro Checklist Points</label>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                  <input type="text" id="check0" class="form-control" placeholder="Check 1" required>
+                  <input type="text" id="check1" class="form-control" placeholder="Check 2" required>
+                  <input type="text" id="check2" class="form-control" placeholder="Check 3" required>
+                  <input type="text" id="check3" class="form-control" placeholder="Check 4" required>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3. STATS COUNTERS -->
+          <div class="admin-card" style="margin-bottom: 24px;">
+            <div class="card-header">
+              <h2 class="card-title">3. Stats Counters (4 Numbers)</h2>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px;">
+              <div style="background: var(--bg-light); padding: 16px; border-radius: 8px;">
+                <label style="font-weight: 700; font-size: 0.85rem;">Stat 1</label>
+                <input type="text" id="statNum0" class="form-control" placeholder="50+" style="margin-bottom: 8px;" required>
+                <input type="text" id="statLbl0" class="form-control" placeholder="Verified Fleet" required>
+              </div>
+              <div style="background: var(--bg-light); padding: 16px; border-radius: 8px;">
+                <label style="font-weight: 700; font-size: 0.85rem;">Stat 2</label>
+                <input type="text" id="statNum1" class="form-control" placeholder="200 km" style="margin-bottom: 8px;" required>
+                <input type="text" id="statLbl1" class="form-control" placeholder="Free Daily Distance" required>
+              </div>
+              <div style="background: var(--bg-light); padding: 16px; border-radius: 8px;">
+                <label style="font-weight: 700; font-size: 0.85rem;">Stat 3</label>
+                <input type="text" id="statNum2" class="form-control" placeholder="5,000+" style="margin-bottom: 8px;" required>
+                <input type="text" id="statLbl2" class="form-control" placeholder="Happy Customers" required>
+              </div>
+              <div style="background: var(--bg-light); padding: 16px; border-radius: 8px;">
+                <label style="font-weight: 700; font-size: 0.85rem;">Stat 4</label>
+                <input type="text" id="statNum3" class="form-control" placeholder="100%" style="margin-bottom: 8px;" required>
+                <input type="text" id="statLbl3" class="form-control" placeholder="Transparent Pricing" required>
+              </div>
+            </div>
+          </div>
+
+          <!-- 4. CORE VALUES -->
+          <div class="admin-card" style="margin-bottom: 24px;">
+            <div class="card-header">
+              <h2 class="card-title">4. Core Values (4 Cards)</h2>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+              <!-- Value 1 -->
+              <div style="background: var(--bg-light); padding: 16px; border-radius: 8px;">
+                <h4 style="margin-bottom: 12px;">Core Value 1</h4>
+                <div class="form-group">
+                  <label>Title</label>
+                  <input type="text" id="valTitle0" class="form-control" placeholder="Transparent Pricing" required>
+                </div>
+                <div class="form-group">
+                  <label>Description</label>
+                  <textarea id="valDesc0" class="form-control" rows="2" required></textarea>
+                </div>
+              </div>
+
+              <!-- Value 2 -->
+              <div style="background: var(--bg-light); padding: 16px; border-radius: 8px;">
+                <h4 style="margin-bottom: 12px;">Core Value 2</h4>
+                <div class="form-group">
+                  <label>Title</label>
+                  <input type="text" id="valTitle1" class="form-control" placeholder="100% Insured & Safe" required>
+                </div>
+                <div class="form-group">
+                  <label>Description</label>
+                  <textarea id="valDesc1" class="form-control" rows="2" required></textarea>
+                </div>
+              </div>
+
+              <!-- Value 3 -->
+              <div style="background: var(--bg-light); padding: 16px; border-radius: 8px;">
+                <h4 style="margin-bottom: 12px;">Core Value 3</h4>
+                <div class="form-group">
+                  <label>Title</label>
+                  <input type="text" id="valTitle2" class="form-control" placeholder="24/7 Roadside Support" required>
+                </div>
+                <div class="form-group">
+                  <label>Description</label>
+                  <textarea id="valDesc2" class="form-control" rows="2" required></textarea>
+                </div>
+              </div>
+
+              <!-- Value 4 -->
+              <div style="background: var(--bg-light); padding: 16px; border-radius: 8px;">
+                <h4 style="margin-bottom: 12px;">Core Value 4</h4>
+                <div class="form-group">
+                  <label>Title</label>
+                  <input type="text" id="valTitle3" class="form-control" placeholder="Local Road Insights" required>
+                </div>
+                <div class="form-group">
+                  <label>Description</label>
+                  <textarea id="valDesc3" class="form-control" rows="2" required></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 5. CTA BANNER -->
+          <div class="admin-card" style="margin-bottom: 24px;">
+            <div class="card-header">
+              <h2 class="card-title">5. Bottom CTA Banner</h2>
+            </div>
+            <div class="form-grid">
+              <div class="form-group" style="grid-column: 1 / -1;">
+                <label for="ctaTitle">CTA Title</label>
+                <input type="text" id="ctaTitle" class="form-control" placeholder="Ready to Explore Sri Lanka at Your Own Pace?" required>
+              </div>
+              <div class="form-group" style="grid-column: 1 / -1;">
+                <label for="ctaText">CTA Description</label>
+                <textarea id="ctaText" class="form-control" rows="2" required></textarea>
+              </div>
+            </div>
+          </div>
+
+          <div style="position: sticky; bottom: 20px; z-index: 99; background: #1A202C; padding: 16px 24px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 10px 25px rgba(0,0,0,0.25);">
+            <span style="color: #FFF; font-weight: 600;">Save all changes to About Us page</span>
+            <button type="submit" class="btn btn-primary" style="background-color: var(--primary-red); color: white; border: none; padding: 12px 28px; border-radius: 6px; font-weight: 700; cursor: pointer;">
+              💾 Save Entire About Us Page
+            </button>
+          </div>
+
+        </form>
+      </div>
+    </main>
+  </div>
+
+  <script type="module" src="../js/admin.js"></script>
+  <script type="module">
+    import { getDoc, saveDoc, uploadImage, fixImgPath } from '../js/db.js';
+    import { showToast } from '../js/admin.js';
+
+    // Image Upload Handler
+    document.getElementById('introFileInput').addEventListener('change', async (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        showToast("Uploading intro image...");
+        const url = await uploadImage(file);
+        document.getElementById('introImgUrl').value = url;
+        document.getElementById('introImgPreview').src = fixImgPath(url);
+        showToast("Image uploaded!", "success");
+      }
+    });
+
+    document.getElementById('introImgUrl').addEventListener('input', (e) => {
+      document.getElementById('introImgPreview').src = fixImgPath(e.target.value);
+    });
+
+    // Load Data
+    async function loadAboutData() {
+      const data = await getDoc('pages', 'about') || {};
+
+      if (data.hero) {
+        document.getElementById('heroTag').value = data.hero.tag || '';
+        document.getElementById('heroTitle').value = data.hero.title || '';
+        document.getElementById('heroSubline').value = data.hero.subline || '';
+      }
+
+      if (data.intro) {
+        document.getElementById('introTag').value = data.intro.tag || '';
+        document.getElementById('introTitle').value = data.intro.title || '';
+        document.getElementById('introP1').value = data.intro.p1 || '';
+        document.getElementById('introP2').value = data.intro.p2 || '';
+        document.getElementById('badgeNum').value = data.intro.badgeNum || '5+';
+        document.getElementById('badgeLabel').value = data.intro.badgeLabel || 'Years of Excellence';
+        document.getElementById('introImgUrl').value = data.intro.image || './assets/images/about/about-feature.jpg';
+        document.getElementById('introImgPreview').src = fixImgPath(data.intro.image || './assets/images/about/about-feature.jpg');
+
+        const checks = data.intro.checkItems || [];
+        for (let i = 0; i < 4; i++) {
+          const el = document.getElementById(`check${i}`);
+          if (el) el.value = checks[i] || '';
+        }
+      }
+
+      if (Array.isArray(data.stats)) {
+        for (let i = 0; i < 4; i++) {
+          const s = data.stats[i] || {};
+          const numEl = document.getElementById(`statNum${i}`);
+          const lblEl = document.getElementById(`statLbl${i}`);
+          if (numEl) numEl.value = s.number || '';
+          if (lblEl) lblEl.value = s.label || '';
+        }
+      }
+
+      if (Array.isArray(data.values)) {
+        for (let i = 0; i < 4; i++) {
+          const v = data.values[i] || {};
+          const tEl = document.getElementById(`valTitle${i}`);
+          const dEl = document.getElementById(`valDesc${i}`);
+          if (tEl) tEl.value = v.title || '';
+          if (dEl) dEl.value = v.desc || '';
+        }
+      }
+
+      if (data.cta) {
+        document.getElementById('ctaTitle').value = data.cta.title || '';
+        document.getElementById('ctaText').value = data.cta.text || '';
+      }
+    }
+
+    // Save Data
+    document.getElementById('aboutForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const payload = {
+        hero: {
+          tag: document.getElementById('heroTag').value.trim(),
+          title: document.getElementById('heroTitle').value.trim(),
+          subline: document.getElementById('heroSubline').value.trim()
+        },
+        intro: {
+          tag: document.getElementById('introTag').value.trim(),
+          title: document.getElementById('introTitle').value.trim(),
+          p1: document.getElementById('introP1').value.trim(),
+          p2: document.getElementById('introP2').value.trim(),
+          badgeNum: document.getElementById('badgeNum').value.trim(),
+          badgeLabel: document.getElementById('badgeLabel').value.trim(),
+          image: document.getElementById('introImgUrl').value.trim(),
+          checkItems: [
+            document.getElementById('check0').value.trim(),
+            document.getElementById('check1').value.trim(),
+            document.getElementById('check2').value.trim(),
+            document.getElementById('check3').value.trim()
+          ]
+        },
+        stats: [
+          { number: document.getElementById('statNum0').value.trim(), label: document.getElementById('statLbl0').value.trim() },
+          { number: document.getElementById('statNum1').value.trim(), label: document.getElementById('statLbl1').value.trim() },
+          { number: document.getElementById('statNum2').value.trim(), label: document.getElementById('statLbl2').value.trim() },
+          { number: document.getElementById('statNum3').value.trim(), label: document.getElementById('statLbl3').value.trim() }
+        ],
+        values: [
+          { icon: 'fa-solid fa-tags', title: document.getElementById('valTitle0').value.trim(), desc: document.getElementById('valDesc0').value.trim() },
+          { icon: 'fa-solid fa-shield-halved', title: document.getElementById('valTitle1').value.trim(), desc: document.getElementById('valDesc1').value.trim() },
+          { icon: 'fa-solid fa-headset', title: document.getElementById('valTitle2').value.trim(), desc: document.getElementById('valDesc2').value.trim() },
+          { icon: 'fa-solid fa-map-location-dot', title: document.getElementById('valTitle3').value.trim(), desc: document.getElementById('valDesc3').value.trim() }
+        ],
+        cta: {
+          title: document.getElementById('ctaTitle').value.trim(),
+          text: document.getElementById('ctaText').value.trim()
+        }
+      };
+
+      try {
+        await saveDoc('pages', 'about', payload);
+        showToast("About Us page saved successfully!", "success");
+      } catch (err) {
+        showToast("Error saving: " + err.message, "error");
+      }
+    });
+
+    document.addEventListener('DOMContentLoaded', loadAboutData);
+  </script>
+</body>
+</html>

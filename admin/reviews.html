@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Customer Reviews Manager | Danan Admin</title>
+  <link rel="icon" href="../assets/images/logo/logo.png" type="image/jpeg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/admin.css">
+  <style>
+    .rev-avatar { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; }
+    .stars-display { color: #FFB800; font-size: 0.95rem; }
+  </style>
+</head>
+<body>
+  <div class="admin-layout">
+    <!-- SIDEBAR -->
+    <aside class="admin-sidebar">
+      <div class="sidebar-header">
+        <img src="../assets/images/logo/logo.png" alt="Logo" class="sidebar-logo">
+        <div class="sidebar-brand">
+          <h3>Danan Admin</h3>
+          <p>Management Panel</p>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <a href="index.html" class="nav-item"><span>📊</span> Dashboard</a>
+        <a href="settings.html" class="nav-item"><span>⚙️</span> Site Settings</a>
+        <a href="home-editor.html" class="nav-item"><span>🏠</span> Home Page Editor</a>
+        <a href="vehicles.html" class="nav-item"><span>🚗</span> Vehicles Manager</a>
+        <a href="destinations.html" class="nav-item"><span>🗺️</span> Destinations Manager</a>
+        <a href="about-editor.html" class="nav-item"><span>ℹ️</span> About Us Editor</a>
+        <a href="bookings-editor.html" class="nav-item"><span>📅</span> Bookings & Policies</a>
+        <a href="reviews.html" class="nav-item active"><span>⭐</span> Customer Reviews</a>
+        <a href="backgrounds.html" class="nav-item"><span>🖼️</span> Backgrounds Manager</a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button id="btnSeedData" style="width: 100%; padding: 10px; background: #282828; color: #FFAA00; border: 1px solid #444; border-radius: 6px; cursor: pointer; font-weight: 600; margin-bottom: 12px;">⚡ Seed Default Data</button>
+        <button id="btnLogout" style="width: 100%; padding: 10px; background: var(--primary-red); color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: 600;">🚪 Log Out</button>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="admin-main">
+      <header class="admin-topbar">
+        <h1 class="topbar-title">Customer Reviews &amp; Testimonials Manager</h1>
+        <div class="topbar-user" style="display: flex; gap: 12px; align-items: center;">
+          <button id="btnOpenAddModal" class="btn btn-primary" style="background-color: var(--primary-red); color: white; border: none; padding: 10px 20px; border-radius: 6px; font-weight: 700; cursor: pointer;">
+            + Add New Review
+          </button>
+          <a href="../index.html#testimonials" target="_blank" style="color: var(--primary-red); font-weight: 600; text-decoration: none;">🌐 View Live Carousel ↗</a>
+        </div>
+      </header>
+
+      <div class="admin-content">
+        <div class="admin-card">
+          <div class="card-header">
+            <h2 class="card-title">All Customer Reviews</h2>
+          </div>
+          <div class="table-responsive">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Customer</th>
+                  <th>Source / Platform</th>
+                  <th>Rating</th>
+                  <th>Review Feedback</th>
+                  <th>Visible</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="reviewsAdminTable">
+                <!-- Rendered dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- ADD / EDIT REVIEW MODAL -->
+  <div id="reviewModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); z-index: 9999; align-items: center; justify-content: center; padding: 20px;">
+    <div style="background: white; border-radius: 12px; width: 100%; max-width: 600px; max-height: 90vh; overflow-y: auto; padding: 32px; box-shadow: 0 20px 60px rgba(0,0,0,0.3);">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; padding-bottom: 12px; border-bottom: 1px solid var(--border-color);">
+        <h2 id="modalTitle" style="font-size: 1.25rem;">Add New Review</h2>
+        <button id="btnCloseModal" style="background: none; border: none; font-size: 1.5rem; cursor: pointer;">&times;</button>
+      </div>
+
+      <form id="reviewForm">
+        <input type="hidden" id="rId">
+
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="rName">Customer Name *</label>
+            <input type="text" id="rName" class="form-control" placeholder="e.g. Kavindu Perera" required>
+          </div>
+
+          <div class="form-group">
+            <label for="rSource">Review Source / Platform</label>
+            <input type="text" id="rSource" class="form-control" placeholder="e.g. Google Review" value="Google Review" required>
+          </div>
+
+          <div class="form-group">
+            <label for="rRating">Star Rating (1 - 5)</label>
+            <select id="rRating" class="form-control" required>
+              <option value="5">⭐⭐⭐⭐⭐ (5 Stars)</option>
+              <option value="4">⭐⭐⭐⭐ (4 Stars)</option>
+              <option value="3">⭐⭐⭐ (3 Stars)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="rVisible">Visible on Website</label>
+            <select id="rVisible" class="form-control">
+              <option value="true">Yes (Active)</option>
+              <option value="false">No (Hidden)</option>
+            </select>
+          </div>
+
+          <div class="form-group" style="grid-column: 1 / -1;">
+            <label for="rText">Customer Review Text *</label>
+            <textarea id="rText" class="form-control" rows="4" placeholder="Write or paste customer review..." required></textarea>
+          </div>
+
+          <div class="form-group" style="grid-column: 1 / -1;">
+            <label>Customer Photo / Avatar</label>
+            <div style="display: flex; gap: 16px; align-items: center;">
+              <img id="rPhotoPreview" src="../assets/images/customers/customer-1.jpeg" class="rev-avatar" alt="Avatar">
+              <div style="flex: 1;">
+                <input type="file" id="rFileInput" accept="image/*" class="form-control" style="margin-bottom: 8px;">
+                <input type="text" id="rPhotoUrl" class="form-control" placeholder="Image path or URL" value="./assets/images/customers/customer-1.jpeg">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top: 24px; display: flex; justify-content: flex-end; gap: 12px;">
+          <button type="button" id="btnCancelModal" class="btn btn-outline" style="padding: 10px 20px; border: 1px solid #CBD5E0; background: white; border-radius: 6px; cursor: pointer;">Cancel</button>
+          <button type="submit" class="btn btn-primary" style="background-color: var(--primary-red); color: white; border: none; padding: 10px 24px; border-radius: 6px; font-weight: 700; cursor: pointer;">💾 Save Review</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script type="module" src="../js/admin.js"></script>
+  <script type="module">
+    import { getCollection, saveDoc, deleteDoc, uploadImage, escapeHTML, fixImgPath } from '../js/db.js';
+    import { showToast } from '../js/admin.js';
+
+    let reviewsCache = [];
+
+    window.editReview = (id) => {
+      const r = reviewsCache.find(item => item.id === id);
+      if (!r) return;
+
+      document.getElementById('modalTitle').textContent = "Edit Review";
+      document.getElementById('rId').value = r.id;
+      document.getElementById('rName').value = r.name || '';
+      document.getElementById('rSource').value = r.source || 'Google Review';
+      document.getElementById('rRating').value = r.rating || 5;
+      document.getElementById('rVisible').value = r.visible !== false ? 'true' : 'false';
+      document.getElementById('rText').value = r.text || '';
+      document.getElementById('rPhotoUrl').value = r.photo || '';
+      document.getElementById('rPhotoPreview').src = fixImgPath(r.photo || '../assets/images/customers/customer-1.jpeg');
+
+      openModal();
+    };
+
+    window.deleteReview = async (id) => {
+      if (!confirm("Are you sure you want to delete this review?")) return;
+      try {
+        await deleteDoc('reviews', id);
+        showToast("Review deleted.", "info");
+        await loadReviewsTable();
+      } catch (err) {
+        showToast("Error deleting: " + err.message, "error");
+      }
+    };
+
+    const modal = document.getElementById('reviewModal');
+    function openModal() { modal.style.display = 'flex'; }
+    function closeModal() { modal.style.display = 'none'; }
+
+    document.getElementById('btnOpenAddModal').addEventListener('click', () => {
+      document.getElementById('modalTitle').textContent = "Add New Review";
+      document.getElementById('reviewForm').reset();
+      document.getElementById('rId').value = '';
+      document.getElementById('rPhotoPreview').src = '../assets/images/customers/customer-1.jpeg';
+      openModal();
+    });
+
+    document.getElementById('btnCloseModal').addEventListener('click', closeModal);
+    document.getElementById('btnCancelModal').addEventListener('click', closeModal);
+
+    document.getElementById('rFileInput').addEventListener('change', async (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        showToast("Uploading avatar...");
+        const url = await uploadImage(file);
+        document.getElementById('rPhotoUrl').value = url;
+        document.getElementById('rPhotoPreview').src = fixImgPath(url);
+        showToast("Avatar uploaded!", "success");
+      }
+    });
+
+    document.getElementById('rPhotoUrl').addEventListener('input', (e) => {
+      document.getElementById('rPhotoPreview').src = fixImgPath(e.target.value);
+    });
+
+    document.getElementById('reviewForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const id = document.getElementById('rId').value.trim() || `rev-${Date.now()}`;
+      const payload = {
+        id,
+        name: document.getElementById('rName').value.trim(),
+        source: document.getElementById('rSource').value.trim(),
+        rating: parseInt(document.getElementById('rRating').value) || 5,
+        visible: document.getElementById('rVisible').value === 'true',
+        text: document.getElementById('rText').value.trim(),
+        photo: document.getElementById('rPhotoUrl').value.trim()
+      };
+
+      try {
+        await saveDoc('reviews', id, payload);
+        showToast("Review saved successfully!", "success");
+        closeModal();
+        await loadReviewsTable();
+      } catch (err) {
+        showToast("Error saving: " + err.message, "error");
+      }
+    });
+
+    async function loadReviewsTable() {
+      const tbody = document.getElementById('reviewsAdminTable');
+      tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 20px;">Loading reviews...</td></tr>';
+
+      const items = await getCollection('reviews');
+      reviewsCache = items;
+
+      if (items.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 20px; color: var(--text-muted);">No reviews found. Click "+ Add New Review" or Seed Default Data.</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = items.map(r => `
+        <tr>
+          <td>
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <img src="${fixImgPath(r.photo || './assets/images/customers/customer-1.jpeg')}" class="rev-avatar" alt="${escapeHTML(r.name)}">
+              <strong>${escapeHTML(r.name)}</strong>
+            </div>
+          </td>
+          <td><span style="font-size: 0.82rem; background: #EDF2F7; padding: 4px 8px; border-radius: 4px;">${escapeHTML(r.source || 'Google')}</span></td>
+          <td><span class="stars-display">${'★'.repeat(r.rating || 5)}</span></td>
+          <td style="max-width: 320px; font-size: 0.85rem; color: #4A5568;">"${escapeHTML(r.text)}"</td>
+          <td><span style="color: ${r.visible !== false ? '#38A169' : '#E53E3E'}; font-weight: 700;">${r.visible !== false ? 'Active' : 'Hidden'}</span></td>
+          <td>
+            <div class="action-btn-group">
+              <button class="btn-action edit" onclick="window.editReview('${r.id}')">✏️ Edit</button>
+              <button class="btn-action delete" onclick="window.deleteReview('${r.id}')">🗑️ Delete</button>
+            </div>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    document.addEventListener('DOMContentLoaded', loadReviewsTable);
+  </script>
+</body>
+</html>

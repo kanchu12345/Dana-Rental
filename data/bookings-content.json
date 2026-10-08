@@ -1,0 +1,50 @@
+{
+  "hero": {
+    "tag": "ONLINE RESERVATION",
+    "title": "Instant Booking & <span>Quote Calculator</span>",
+    "subline": "Calculate your exact rental rate, choose your vehicle, and reserve instantly via WhatsApp with zero hassle."
+  },
+  "steps": [
+    {
+      "step": "STEP 01",
+      "title": "Select Your Vehicle",
+      "desc": "Browse our diverse fleet of scooters, automatic bikes, hybrid cars, and spacious passenger vans suited for your trip."
+    },
+    {
+      "step": "STEP 02",
+      "title": "Choose Dates & Location",
+      "desc": "Specify your pickup & drop-off dates, preferred delivery location in Kandy or airport, and any accessories."
+    },
+    {
+      "step": "STEP 03",
+      "title": "WhatsApp Confirmation",
+      "desc": "Receive a quick official quote with transparent breakdown, deposit instructions, and priority vehicle allocation."
+    }
+  ],
+  "policies": [
+    {
+      "icon": "fa-solid fa-gauge-high",
+      "title": "200 Free KM Daily",
+      "desc": "All rentals come with a generous 200 free kilometers per 24 hours. Extra distance is billed at vehicle specific rates."
+    },
+    {
+      "icon": "fa-solid fa-gas-pump",
+      "title": "Fuel Policy (Same-to-Same)",
+      "desc": "Vehicles are provided with fuel and must be returned at the same level upon return to avoid refueling surcharge."
+    },
+    {
+      "icon": "fa-solid fa-shield-halved",
+      "title": "Refundable Security Deposit",
+      "desc": "Rs. 5,000 for bikes & Rs. 10,000 - 20,000 for cars. 100% refunded immediately upon vehicle return inspection."
+    },
+    {
+      "icon": "fa-solid fa-id-card",
+      "title": "License Requirements",
+      "desc": "Valid Sri Lankan driving license or International Driving Permit (IDP) / AA Ceylon endorsement with passport."
+    }
+  ],
+  "cta": {
+    "title": "Need Immediate Road Trip Advice?",
+    "text": "Call or message our 24/7 hotline directly for same-day emergency rentals or customized multi-day tour itineraries."
+  }
+}

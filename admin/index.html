@@ -35,6 +35,18 @@
         <a href="vehicles.html" class="nav-item">
           <span>🚗</span> Vehicles Manager
         </a>
+        <a href="destinations.html" class="nav-item">
+          <span>🗺️</span> Destinations Manager
+        </a>
+        <a href="about-editor.html" class="nav-item">
+          <span>ℹ️</span> About Us Editor
+        </a>
+        <a href="bookings-editor.html" class="nav-item">
+          <span>📅</span> Bookings & Policies
+        </a>
+        <a href="reviews.html" class="nav-item">
+          <span>⭐</span> Customer Reviews
+        </a>
         <a href="backgrounds.html" class="nav-item">
           <span>🖼️</span> Backgrounds Manager
         </a>
@@ -73,6 +85,14 @@
           </div>
 
           <div class="stat-card">
+            <div class="stat-icon">🗺️</div>
+            <div>
+              <div class="stat-number" id="countDestinations">0</div>
+              <div class="stat-label">Destinations</div>
+            </div>
+          </div>
+
+          <div class="stat-card">
             <div class="stat-icon">⭐</div>
             <div>
               <div class="stat-number" id="countReviews">0</div>
@@ -87,40 +107,52 @@
               <div class="stat-label">FAQ Items</div>
             </div>
           </div>
-
-          <div class="stat-card">
-            <div class="stat-icon">📜</div>
-            <div>
-              <div class="stat-number" id="countRules">0</div>
-              <div class="stat-label">Rules & Terms</div>
-            </div>
-          </div>
         </div>
 
         <!-- QUICK ACTIONS -->
         <div class="admin-card">
           <div class="card-header">
-            <h2 class="card-title">Quick Content Management</h2>
+            <h2 class="card-title">Complete Website Content Management</h2>
           </div>
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px;">
             <a href="vehicles.html" style="background-color: var(--bg-light); padding: 20px; border-radius: 8px; text-decoration: none; color: inherit; border: 1px solid var(--border-color);">
-              <h3 style="font-size: 1.1rem; margin-bottom: 6px; color: var(--primary-red);">🚗 Fleet & Vehicle Manager</h3>
-              <p style="font-size: 0.85rem; color: var(--text-muted);">Add new bikes, cars, vans; update prices, deposit & 24h rates.</p>
+              <h3 style="font-size: 1.05rem; margin-bottom: 6px; color: var(--primary-red);">🚗 Vehicles & Fleet</h3>
+              <p style="font-size: 0.82rem; color: var(--text-muted);">Add, edit, or delete cars, bikes, scooters, rates & photos.</p>
+            </a>
+
+            <a href="destinations.html" style="background-color: var(--bg-light); padding: 20px; border-radius: 8px; text-decoration: none; color: inherit; border: 1px solid var(--border-color);">
+              <h3 style="font-size: 1.05rem; margin-bottom: 6px; color: var(--primary-red);">🗺️ Destinations Manager</h3>
+              <p style="font-size: 0.82rem; color: var(--text-muted);">Manage tour spots, distances, descriptions, categories & photos.</p>
+            </a>
+
+            <a href="about-editor.html" style="background-color: var(--bg-light); padding: 20px; border-radius: 8px; text-decoration: none; color: inherit; border: 1px solid var(--border-color);">
+              <h3 style="font-size: 1.05rem; margin-bottom: 6px; color: var(--primary-red);">ℹ️ About Us Editor</h3>
+              <p style="font-size: 0.82rem; color: var(--text-muted);">Edit company story, experience badge, stats & core values.</p>
+            </a>
+
+            <a href="bookings-editor.html" style="background-color: var(--bg-light); padding: 20px; border-radius: 8px; text-decoration: none; color: inherit; border: 1px solid var(--border-color);">
+              <h3 style="font-size: 1.05rem; margin-bottom: 6px; color: var(--primary-red);">📅 Bookings & Policies</h3>
+              <p style="font-size: 0.82rem; color: var(--text-muted);">Customize 3-step guide, rental terms, license rules & deposits.</p>
             </a>
 
             <a href="home-editor.html" style="background-color: var(--bg-light); padding: 20px; border-radius: 8px; text-decoration: none; color: inherit; border: 1px solid var(--border-color);">
-              <h3 style="font-size: 1.1rem; margin-bottom: 6px; color: var(--primary-red);">🏠 Home Page Content</h3>
-              <p style="font-size: 0.85rem; color: var(--text-muted);">Edit hero text, trust bar, how it works, why choose us & customer gallery.</p>
+              <h3 style="font-size: 1.05rem; margin-bottom: 6px; color: var(--primary-red);">🏠 Home Page Content</h3>
+              <p style="font-size: 0.82rem; color: var(--text-muted);">Edit hero text, why choose us features, FAQs & customer photo gallery.</p>
+            </a>
+
+            <a href="reviews.html" style="background-color: var(--bg-light); padding: 20px; border-radius: 8px; text-decoration: none; color: inherit; border: 1px solid var(--border-color);">
+              <h3 style="font-size: 1.05rem; margin-bottom: 6px; color: var(--primary-red);">⭐ Customer Reviews</h3>
+              <p style="font-size: 0.82rem; color: var(--text-muted);">Add & moderate Google & customer testimonials.</p>
             </a>
 
             <a href="settings.html" style="background-color: var(--bg-light); padding: 20px; border-radius: 8px; text-decoration: none; color: inherit; border: 1px solid var(--border-color);">
-              <h3 style="font-size: 1.1rem; margin-bottom: 6px; color: var(--primary-red);">⚙️ Business & Site Settings</h3>
-              <p style="font-size: 0.85rem; color: var(--text-muted);">Update phones, logo, WhatsApp, address, map link & theme colors.</p>
+              <h3 style="font-size: 1.05rem; margin-bottom: 6px; color: var(--primary-red);">⚙️ Site Settings</h3>
+              <p style="font-size: 0.82rem; color: var(--text-muted);">Update phones, logo, WhatsApp, address, hours & map link.</p>
             </a>
 
             <a href="backgrounds.html" style="background-color: var(--bg-light); padding: 20px; border-radius: 8px; text-decoration: none; color: inherit; border: 1px solid var(--border-color);">
-              <h3 style="font-size: 1.1rem; margin-bottom: 6px; color: var(--primary-red);">🖼️ Backgrounds Manager</h3>
-              <p style="font-size: 0.85rem; color: var(--text-muted);">Customize hero banners & CTA backgrounds for Home, Fleet, Bookings, Destinations, About & Contact.</p>
+              <h3 style="font-size: 1.05rem; margin-bottom: 6px; color: var(--primary-red);">🖼️ Backgrounds Manager</h3>
+              <p style="font-size: 0.82rem; color: var(--text-muted);">Customize 12 hero banners & CTA section backgrounds.</p>
             </a>
           </div>
         </div>
@@ -158,14 +190,17 @@
 
     document.addEventListener('DOMContentLoaded', async () => {
       const vehicles = await getCollection('vehicles');
+      const destinations = await getCollection('destinations');
       const reviews = await getCollection('reviews');
       const faqs = await getCollection('faqs');
       const rules = await getCollection('rules');
 
       document.getElementById('countVehicles').textContent = vehicles.length;
+      if (document.getElementById('countDestinations')) {
+        document.getElementById('countDestinations').textContent = destinations.length;
+      }
       document.getElementById('countReviews').textContent = reviews.length;
       document.getElementById('countFaqs').textContent = faqs.length;
-      document.getElementById('countRules').textContent = rules.length;
 
       const tbody = document.getElementById('dashVehiclesTable');
       if (vehicles.length === 0) {

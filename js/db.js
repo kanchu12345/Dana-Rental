@@ -47,11 +47,17 @@ export function escapeHTML(str) {
 }
 
 // Helper to determine relative path to data folder from current location
-function getDataPath(filename) {
+function getDataPath(filename, docId) {
   const isSubFolder = window.location.pathname.includes('/admin/');
   const prefix = isSubFolder ? '../data/' : './data/';
+  if (filename === 'pages' && docId) {
+    if (docId === 'destinations') return `${prefix}destinations-page.json`;
+    if (docId === 'bookings') return `${prefix}bookings-content.json`;
+    return `${prefix}${docId}.json`;
+  }
   const fileMap = {
-    'pages': 'home'
+    'destinations_page': 'destinations-page',
+    'bookings_page': 'bookings-content'
   };
   const target = fileMap[filename] || filename;
   return `${prefix}${target}.json`;
@@ -82,7 +88,7 @@ export async function getDoc(collectionName, docId) {
   }
 
   try {
-    const res = await fetch(getDataPath(collectionName));
+    const res = await fetch(getDataPath(collectionName, docId));
     if (res.ok) {
       const json = await res.json();
       if (Array.isArray(json)) {
@@ -296,32 +302,48 @@ export async function uploadImage(file) {
 export async function seedInitialData() {
   await initFirebase();
 
-  const collections = ['settings', 'home', 'vehicles', 'faqs', 'rules', 'reviews', 'gallery', 'backgrounds'];
   const results = [];
 
-  for (const name of collections) {
+  // 1. Single Page & Configuration Documents
+  const docSeeds = [
+    { col: 'settings', id: 'site', file: 'settings' },
+    { col: 'backgrounds', id: 'main', file: 'backgrounds' },
+    { col: 'pages', id: 'home', file: 'home' },
+    { col: 'pages', id: 'about', file: 'about' },
+    { col: 'pages', id: 'destinations', file: 'destinations_page' },
+    { col: 'pages', id: 'bookings', file: 'bookings_page' },
+    { col: 'pages', id: 'contact', file: 'contact' }
+  ];
+
+  for (const s of docSeeds) {
     try {
-      const res = await fetch(getDataPath(name));
+      const res = await fetch(getDataPath(s.file, s.id));
       if (res.ok) {
         const json = await res.json();
-        if (name === 'settings') {
-          await saveDoc('settings', 'site', json);
-          results.push(`settings/site seeded.`);
-        } else if (name === 'backgrounds') {
-          await saveDoc('backgrounds', 'main', json);
-          results.push(`backgrounds seeded.`);
-        } else if (name === 'home') {
-          await saveDoc('pages', 'home', json);
-          results.push(`pages/home seeded.`);
-        } else if (Array.isArray(json)) {
-          for (const item of json) {
-            await saveDoc(name, item.id || `item_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`, item);
+        await saveDoc(s.col, s.id, json);
+        results.push(`${s.col}/${s.id} seeded successfully.`);
+      }
+    } catch (e) {
+      console.warn(`Failed to seed ${s.col}/${s.id}:`, e);
+    }
+  }
+
+  // 2. Collection Arrays
+  const colSeeds = ['vehicles', 'destinations', 'faqs', 'rules', 'reviews', 'gallery'];
+  for (const colName of colSeeds) {
+    try {
+      const res = await fetch(getDataPath(colName));
+      if (res.ok) {
+        const list = await res.json();
+        if (Array.isArray(list)) {
+          for (const item of list) {
+            await saveDoc(colName, item.id || `item_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`, item);
           }
-          results.push(`${name} collection (${json.length} items) seeded.`);
+          results.push(`${colName} collection (${list.length} items) seeded.`);
         }
       }
     } catch (e) {
-      console.error(`Failed to seed ${name}:`, e);
+      console.warn(`Failed to seed collection ${colName}:`, e);
     }
   }
 

@@ -1,13 +1,8 @@
 {
   "hero": {
-    "badge": "EXPLORE PARADISE FROM KANDY",
-    "title": "Your Journey, <span class=\"text-yellow\">Your Choice.</span>",
-    "subtitle": "Rent a self-drive car or scooter with Danan Rentals and explore Sri Lanka's most iconic attractions at your own pace with 200 free km per day.",
-    "ctaText": "Explore Vehicle Fleet",
-    "ctaUrl": "vehicles.html",
-    "secondaryCtaText": "Popular Destinations",
-    "secondaryCtaUrl": "destinations.html",
-    "bgImage": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?q=80&w=1600&auto=format&fit=crop"
+    "headline": "Start Your Journey to Your Dream Destination Here.",
+    "subline": "Rent a car, scooter, or van in Kandy & Peradeniya with 200 free kilometers per day, full insurance, and 24/7 on-road support.",
+    "bgImage": "./assets/images/hero/sigiriya.jpg"
   },
   "stats": [
     { "value": "50+", "label": "Vehicles in Fleet" },
@@ -16,6 +11,7 @@
     { "value": "24/7", "label": "Roadside Support" }
   ],
   "whyChooseUs": {
+    "tag": "PREMIUM MOBILITY SERVICE",
     "title": "WHY RENT WITH DANAN RENTALS",
     "subtitle": "The most trusted self-drive rental provider in Kandy, Sri Lanka",
     "items": [

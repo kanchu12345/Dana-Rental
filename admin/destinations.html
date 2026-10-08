@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Destinations Manager | Danan Admin</title>
+  <link rel="icon" href="../assets/images/logo/logo.png" type="image/jpeg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/admin.css">
+  <style>
+    .dest-thumb { width: 70px; height: 50px; object-fit: cover; border-radius: 6px; }
+    .badge-pill { display: inline-block; padding: 3px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 700; background: #FEF3C7; color: #92400E; }
+  </style>
+</head>
+<body>
+  <div class="admin-layout">
+    <!-- SIDEBAR -->
+    <aside class="admin-sidebar">
+      <div class="sidebar-header">
+        <img src="../assets/images/logo/logo.png" alt="Logo" class="sidebar-logo">
+        <div class="sidebar-brand">
+          <h3>Danan Admin</h3>
+          <p>Management Panel</p>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <a href="index.html" class="nav-item"><span>📊</span> Dashboard</a>
+        <a href="settings.html" class="nav-item"><span>⚙️</span> Site Settings</a>
+        <a href="home-editor.html" class="nav-item"><span>🏠</span> Home Page Editor</a>
+        <a href="vehicles.html" class="nav-item"><span>🚗</span> Vehicles Manager</a>
+        <a href="destinations.html" class="nav-item active"><span>🗺️</span> Destinations Manager</a>
+        <a href="about-editor.html" class="nav-item"><span>ℹ️</span> About Us Editor</a>
+        <a href="bookings-editor.html" class="nav-item"><span>📅</span> Bookings & Policies</a>
+        <a href="reviews.html" class="nav-item"><span>⭐</span> Customer Reviews</a>
+        <a href="backgrounds.html" class="nav-item"><span>🖼️</span> Backgrounds Manager</a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button id="btnSeedData" style="width: 100%; padding: 10px; background: #282828; color: #FFAA00; border: 1px solid #444; border-radius: 6px; cursor: pointer; font-weight: 600; margin-bottom: 12px;">⚡ Seed Default Data</button>
+        <button id="btnLogout" style="width: 100%; padding: 10px; background: var(--primary-red); color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: 600;">🚪 Log Out</button>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="admin-main">
+      <header class="admin-topbar">
+        <h1 class="topbar-title">Sri Lanka Tour Destinations Manager</h1>
+        <div class="topbar-user" style="display: flex; gap: 12px; align-items: center;">
+          <button id="btnOpenAddModal" class="btn btn-primary" style="background-color: var(--primary-red); color: white; border: none; padding: 10px 20px; border-radius: 6px; font-weight: 700; cursor: pointer;">
+            + Add New Destination
+          </button>
+          <a href="../destinations.html" target="_blank" style="color: var(--primary-red); font-weight: 600; text-decoration: none;">🌐 View Page ↗</a>
+        </div>
+      </header>
+
+      <div class="admin-content">
+        <!-- HERO & INTRO CONTENT SETTINGS -->
+        <form id="destHeroForm" class="admin-card" style="margin-bottom: 24px;">
+          <div class="card-header">
+            <h2 class="card-title">1. Destinations Page Hero Header</h2>
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="destHeroTag">Hero Tag / Category</label>
+              <input type="text" id="destHeroTag" class="form-control" placeholder="DISCOVER SRI LANKA" required>
+            </div>
+            <div class="form-group">
+              <label for="destHeroTitle">Main Headline (HTML span allowed)</label>
+              <input type="text" id="destHeroTitle" class="form-control" placeholder="Explore Scenic Destinations From <span style='color:var(--yellow)'>Kandy</span>" required>
+            </div>
+            <div class="form-group" style="grid-column: 1 / -1;">
+              <label for="destHeroSubline">Subtitle Description</label>
+              <textarea id="destHeroSubline" class="form-control" rows="2" required></textarea>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary" style="background-color: var(--primary-red); color: white; border: none; padding: 10px 24px; border-radius: 6px; font-weight: 700; cursor: pointer;">
+            💾 Save Hero Header
+          </button>
+        </form>
+
+        <!-- DESTINATIONS TABLE -->
+        <div class="admin-card">
+          <div class="card-header">
+            <h2 class="card-title">2. All Destinations List</h2>
+          </div>
+          <div class="table-responsive">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Photo</th>
+                  <th>Destination Name</th>
+                  <th>Subtitle / Region</th>
+                  <th>Driving Time Badge</th>
+                  <th>Category</th>
+                  <th>Order</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="destAdminTable">
+                <!-- Loaded dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- ADD / EDIT DESTINATION MODAL -->
+  <div id="destModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); z-index: 9999; align-items: center; justify-content: center; padding: 20px;">
+    <div style="background: white; border-radius: 12px; width: 100%; max-width: 680px; max-height: 90vh; overflow-y: auto; padding: 32px; box-shadow: 0 20px 60px rgba(0,0,0,0.3);">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; padding-bottom: 12px; border-bottom: 1px solid var(--border-color);">
+        <h2 id="modalTitle" style="font-size: 1.25rem;">Add New Destination</h2>
+        <button id="btnCloseModal" style="background: none; border: none; font-size: 1.5rem; cursor: pointer;">&times;</button>
+      </div>
+
+      <form id="destForm">
+        <input type="hidden" id="dId">
+
+        <div class="form-grid">
+          <div class="form-group" style="grid-column: 1 / -1;">
+            <label for="dTitle">Destination Title *</label>
+            <input type="text" id="dTitle" class="form-control" placeholder="e.g. Dalada Maligawa (Temple of Tooth)" required>
+          </div>
+
+          <div class="form-group">
+            <label for="dSubtitle">Region / Subtitle *</label>
+            <input type="text" id="dSubtitle" class="form-control" placeholder="e.g. Kandy City • UNESCO Heritage" required>
+          </div>
+
+          <div class="form-group">
+            <label for="dBadge">Driving Distance / Time Badge *</label>
+            <input type="text" id="dBadge" class="form-control" placeholder="e.g. 5 Mins from Kandy" required>
+          </div>
+
+          <div class="form-group">
+            <label for="dCategory">Filter Category *</label>
+            <select id="dCategory" class="form-control" required>
+              <option value="culture daytrip">Culture & Day Trip (< 1 Hr)</option>
+              <option value="culture">Culture & Heritage</option>
+              <option value="nature daytrip">Nature & Day Trip (< 1 Hr)</option>
+              <option value="nature">Hill Country & Nature</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="dOrder">Display Order (Sort Number)</label>
+            <input type="number" id="dOrder" class="form-control" value="1" required>
+          </div>
+
+          <div class="form-group" style="grid-column: 1 / -1;">
+            <label for="dDesc">Description *</label>
+            <textarea id="dDesc" class="form-control" rows="3" placeholder="Brief description of attractions, views, or roads..." required></textarea>
+          </div>
+
+          <div class="form-group" style="grid-column: 1 / -1;">
+            <label>Destination Photo</label>
+            <div style="display: flex; gap: 16px; align-items: center;">
+              <div class="img-preview-box">
+                <img id="dImgPreview" src="../assets/images/destinations/dalada_maligawa.jpg" alt="Preview">
+              </div>
+              <div style="flex: 1;">
+                <input type="file" id="dFileInput" accept="image/*" class="form-control" style="margin-bottom: 8px;">
+                <input type="text" id="dImgUrl" class="form-control" placeholder="Or image path / URL" required>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top: 24px; display: flex; justify-content: flex-end; gap: 12px;">
+          <button type="button" id="btnCancelModal" class="btn btn-outline" style="padding: 10px 20px; border: 1px solid #CBD5E0; background: white; border-radius: 6px; cursor: pointer;">Cancel</button>
+          <button type="submit" class="btn btn-primary" style="background-color: var(--primary-red); color: white; border: none; padding: 10px 24px; border-radius: 6px; font-weight: 700; cursor: pointer;">💾 Save Destination</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script type="module" src="../js/admin.js"></script>
+  <script type="module">
+    import { getDoc, saveDoc, getCollection, deleteDoc, uploadImage, escapeHTML, fixImgPath } from '../js/db.js';
+    import { showToast } from '../js/admin.js';
+
+    let destinationsCache = [];
+
+    window.editDestination = (id) => {
+      const d = destinationsCache.find(item => item.id === id);
+      if (!d) return;
+
+      document.getElementById('modalTitle').textContent = "Edit Destination";
+      document.getElementById('dId').value = d.id;
+      document.getElementById('dTitle').value = d.title || '';
+      document.getElementById('dSubtitle').value = d.subtitle || '';
+      document.getElementById('dBadge').value = d.badge || '';
+      document.getElementById('dCategory').value = d.category || 'culture';
+      document.getElementById('dOrder').value = d.order || 1;
+      document.getElementById('dDesc').value = d.description || '';
+      document.getElementById('dImgUrl').value = d.image || '';
+      document.getElementById('dImgPreview').src = fixImgPath(d.image || '../assets/images/destinations/dalada_maligawa.jpg');
+
+      openModal();
+    };
+
+    window.deleteDestination = async (id) => {
+      if (!confirm("Are you sure you want to delete this destination?")) return;
+      try {
+        await deleteDoc('destinations', id);
+        showToast("Destination deleted successfully.", "info");
+        await loadDestinationsTable();
+      } catch (err) {
+        showToast("Error deleting: " + err.message, "error");
+      }
+    };
+
+    const modal = document.getElementById('destModal');
+    function openModal() { modal.style.display = 'flex'; }
+    function closeModal() { modal.style.display = 'none'; }
+
+    document.getElementById('btnOpenAddModal').addEventListener('click', () => {
+      document.getElementById('modalTitle').textContent = "Add New Destination";
+      document.getElementById('destForm').reset();
+      document.getElementById('dId').value = '';
+      document.getElementById('dImgPreview').src = '../assets/images/destinations/dalada_maligawa.jpg';
+      openModal();
+    });
+
+    document.getElementById('btnCloseModal').addEventListener('click', closeModal);
+    document.getElementById('btnCancelModal').addEventListener('click', closeModal);
+
+    // Image upload handler
+    document.getElementById('dFileInput').addEventListener('change', async (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        showToast("Uploading photo...");
+        const url = await uploadImage(file);
+        document.getElementById('dImgUrl').value = url;
+        document.getElementById('dImgPreview').src = fixImgPath(url);
+        showToast("Photo uploaded successfully!", "success");
+      }
+    });
+
+    document.getElementById('dImgUrl').addEventListener('input', (e) => {
+      document.getElementById('dImgPreview').src = fixImgPath(e.target.value);
+    });
+
+    // Save Destination Form
+    document.getElementById('destForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const id = document.getElementById('dId').value.trim() || `dest-${Date.now()}`;
+      const payload = {
+        id,
+        title: document.getElementById('dTitle').value.trim(),
+        subtitle: document.getElementById('dSubtitle').value.trim(),
+        badge: document.getElementById('dBadge').value.trim(),
+        category: document.getElementById('dCategory').value,
+        order: parseInt(document.getElementById('dOrder').value) || 1,
+        description: document.getElementById('dDesc').value.trim(),
+        image: document.getElementById('dImgUrl').value.trim()
+      };
+
+      try {
+        await saveDoc('destinations', id, payload);
+        showToast("Destination saved successfully!", "success");
+        closeModal();
+        await loadDestinationsTable();
+      } catch (err) {
+        showToast("Error saving destination: " + err.message, "error");
+      }
+    });
+
+    // Save Hero Header
+    document.getElementById('destHeroForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const current = await getDoc('pages', 'destinations') || {};
+      const payload = {
+        ...current,
+        hero: {
+          tag: document.getElementById('destHeroTag').value.trim(),
+          title: document.getElementById('destHeroTitle').value.trim(),
+          subline: document.getElementById('destHeroSubline').value.trim()
+        }
+      };
+
+      try {
+        await saveDoc('pages', 'destinations', payload);
+        showToast("Hero header saved successfully!", "success");
+      } catch (err) {
+        showToast("Error saving hero header: " + err.message, "error");
+      }
+    });
+
+    async function loadHeroData() {
+      const pageDoc = await getDoc('pages', 'destinations');
+      if (pageDoc && pageDoc.hero) {
+        document.getElementById('destHeroTag').value = pageDoc.hero.tag || 'DISCOVER SRI LANKA';
+        document.getElementById('destHeroTitle').value = pageDoc.hero.title || 'Explore Scenic Destinations From <span style="color:var(--yellow)">Kandy</span>';
+        document.getElementById('destHeroSubline').value = pageDoc.hero.subline || '';
+      }
+    }
+
+    async function loadDestinationsTable() {
+      const tbody = document.getElementById('destAdminTable');
+      tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; padding: 20px;">Loading destinations...</td></tr>';
+
+      const items = await getCollection('destinations');
+      destinationsCache = items;
+
+      if (items.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; padding: 20px; color: var(--text-muted);">No destinations found. Click "+ Add New Destination" or Seed Default Data.</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = items.map(d => `
+        <tr>
+          <td><img src="${fixImgPath(d.image)}" class="dest-thumb" alt="${escapeHTML(d.title)}"></td>
+          <td><strong>${escapeHTML(d.title)}</strong></td>
+          <td>${escapeHTML(d.subtitle || '')}</td>
+          <td><span class="badge-pill">${escapeHTML(d.badge || '')}</span></td>
+          <td><code>${escapeHTML(d.category || '')}</code></td>
+          <td>${d.order || 1}</td>
+          <td>
+            <div class="action-btn-group">
+              <button class="btn-action edit" onclick="window.editDestination('${d.id}')">✏️ Edit</button>
+              <button class="btn-action delete" onclick="window.deleteDestination('${d.id}')">🗑️ Delete</button>
+            </div>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      await loadHeroData();
+      await loadDestinationsTable();
+    });
+  </script>
+</body>
+</html>

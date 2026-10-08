@@ -1,16 +1,71 @@
 {
-  "title": "About Danan Car & Bike Rentals Kandy",
-  "subtitle": "Providing premier self-drive mobility solutions in Kandy with trust, transparency, and top-quality vehicles.",
-  "story": "Founded in Kandy, Danan Car & Bike Rentals has established itself as the leading self-drive vehicle rental service in the hill capital of Sri Lanka. Whether you're exploring the sacred Temple of the Tooth, ascending Ambuluwawa Tower, or embarking on an island-wide road trip to Nuwara Eliya and Sigiriya, our modern fleet of well-maintained cars, scooters, and motorbikes ensures a safe and memorable journey.",
-  "mission": "Our mission is to give every traveler freedom of movement with 200 free km per day, transparent pricing with zero hidden fees, and dedicated 24/7 customer support.",
+  "hero": {
+    "tag": "WHO WE ARE",
+    "title": "Making Travel in Sri Lanka <span>Effortless</span>",
+    "subline": "We provide hassle-free car, bike, scooter, and van rentals across Sri Lanka with transparent pricing, verified vehicles, and 24/7 dedicated on-road support."
+  },
+  "intro": {
+    "tag": "ABOUT DANAN RENTALS",
+    "title": "Your Trusted Partner for <span>Sri Lanka Travel</span>",
+    "p1": "Founded in Kandy & Peradeniya, Danan Car & Bike Rentals has established itself as the leading self-drive and chauffeur vehicle rental service in the hill capital and across Sri Lanka. Whether you're exploring the sacred Temple of the Tooth, ascending Ambuluwawa Tower, or embarking on an island-wide road trip to Nuwara Eliya, Ella, and Sigiriya, our modern fleet ensures a safe, comfortable, and memorable journey.",
+    "p2": "Our mission is to give every traveler complete freedom of movement with 200 free kilometers per day, transparent pricing with zero hidden fees, and dedicated 24/7 customer support.",
+    "badgeNum": "5+",
+    "badgeLabel": "Years of Excellence",
+    "image": "./assets/images/about/about-feature.jpg",
+    "checkItems": [
+      "Fully Insured & Mechanically Inspected Fleet",
+      "AA Ceylon International Driving Permits Handled",
+      "200 Free Kilometers Per Day Included",
+      "Doorstep Island-Wide Delivery & Airport Transfers"
+    ]
+  },
   "values": [
-    { "title": "Transparent Pricing", "desc": "No surprise charges. Daily rates include 200 free km with clear excess km rates." },
-    { "title": "Safety & Cleanliness", "desc": "Sanitized and thoroughly inspected vehicles prior to every handover." },
-    { "title": "Customer First", "desc": "Friendly local advice, road trip assistance, and instant WhatsApp support." }
+    {
+      "icon": "fa-solid fa-tags",
+      "title": "Transparent Pricing",
+      "desc": "No hidden charges or surprise costs. All daily rentals include 200 free km with clear, upfront excess km rates."
+    },
+    {
+      "icon": "fa-solid fa-shield-halved",
+      "title": "100% Insured & Safe",
+      "desc": "Comprehensive insurance coverage and rigorous 30-point mechanical check before every vehicle leaves our station."
+    },
+    {
+      "icon": "fa-solid fa-headset",
+      "title": "24/7 Roadside Support",
+      "desc": "Instant WhatsApp and phone dispatch team ready around the clock to assist you anywhere in Sri Lanka."
+    },
+    {
+      "icon": "fa-solid fa-map-location-dot",
+      "title": "Local Road Insights",
+      "desc": "Expert local route guidance, scenic mountain shortcuts, and must-see itinerary suggestions from our Kandy team."
+    }
   ],
-  "gallery": [
-    { "caption": "Happy Customers with Scooter", "url": "https://images.unsplash.com/photo-1558981806-ec527fa84c39?q=80&w=800&auto=format&fit=crop" },
-    { "caption": "Self-drive Car handover in Kandy", "url": "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?q=80&w=800&auto=format&fit=crop" },
-    { "caption": "Scenic Kandy Mountain Road Trip", "url": "https://images.unsplash.com/photo-1578632767115-351597cf2477?q=80&w=800&auto=format&fit=crop" }
-  ]
+  "stats": [
+    {
+      "number": "50+",
+      "label": "Verified Fleet",
+      "icon": "fa-solid fa-car"
+    },
+    {
+      "number": "200 km",
+      "label": "Free Daily Distance",
+      "icon": "fa-solid fa-gauge-high"
+    },
+    {
+      "number": "5,000+",
+      "label": "Happy Customers",
+      "icon": "fa-solid fa-users"
+    },
+    {
+      "number": "100%",
+      "label": "Transparent Pricing",
+      "icon": "fa-solid fa-handshake"
+    }
+  ],
+  "cta": {
+    "title": "Ready to Explore Sri Lanka at Your Own Pace?",
+    "text": "Book your car, scooter, or bike today with flexible dates and 200 free km included every single day.",
+    "buttonText": "BROWSE ALL VEHICLES"
+  }
 }

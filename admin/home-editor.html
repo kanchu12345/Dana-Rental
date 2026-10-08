@@ -31,6 +31,10 @@
         <a href="settings.html" class="nav-item"><span>⚙️</span> Site Settings</a>
         <a href="home-editor.html" class="nav-item active"><span>🏠</span> Home Page Editor</a>
         <a href="vehicles.html" class="nav-item"><span>🚗</span> Vehicles Manager</a>
+        <a href="destinations.html" class="nav-item"><span>🗺️</span> Destinations Manager</a>
+        <a href="about-editor.html" class="nav-item"><span>ℹ️</span> About Us Editor</a>
+        <a href="bookings-editor.html" class="nav-item"><span>📅</span> Bookings & Policies</a>
+        <a href="reviews.html" class="nav-item"><span>⭐</span> Customer Reviews</a>
         <a href="backgrounds.html" class="nav-item"><span>🖼️</span> Backgrounds Manager</a>
       </nav>
 
@@ -84,10 +88,74 @@
           </button>
         </form>
 
+        <!-- WHY CHOOSE US & FLEET STORY SECTION -->
+        <form id="whyForm" class="admin-card editor-section">
+          <div class="card-header">
+            <h2 class="card-title">2. Why Choose Danan Rentals &amp; Fleet Story Strip</h2>
+          </div>
+
+          <div class="form-grid">
+            <div class="form-group" style="grid-column: 1 / -1;">
+              <h3 style="font-size: 1rem; color: #2D3748; margin-bottom: 8px;">Fleet Story Strip (Above Customer Photos)</h3>
+            </div>
+            <div class="form-group">
+              <label for="aboutTitle">Heading Title</label>
+              <input type="text" id="aboutTitle" class="form-control" placeholder="Why Drivers Choose Our Fleet?" required>
+            </div>
+            <div class="form-group" style="grid-column: 1 / -1;">
+              <label for="aboutDesc">Story Paragraph</label>
+              <textarea id="aboutDesc" class="form-control" rows="2" required></textarea>
+            </div>
+
+            <div class="form-group" style="grid-column: 1 / -1; margin-top: 12px;">
+              <h3 style="font-size: 1rem; color: #2D3748; margin-bottom: 8px;">Why Choose Danan Rentals (Feature Cards)</h3>
+            </div>
+            <div class="form-group">
+              <label for="whyCard1Title">Feature 1 Title</label>
+              <input type="text" id="whyCard1Title" class="form-control" placeholder="200 Free KM / Day" required>
+            </div>
+            <div class="form-group">
+              <label for="whyCard1Desc">Feature 1 Description</label>
+              <input type="text" id="whyCard1Desc" class="form-control" placeholder="Generous mileage allowance per day..." required>
+            </div>
+
+            <div class="form-group">
+              <label for="whyCard2Title">Feature 2 Title</label>
+              <input type="text" id="whyCard2Title" class="form-control" placeholder="Well Maintained Fleet" required>
+            </div>
+            <div class="form-group">
+              <label for="whyCard2Desc">Feature 2 Description</label>
+              <input type="text" id="whyCard2Desc" class="form-control" placeholder="All cars, scooters, and bikes undergo..." required>
+            </div>
+
+            <div class="form-group">
+              <label for="whyCard3Title">Feature 3 Title</label>
+              <input type="text" id="whyCard3Title" class="form-control" placeholder="Easy Documentation" required>
+            </div>
+            <div class="form-group">
+              <label for="whyCard3Desc">Feature 3 Description</label>
+              <input type="text" id="whyCard3Desc" class="form-control" placeholder="Hassle-free process for foreign tourists..." required>
+            </div>
+
+            <div class="form-group">
+              <label for="whyCard4Title">Feature 4 Title</label>
+              <input type="text" id="whyCard4Title" class="form-control" placeholder="24/7 Roadside Assistance" required>
+            </div>
+            <div class="form-group">
+              <label for="whyCard4Desc">Feature 4 Description</label>
+              <input type="text" id="whyCard4Desc" class="form-control" placeholder="Our dedicated support team is just a WhatsApp..." required>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="background-color: var(--primary-red); color: white; border: none; padding: 10px 24px; border-radius: 6px; font-weight: 700; cursor: pointer;">
+            💾 Save Features &amp; Fleet Story
+          </button>
+        </form>
+
         <!-- RULES MANAGER -->
         <div class="admin-card editor-section">
           <div class="card-header">
-            <h2 class="card-title">2. Required Rules & Documents Manager</h2>
+            <h2 class="card-title">3. Required Rules &amp; Documents Manager</h2>
           </div>
 
           <form id="addRuleForm" style="display: grid; grid-template-columns: 1fr 2fr auto; gap: 16px; align-items: end; margin-bottom: 24px; background: var(--bg-light); padding: 16px; border-radius: 8px;">
@@ -247,7 +315,9 @@
       // Save Hero
       document.getElementById('heroForm').addEventListener('submit', async (e) => {
         e.preventDefault();
+        const current = await getDoc('pages', 'home') || {};
         const payload = {
+          ...current,
           hero: {
             headline: document.getElementById('heroHeadline').value.trim(),
             subline: document.getElementById('heroSubline').value.trim(),
@@ -264,6 +334,51 @@
           showToast("Hero section saved successfully!", "success");
         } catch (err) {
           showToast("Error saving hero section: " + err.message, "error");
+        }
+      });
+
+      // 2. Load & Save Why Choose Us & About Story
+      if (homeData.about) {
+        document.getElementById('aboutTitle').value = homeData.about.title || 'Why Drivers Choose Our Fleet?';
+        document.getElementById('aboutDesc').value = homeData.about.description || '';
+      }
+      if (homeData.whyChooseUs && Array.isArray(homeData.whyChooseUs.items)) {
+        const items = homeData.whyChooseUs.items;
+        for (let i = 0; i < 4; i++) {
+          const item = items[i] || {};
+          const tEl = document.getElementById(`whyCard${i+1}Title`);
+          const dEl = document.getElementById(`whyCard${i+1}Desc`);
+          if (tEl) tEl.value = item.title || '';
+          if (dEl) dEl.value = item.description || '';
+        }
+      }
+
+      document.getElementById('whyForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const current = await getDoc('pages', 'home') || {};
+        const payload = {
+          ...current,
+          about: {
+            title: document.getElementById('aboutTitle').value.trim(),
+            description: document.getElementById('aboutDesc').value.trim()
+          },
+          whyChooseUs: {
+            title: "WHY RENT WITH DANAN RENTALS",
+            subtitle: "The most trusted self-drive rental provider in Kandy, Sri Lanka",
+            items: [
+              { icon: 'fa-tachometer-alt', title: document.getElementById('whyCard1Title').value.trim(), description: document.getElementById('whyCard1Desc').value.trim() },
+              { icon: 'fa-car', title: document.getElementById('whyCard2Title').value.trim(), description: document.getElementById('whyCard2Desc').value.trim() },
+              { icon: 'fa-id-card', title: document.getElementById('whyCard3Title').value.trim(), description: document.getElementById('whyCard3Desc').value.trim() },
+              { icon: 'fa-headset', title: document.getElementById('whyCard4Title').value.trim(), description: document.getElementById('whyCard4Desc').value.trim() }
+            ]
+          }
+        };
+
+        try {
+          await saveDoc('pages', 'home', payload);
+          showToast("Features & Fleet Story saved successfully!", "success");
+        } catch (err) {
+          showToast("Error saving: " + err.message, "error");
         }
       });
 

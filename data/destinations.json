@@ -1,68 +1,92 @@
 [
   {
     "id": "dest-1",
-    "badge": "5 Mins from Kandy",
-    "category": "KANDY CITY",
     "title": "Dalada Maligawa (Temple of Tooth)",
+    "subtitle": "Kandy City • UNESCO Heritage",
+    "badge": "5 Mins from Kandy",
+    "category": "culture daytrip",
     "description": "The sacred heart of Kandy housing the Tooth Relic of Lord Buddha, set beside the scenic Kandy Lake.",
-    "image": "https://images.unsplash.com/photo-1588598198321-9735fd52455b?q=80&w=800&auto=format&fit=crop",
-    "buttonText": "RENT VEHICLE TO VISIT",
-    "featured": true,
-    "distance": "2 km from city center"
+    "image": "./assets/images/destinations/dalada_maligawa.jpg",
+    "order": 1
   },
   {
     "id": "dest-2",
-    "badge": "45 Mins from Kandy",
-    "category": "GAMPOLA",
     "title": "Gampola Ambuluwawa Tower",
+    "subtitle": "Gampola • 360° Mountain View",
+    "badge": "45 Mins from Kandy",
+    "category": "nature daytrip",
     "description": "Iconic multi-religious spiral tower offering breathtaking 360-degree mountain views high above Gampola.",
-    "image": "https://images.unsplash.com/photo-1578632767115-351597cf2477?q=80&w=800&auto=format&fit=crop",
-    "buttonText": "RENT VEHICLE TO VISIT",
-    "featured": true,
-    "distance": "25 km from Kandy"
+    "image": "./assets/images/destinations/ambuluwawa.jpg",
+    "order": 2
   },
   {
     "id": "dest-3",
-    "badge": "3 Hours from Kandy",
-    "category": "NUWARA ELIYA DISTRICT",
     "title": "Horton Plains & World's End",
+    "subtitle": "Nuwara Eliya • Cloud Forest",
+    "badge": "3 Hours from Kandy",
+    "category": "nature",
     "description": "High-altitude plateau with misty cloud forests and the dramatic 4,000 ft vertical drop at World's End precipice.",
-    "image": "https://images.unsplash.com/photo-1546708973-b339540b5162?q=80&w=800&auto=format&fit=crop",
-    "buttonText": "RENT VEHICLE TO VISIT",
-    "featured": true,
-    "distance": "85 km from Kandy"
+    "image": "./assets/images/destinations/horton_plains.jpg",
+    "order": 3
   },
   {
     "id": "dest-4",
+    "title": "Nuwara Eliya (Little England)",
+    "subtitle": "Central Highlands • Tea Valleys",
     "badge": "2.5 Hours from Kandy",
-    "category": "MATALE DISTRICT",
-    "title": "Sigiriya Rock Fortress",
-    "description": "UNESCO World Heritage ancient rock fortress featuring 5th-century frescoes, water gardens, and panoramic jungle vistas.",
-    "image": "https://images.unsplash.com/photo-1586861635167-e5223aadc9fe?q=80&w=800&auto=format&fit=crop",
-    "buttonText": "RENT VEHICLE TO VISIT",
-    "featured": true,
-    "distance": "90 km from Kandy"
+    "category": "nature",
+    "description": "Lush green tea plantations, cool mountain climate, Gregory Lake, colonial bungalows, and cascading waterfalls.",
+    "image": "./assets/images/destinations/nuwara_eliya.jpg",
+    "order": 4
   },
   {
     "id": "dest-5",
-    "badge": "3.5 Hours from Kandy",
-    "category": "BADULLA DISTRICT",
-    "title": "Ella & Nine Arch Bridge",
-    "description": "Famous colonial-era viaduct bridge surrounded by lush green tea estates and dramatic mountain hiking trails.",
-    "image": "https://images.unsplash.com/photo-1589308078059-be1415eab4c3?q=80&w=800&auto=format&fit=crop",
-    "buttonText": "RENT VEHICLE TO VISIT",
-    "featured": false,
-    "distance": "135 km from Kandy"
+    "title": "Sigiriya Lion Rock Fortress",
+    "subtitle": "UNESCO World Wonder",
+    "badge": "2.5 Hours from Kandy",
+    "category": "culture",
+    "description": "Ancient 5th-century palace fortress built atop a 200m giant rock, renowned for ancient wall frescoes and water gardens.",
+    "image": "./assets/images/destinations/sigiriya.jpg",
+    "order": 5
   },
   {
     "id": "dest-6",
+    "title": "Dambulla Golden Cave Temple",
+    "subtitle": "Matale District • Ancient Cave Art",
     "badge": "2 Hours from Kandy",
-    "category": "MATALE DISTRICT",
-    "title": "Riverston & Knuckles Range",
-    "description": "Picturesque windy gap and mountain range known for mini World's End, cloud forests, and serene trekking paths.",
-    "image": "https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=800&auto=format&fit=crop",
-    "buttonText": "RENT VEHICLE TO VISIT",
-    "featured": false,
-    "distance": "60 km from Kandy"
+    "category": "culture",
+    "description": "Sri Lanka's largest preserved cave temple complex containing 153 statues of Lord Buddha and vibrant ceiling frescoes.",
+    "image": "./assets/images/destinations/dambulla.jpg",
+    "order": 6
+  },
+  {
+    "id": "dest-7",
+    "title": "Riverston Peak & Pitawala Pathana",
+    "subtitle": "Knuckles Mountain Range",
+    "badge": "2 Hours from Kandy",
+    "category": "nature",
+    "description": "Windy mountain ridges, Mini World's End cliff view, and pristine trekking trails through Knuckles conservation forest.",
+    "image": "./assets/images/destinations/riverston.jpg",
+    "order": 7
+  },
+  {
+    "id": "dest-8",
+    "title": "Bahirawakanda Buddha Statue",
+    "subtitle": "Kandy City • Sunset Viewpoint",
+    "badge": "10 Mins from Kandy",
+    "category": "culture daytrip",
+    "description": "Towering 88ft giant white Buddha statue overlooking Kandy city, offering spectacular sunset and city lights view.",
+    "image": "./assets/images/destinations/bahirawakanda.jpg",
+    "order": 8
+  },
+  {
+    "id": "dest-9",
+    "title": "Ella & Nine Arch Bridge",
+    "subtitle": "Badulla District • Demodara Viaduct",
+    "badge": "3.5 Hours from Kandy",
+    "category": "nature",
+    "description": "World-famous 9-arch colonial brick railway bridge surrounded by lush green tea trees and high mountain peaks.",
+    "image": "./assets/images/destinations/ella.jpg",
+    "order": 9
   }
 ]

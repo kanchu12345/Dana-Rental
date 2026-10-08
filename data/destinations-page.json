@@ -1,0 +1,37 @@
+{
+  "hero": {
+    "tag": "SRI LANKA TRAVEL GUIDE",
+    "title": "Discover Sri Lanka's Most Iconic <span>Attractions</span>",
+    "subline": "From misty highland peaks to ancient UNESCO rock fortresses, enjoy total road trip freedom starting right from Kandy with Danan Rentals."
+  },
+  "tips": [
+    {
+      "step": "TIP 01",
+      "icon": "fa-solid fa-gas-pump",
+      "title": "Fuel Up Early",
+      "desc": "Hill country roads between Kandy and Nuwara Eliya or Ella have fewer fuel stations after sunset. Always keep your tank above half full."
+    },
+    {
+      "step": "TIP 02",
+      "icon": "fa-solid fa-cloud-rain",
+      "title": "Mountain Driving Caution",
+      "desc": "Highland roads feature winding hairpin turns and sudden mist. Maintain lower gears on steep declines and keep headlights on in fog."
+    },
+    {
+      "step": "TIP 03",
+      "icon": "fa-solid fa-id-card",
+      "title": "Carry International Permit",
+      "desc": "Foreign travelers must carry an AA Ceylon endorsement or valid International Driving Permit alongside their passport at all times."
+    },
+    {
+      "step": "TIP 04",
+      "icon": "fa-solid fa-phone-volume",
+      "title": "24/7 Danan Emergency Dispatch",
+      "desc": "Save our 24/7 WhatsApp emergency line (+94 77 201 3059) on your phone. We can dispatch replacement vehicles or roadside mechanical help islandwide."
+    }
+  ],
+  "cta": {
+    "title": "Planning Your Sri Lanka Itinerary?",
+    "text": "Speak directly with our local rental experts for personalized route recommendations, road conditions, and vehicle selection."
+  }
+}

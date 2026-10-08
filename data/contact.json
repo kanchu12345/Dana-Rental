@@ -1,10 +1,16 @@
 {
-  "companyName": "Danan Car & Bike Rentals Kandy",
-  "phone1": "+94 77 123 4567",
-  "phone2": "+94 81 223 4567",
-  "whatsapp": "+94771234567",
-  "email": "info@dananrentals.com",
-  "address": "No. 45, Peradeniya Road, Kandy, Sri Lanka",
-  "openingHours": "Monday - Sunday: 7:00 AM - 9:00 PM",
+  "hero": {
+    "tag": "GET IN TOUCH",
+    "title": "Contact <span>Danan Rentals</span>",
+    "subline": "Have questions about vehicle availability, airport delivery, or international license endorsements? We're available 24/7."
+  },
+  "phones": [
+    "077 201 3059",
+    "071 283 2221"
+  ],
+  "whatsapp": "94772013059",
+  "email": "dananrentals@gmail.com",
+  "address": "Peradeniya & Kandy, Sri Lanka",
+  "hours": "Open 24/7 - Daily & Weekly Rentals",
   "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3957.6534578912!2d80.633728!3d7.290571!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ae366266498ecc3%3A0x4a481c00f6063462!2sKandy!5e0!3m2!1sen!2slk!4v1700000000000!5m2!1sen!2slk"
 }
