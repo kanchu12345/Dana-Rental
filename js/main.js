@@ -125,6 +125,21 @@ function initScrollAndMobileListeners() {
   menuToggle?.addEventListener('click', openMobileMenu);
   menuClose?.addEventListener('click', closeMobileMenu);
   mobileOverlay?.addEventListener('click', closeMobileMenu);
+
+  // Close mobile menu on tapping any navigation link
+  mobileMenu?.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', closeMobileMenu);
+  });
+
+  // Close mobile menu and modals on Escape key
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      closeMobileMenu();
+      if (typeof window.closeBookingModal === 'function') {
+        window.closeBookingModal();
+      }
+    }
+  });
 }
 
 // HERO TAB SWITCHER
@@ -1112,8 +1127,37 @@ function initWhyCarousel() {
     });
   }
 
+  // Touch swipe support for Why-Us carousel on Android and mobile
+  let touchStartX = 0;
+  let touchEndX = 0;
+
+  track.addEventListener('touchstart', (e) => {
+    if (e.changedTouches && e.changedTouches[0]) {
+      touchStartX = e.changedTouches[0].screenX;
+    }
+    stopAutoSlide();
+  }, { passive: true });
+
+  track.addEventListener('touchend', (e) => {
+    if (e.changedTouches && e.changedTouches[0]) {
+      touchEndX = e.changedTouches[0].screenX;
+      const diff = touchStartX - touchEndX;
+      if (Math.abs(diff) > 40) {
+        if (diff > 0) nextSlide();
+        else prevSlide();
+      }
+    }
+    resetAutoSlide();
+  }, { passive: true });
+
   track.parentElement.addEventListener('mouseenter', stopAutoSlide);
   track.parentElement.addEventListener('mouseleave', startAutoSlide);
+
+  // Pause carousel when tab is in background to save Android device battery
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) stopAutoSlide();
+    else startAutoSlide();
+  });
 
   window.addEventListener('resize', () => {
     createDots();
@@ -1143,6 +1187,7 @@ async function initCustomerGallerySwap() {
   if (items.length === 0) return;
 
   let currentIndex = 0;
+  let galleryTimer = null;
 
   function updateGalleryDisplay() {
     const itemMain = items[currentIndex % items.length];
@@ -1165,14 +1210,30 @@ async function initCustomerGallerySwap() {
     }, 450);
   }
 
-  updateGalleryDisplay();
-
-  if (items.length > 1) {
-    setInterval(() => {
-      currentIndex = (currentIndex + 1) % items.length;
-      updateGalleryDisplay();
-    }, 5000);
+  function startGalleryTimer() {
+    if (items.length > 1 && !galleryTimer) {
+      galleryTimer = setInterval(() => {
+        currentIndex = (currentIndex + 1) % items.length;
+        updateGalleryDisplay();
+      }, 5000);
+    }
   }
+
+  function stopGalleryTimer() {
+    if (galleryTimer) {
+      clearInterval(galleryTimer);
+      galleryTimer = null;
+    }
+  }
+
+  updateGalleryDisplay();
+  startGalleryTimer();
+
+  // Pause gallery swap when tab is backgrounded
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) stopGalleryTimer();
+    else startGalleryTimer();
+  });
 }
 
 // BOOKING INQUIRY MODAL LOGIC
@@ -1266,15 +1327,26 @@ function initBookingInquiryModal() {
     }
     calcEstPrice();
     overlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
   };
 
   window.closeBookingModal = function() {
     overlay.classList.remove('active');
+    document.body.style.overflow = '';
   };
 
   btnClose?.addEventListener('click', window.closeBookingModal);
   overlay.addEventListener('click', (e) => {
     if (e.target === overlay) window.closeBookingModal();
+  });
+
+  // Ensure focused fields remain visible above Android on-screen keyboard
+  form.querySelectorAll('.bm-input, .bm-select, .bm-textarea').forEach(field => {
+    field.addEventListener('focus', () => {
+      setTimeout(() => {
+        field.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 280);
+    });
   });
 
   // Process Booking Inquiry & Send to WhatsApp Synchronously

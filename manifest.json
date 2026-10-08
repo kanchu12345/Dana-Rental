@@ -1,0 +1,24 @@
+{
+  "name": "Danan Car & Bike Rentals",
+  "short_name": "Danan Rentals",
+  "description": "Car and bike rental service in Kandy and Peradeniya, Sri Lanka",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#07070A",
+  "theme_color": "#0A0A0F",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "./assets/images/logo/logo.jpeg",
+      "sizes": "192x192",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./assets/images/logo/logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

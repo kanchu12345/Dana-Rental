@@ -49,7 +49,7 @@ export async function checkAdminAuth() {
   }
 }
 
-// Active Sidebar Link Highlight
+// Active Sidebar Link Highlight & Mobile Drawer Support
 function initAdminNavigation() {
   const currentPath = window.location.pathname;
   const navItems = document.querySelectorAll('.sidebar-nav .nav-item');
@@ -61,14 +61,66 @@ function initAdminNavigation() {
     }
   });
 
-  // Mobile menu sidebar toggle
-  const sidebarToggleBtn = document.getElementById('sidebarToggle');
+  const topbar = document.querySelector('.admin-topbar');
+  let sidebarToggleBtn = document.getElementById('sidebarToggle');
   const sidebar = document.querySelector('.admin-sidebar');
-  if (sidebarToggleBtn && sidebar) {
-    sidebarToggleBtn.addEventListener('click', () => {
-      sidebar.classList.toggle('active');
-    });
+
+  // Dynamically insert mobile hamburger toggle button into topbar if missing
+  if (topbar && !sidebarToggleBtn) {
+    sidebarToggleBtn = document.createElement('button');
+    sidebarToggleBtn.id = 'sidebarToggle';
+    sidebarToggleBtn.className = 'admin-sidebar-toggle';
+    sidebarToggleBtn.setAttribute('aria-label', 'Toggle Navigation Menu');
+    sidebarToggleBtn.innerHTML = `
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="3" y1="12" x2="21" y2="12"></line>
+        <line x1="3" y1="6" x2="21" y2="6"></line>
+        <line x1="3" y1="18" x2="21" y2="18"></line>
+      </svg>
+    `;
+    topbar.prepend(sidebarToggleBtn);
   }
+
+  // Create backdrop overlay for admin drawer if not present
+  let adminOverlay = document.querySelector('.admin-sidebar-overlay');
+  if (sidebar && !adminOverlay) {
+    adminOverlay = document.createElement('div');
+    adminOverlay.className = 'admin-sidebar-overlay';
+    document.body.appendChild(adminOverlay);
+  }
+
+  function openAdminDrawer() {
+    sidebar?.classList.add('active');
+    adminOverlay?.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeAdminDrawer() {
+    sidebar?.classList.remove('active');
+    adminOverlay?.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  sidebarToggleBtn?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    if (sidebar?.classList.contains('active')) {
+      closeAdminDrawer();
+    } else {
+      openAdminDrawer();
+    }
+  });
+
+  adminOverlay?.addEventListener('click', closeAdminDrawer);
+
+  sidebar?.querySelectorAll('.nav-item').forEach(link => {
+    link.addEventListener('click', closeAdminDrawer);
+  });
+
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && sidebar?.classList.contains('active')) {
+      closeAdminDrawer();
+    }
+  });
 }
 
 // Seed Data Handler with protection against overwriting admin changes

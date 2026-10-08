@@ -19,8 +19,10 @@
   <meta name="twitter:description" content="Your Journey, Your Choice. Rent cars, scooters & vans in Kandy & Peradeniya. Affordable daily rates, 200 free km per day, full tank provided.">
   <meta name="twitter:image" content="https://kanchu12345.github.io/Dana-Rental/assets/images/hero/sigiriya.jpg">
 
-  <!-- Favicon -->
+  <!-- Favicon & PWA -->
   <link rel="icon" href="./assets/images/logo/logo.png" type="image/jpeg">
+  <link rel="manifest" href="./manifest.json">
+  <meta name="theme-color" content="#0A0A0F">
 
   <!-- Fonts & Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -461,9 +463,9 @@
             <a href="#rentals" class="btn-readmore">Explore Rentals</a>
           </div>
           <div class="about-img-col" id="customerGalleryCol">
-            <img class="about-img-main" id="aboutImgMain" src="./assets/images/customers/customer-1.jpeg" alt="Customer Photo">
+            <img class="about-img-main" id="aboutImgMain" src="./assets/images/customers/customer-1.jpeg" alt="Customer Photo" loading="lazy" decoding="async">
             <div class="about-overlay">
-              <img id="aboutImgOverlay" src="./assets/images/customers/customer-2.jpeg" alt="Customer Photo Overlay">
+              <img id="aboutImgOverlay" src="./assets/images/customers/customer-2.jpeg" alt="Customer Photo Overlay" loading="lazy" decoding="async">
             </div>
             <div class="gallery-caption-badge" id="galleryCaptionBadge" style="position: absolute; top: 14px; right: 14px; background: rgba(0,0,0,0.75); color: var(--yellow); padding: 6px 14px; border-radius: 20px; font-size: 0.78rem; font-weight: 700; backdrop-filter: blur(4px); border: 1px solid rgba(255,255,255,0.15); display: flex; align-items: center; gap: 6px; z-index: 5;">
               <i class="fa-solid fa-camera"></i> <span id="galleryCaptionText">Verified Customer</span>
@@ -473,9 +475,9 @@
 
         <div class="about-row reveal" style="padding-top: 60px;">
           <div class="about-img-col">
-            <img class="about-img-main" src="./assets/images/about/pexels-pixabay-271618.jpg" alt="Road Trip">
+            <img class="about-img-main" src="./assets/images/about/pexels-pixabay-271618.jpg" alt="Road Trip" loading="lazy" decoding="async">
             <div class="about-overlay" style="left: auto; right: -30px;">
-              <img src="./assets/images/about/pexels-rpnickson-2417842.jpg" alt="Car Interior">
+              <img src="./assets/images/about/pexels-rpnickson-2417842.jpg" alt="Car Interior" loading="lazy" decoding="async">
             </div>
           </div>
           <div class="about-text-col">
@@ -490,7 +492,7 @@
     <!-- ═══ 4-STEP GALLERY STRIP ═══ -->
     <div class="gallery" id="how-it-works">
       <div class="gallery-strip reveal delay-1">
-        <img src="./assets/images/about/pexels-thilina-alagiyawanna-3266092-31039336.jpg" alt="Step 1">
+        <img src="./assets/images/about/pexels-thilina-alagiyawanna-3266092-31039336.jpg" alt="Step 1" loading="lazy" decoding="async">
         <div class="gallery-info">
           <div class="gallery-num">01</div>
           <div>
@@ -501,7 +503,7 @@
       </div>
 
       <div class="gallery-strip reveal delay-2">
-        <img src="./assets/images/about/pexels-thilina-alagiyawanna-3266092-31039339.jpg" alt="Step 2">
+        <img src="./assets/images/about/pexels-thilina-alagiyawanna-3266092-31039339.jpg" alt="Step 2" loading="lazy" decoding="async">
         <div class="gallery-info">
           <div class="gallery-num">02</div>
           <div>
@@ -512,7 +514,7 @@
       </div>
 
       <div class="gallery-strip reveal delay-3">
-        <img src="./assets/images/about/pexels-thilina-alagiyawanna-3266092-34861066.jpg" alt="Step 3">
+        <img src="./assets/images/about/pexels-thilina-alagiyawanna-3266092-34861066.jpg" alt="Step 3" loading="lazy" decoding="async">
         <div class="gallery-info">
           <div class="gallery-num">03</div>
           <div>
@@ -523,7 +525,7 @@
       </div>
 
       <div class="gallery-strip reveal delay-4">
-        <img src="./assets/images/about/pexels-thilina-alagiyawanna-3266092-34861077.jpg" alt="Step 4">
+        <img src="./assets/images/about/pexels-thilina-alagiyawanna-3266092-34861077.jpg" alt="Step 4" loading="lazy" decoding="async">
         <div class="gallery-info">
           <div class="gallery-num">04</div>
           <div>
@@ -543,19 +545,19 @@
 
       <div class="discover-imgs reveal">
         <div class="disc-img disc-img-wide">
-          <img src="./assets/images/about/pexels-malindabandaralk-16508228.jpg" alt="Sri Lanka Drive">
+          <img src="./assets/images/about/pexels-malindabandaralk-16508228.jpg" alt="Sri Lanka Drive" loading="lazy" decoding="async">
           <div class="disc-play">
             <div class="disc-play-btn"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
           </div>
         </div>
         <div class="disc-img">
-          <img src="./assets/images/about/607105091.jpg" alt="Sri Lanka Scenic">
+          <img src="./assets/images/about/607105091.jpg" alt="Sri Lanka Scenic" loading="lazy" decoding="async">
           <div class="disc-play">
             <div class="disc-play-btn"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
           </div>
         </div>
         <div class="disc-img">
-          <img src="./assets/images/about/766476498.jpg" alt="Sri Lanka Coast">
+          <img src="./assets/images/about/766476498.jpg" alt="Sri Lanka Coast" loading="lazy" decoding="async">
           <div class="disc-play">
             <div class="disc-play-btn"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
           </div>

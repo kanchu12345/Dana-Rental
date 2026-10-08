@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Login | Danan Car & Bike Rentals</title>
+  <meta name="theme-color" content="#111111">
   <link rel="icon" href="../assets/images/logo/logo.png" type="image/jpeg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -27,7 +28,12 @@
 
       <div class="form-group" style="margin-bottom: 8px;">
         <label for="adminPassword">Password</label>
-        <input type="password" id="adminPassword" class="form-control" placeholder="••••••••" required autocomplete="current-password">
+        <div style="position: relative; display: flex; align-items: center;">
+          <input type="password" id="adminPassword" class="form-control" placeholder="••••••••" required autocomplete="current-password" style="padding-right: 46px;">
+          <button type="button" id="btnTogglePassword" aria-label="Toggle password visibility" style="position: absolute; right: 0; top: 0; bottom: 0; width: 44px; background: none; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #777; font-size: 1.1rem;">
+            👁️
+          </button>
+        </div>
       </div>
 
       <div style="text-align: right; margin-bottom: 16px;">
@@ -63,6 +69,16 @@
 
     // Check existing auth state on load
     document.addEventListener('DOMContentLoaded', async () => {
+      const togglePassBtn = document.getElementById('btnTogglePassword');
+      const passInput = document.getElementById('adminPassword');
+      if (togglePassBtn && passInput) {
+        togglePassBtn.addEventListener('click', () => {
+          const isPass = passInput.type === 'password';
+          passInput.type = isPass ? 'text' : 'password';
+          togglePassBtn.textContent = isPass ? '🔒' : '👁️';
+        });
+      }
+
       try {
         const { auth: fbAuth } = await initFirebase();
         activeAuth = fbAuth || auth;

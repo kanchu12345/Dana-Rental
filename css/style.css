@@ -4058,3 +4058,458 @@ footer {
 @media (max-width: 600px) {
   .rental-hero-content { padding: 60px 20px 40px; }
 }
+
+/* ==========================================================================
+   /* ===== MOBILE FIXES ===== */
+   Android / Mobile Optimization (max-width: 1023px, 768px, 480px, 360px)
+   ========================================================================== */
+
+/* ── 1. GLOBAL & PERFORMANCE RULES (MAX-WIDTH: 1023px) ── */
+@media (max-width: 1023px) {
+  /* Prevent horizontal scroll overflow globally */
+  html, body {
+    overflow-x: hidden;
+    max-width: 100vw;
+  }
+
+  /* Parallax backgrounds: replace fixed attachment with scroll for smooth Android/iOS scrolling */
+  .hero,
+  .about-intro-sec,
+  .why-about-wrapper,
+  .cta-banner,
+  .rental-hero,
+  .bookings-hero,
+  .destinations-hero,
+  .contact-hero,
+  [style*="background-attachment: fixed"] {
+    background-attachment: scroll !important;
+  }
+
+  /* Touch tap targets and manipulation speed */
+  a, button, input, select, textarea, .rc-wishlist, .why-dot, .testi-card {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: rgba(245, 197, 24, 0.15);
+  }
+
+  /* Accessible focus rings */
+  :focus-visible {
+    outline: 2px solid var(--yellow);
+    outline-offset: 2px;
+  }
+
+  /* Reduce heavy backdrop filters and shadows on scrolling mobile elements */
+  .hero, .why-about-wrapper, .cards-section, .about-intro-sec {
+    will-change: auto;
+  }
+
+  /* Prevent text selection lag on interactive buttons */
+  button, .hero-tab, .rc-btn, .btn-search, .why-nav-btn {
+    user-select: none;
+    -webkit-user-select: none;
+  }
+}
+
+/* ── 2. TABLET-PORTRAIT & SMALL LAPTOPS (MAX-WIDTH: 768px) ── */
+@media (max-width: 768px) {
+  /* Container padding */
+  .container {
+    padding: 0 16px;
+  }
+
+  /* Sections padding */
+  .cards-section,
+  .why-about-wrapper,
+  .testi-section,
+  .destinations-main,
+  .about-intro-sec,
+  .bookings-section {
+    padding: 56px 0;
+  }
+
+  /* Navbar adjustments */
+  #navbar {
+    height: 70px;
+    padding: 0 16px;
+  }
+  .nav-logo img {
+    height: 52px;
+  }
+  .nav-brand-title {
+    font-size: 1.15rem;
+  }
+  .nav-toggle {
+    display: flex;
+    min-width: 44px;
+    min-height: 44px;
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* Mobile slide-out menu drawer */
+  .mobile-menu {
+    width: min(320px, 86vw);
+    height: 100vh;
+    height: 100dvh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 24px 20px;
+  }
+  .mobile-close {
+    min-width: 44px;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+  }
+  .mobile-links a {
+    padding: 10px 0;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    font-size: 1rem;
+  }
+
+  /* Hero Section: Dynamic dvh heights & no address bar jump */
+  .hero {
+    min-height: 100vh;
+    min-height: 100svh;
+    padding: 100px 16px 50px;
+  }
+  .hero-title {
+    font-size: clamp(1.85rem, 6.5vw, 2.6rem);
+    letter-spacing: -0.5px;
+    line-height: 1.2;
+    margin-bottom: 16px;
+  }
+  .hero-desc {
+    font-size: 0.95rem;
+    line-height: 1.55;
+    margin-bottom: 24px;
+  }
+
+  /* Hero tabs: full width interactive pills */
+  .hero-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+    max-width: 420px;
+    margin: 0 auto 28px;
+    border-radius: 30px;
+    padding: 4px;
+  }
+  .hero-tab {
+    flex: 1 1 auto;
+    justify-content: center;
+    min-height: 44px;
+    padding: 8px 16px;
+    font-size: 0.85rem;
+  }
+
+  /* Hero Search Container: 1 column card format */
+  .search-container {
+    grid-template-columns: 1fr;
+    gap: 14px;
+    padding: 18px 16px;
+    border-radius: 14px;
+  }
+  .search-group {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+    padding: 10px 14px;
+  }
+  .search-input {
+    font-size: 16px !important; /* Prevents auto zoom-on-focus in Android/iOS */
+    min-height: 38px;
+  }
+  .btn-search {
+    width: 100%;
+    min-height: 48px;
+    font-size: 1rem;
+    margin-top: 4px;
+  }
+
+  /* Hide sticky search bar on small screens to prevent covering content & buttons */
+  .ss-bar-wrap {
+    display: none !important;
+  }
+
+  /* Flatpickr Calendar on mobile */
+  .flatpickr-calendar {
+    max-width: calc(100vw - 24px) !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    font-size: 13.5px;
+    z-index: 999999 !important;
+  }
+
+  /* Vehicle Cards Grid */
+  .cards-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .rc {
+    max-width: 500px;
+    margin: 0 auto;
+    width: 100%;
+  }
+  .rc-img {
+    aspect-ratio: 16 / 10;
+  }
+  .rc-name {
+    font-size: 1.12rem;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+  .rc-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .rc-btn {
+    min-height: 44px;
+    padding: 10px 22px;
+    font-size: 0.88rem;
+  }
+
+  /* Carousels on Mobile: 1 card visible, touch swipe */
+  .why-item {
+    flex: 0 0 100% !important;
+    min-width: 100% !important;
+    padding: 24px 18px;
+  }
+  .why-track {
+    touch-action: pan-y;
+  }
+  .why-dots {
+    gap: 12px;
+    padding: 8px 0;
+  }
+  .why-dot {
+    width: 12px;
+    height: 12px;
+    padding: 6px;
+    background-clip: content-box;
+    box-sizing: content-box;
+  }
+  .why-dot.active {
+    width: 28px;
+  }
+
+  /* Testimonials track */
+  .testi-track {
+    touch-action: pan-y;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    gap: 16px;
+  }
+  .testi-card {
+    min-width: calc(100vw - 48px);
+    max-width: calc(100vw - 48px);
+    padding: 24px 20px;
+    scroll-snap-align: center;
+  }
+
+  /* Booking Inquiry Modal */
+  .booking-modal-overlay {
+    height: 100vh;
+    height: 100dvh;
+    padding: 12px;
+    align-items: flex-end; /* Sheet style on mobile */
+  }
+  .booking-modal-card {
+    max-height: calc(100vh - 24px);
+    max-height: calc(100dvh - 24px);
+    border-radius: 18px 18px 12px 12px;
+    padding: 0;
+  }
+  .booking-modal-header {
+    padding: 14px 18px;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: #14141E;
+  }
+  .booking-modal-close {
+    min-width: 44px;
+    min-height: 44px;
+  }
+  .booking-modal-body {
+    padding: 16px;
+  }
+  .bm-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .bm-input, .bm-select, .bm-textarea {
+    font-size: 16px !important; /* No zoom on focus */
+    min-height: 46px;
+  }
+  .bm-actions {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  .btn-bm-whatsapp, .btn-bm-submit {
+    min-height: 48px;
+    width: 100%;
+    font-size: 0.95rem;
+    justify-content: center;
+  }
+
+  /* Floating action buttons */
+  #waBtn {
+    bottom: calc(76px + env(safe-area-inset-bottom, 0px));
+    right: calc(14px + env(safe-area-inset-right, 0px));
+    width: 48px;
+    height: 48px;
+    font-size: 1.3rem;
+  }
+  #scrollTopBtn {
+    bottom: calc(18px + env(safe-area-inset-bottom, 0px));
+    right: calc(14px + env(safe-area-inset-right, 0px));
+    width: 48px;
+    height: 48px;
+    font-size: 1.1rem;
+  }
+
+  /* Footer adjustments */
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  .footer-map-wrap {
+    height: 200px;
+  }
+
+  /* Contact page */
+  .contact-grid {
+    grid-template-columns: 1fr;
+  }
+  .contact-info-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── 3. STANDARD MOBILE (MAX-WIDTH: 480px) ── */
+@media (max-width: 480px) {
+  #navbar {
+    height: 66px;
+    padding: 0 14px;
+  }
+  .nav-logo img {
+    height: 46px;
+  }
+  .nav-brand-title {
+    font-size: 1.05rem;
+  }
+  .hero-title {
+    font-size: clamp(1.65rem, 6.2vw, 2.1rem);
+  }
+  .hero-tabs {
+    gap: 4px;
+  }
+  .hero-tab {
+    padding: 6px 12px;
+    font-size: 0.8rem;
+  }
+  .rc-footer {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+  .rc-btn {
+    width: 100%;
+    min-height: 48px;
+    text-align: center;
+  }
+  .dest-tips-grid {
+    grid-template-columns: 1fr;
+  }
+  .about-stats-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .footer-socials {
+    gap: 12px;
+  }
+  .soc-icon-btn {
+    min-width: 44px;
+    min-height: 44px;
+  }
+}
+
+/* ── 4. ULTRA-COMPACT SMARTPHONES (MAX-WIDTH: 360px) ── */
+@media (max-width: 360px) {
+  #navbar {
+    height: 60px;
+    padding: 0 10px;
+  }
+  .nav-logo {
+    gap: 8px;
+  }
+  .nav-logo img {
+    height: 40px;
+  }
+  .nav-brand-title {
+    font-size: 0.92rem;
+    letter-spacing: 0;
+  }
+  .hero {
+    padding: 85px 12px 40px;
+  }
+  .hero-title {
+    font-size: 1.55rem;
+  }
+  .hero-desc {
+    font-size: 0.88rem;
+  }
+  .hero-tabs {
+    flex-direction: column;
+    border-radius: 16px;
+  }
+  .hero-tab {
+    width: 100%;
+    border-radius: 12px;
+  }
+  .search-container {
+    padding: 14px 12px;
+  }
+  .testi-card {
+    min-width: calc(100vw - 32px);
+    max-width: calc(100vw - 32px);
+    padding: 18px 14px;
+  }
+  .booking-modal-body {
+    padding: 12px;
+  }
+  .bm-selected-vehicle {
+    padding: 8px 10px;
+    gap: 10px;
+  }
+  .bm-vehicle-img {
+    width: 60px;
+    height: 44px;
+  }
+}
+
+/* ── 5. PREFERS-REDUCED-MOTION (ACCESSIBILITY & LOW BATTERY) ── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  .footer-taxi-anim {
+    animation: none !important;
+  }
+}
+
