@@ -45,6 +45,13 @@
     <!-- MAIN CONTENT -->
     <main class="admin-main">
       <header class="admin-topbar">
+        <button id="sidebarToggle" class="admin-sidebar-toggle" aria-label="Menu" aria-expanded="false">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
         <h1 class="topbar-title">Site & Business Settings Editor</h1>
         <div class="topbar-user">
           <a href="../index.html" target="_blank" style="color: var(--primary-red); font-weight: 600; text-decoration: none;">🌐 View Public Website ↗</a>
@@ -59,8 +66,9 @@
 
           <div class="form-grid">
             <div class="form-group">
-              <label for="businessName">Business Name</label>
-              <input type="text" id="businessName" class="form-control" required>
+              <label for="businessName">Website / Business Name (Brand)</label>
+              <input type="text" id="businessName" class="form-control" placeholder="Danan Car & Bike Rentals" required>
+              <small style="display:block; margin-top:4px; font-size:0.8rem; color:var(--text-muted);">Changes website name across navigation bar, footer copyright, WhatsApp booking templates & page titles.</small>
             </div>
 
             <div class="form-group">

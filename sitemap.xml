@@ -1,21 +1,79 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+
+  <!-- 1. Home Page -->
   <url>
-    <loc>https://dananrentals.github.io/index.html</loc>
-    <lastmod>2026-10-05</lastmod>
-    <changefreq>weekly</changefreq>
+    <loc>https://danacarbikes.com/</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
+
+  <!-- 2. Vehicles / Fleet Page -->
   <url>
-    <loc>https://dananrentals.github.io/vehicles.html</loc>
-    <lastmod>2026-10-05</lastmod>
+    <loc>https://danacarbikes.com/vehicles.html</loc>
+    <lastmod>2026-10-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
+
+  <!-- 3. Bookings / Online Reservation Page -->
   <url>
-    <loc>https://dananrentals.github.io/sitemap.html</loc>
-    <lastmod>2026-10-05</lastmod>
+    <loc>https://danacarbikes.com/bookings.html</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- 4. Destinations Guide Page -->
+  <url>
+    <loc>https://danacarbikes.com/destinations.html</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- 5. Contact Us Page -->
+  <url>
+    <loc>https://danacarbikes.com/contact.html</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- 6. About Us Page -->
+  <url>
+    <loc>https://danacarbikes.com/about.html</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- 7. Frequently Asked Questions Page -->
+  <url>
+    <loc>https://danacarbikes.com/faqs.html</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- 8. Rental Rules & Policies Page -->
+  <url>
+    <loc>https://danacarbikes.com/rules.html</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <!-- 9. HTML Sitemap Page -->
+  <url>
+    <loc>https://danacarbikes.com/sitemap.html</loc>
+    <lastmod>2026-10-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
+
 </urlset>

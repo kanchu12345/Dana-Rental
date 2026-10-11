@@ -19,6 +19,7 @@ async function initApp() {
   initHeroTabSwitcher();
   initTestimonialsCarousel();
   initWhyCarousel();
+  initTapToInteractMaps();
   initScrollAndMobileListeners();
   initScrollReveal();
   initFlatpickrDates();
@@ -199,7 +200,30 @@ async function loadSiteSettings() {
     if (faviconLink) faviconLink.href = settings.favicon;
   }
 
-  // 2. Logos
+  // 2. Business / Website Name & Logos
+  if (settings.businessName) {
+    const nameStr = String(settings.businessName).trim();
+    const parts = nameStr.split(' ');
+    const firstWord = parts[0] || '';
+    const restWords = parts.slice(1).join(' ') || '';
+
+    // Update navigation brand titles
+    document.querySelectorAll('.nav-brand-title').forEach(el => {
+      el.innerHTML = `${escapeHTML(firstWord)} <span>${escapeHTML(restWords)}</span>`;
+    });
+
+    // Update footer brand & copyright text
+    document.querySelectorAll('.footer-bottom span:first-child, .copyright-text').forEach(el => {
+      el.innerHTML = `&copy; ${new Date().getFullYear()} ${escapeHTML(nameStr)}. All Rights Reserved.`;
+    });
+
+    // Update public page document titles
+    if (document.title && document.title.includes('|')) {
+      const prefix = document.title.split('|')[0].trim();
+      document.title = `${prefix} | ${nameStr}`;
+    }
+  }
+
   const logoImgs = document.querySelectorAll('.nav-logo img, .footer-logo img');
   logoImgs.forEach(img => {
     if (settings.logo) img.src = settings.logo;
@@ -269,172 +293,79 @@ async function applyDynamicBackgrounds() {
       return sanitizeCSSUrl(fixImgPath(val, isSub));
     };
 
+    const applyBg = (el, bgValue, gradientPrefix = null) => {
+      if (!el || !bgValue) return;
+      const resolved = resolveBg(bgValue);
+      if (!resolved) return;
+      if (gradientPrefix) {
+        el.style.backgroundImage = `${gradientPrefix}, url('${resolved}')`;
+      } else {
+        el.style.backgroundImage = `url('${resolved}')`;
+      }
+      el.style.backgroundRepeat = 'no-repeat';
+      // Ensure background-size and responsive background-position are preserved from CSS
+      if (!el.style.backgroundSize) el.style.backgroundSize = 'cover';
+    };
+
     // 1. Home Hero (index.html)
     if (bgData.homeHero) {
-      const heroSec = document.querySelector('.hero');
-      if (heroSec) {
-        const resolved = resolveBg(bgData.homeHero);
-        if (resolved) {
-          heroSec.style.backgroundImage = `linear-gradient(180deg, rgba(7, 7, 10, 0.25) 0%, rgba(7, 7, 10, 0.65) 100%), url('${resolved}')`;
-          heroSec.style.backgroundSize = 'cover';
-          heroSec.style.backgroundPosition = 'center center';
-          heroSec.style.backgroundRepeat = 'no-repeat';
-        }
-      }
+      applyBg(document.querySelector('.hero'), bgData.homeHero, 'linear-gradient(180deg, rgba(7, 7, 10, 0.25) 0%, rgba(7, 7, 10, 0.65) 100%)');
     }
 
     // 2. Our Fleet Hero (vehicles.html)
     if (bgData.fleetHero) {
-      const fleetHero = document.querySelector('.rental-hero');
-      if (fleetHero) {
-        const resolved = resolveBg(bgData.fleetHero);
-        if (resolved) {
-          fleetHero.style.backgroundImage = `url('${resolved}')`;
-          fleetHero.style.backgroundSize = 'cover';
-          fleetHero.style.backgroundPosition = 'center center';
-          fleetHero.style.backgroundRepeat = 'no-repeat';
-        }
-      }
+      applyBg(document.querySelector('.rental-hero'), bgData.fleetHero);
     }
 
     // 3. Bookings Hero (bookings.html)
     if (bgData.bookingsHero) {
-      const bookingsHero = document.querySelector('.bookings-hero');
-      if (bookingsHero) {
-        const resolved = resolveBg(bgData.bookingsHero);
-        if (resolved) {
-          bookingsHero.style.backgroundImage = `url('${resolved}')`;
-          bookingsHero.style.backgroundSize = 'cover';
-          bookingsHero.style.backgroundPosition = 'center center';
-          bookingsHero.style.backgroundRepeat = 'no-repeat';
-        }
-      }
+      applyBg(document.querySelector('.bookings-hero'), bgData.bookingsHero);
     }
 
     // 4. Bookings CTA Banner (bookings.html)
     if (bgData.bookingsCta) {
-      const bookingsCta = document.querySelector('.bookings-cta-banner:not(.destinations-cta-banner)');
-      if (bookingsCta) {
-        const resolved = resolveBg(bgData.bookingsCta);
-        if (resolved) {
-          bookingsCta.style.backgroundImage = `url('${resolved}')`;
-          bookingsCta.style.backgroundSize = 'cover';
-          bookingsCta.style.backgroundPosition = 'center center';
-          bookingsCta.style.backgroundRepeat = 'no-repeat';
-        }
-      }
+      applyBg(document.querySelector('.bookings-cta-banner:not(.destinations-cta-banner)'), bgData.bookingsCta);
     }
 
     // 5. Destinations Hero (destinations.html)
     if (bgData.destinationsHero) {
-      const destHero = document.querySelector('.destinations-hero');
-      if (destHero) {
-        const resolved = resolveBg(bgData.destinationsHero);
-        if (resolved) {
-          destHero.style.backgroundImage = `url('${resolved}')`;
-          destHero.style.backgroundSize = 'cover';
-          destHero.style.backgroundPosition = 'center center';
-          destHero.style.backgroundRepeat = 'no-repeat';
-        }
-      }
+      applyBg(document.querySelector('.destinations-hero'), bgData.destinationsHero);
     }
 
     // 6. Destinations CTA Banner (destinations.html)
     const destCtaUrl = bgData.destinationsCta || bgData.bookingsCta;
     if (destCtaUrl) {
-      const destCta = document.querySelector('.destinations-cta-banner');
-      if (destCta) {
-        const resolved = resolveBg(destCtaUrl);
-        if (resolved) {
-          destCta.style.backgroundImage = `url('${resolved}')`;
-          destCta.style.backgroundSize = 'cover';
-          destCta.style.backgroundPosition = 'center center';
-          destCta.style.backgroundRepeat = 'no-repeat';
-        }
-      }
+      applyBg(document.querySelector('.destinations-cta-banner'), destCtaUrl);
     }
 
     // 7. About Us Hero (about.html)
     if (bgData.aboutHero) {
-      const aboutHero = document.querySelector('.about-hero');
-      if (aboutHero) {
-        const resolved = resolveBg(bgData.aboutHero);
-        if (resolved) {
-          aboutHero.style.backgroundImage = `url('${resolved}')`;
-          aboutHero.style.backgroundSize = 'cover';
-          aboutHero.style.backgroundPosition = 'center center';
-          aboutHero.style.backgroundRepeat = 'no-repeat';
-        }
-      }
+      applyBg(document.querySelector('.about-hero'), bgData.aboutHero);
     }
 
     // 8. About Us Intro / Story Parallax (about.html)
     if (bgData.aboutIntro) {
-      const aboutIntro = document.querySelector('.about-intro');
-      if (aboutIntro) {
-        const resolved = resolveBg(bgData.aboutIntro);
-        if (resolved) {
-          aboutIntro.style.backgroundImage = `url('${resolved}')`;
-          aboutIntro.style.backgroundSize = 'cover';
-          aboutIntro.style.backgroundPosition = 'center center';
-        }
-      }
+      applyBg(document.querySelector('.about-intro'), bgData.aboutIntro);
     }
 
     // 9. About Us CTA Banner (about.html)
     if (bgData.aboutCta) {
-      const aboutCta = document.querySelector('.about-cta-banner');
-      if (aboutCta) {
-        const resolved = resolveBg(bgData.aboutCta);
-        if (resolved) {
-          aboutCta.style.backgroundImage = `url('${resolved}')`;
-          aboutCta.style.backgroundSize = 'cover';
-          aboutCta.style.backgroundPosition = 'center center';
-          aboutCta.style.backgroundRepeat = 'no-repeat';
-        }
-      }
+      applyBg(document.querySelector('.about-cta-banner'), bgData.aboutCta);
     }
 
     // 10. Contact Us Hero (contact.html)
     if (bgData.contactHero) {
-      const contactHero = document.querySelector('.contact-hero');
-      if (contactHero) {
-        const resolved = resolveBg(bgData.contactHero);
-        if (resolved) {
-          contactHero.style.backgroundImage = `url('${resolved}')`;
-          contactHero.style.backgroundSize = 'cover';
-          contactHero.style.backgroundPosition = 'center center';
-          contactHero.style.backgroundRepeat = 'no-repeat';
-        }
-      }
+      applyBg(document.querySelector('.contact-hero'), bgData.contactHero);
     }
 
     // 11. Contact Us CTA Banner (contact.html)
     if (bgData.contactCta) {
-      const contactCta = document.querySelector('.contact-cta-banner');
-      if (contactCta) {
-        const resolved = resolveBg(bgData.contactCta);
-        if (resolved) {
-          contactCta.style.backgroundImage = `url('${resolved}')`;
-          contactCta.style.backgroundSize = 'cover';
-          contactCta.style.backgroundPosition = 'center center';
-          contactCta.style.backgroundRepeat = 'no-repeat';
-        }
-      }
+      applyBg(document.querySelector('.contact-cta-banner'), bgData.contactCta);
     }
 
     // 12. FAQ Top Guidance Banner (faqs.html)
     if (bgData.faqsHero) {
-      const faqsBanner = document.querySelector('.faqs-hero-banner');
-      if (faqsBanner) {
-        const resolved = resolveBg(bgData.faqsHero);
-        if (resolved) {
-          faqsBanner.style.backgroundImage = `linear-gradient(rgba(10, 10, 10, 0.82), rgba(10, 10, 10, 0.92)), url('${resolved}')`;
-          faqsBanner.style.backgroundSize = 'cover';
-          faqsBanner.style.backgroundPosition = 'center center';
-          faqsBanner.style.backgroundRepeat = 'no-repeat';
-        }
-      }
+      applyBg(document.querySelector('.faqs-hero-banner'), bgData.faqsHero, 'linear-gradient(rgba(10, 10, 10, 0.82), rgba(10, 10, 10, 0.92))');
     }
   } catch (err) {
     console.warn('Dynamic background styling error:', err);
@@ -449,7 +380,23 @@ async function loadHomePageData() {
   if (homeData.hero) {
     const heroTitle = document.querySelector('.hero-title');
     if (heroTitle && homeData.hero.headline) {
-      heroTitle.innerHTML = sanitizeHTML(homeData.hero.headline);
+      let hl = homeData.hero.headline;
+      if (!hl.includes('<span') && !hl.includes('<br>')) {
+        if (/Car & Bike Rentals/i.test(hl)) {
+          hl = hl.replace(/Car & Bike Rentals/i, '<span class="text-yellow">Car &amp; Bike Rentals</span>')
+                 .replace(/Journey/i, '<span class="text-yellow">Journey</span>');
+          if (hl.includes('in Kandy') && !hl.includes('<br>')) {
+            hl = hl.replace(/in Kandy\s+/i, 'in Kandy <br>');
+          }
+        } else {
+          hl = hl.replace(/Start/i, '<span class="text-yellow">Start</span>')
+                 .replace(/Destination/i, '<span class="text-yellow">Destination</span>');
+          if (hl.includes('Your Dream') && !hl.includes('<br>')) {
+            hl = hl.replace(/Your Dream\s+/i, 'Your Dream <br>');
+          }
+        }
+      }
+      heroTitle.innerHTML = sanitizeHTML(hl);
     }
 
     const heroDesc = document.querySelector('.hero-desc');
@@ -462,7 +409,9 @@ async function loadHomePageData() {
       if (heroSec) {
         const cleanBg = sanitizeCSSUrl(homeData.hero.bgImage);
         if (cleanBg) {
-          heroSec.style.background = `linear-gradient(180deg, rgba(7, 7, 10, 0.25) 0%, rgba(7, 7, 10, 0.65) 100%), url('${cleanBg}') center center / cover no-repeat`;
+          heroSec.style.backgroundImage = `linear-gradient(180deg, rgba(7, 7, 10, 0.25) 0%, rgba(7, 7, 10, 0.65) 100%), url('${cleanBg}')`;
+          heroSec.style.backgroundRepeat = 'no-repeat';
+          if (!heroSec.style.backgroundSize) heroSec.style.backgroundSize = 'cover';
         }
       }
     }
@@ -1037,6 +986,12 @@ function initFleetCarousel() {
     updateSlider();
   });
 
+  // Pause fleet carousel when tab is backgrounded to save mobile battery (B2)
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) stopTimer();
+    else startTimer();
+  });
+
   createDots();
   updateSlider();
   startTimer();
@@ -1226,7 +1181,7 @@ function initWhyCarousel() {
 
   function getVisibleItemsCount() {
     const width = window.innerWidth;
-    if (width <= 520) return 1;
+    if (width <= 768) return 1;
     if (width <= 800) return 2;
     if (width <= 1100) return 3;
     return 4;
@@ -1354,6 +1309,32 @@ function initWhyCarousel() {
   startAutoSlide();
 }
 
+// Tap-to-interact helper for mobile Google Map iframes (A4 & B3)
+function initTapToInteractMaps() {
+  const mapWrappers = document.querySelectorAll('.footer-map-wrap, .contact-map');
+  if (mapWrappers.length === 0) return;
+
+  mapWrappers.forEach(wrap => {
+    wrap.addEventListener('click', (e) => {
+      mapWrappers.forEach(w => { if (w !== wrap) w.classList.remove('map-interactive'); });
+      wrap.classList.add('map-interactive');
+      e.stopPropagation();
+    });
+  });
+
+  document.addEventListener('click', (e) => {
+    mapWrappers.forEach(wrap => {
+      if (!wrap.contains(e.target)) {
+        wrap.classList.remove('map-interactive');
+      }
+    });
+  });
+
+  window.addEventListener('scroll', () => {
+    mapWrappers.forEach(wrap => wrap.classList.remove('map-interactive'));
+  }, { passive: true });
+}
+
 // AUTO-SWAP CUSTOMER GALLERY
 async function initCustomerGallerySwap() {
   const imgMain = document.getElementById('aboutImgMain');
@@ -1374,6 +1355,27 @@ async function initCustomerGallerySwap() {
   let currentIndex = 0;
   let galleryTimer = null;
 
+  // Helper: auto-adjust object-position based on image aspect ratio
+  function applySmartImageFit(img) {
+    if (!img) return;
+    const adjust = () => {
+      if (!img.naturalWidth || !img.naturalHeight) return;
+      const aspect = img.naturalWidth / img.naturalHeight;
+      // Portrait / vertical mobile photo (< 0.9 aspect): focus on upper 15% to preserve heads & smiles
+      if (aspect < 0.9) {
+        img.style.objectPosition = 'center 15%';
+      } else if (aspect < 1.15) {
+        // Square photo: center 20%
+        img.style.objectPosition = 'center 20%';
+      } else {
+        // Landscape photo: center 25%
+        img.style.objectPosition = 'center 25%';
+      }
+    };
+    if (img.complete && img.naturalWidth) adjust();
+    else img.addEventListener('load', adjust, { once: true });
+  }
+
   function updateGalleryDisplay() {
     const itemMain = items[currentIndex % items.length];
     const itemOverlay = items[(currentIndex + 1) % items.length];
@@ -1384,16 +1386,22 @@ async function initCustomerGallerySwap() {
     setTimeout(() => {
       if (itemMain && itemMain.image) {
         imgMain.src = itemMain.image;
+        applySmartImageFit(imgMain);
         if (captionText) captionText.textContent = itemMain.caption || "Verified Customer Photo";
       }
       if (itemOverlay && itemOverlay.image) {
         imgOverlay.src = itemOverlay.image;
+        applySmartImageFit(imgOverlay);
       }
 
       imgMain.classList.remove('about-img-fade');
       imgOverlay.classList.remove('about-img-fade');
     }, 450);
   }
+
+  // Initial fit adjustment
+  applySmartImageFit(imgMain);
+  applySmartImageFit(imgOverlay);
 
   function startGalleryTimer() {
     if (items.length > 1 && !galleryTimer) {

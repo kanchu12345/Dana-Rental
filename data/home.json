@@ -1,7 +1,7 @@
 {
   "hero": {
-    "headline": "Start Your Journey to Your Dream Destination Here.",
-    "subline": "Rent a car, scooter, or van in Kandy & Peradeniya with 200 free kilometers per day, full insurance, and 24/7 on-road support.",
+    "headline": "Car & Bike Rentals in Kandy & Peradeniya",
+    "subline": "Start your journey to the destination you've always dreamed of with self drive, with driver and AA Ceylon driving permits. Rent a car, scooter, or van in Kandy & Peradeniya with 200 free kilometers per day, full insurance, and 24/7 roadside assistance.",
     "bgImage": "./assets/images/hero/sigiriya.jpg"
   },
   "stats": [
@@ -12,8 +12,8 @@
   ],
   "whyChooseUs": {
     "tag": "PREMIUM MOBILITY SERVICE",
-    "title": "WHY RENT WITH DANAN RENTALS",
-    "subtitle": "The most trusted self-drive rental provider in Kandy, Sri Lanka",
+    "title": "WHY CHOOSE DANAN RENTALS IN KANDY & PERADENIYA",
+    "subtitle": "The most trusted self drive car Kandy and bike/scooter rental Peradeniya provider in Sri Lanka",
     "items": [
       {
         "icon": "fa-tachometer-alt",
@@ -28,7 +28,7 @@
       {
         "icon": "fa-id-card",
         "title": "Easy Documentation",
-        "description": "Hassle-free process for foreign tourists & local drivers. Passport/ID and valid driving permit required."
+        "description": "Hassle-free process for foreign tourists & local drivers. We assist with AA Ceylon driving permits and IDP endorsements."
       },
       {
         "icon": "fa-headset",
@@ -38,8 +38,8 @@
     ]
   },
   "mission": {
-    "title": "Our Mission & Heritage",
-    "description": "Danan Rentals was founded on a simple vision: securing road-legal driving permits and renting clean, reliable vehicles in Sri Lanka should be fast and transparent. Today we connect international and local travelers with verified AA Ceylon permits, premium fleets, and punctual private transfers.",
+    "title": "Our Mission & Heritage in Kandy",
+    "description": "Danan Rentals was founded on a simple vision: securing road-legal driving permits (including official AA Ceylon driving permits) and renting clean, reliable self drive cars and scooters in Kandy & Peradeniya should be fast and transparent. Today we connect international and local travelers with verified AA Ceylon permits, premium fleets, and punctual private transfers.",
     "mainImage": "./assets/images/about/pexels-pixabay-271618.jpg",
     "overlayImage": "./assets/images/about/pexels-rpnickson-2417842.jpg"
   },
@@ -72,7 +72,7 @@
   "experience": {
     "title": "EXPERIENCE <span class=\"text-yellow\">SRI LANKA</span><br>WITH TOTAL<br>INDEPENDENCE",
     "description": "Go from airport arrival to taking the wheel in record time — vehicle prepped, official permits confirmed, and the open road awaiting. From golden southern palm beaches to the mists of Kandy highlands, experience paradise on your own schedule.",
-    "videoMode": "inline",
+    "videoMode": "facade",
     "card1": {
       "image": "./assets/images/about/pexels-malindabandaralk-16508228.jpg",
       "videoUrl": "https://www.youtube.com/watch?v=5PyX0KZ8KR8"
@@ -80,11 +80,6 @@
     "card2": {
       "image": "./assets/images/about/607105091.jpg",
       "videoUrl": "https://www.youtube.com/watch?v=l2rSbdjSpn4"
-    },
-    "card3": {
-      "image": "./assets/images/about/766476498.jpg",
-      "videoUrl": "https://www.youtube.com/watch?v=5PyX0KZ8KR8"
     }
   }
 }
-

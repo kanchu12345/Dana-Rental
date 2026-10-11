@@ -3,21 +3,26 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Danan Car & Bike Rentals | Your Journey, Your Choice</title>
-  <meta name="description" content="Danan Car & Bike Rentals Kandy & Peradeniya. Your Journey, Your Choice. Fully insured cars, scooters, vans & AA Ceylon driving permits with 24/7 support.">
-  <meta name="keywords" content="car rental Kandy, bike rental Peradeniya, rent a car Kandy, scooter rental Sri Lanka, Danan rentals, Your Journey Your Choice">
+  <title>Car &amp; Bike Rentals Kandy &amp; Peradeniya | Danan Rentals</title>
+  <meta name="description" content="Rent self-drive cars, scooters &amp; vans in Kandy &amp; Peradeniya with Danan Rentals. Enjoy 200 free km/day, AA Ceylon permits, full insurance &amp; 24/7 support. Book now!">
+  <meta name="author" content="Danan Car &amp; Bike Rentals">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+
+  <!-- Google Search Console Verification -->
+  <meta name="google-site-verification" content="GSC_VERIFICATION_TOKEN_HERE">
 
   <!-- Canonical & Social Meta -->
-  <link rel="canonical" href="https://kanchu12345.github.io/Dana-Rental/index.html">
-  <meta property="og:title" content="Danan Car & Bike Rentals - Your Journey, Your Choice">
-  <meta property="og:description" content="Your Journey, Your Choice. Rent cars, scooters & vans in Kandy & Peradeniya. Affordable daily rates, 200 free km per day, full tank provided.">
-  <meta property="og:url" content="https://kanchu12345.github.io/Dana-Rental/index.html">
-  <meta property="og:image" content="https://kanchu12345.github.io/Dana-Rental/assets/images/hero/sigiriya.jpg">
+  <link rel="canonical" href="https://danacarbikes.com/">
+  <meta property="og:title" content="Car &amp; Bike Rentals Kandy &amp; Peradeniya | Danan Rentals">
+  <meta property="og:description" content="Rent self-drive cars, scooters &amp; vans in Kandy &amp; Peradeniya with Danan Rentals. Enjoy 200 free km/day, AA Ceylon permits, full insurance &amp; 24/7 support. Book now!">
+  <meta property="og:url" content="https://danacarbikes.com/">
+  <meta property="og:image" content="https://danacarbikes.com/assets/images/hero/sigiriya.jpg">
   <meta property="og:type" content="website">
+  <meta property="og:locale" content="en_US">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Danan Car & Bike Rentals - Your Journey, Your Choice">
-  <meta name="twitter:description" content="Your Journey, Your Choice. Rent cars, scooters & vans in Kandy & Peradeniya. Affordable daily rates, 200 free km per day, full tank provided.">
-  <meta name="twitter:image" content="https://kanchu12345.github.io/Dana-Rental/assets/images/hero/sigiriya.jpg">
+  <meta name="twitter:title" content="Car &amp; Bike Rentals Kandy &amp; Peradeniya | Danan Rentals">
+  <meta name="twitter:description" content="Rent self-drive cars, scooters &amp; vans in Kandy &amp; Peradeniya with Danan Rentals. Enjoy 200 free km/day, AA Ceylon permits, full insurance &amp; 24/7 support. Book now!">
+  <meta name="twitter:image" content="https://danacarbikes.com/assets/images/hero/sigiriya.jpg">
 
   <!-- Favicon & PWA -->
   <link rel="icon" href="./assets/images/logo/logo.png" type="image/jpeg">
@@ -27,35 +32,83 @@
   <!-- Fonts & Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link rel="preload" as="image" href="./assets/images/hero/hero-bg.jpeg" fetchpriority="high">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&amp;family=Open+Sans:wght@400;600;700&amp;display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
   <!-- Main Stylesheet -->
-  <link rel="stylesheet" href="./css/style.css">
+  <link rel="stylesheet" href="./css/style.css?v=3.5">
 
-  <!-- LocalBusiness Structured Data JSON-LD -->
+  <!-- AutoRental Structured Data JSON-LD -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "AutoRental",
+    "@id": "https://danacarbikes.com/#autorental",
     "name": "Danan Car & Bike Rentals",
-    "image": "./assets/images/logo/logo.png",
-    "telephone": ["+94772013059", "+94712832221"],
+    "alternateName": "Danan Rentals Kandy",
+    "description": "Premium self-drive and chauffeur-driven car, scooter, and passenger van rental service in Kandy and Peradeniya, Sri Lanka. Offering 200 free km per day, AA Ceylon driving permits, and 24/7 roadside assistance.",
+    "url": "https://danacarbikes.com/",
+    "logo": "https://danacarbikes.com/assets/images/logo/logo.png",
+    "image": [
+      "https://danacarbikes.com/assets/images/hero/sigiriya.jpg",
+      "https://danacarbikes.com/assets/images/logo/logo.png"
+    ],
+    "telephone": [
+      "+94772013059",
+      "+94712832221"
+    ],
+    "email": "dananrentals@gmail.com",
+    "priceRange": "LKR 3000 - 20000",
+    "currenciesAccepted": "LKR, USD, EUR, GBP",
+    "paymentAccepted": "Cash, Bank Transfer",
     "address": {
       "@type": "PostalAddress",
+      "streetAddress": "Peradeniya Road",
       "addressLocality": "Peradeniya",
-      "addressRegion": "Kandy",
+      "addressRegion": "Central Province",
+      "postalCode": "20400",
       "addressCountry": "LK"
     },
-    "url": "https://dananrentals.github.io/",
-    "priceRange": "Rs. 3,000 - Rs. 20,000",
-    "openingHoursSpecification": {
-      "@type": "OpeningHoursSpecification",
-      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
-      "opens": "00:00",
-      "closes": "23:59"
-    }
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": 7.2608,
+      "longitude": 80.5968
+      /* TODO: Verify exact GPS latitude and longitude of Danan Car & Bike Rentals shop in Peradeniya/Kandy */
+    },
+    "hasMap": "https://share.google/ICElyHmWpDjeHQLOY",
+    "sameAs": [
+      /* TODO: Replace with official Danan Rentals Facebook Page URL (e.g. https://www.facebook.com/your-business-page) */
+      "https://www.facebook.com/TODO_REPLACE_WITH_REAL_FACEBOOK_PAGE",
+      /* TODO: Replace with official TripAdvisor listing URL */
+      "https://www.tripadvisor.com/TODO_REPLACE_WITH_REAL_TRIPADVISOR_URL",
+      /* TODO: Replace with official Google Maps / Google Business Profile URL */
+      "https://share.google/ICElyHmWpDjeHQLOY"
+    ],
+    "openingHoursSpecification": [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+        "opens": "00:00",
+        "closes": "23:59"
+      }
+    ],
+    "areaServed": [
+      {
+        "@type": "City",
+        "name": "Kandy"
+      },
+      {
+        "@type": "City",
+        "name": "Peradeniya"
+      },
+      {
+        "@type": "Country",
+        "name": "Sri Lanka"
+      }
+    ]
   }
   </script>
 </head>
@@ -63,13 +116,13 @@
 
   <!-- ═══ NAVBAR ═══ -->
   <nav id="navbar">
-    <a href="index.html" class="nav-logo">
-      <img src="./assets/images/logo/logo.png" alt="Danan Logo">
+    <a href="/" class="nav-logo">
+      <img src="./assets/images/logo/logo.png" alt="Danan Car &amp; Bike Rentals Logo">
       <div class="nav-brand-title">DANAN <span>RENTALS</span></div>
     </a>
 
     <ul class="nav-links">
-      <li><a href="index.html" class="active">HOME</a></li>
+      <li><a href="/" class="active">HOME</a></li>
       <li><a href="vehicles.html">OUR FLEET</a></li>
       <li><a href="bookings.html">BOOKINGS</a></li>
       <li><a href="destinations.html">DESTINATIONS</a></li>
@@ -90,13 +143,13 @@
   <div class="mobile-menu" id="mobileMenu">
     <div class="mobile-menu-header">
       <div class="nav-logo">
-        <img src="./assets/images/logo/logo.png" alt="Danan Logo">
+        <img src="./assets/images/logo/logo.png" alt="Danan Car &amp; Bike Rentals Logo">
         <div class="nav-brand-title">DANAN <span>RENTALS</span></div>
       </div>
       <div class="mobile-close" id="menuClose">&#10005;</div>
     </div>
     <ul class="mobile-links">
-      <li><a href="index.html" class="active">HOME</a></li>
+      <li><a href="/" class="active">HOME</a></li>
       <li><a href="vehicles.html">OUR FLEET</a></li>
       <li><a href="bookings.html">BOOKINGS</a></li>
       <li><a href="destinations.html">DESTINATIONS</a></li>
@@ -110,13 +163,10 @@
     <!-- ═══ HERO SECTION (SIGIRIYA BACKGROUND) ═══ -->
     <section class="hero">
       <div class="hero-body reveal">
-        <h1 class="hero-title">
-          <span class="text-yellow">Start</span> Your Journey to Your Dream <br>
-          <span class="text-yellow">Destination</span> Here.
-        </h1>
+        <h1 class="hero-title">Car &amp; Bike Rentals in Kandy &amp; Peradeniya</h1>
         
         <p class="hero-desc">
-          Start your journey to the destination you've always dreamed of. Discover stunning locations, plan with ease, and create memories that last a lifetime. Whether it's a relaxing escape or an exciting adventure, your perfect getaway begins right here.
+          Start your journey to the destination you've always dreamed of with self drive, with driver and AA Ceylon driving permits. Rent a car, scooter, or van in Kandy &amp; Peradeniya with 200 free kilometers per day, full insurance, and 24/7 roadside assistance.
         </p>
         
         <div class="hero-tabs">
@@ -146,12 +196,12 @@
 
           <div class="search-group">
             <label class="search-label">PICKUP DATE</label>
-            <input type="text" class="search-input" id="home-startdate" value="2026-10-05" readonly>
+            <input type="text" class="search-input" id="home-startdate" readonly>
           </div>
 
           <div class="search-group">
             <label class="search-label">RETURN DATE</label>
-            <input type="text" class="search-input" id="home-enddate" value="2026-10-06" readonly>
+            <input type="text" class="search-input" id="home-enddate" readonly>
           </div>
 
           <div class="search-group">
@@ -181,7 +231,7 @@
       <div class="container">
         <div style="text-align: center; margin-bottom: 40px;" class="reveal">
           <span class="text-yellow" style="font-weight: 900; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1.5px;">Our Verified Fleet</span>
-          <h2 style="font-size: 2.5rem; margin-top: 6px;">FEATURED RENTAL VEHICLES</h2>
+          <h2 style="font-size: 2.5rem; margin-top: 6px;">Featured Self Drive Car &amp; Scooter Fleet in Kandy</h2>
         </div>
 
         <div class="fleet-carousel-wrapper">
@@ -192,9 +242,9 @@
           <div class="fleet-viewport">
             <div class="cards-grid fleet-track" id="featuredVehiclesGrid">
               <!-- 1. Honda Dio 110cc -->
-              <a href="https://wa.me/94772013059?text=Hello%20Danan%20Rentals,%20I%20want%20to%20book%20the%20Honda%20Dio%20110cc" target="_blank" class="rc reveal visible in">
+              <a href="https://wa.me/94772013059?text=Hello%20Danan%20Rentals,%20I%20want%20to%20book%20the%20Honda%20Dio%20110cc" target="_blank" rel="noopener" class="rc reveal visible in">
                 <div class="rc-img">
-                  <img src="./assets/images/vehicles/vector-dio.png" alt="Honda Dio 110cc (2025)" loading="lazy">
+                  <img src="./assets/images/vehicles/vector-dio.png" alt="Honda Dio 110cc scooter for rent in Kandy" loading="lazy" decoding="async" width="480" height="300">
                   <div class="rc-badge">AVAILABLE</div>
                   <button class="rc-wishlist" onclick="event.preventDefault();" aria-label="Add to wishlist">
                     <i class="fa-regular fa-heart"></i>
@@ -220,9 +270,9 @@
               </a>
 
               <!-- 2. TVS Ntorq 125cc -->
-              <a href="https://wa.me/94772013059?text=Hello%20Danan%20Rentals,%20I%20want%20to%20book%20the%20TVS%20Ntorq%20125cc" target="_blank" class="rc reveal visible in">
+              <a href="https://wa.me/94772013059?text=Hello%20Danan%20Rentals,%20I%20want%20to%20book%20the%20TVS%20Ntorq%20125cc" target="_blank" rel="noopener" class="rc reveal visible in">
                 <div class="rc-img">
-                  <img src="./assets/images/vehicles/vector-ntorq.png" alt="TVS Ntorq 125cc" loading="lazy">
+                  <img src="./assets/images/vehicles/vector-ntorq.png" alt="TVS Ntorq 125cc scooter for rent in Kandy Sri Lanka" loading="lazy" decoding="async" width="480" height="300">
                   <div class="rc-badge">AVAILABLE</div>
                   <button class="rc-wishlist" onclick="event.preventDefault();" aria-label="Add to wishlist">
                     <i class="fa-regular fa-heart"></i>
@@ -248,9 +298,9 @@
               </a>
 
               <!-- 3. Indian Alto 2014 -->
-              <a href="https://wa.me/94772013059?text=Hello%20Danan%20Rentals,%20I%20want%20to%20book%20the%20Indian%20Alto%202014" target="_blank" class="rc reveal visible in">
+              <a href="https://wa.me/94772013059?text=Hello%20Danan%20Rentals,%20I%20want%20to%20book%20the%20Indian%20Alto%202014" target="_blank" rel="noopener" class="rc reveal visible in">
                 <div class="rc-img">
-                  <img src="./assets/images/vehicles/vector-alto-indian.png" alt="Indian Alto 2014" loading="lazy">
+                  <img src="./assets/images/vehicles/vector-alto-indian.png" alt="Suzuki Maruti Alto 800 manual car for rent in Kandy" loading="lazy" decoding="async" width="480" height="300">
                   <div class="rc-badge">AVAILABLE</div>
                   <button class="rc-wishlist" onclick="event.preventDefault();" aria-label="Add to wishlist">
                     <i class="fa-regular fa-heart"></i>
@@ -276,9 +326,9 @@
               </a>
 
               <!-- 4. Japan Alto Auto -->
-              <a href="https://wa.me/94772013059?text=Hello%20Danan%20Rentals,%20I%20want%20to%20book%20the%20Japan%20Alto%20Auto" target="_blank" class="rc reveal visible in">
+              <a href="https://wa.me/94772013059?text=Hello%20Danan%20Rentals,%20I%20want%20to%20book%20the%20Japan%20Alto%20Auto" target="_blank" rel="noopener" class="rc reveal visible in">
                 <div class="rc-img">
-                  <img src="./assets/images/vehicles/vector-alto-japan.png" alt="Japan Alto Auto" loading="lazy">
+                  <img src="./assets/images/vehicles/vector-alto-japan.png" alt="Suzuki Alto Japanese automatic car for rent in Kandy" loading="lazy" decoding="async" width="480" height="300">
                   <div class="rc-badge">AVAILABLE</div>
                   <button class="rc-wishlist" onclick="event.preventDefault();" aria-label="Add to wishlist">
                     <i class="fa-regular fa-heart"></i>
@@ -304,9 +354,9 @@
               </a>
 
               <!-- 5. Suzuki Every Van Buddy – Auto -->
-              <a href="https://wa.me/94772013059?text=Hello%20Danan%20Rentals,%20I%20want%20to%20book%20the%20Suzuki%20Every%20Van%20Buddy%20Auto" target="_blank" class="rc reveal visible in">
+              <a href="https://wa.me/94772013059?text=Hello%20Danan%20Rentals,%20I%20want%20to%20book%20the%20Suzuki%20Every%20Van%20Buddy%20Auto" target="_blank" rel="noopener" class="rc reveal visible in">
                 <div class="rc-img">
-                  <img src="./assets/images/vehicles/vector-every-van.png" alt="Suzuki Every Van Buddy – Auto" loading="lazy">
+                  <img src="./assets/images/vehicles/vector-every-van.png" alt="Suzuki Every Buddy automatic passenger van for rent in Kandy" loading="lazy" decoding="async" width="480" height="300">
                   <div class="rc-badge">AVAILABLE</div>
                   <button class="rc-wishlist" onclick="event.preventDefault();" aria-label="Add to wishlist">
                     <i class="fa-regular fa-heart"></i>
@@ -332,9 +382,9 @@
               </a>
 
               <!-- 6. Suzuki Wagon R -->
-              <a href="https://wa.me/94772013059?text=Hello%20Danan%20Rentals,%20I%20want%20to%20book%20the%20Suzuki%20Wagon%20R" target="_blank" class="rc reveal visible in">
+              <a href="https://wa.me/94772013059?text=Hello%20Danan%20Rentals,%20I%20want%20to%20book%20the%20Suzuki%20Wagon%20R" target="_blank" rel="noopener" class="rc reveal visible in">
                 <div class="rc-img">
-                  <img src="./assets/images/vehicles/vector-wagon-r.png" alt="Suzuki Wagon R" loading="lazy">
+                  <img src="./assets/images/vehicles/vector-wagon-r.png" alt="Suzuki Wagon R Hybrid automatic car for rent in Kandy" loading="lazy" decoding="async" width="480" height="300">
                   <div class="rc-badge">AVAILABLE</div>
                   <button class="rc-wishlist" onclick="event.preventDefault();" aria-label="Add to wishlist">
                     <i class="fa-regular fa-heart"></i>
@@ -393,12 +443,12 @@
             <div class="ss-sep"></div>
             <div class="ss-pill">
               <span class="ss-pill-lbl">PICKUP DATE</span>
-              <span class="ss-pill-val" id="disp-pickup">2026-10-05</span>
+              <span class="ss-pill-val" id="disp-pickup">--</span>
             </div>
             <div class="ss-sep"></div>
             <div class="ss-pill">
               <span class="ss-pill-lbl">RETURN DATE</span>
-              <span class="ss-pill-val" id="disp-return">2026-10-06</span>
+              <span class="ss-pill-val" id="disp-return">--</span>
             </div>
             <div class="ss-sep"></div>
             <button class="ss-submit" id="btnStickySearch">INQUIRE</button>
@@ -410,8 +460,8 @@
     <!-- ═══ WHY CHOOSE US WITH MOUNTAIN FOREST BACKGROUND ═══ -->
     <div class="why-about-wrapper">
       <section class="why reveal">
-        <h2>WHY EXPLORERS TRUST DANAN RENTALS?</h2>
-        <p class="why-sub">We handle your official driving permits and vehicle setup seamlessly — so your journey begins the moment you arrive, free from paperwork stress.</p>
+        <h2>Why Choose Danan Car &amp; Bike Rentals in Kandy &amp; Peradeniya</h2>
+        <p class="why-sub">We handle your official AA Ceylon driving permits and vehicle setup seamlessly — so your self drive car Kandy or bike/scooter rental Peradeniya journey begins the moment you arrive, free from paperwork stress.</p>
         
         <div class="why-slider-wrapper">
           <button class="why-nav-btn prev" id="whyPrevBtn" aria-label="Previous cards"><i class="fa-solid fa-chevron-left"></i></button>
@@ -421,15 +471,15 @@
               <!-- Card 1 -->
               <div class="why-item">
                 <div class="why-icon-box"><i class="fa-solid fa-trophy"></i></div>
-                <h4>Proven & Award-Winning</h4>
-                <p>Rated 5.0 on Tripadvisor and recognized as a Travelers' Choice winner in 2024 & 2025.</p>
+                <h4>Proven &amp; Award-Winning</h4>
+                <p>Rated 5.0 on Tripadvisor and recognized as a Travelers' Choice winner in 2024 &amp; 2025.</p>
               </div>
 
               <!-- Card 2 -->
               <div class="why-item">
                 <div class="why-icon-box"><i class="fa-solid fa-bolt"></i></div>
                 <h4>Express Permit Delivery</h4>
-                <p>Official AA Ceylon driving permits processed & delivered islandwide in as little as 24 hours.</p>
+                <p>Official AA Ceylon driving permits processed &amp; delivered islandwide in as little as 24 hours.</p>
               </div>
 
               <!-- Card 3 -->
@@ -463,7 +513,7 @@
               <!-- Card 7 -->
               <div class="why-item">
                 <div class="why-icon-box"><i class="fa-solid fa-sparkles"></i></div>
-                <h4>Pristine & Sanitized</h4>
+                <h4>Pristine &amp; Sanitized</h4>
                 <p>Rigorous safety checks, full service, and deep sanitization performed before every delivery.</p>
               </div>
 
@@ -484,7 +534,7 @@
               <!-- Card 10 -->
               <div class="why-item">
                 <div class="why-icon-box"><i class="fa-solid fa-compass"></i></div>
-                <h4>Free Route Advice & Tips</h4>
+                <h4>Free Route Advice &amp; Tips</h4>
                 <p>Complimentary Sri Lanka road route tips and recommended scenic driving paths from locals.</p>
               </div>
 
@@ -514,14 +564,14 @@
       <section class="about" id="about">
         <div class="about-row reveal">
           <div class="about-text-col">
-            <h3>Why Drivers Choose Our Fleet?</h3>
-            <p>Because we meticulously manage every detail. We secure your official driving permits, rigorously inspect every vehicle, and support you with a dedicated local team. Whether you're chasing waves in Mirissa, exploring misty tea trails in Ella, or discovering heritage in Kandy — we make getting there effortless.</p>
+            <h3>Why Drivers Choose Our Fleet in Kandy &amp; Peradeniya?</h3>
+            <p>Because we meticulously manage every detail of your car rental Kandy and bike/scooter rental Peradeniya experience. We secure your official AA Ceylon driving permits, rigorously inspect every self drive vehicle, and support you with a dedicated 24/7 local team. Whether you're chasing waves in Mirissa, exploring misty tea trails in Ella, or discovering heritage in Kandy — we make getting there effortless.</p>
             <a href="#rentals" class="btn-readmore">Explore Rentals</a>
           </div>
           <div class="about-img-col" id="customerGalleryCol">
-            <img class="about-img-main" id="aboutImgMain" src="./assets/images/customers/customer-1.jpeg" alt="Customer Photo" loading="lazy" decoding="async">
+            <img class="about-img-main" id="aboutImgMain" src="./assets/images/customers/customer-1.jpeg" alt="Happy tourists with rental scooter in Kandy Sri Lanka" loading="lazy" decoding="async" width="500" height="350">
             <div class="about-overlay">
-              <img id="aboutImgOverlay" src="./assets/images/customers/customer-2.jpeg" alt="Customer Photo Overlay" loading="lazy" decoding="async">
+              <img id="aboutImgOverlay" src="./assets/images/customers/customer-2.jpeg" alt="Travelers exploring Sri Lanka with Danan Car &amp; Bike Rentals" loading="lazy" decoding="async" width="300" height="220">
             </div>
             <div class="gallery-caption-badge" id="galleryCaptionBadge" style="position: absolute; top: 14px; right: 14px; background: rgba(0,0,0,0.75); color: var(--yellow); padding: 6px 14px; border-radius: 20px; font-size: 0.78rem; font-weight: 700; backdrop-filter: blur(4px); border: 1px solid rgba(255,255,255,0.15); display: flex; align-items: center; gap: 6px; z-index: 5;">
               <i class="fa-solid fa-camera"></i> <span id="galleryCaptionText">Verified Customer</span>
@@ -531,14 +581,14 @@
 
         <div class="about-row reveal" style="padding-top: 60px;">
           <div class="about-img-col">
-            <img class="about-img-main" id="missionImgMain" src="./assets/images/about/pexels-pixabay-271618.jpg" alt="Road Trip" loading="lazy" decoding="async">
+            <img class="about-img-main" id="missionImgMain" src="./assets/images/about/pexels-pixabay-271618.jpg" alt="Scenic highway road trip route in Central Province Sri Lanka" loading="lazy" decoding="async" width="500" height="350">
             <div class="about-overlay" style="left: auto; right: -30px;">
-              <img id="missionImgOverlay" src="./assets/images/about/pexels-rpnickson-2417842.jpg" alt="Car Interior" loading="lazy" decoding="async">
+              <img id="missionImgOverlay" src="./assets/images/about/pexels-rpnickson-2417842.jpg" alt="Clean and comfortable interior of self drive rental car in Kandy" loading="lazy" decoding="async" width="300" height="220">
             </div>
           </div>
           <div class="about-text-col">
-            <h3 id="missionTitle">Our Mission & Heritage</h3>
-            <p id="missionDesc">Danan Rentals was founded on a simple vision: securing road-legal driving permits and renting clean, reliable vehicles in Sri Lanka should be fast and transparent. Today we connect international and local travelers with verified AA Ceylon permits, premium fleets, and punctual private transfers.</p>
+            <h3 id="missionTitle">Our Mission &amp; Heritage in Kandy</h3>
+            <p id="missionDesc">Danan Rentals was founded on a simple vision: securing road-legal driving permits (including official AA Ceylon driving permits) and renting clean, reliable self drive cars and scooters in Kandy &amp; Peradeniya should be fast and transparent. Today we connect international and local travelers with verified AA Ceylon permits, premium fleets, and punctual private transfers.</p>
             <a href="#contact" class="btn-readmore">Read More</a>
           </div>
         </div>
@@ -548,7 +598,7 @@
     <!-- ═══ 4-STEP GALLERY STRIP ═══ -->
     <div class="gallery" id="how-it-works">
       <div class="gallery-strip reveal delay-1">
-        <img src="./assets/images/about/pexels-thilina-alagiyawanna-3266092-31039336.jpg" alt="Step 1" loading="lazy" decoding="async">
+        <img src="./assets/images/about/pexels-thilina-alagiyawanna-3266092-31039336.jpg" alt="Step 1 Apply online for car rental or bike hire in Kandy" loading="lazy" decoding="async" width="400" height="280">
         <div class="gallery-info">
           <div class="gallery-num">01</div>
           <div>
@@ -559,7 +609,7 @@
       </div>
 
       <div class="gallery-strip reveal delay-2">
-        <img src="./assets/images/about/pexels-thilina-alagiyawanna-3266092-31039339.jpg" alt="Step 2" loading="lazy" decoding="async">
+        <img src="./assets/images/about/pexels-thilina-alagiyawanna-3266092-31039339.jpg" alt="Step 2 Fast AA Ceylon driving permit verification" loading="lazy" decoding="async" width="400" height="280">
         <div class="gallery-info">
           <div class="gallery-num">02</div>
           <div>
@@ -570,7 +620,7 @@
       </div>
 
       <div class="gallery-strip reveal delay-3">
-        <img src="./assets/images/about/pexels-thilina-alagiyawanna-3266092-34861066.jpg" alt="Step 3" loading="lazy" decoding="async">
+        <img src="./assets/images/about/pexels-thilina-alagiyawanna-3266092-34861066.jpg" alt="Step 3 Start self drive journey from Kandy to any destination" loading="lazy" decoding="async" width="400" height="280">
         <div class="gallery-info">
           <div class="gallery-num">03</div>
           <div>
@@ -581,7 +631,7 @@
       </div>
 
       <div class="gallery-strip reveal delay-4">
-        <img src="./assets/images/about/pexels-thilina-alagiyawanna-3266092-34861077.jpg" alt="Step 4" loading="lazy" decoding="async">
+        <img src="./assets/images/about/pexels-thilina-alagiyawanna-3266092-34861077.jpg" alt="Step 4 Convenient vehicle pickup at Kandy Railway Station or hotel" loading="lazy" decoding="async" width="400" height="280">
         <div class="gallery-info">
           <div class="gallery-num">04</div>
           <div>
@@ -600,37 +650,16 @@
       </div>
 
       <div class="discover-imgs reveal">
-        <div class="disc-img disc-img-wide" id="discCard1" data-video="5PyX0KZ8KR8">
-          <iframe class="disc-video-iframe" 
-            src="https://www.youtube.com/embed/5PyX0KZ8KR8?autoplay=1&mute=1&loop=1&playlist=5PyX0KZ8KR8&controls=0&modestbranding=1&rel=0&playsinline=1&enablejsapi=1" 
-            title="Sri Lanka 4K Drone Showcase" 
-            frameborder="0" 
-            allow="autoplay; encrypted-media" 
-            allowfullscreen></iframe>
+        <div class="disc-img" id="discCard1" data-video="5PyX0KZ8KR8" role="button" tabindex="0" aria-label="Watch Sri Lanka 4K Drone Showcase video">
+          <img src="https://img.youtube.com/vi/5PyX0KZ8KR8/hqdefault.jpg" alt="Sri Lanka 4K Drone Showcase self drive road trip" loading="lazy" decoding="async" width="600" height="340">
           <div class="disc-play" id="discPlay1">
-            <div class="disc-play-btn" title="Watch video with sound"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
+            <div class="disc-play-btn" title="Watch Sri Lanka 4K Drone Showcase"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
           </div>
         </div>
-        <div class="disc-img" id="discCard2" data-video="l2rSbdjSpn4">
-          <iframe class="disc-video-iframe" 
-            src="https://www.youtube.com/embed/l2rSbdjSpn4?autoplay=1&mute=1&loop=1&playlist=l2rSbdjSpn4&controls=0&modestbranding=1&rel=0&playsinline=1&enablejsapi=1" 
-            title="Sri Lanka Scenic Travel" 
-            frameborder="0" 
-            allow="autoplay; encrypted-media" 
-            allowfullscreen></iframe>
+        <div class="disc-img" id="discCard2" data-video="l2rSbdjSpn4" role="button" tabindex="0" aria-label="Watch Sri Lanka Scenic Travel video">
+          <img src="https://img.youtube.com/vi/l2rSbdjSpn4/hqdefault.jpg" alt="Sri Lanka scenic road trip highland travel" loading="lazy" decoding="async" width="600" height="340">
           <div class="disc-play" id="discPlay2">
-            <div class="disc-play-btn" title="Watch video with sound"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
-          </div>
-        </div>
-        <div class="disc-img" id="discCard3" data-video="5PyX0KZ8KR8">
-          <iframe class="disc-video-iframe" 
-            src="https://www.youtube.com/embed/5PyX0KZ8KR8?autoplay=1&mute=1&loop=1&playlist=5PyX0KZ8KR8&controls=0&modestbranding=1&rel=0&playsinline=1&enablejsapi=1" 
-            title="Sri Lanka Coast Showcase" 
-            frameborder="0" 
-            allow="autoplay; encrypted-media" 
-            allowfullscreen></iframe>
-          <div class="disc-play" id="discPlay3">
-            <div class="disc-play-btn" title="Watch video with sound"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
+            <div class="disc-play-btn" title="Watch Sri Lanka Scenic Travel"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
           </div>
         </div>
       </div>
@@ -641,12 +670,30 @@
     <!-- ═══ TESTIMONIALS & ELFSIGHT GOOGLE REVIEWS ═══ -->
     <section class="testimonials" id="reviews">
       <div class="reveal">
-        <h2>Google Reviews & <span>Testimonials</span></h2>
-        <p class="testi-sub">Live ratings and reviews from verified customers in Kandy & Peradeniya.</p>
+        <h2>Google Reviews &amp; <span>Testimonials</span></h2>
+        <p class="testi-sub">Live ratings and reviews from verified customers in Kandy &amp; Peradeniya.</p>
+      </div>
+
+      <!-- Crawlable Static Reviews Highlight for SEO -->
+      <div class="reviews-static-highlight" style="max-width: 800px; margin: 24px auto 30px; text-align: center; padding: 22px 28px; background: rgba(255,255,255,0.03); border: 1px solid var(--card-border); border-radius: 14px;">
+        <div style="display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 8px; color: var(--yellow);">
+          <i class="fa-solid fa-star"></i>
+          <i class="fa-solid fa-star"></i>
+          <i class="fa-solid fa-star"></i>
+          <i class="fa-solid fa-star"></i>
+          <i class="fa-solid fa-star"></i>
+          <span style="font-weight: 800; color: #fff; margin-left: 6px;">5.0 / 5.0 Star Rating</span>
+        </div>
+        <p style="font-size: 1.05rem; color: #fff; font-weight: 600; margin-bottom: 6px;">
+          Rated 5.0 on Tripadvisor and recognized as a Travelers' Choice winner in 2024 &amp; 2025.
+        </p>
+        <p style="font-size: 0.92rem; color: var(--text-muted); margin: 0; line-height: 1.6;">
+          Trusted by over 5,000 international and local travelers exploring Kandy, Peradeniya, Sigiriya, and Ella with verified self-drive cars, scooters, and official AA Ceylon driving permits.
+        </p>
       </div>
 
       <!-- Elfsight Live Google Reviews Widget -->
-      <div class="container" style="margin-top: 24px; min-height: 200px;">
+      <div class="container" style="min-height: 200px;">
         <script src="https://elfsightcdn.com/platform.js" async></script>
         <div class="elfsight-app-064d3b98-0ca9-49d7-afc0-e5c028b307db" data-elfsight-app-lazy></div>
       </div>
@@ -676,7 +723,7 @@
             <div class="cta-call-num"><a href="tel:0772013059">077 201 3059</a></div>
           </div>
         </div>
-        <a href="https://wa.me/94772013059?text=Hello%20Danan%20Rentals,%20I%20want%20to%20reserve%20a%20vehicle." target="_blank" class="btn-contact">WhatsApp Us</a>
+        <a href="https://wa.me/94772013059?text=Hello%20Danan%20Rentals,%20I%20want%20to%20reserve%20a%20vehicle." target="_blank" rel="noopener" class="btn-contact">WhatsApp Us</a>
       </div>
     </div>
   </main>
@@ -686,15 +733,16 @@
     <div class="footer-grid">
       <div>
         <div class="footer-logo">
-          <img src="./assets/images/logo/logo.png" alt="Danan Logo">
+          <img src="./assets/images/logo/logo.png" alt="Danan Car &amp; Bike Rentals Logo">
         </div>
         <p class="footer-addr">
-          Peradeniya & Kandy, Sri Lanka<br>
+          Peradeniya &amp; Kandy, Sri Lanka<br>
           Phone: <a href="tel:0772013059" style="color: var(--yellow);">077 201 3059</a> / <a href="tel:0712832221" style="color: var(--yellow);">071 283 2221</a><br>
           Email: dananrentals@gmail.com
         </p>
         <div class="footer-socials">
-          <a href="https://www.facebook.com/" target="_blank" rel="noopener" class="soc-icon-btn" aria-label="Facebook Page" id="footerFbLink"><i class="fa-brands fa-facebook-f"></i></a>
+          <!-- TODO: Replace with official Danan Rentals Facebook Page URL -->
+          <a href="https://www.facebook.com/TODO_REPLACE_WITH_REAL_FACEBOOK_PAGE" target="_blank" rel="noopener" class="soc-icon-btn" aria-label="Facebook Page" id="footerFbLink"><i class="fa-brands fa-facebook-f"></i></a>
           <a href="https://wa.me/94772013059" target="_blank" rel="noopener" class="soc-icon-btn" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
           <a href="tel:0772013059" class="soc-icon-btn" aria-label="Phone"><i class="fa-solid fa-phone"></i></a>
           <a href="https://share.google/ICElyHmWpDjeHQLOY" target="_blank" rel="noopener" class="soc-icon-btn" aria-label="Location"><i class="fa-solid fa-location-dot"></i></a>
@@ -704,7 +752,7 @@
       <div>
         <div class="footer-col-title">Quick Links</div>
         <ul class="footer-links">
-          <li><a href="index.html"><i class="fa-solid fa-chevron-right fa-xs"></i> Home</a></li>
+          <li><a href="/"><i class="fa-solid fa-chevron-right fa-xs"></i> Home</a></li>
           <li><a href="vehicles.html"><i class="fa-solid fa-chevron-right fa-xs"></i> Our Fleet</a></li>
           <li><a href="bookings.html"><i class="fa-solid fa-chevron-right fa-xs"></i> Bookings</a></li>
           <li><a href="destinations.html"><i class="fa-solid fa-chevron-right fa-xs"></i> Destinations</a></li>
@@ -717,7 +765,7 @@
       <div>
         <div class="footer-col-title">Support</div>
         <ul class="footer-links">
-          <li><a href="faqs.html#rules"><i class="fa-solid fa-chevron-right fa-xs"></i> Rules & Req</a></li>
+          <li><a href="faqs.html#rules"><i class="fa-solid fa-chevron-right fa-xs"></i> Rules &amp; Req</a></li>
           <li><a href="faqs.html"><i class="fa-solid fa-chevron-right fa-xs"></i> FAQs</a></li>
           <li><a href="contact.html"><i class="fa-solid fa-chevron-right fa-xs"></i> Contact Us</a></li>
         </ul>
@@ -725,7 +773,7 @@
 
       <div>
         <div class="footer-col-title">Google Map Location</div>
-        <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 10px;">Danan Car & Bike Rentals Peradeniya, Kandy</p>
+        <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 10px;">Danan Car &amp; Bike Rentals Peradeniya, Kandy</p>
         <div class="footer-map-wrap" style="width: 100%; height: 160px; border-radius: 12px; overflow: hidden; border: 1px solid var(--card-border); margin-bottom: 12px;">
           <iframe 
             src="https://maps.google.com/maps?q=Danan%20Car%20%26%20Bike%20Rentals%20Peradeniya%20Kandy%20Sri%20Lanka&t=&z=14&ie=UTF8&iwloc=&output=embed" 
@@ -735,7 +783,7 @@
             allowfullscreen="" 
             loading="lazy" 
             referrerpolicy="no-referrer-when-downgrade"
-            title="Danan Car & Bike Rentals Location Map">
+            title="Danan Car &amp; Bike Rentals Location Map">
           </iframe>
         </div>
         <a href="https://share.google/ICElyHmWpDjeHQLOY" target="_blank" rel="noopener" class="btn-nav-outline" style="display: inline-flex; align-items: center; gap: 8px; font-size: 0.75rem; padding: 6px 16px;">
@@ -770,13 +818,13 @@
           <div class="headlight-beam"></div>
         </div>
       </div>
-      <span>&copy; 2026 Danan Car & Bike Rentals. All Rights Reserved.</span>
+      <span>&copy; 2026 Danan Car &amp; Bike Rentals. All Rights Reserved.</span>
       <span>Designed by <a href="https://infiniteweb.dev/index.html" target="_blank" rel="noopener" style="color: var(--yellow); font-weight: 700;">INFINITE Creative Web Design</a></span>
     </div>
   </footer>
 
   <!-- FLOATING BUTTONS (STACKED ON BOTTOM RIGHT MATCHING SCREENSHOT) -->
-  <a id="waBtn" href="https://wa.me/94772013059?text=Hello%20Danan%20Rentals,%20I%20want%20to%20rent%20a%20vehicle." target="_blank" aria-label="WhatsApp">
+  <a id="waBtn" href="https://wa.me/94772013059?text=Hello%20Danan%20Rentals,%20I%20want%20to%20rent%20a%20vehicle." target="_blank" rel="noopener" aria-label="WhatsApp">
     <i class="fa-brands fa-whatsapp" style="font-size: 28px;"></i>
   </a>
 
@@ -797,7 +845,7 @@
         
         <!-- Selected Vehicle Preview Header -->
         <div class="bm-selected-vehicle">
-          <img id="bmVehImg" src="./assets/images/vehicles/vehicle-8.png" alt="Selected Vehicle" class="bm-vehicle-img">
+          <img id="bmVehImg" src="./assets/images/vehicles/vehicle-8.png" alt="Selected rental vehicle for booking in Kandy" class="bm-vehicle-img" loading="lazy" width="480" height="300">
           <div class="bm-vehicle-info">
             <div id="bmVehName" class="bm-vehicle-name">Honda Dio 110cc (2025)</div>
             <div id="bmVehRate" class="bm-vehicle-rate">Rs. 3,000 / day &bull; 200 Free Km/Day</div>
@@ -884,12 +932,46 @@
 
   <!-- JS Dependencies -->
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-  <script type="module" src="./js/main.js"></script>
+  <script type="module" src="./js/main.js?v=3.4"></script>
 
   <script>
+    // Dynamic default dates: today & tomorrow
+    const today = new Date();
+    const pad = n => String(n).padStart(2, '0');
+    const todayStr = `${today.getFullYear()}-${pad(today.getMonth() + 1)}-${pad(today.getDate())}`;
+    const tomorrow = new Date(today.getTime() + 24 * 60 * 60 * 1000);
+    const tomorrowStr = `${tomorrow.getFullYear()}-${pad(tomorrow.getMonth() + 1)}-${pad(tomorrow.getDate())}`;
+
+    const homeStart = document.getElementById('home-startdate');
+    const homeEnd = document.getElementById('home-enddate');
+    if (homeStart) homeStart.value = todayStr;
+    if (homeEnd) homeEnd.value = tomorrowStr;
+
+    const dispPick = document.getElementById('disp-pickup');
+    const dispRet = document.getElementById('disp-return');
+    if (dispPick) dispPick.textContent = todayStr;
+    if (dispRet) dispRet.textContent = tomorrowStr;
+
     // Flatpickr setup for search dates
-    flatpickr("#home-startdate", { minDate: "today", dateFormat: "Y-m-d", defaultDate: "today" });
-    flatpickr("#home-enddate", { minDate: "today", dateFormat: "Y-m-d" });
+    flatpickr("#home-startdate", {
+      minDate: "today",
+      dateFormat: "Y-m-d",
+      defaultDate: todayStr,
+      onChange: function(selectedDates, dateStr) {
+        if (dispPick) dispPick.textContent = dateStr;
+        if (homeEnd && homeEnd._flatpickr) {
+          homeEnd._flatpickr.set('minDate', dateStr);
+        }
+      }
+    });
+    flatpickr("#home-enddate", {
+      minDate: "today",
+      dateFormat: "Y-m-d",
+      defaultDate: tomorrowStr,
+      onChange: function(selectedDates, dateStr) {
+        if (dispRet) dispRet.textContent = dateStr;
+      }
+    });
 
     // Scroll reveal observer
     const obs = new IntersectionObserver(entries => {

@@ -1,0 +1,11 @@
+# robots.txt for Danan Car & Bike Rentals
+User-agent: *
+Allow: /
+
+# Disallow internal admin & scratch directories
+Disallow: /admin/
+Disallow: /scratch/
+Disallow: /tests/
+
+# Sitemap location
+Sitemap: https://danacarbikes.com/sitemap.xml

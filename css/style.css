@@ -34,7 +34,7 @@
 html {
   scroll-behavior: smooth;
   font-size: 16px;
-  overflow-x: hidden;
+  overflow-x: clip;
   width: 100%;
   max-width: 100%;
 }
@@ -44,7 +44,7 @@ body {
   background-color: var(--dark-bg);
   color: var(--white);
   line-height: 1.6;
-  overflow-x: hidden;
+  overflow-x: clip;
   width: 100%;
   max-width: 100%;
   position: relative;
@@ -322,7 +322,7 @@ img {
               url('../assets/images/hero/sigiriya.jpg') center center / cover no-repeat,
               url('../assets/images/hero/hero-bg.jpeg') center center / cover no-repeat,
               url('../Sigiriya.jpg') center center / cover no-repeat;
-  background-attachment: fixed;
+  background-attachment: scroll;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -455,6 +455,9 @@ img {
   outline: none;
   width: 100%;
   cursor: pointer;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
 }
 
 select.search-input option,
@@ -835,7 +838,7 @@ select option {
 .why-about-wrapper {
   position: relative;
   background: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.88)), url('../assets/images/about/pexels-freestockpro-319893.jpg') center center / cover no-repeat;
-  background-attachment: fixed;
+  background-attachment: scroll;
   padding: 120px 0 100px;
   border-top: none;
   border-bottom: none;
@@ -1045,29 +1048,33 @@ select option {
 
 .about-img-main {
   width: 100%;
-  height: 380px;
+  height: 400px;
   object-fit: cover;
+  object-position: center 20%;
   border-radius: 18px;
   border: none;
+  background-color: #111111;
   transition: opacity 0.6s ease-in-out, transform 0.6s ease-in-out;
 }
 
 .about-overlay {
   position: absolute;
-  bottom: -30px;
-  left: -30px;
-  width: 55%;
-  height: 200px;
-  border-radius: 14px;
+  bottom: -25px;
+  left: -25px;
+  width: 48%;
+  height: 230px;
+  border-radius: 16px;
   overflow: hidden;
-  border: none;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.6);
+  background-color: #111111;
 }
 
 .about-overlay img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center 15%;
   transition: opacity 0.6s ease-in-out, transform 0.6s ease-in-out;
 }
 
@@ -2538,7 +2545,7 @@ footer {
   background-image: url('../assets/images/about/about-palm-bg.jpg');
   background-size: cover;
   background-position: center center;
-  background-attachment: fixed;
+  background-attachment: scroll;
 }
 .about-intro::before {
   content: '';
@@ -2688,7 +2695,7 @@ footer {
   background-image: url('../assets/images/about/about-palm-bg.jpg');
   background-size: cover;
   background-position: center center;
-  background-attachment: fixed;
+  background-attachment: scroll;
 }
 .about-stats::before {
   content: '';
@@ -2746,7 +2753,7 @@ footer {
   background-image: url('../assets/images/about/about-palm-bg.jpg');
   background-size: cover;
   background-position: center center;
-  background-attachment: fixed;
+  background-attachment: scroll;
 }
 .about-values::before {
   content: '';
@@ -3985,7 +3992,7 @@ footer {
   text-align: center;
   overflow: hidden;
   background: url('../assets/images/vehicles/fleet-hero-bg.jpg') no-repeat center center / cover;
-  background-attachment: fixed;
+  background-attachment: scroll;
   padding-top: 100px;
 }
 .rental-hero-overlay {
@@ -4167,31 +4174,61 @@ footer {
 }
 
 /* ==========================================================================
+   DESKTOP PARALLAX BACKGROUNDS (FINE POINTER SCREENS ONLY)
+   Mobile / Android / iOS always use smooth scroll attachment to prevent distortion
+   ========================================================================== */
+@media (min-width: 1025px) and (hover: hover) and (pointer: fine) {
+  .hero,
+  .why-about-wrapper,
+  .about-intro,
+  .about-stats,
+  .about-values,
+  .rental-hero {
+    background-attachment: fixed;
+  }
+}
+
+/* ==========================================================================
    /* ===== MOBILE FIXES ===== */
    Android / Mobile Optimization (max-width: 1023px, 768px, 480px, 360px)
    ========================================================================== */
 
 /* ── 1. GLOBAL & PERFORMANCE RULES (MAX-WIDTH: 1023px) ── */
 @media (max-width: 1023px) {
-  /* Prevent horizontal scroll overflow globally */
+  /* Prevent horizontal scroll overflow globally while preserving position: sticky */
   html, body {
-    overflow-x: hidden !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    position: relative !important;
+    overflow-x: clip;
+    max-width: 100%;
   }
 
   /* Parallax backgrounds: replace fixed attachment with scroll for smooth Android/iOS scrolling */
   .hero,
-  .about-intro-sec,
   .why-about-wrapper,
-  .cta-banner,
+  .why,
+  .about-intro,
+  .about-stats,
+  .about-values,
   .rental-hero,
   .bookings-hero,
   .destinations-hero,
   .contact-hero,
+  .about-cta-banner,
+  .bookings-cta-banner,
+  .destinations-cta-banner,
+  .contact-cta-banner,
   [style*="background-attachment: fixed"] {
     background-attachment: scroll !important;
+  }
+
+  /* Tap-to-interact map: prevent iframe scroll trap on mobile */
+  .footer-map-wrap iframe,
+  .contact-map iframe {
+    pointer-events: none;
+  }
+
+  .footer-map-wrap.map-interactive iframe,
+  .contact-map.map-interactive iframe {
+    pointer-events: auto;
   }
 
   /* Touch tap targets and manipulation speed */
@@ -4207,7 +4244,7 @@ footer {
   }
 
   /* Reduce heavy backdrop filters and shadows on scrolling mobile elements */
-  .hero, .why-about-wrapper, .cards-section, .about-intro-sec {
+  .hero, .why-about-wrapper, .cards-section, .about-intro {
     will-change: auto;
   }
 
@@ -4228,14 +4265,15 @@ footer {
     box-sizing: border-box;
   }
 
-  /* Sections padding */
+  /* Sections padding: 56px 0 */
   .cards-section,
   .why-about-wrapper,
-  .testi-section,
+  .testimonials,
   .destinations-main,
-  .about-intro-sec,
-  .bookings-section {
-    padding: 48px 0;
+  .about-intro,
+  .bookings-main,
+  .contact-main {
+    padding: 56px 0;
   }
 
   /* Navbar adjustments - Perfectly aligned, no clipping */
@@ -4310,29 +4348,99 @@ footer {
     font-size: 1rem;
   }
 
-  /* Hero Section: Compact, no address bar jump */
+  /* Hero Section: Compact, responsive aspect framing */
   .hero {
-    min-height: auto;
-    padding: 95px 16px 36px;
+    min-height: auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-start !important; /* Prevents vertical centering overflow under fixed navbar */
+    align-items: center !important;
+    padding: 104px 16px 36px !important; /* Proper clearance below 68px navbar */
+    background-size: cover !important;
+    background-position: center 15% !important;
+    background-repeat: no-repeat !important;
+    background-attachment: scroll !important;
   }
   .hero-body {
     width: 100%;
     max-width: 100%;
+    margin-top: 0 !important;
   }
   .hero-title {
-    font-size: clamp(1.75rem, 6.2vw, 2.3rem);
+    font-size: clamp(1.65rem, 5.8vw, 2.15rem) !important;
     letter-spacing: -0.5px;
     line-height: 1.25;
+    margin-top: 0 !important;
     margin-bottom: 12px;
+    text-shadow: 0 2px 20px rgba(0,0,0,0.85);
   }
   .hero-title br {
-    display: none;
+    display: inline;
   }
   .hero-desc {
     font-size: 0.9rem;
     line-height: 1.5;
     margin-bottom: 20px;
     max-width: 100%;
+  }
+
+  /* Subpage Hero Banners: Android & Mobile Friendly (No vertical crop / No half image) */
+  .rental-hero,
+  .bookings-hero,
+  .destinations-hero,
+  .about-hero,
+  .contact-hero {
+    min-height: 42vh !important;
+    min-height: 300px !important;
+    max-height: 460px !important;
+    padding-top: 76px !important;
+    padding-bottom: 24px !important;
+    background-size: cover !important;
+    background-position: center 25% !important;
+    background-repeat: no-repeat !important;
+    background-attachment: scroll !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+  .rental-hero-content,
+  .bookings-hero-content,
+  .destinations-hero-content,
+  .about-hero-content,
+  .contact-hero-content {
+    padding: 24px 16px 16px !important;
+    max-width: 100% !important;
+  }
+  .rental-hero-title,
+  .bookings-hero-content h1,
+  .destinations-hero-content h1,
+  .about-hero-content h1,
+  .contact-hero-content h1 {
+    font-size: clamp(1.6rem, 5.8vw, 2.3rem) !important;
+    line-height: 1.2 !important;
+    margin-bottom: 10px !important;
+  }
+  .rental-hero-desc,
+  .bookings-hero-content p,
+  .destinations-hero-content p,
+  .about-hero-content p,
+  .contact-hero-content p {
+    font-size: 0.92rem !important;
+    line-height: 1.5 !important;
+    max-width: 100% !important;
+    margin-bottom: 0 !important;
+  }
+
+  /* CTA Banners on Mobile: Proportionate padding to keep background scenery visible */
+  .about-cta-banner,
+  .bookings-cta-banner,
+  .destinations-cta-banner,
+  .contact-cta-banner {
+    padding: 50px 18px !important;
+    background-size: cover !important;
+    background-position: center center !important;
+    background-repeat: no-repeat !important;
+    background-attachment: scroll !important;
   }
 
   /* Hero tabs: Single sleek horizontal pill bar (Never vertical stack) */
@@ -4363,33 +4471,48 @@ footer {
     white-space: nowrap !important;
   }
 
-  /* Hero Search Container: 1 column card format */
+  /* Hero Search Container: Sleek 2-column dates format on mobile */
   .search-container {
-    grid-template-columns: 1fr;
-    gap: 10px;
-    padding: 16px 14px;
-    border-radius: 14px;
-    width: 100%;
-    max-width: 100%;
-    box-sizing: border-box;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 8px !important;
+    padding: 14px 12px !important;
+    border-radius: 14px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+  .search-container > .search-group:nth-child(1) {
+    grid-column: 1 / -1 !important;
+  }
+  .search-container > .search-group:nth-child(2) {
+    grid-column: 1 / 2 !important;
+  }
+  .search-container > .search-group:nth-child(3) {
+    grid-column: 2 / 3 !important;
+  }
+  .search-container > .search-group:nth-child(4) {
+    grid-column: 1 / -1 !important;
+  }
+  .search-container > .btn-search {
+    grid-column: 1 / -1 !important;
   }
   .search-group {
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 10px;
-    padding: 8px 12px;
+    padding: 7px 10px;
   }
   .search-label {
-    font-size: 0.68rem;
-    margin-bottom: 3px;
+    font-size: 0.66rem;
+    margin-bottom: 2px;
   }
   .search-input {
     font-size: 16px !important; /* Prevents auto zoom-on-focus in Android/iOS */
-    min-height: 34px;
+    min-height: 32px;
   }
   .btn-search {
     width: 100%;
-    min-height: 46px;
+    min-height: 44px;
     font-size: 0.95rem;
     margin-top: 2px;
     border-radius: 10px;
@@ -4567,12 +4690,21 @@ footer {
     gap: 32px;
   }
   .footer-map-wrap {
-    height: 200px;
+    height: 220px !important;
+    width: 100% !important;
+  }
+  .contact-map {
+    height: 240px !important;
+    width: 100% !important;
+  }
+  .footer-taxi-anim {
+    pointer-events: none !important;
+    z-index: 1 !important;
   }
 
   /* Contact page */
-  .contact-grid {
-    grid-template-columns: 1fr;
+  .contact-main-inner {
+    grid-template-columns: 1fr !important;
   }
   .contact-info-grid {
     grid-template-columns: 1fr;
@@ -4592,7 +4724,33 @@ footer {
     font-size: 0.98rem !important;
   }
   .hero {
-    padding: 84px 12px 32px;
+    padding: 96px 12px 32px !important;
+    justify-content: flex-start !important;
+    background-position: center 15% !important;
+  }
+  .rental-hero,
+  .bookings-hero,
+  .destinations-hero,
+  .about-hero,
+  .contact-hero {
+    min-height: 38vh !important;
+    min-height: 270px !important;
+    padding-top: 68px !important;
+    padding-bottom: 18px !important;
+    background-position: center 20% !important;
+  }
+  .rental-hero-content,
+  .bookings-hero-content,
+  .destinations-hero-content,
+  .about-hero-content,
+  .contact-hero-content {
+    padding: 18px 12px 14px !important;
+  }
+  .about-cta-banner,
+  .bookings-cta-banner,
+  .destinations-cta-banner,
+  .contact-cta-banner {
+    padding: 38px 14px !important;
   }
   .hero-title {
     font-size: clamp(1.55rem, 5.8vw, 1.95rem);
@@ -4622,7 +4780,7 @@ footer {
   .dest-tips-grid {
     grid-template-columns: 1fr;
   }
-  .about-stats-grid {
+  .about-stats-inner {
     grid-template-columns: 1fr 1fr;
     gap: 12px;
   }
@@ -4661,7 +4819,32 @@ footer {
     width: 20px;
   }
   .hero {
-    padding: 76px 10px 26px;
+    padding: 88px 10px 24px !important;
+    justify-content: flex-start !important;
+    background-position: center 12% !important;
+  }
+  .rental-hero,
+  .bookings-hero,
+  .destinations-hero,
+  .about-hero,
+  .contact-hero {
+    min-height: 35vh !important;
+    min-height: 240px !important;
+    padding-top: 62px !important;
+    padding-bottom: 14px !important;
+  }
+  .rental-hero-content,
+  .bookings-hero-content,
+  .destinations-hero-content,
+  .about-hero-content,
+  .contact-hero-content {
+    padding: 14px 8px 10px !important;
+  }
+  .about-cta-banner,
+  .bookings-cta-banner,
+  .destinations-cta-banner,
+  .contact-cta-banner {
+    padding: 32px 10px !important;
   }
   .hero-title {
     font-size: 1.45rem;
@@ -4719,6 +4902,9 @@ footer {
   }
   .disc-img-wide {
     height: 220px;
+  }
+  .about-stats-inner {
+    grid-template-columns: 1fr;
   }
 }
 

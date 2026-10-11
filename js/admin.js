@@ -13,11 +13,32 @@ document.addEventListener('DOMContentLoaded', async () => {
 export async function checkAdminAuth() {
   const isLoginPage = window.location.pathname.includes('login.html');
 
+  // Fallback notice if auth takes more than 8 seconds to resolve (C3)
+  let authTimeout = null;
+  if (!isLoginPage) {
+    authTimeout = setTimeout(() => {
+      if (!document.body.classList.contains('auth-ready')) {
+        let notice = document.getElementById('authTimeoutNotice');
+        if (!notice) {
+          notice = document.createElement('div');
+          notice.id = 'authTimeoutNotice';
+          notice.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:#ffffff;padding:24px;border-radius:12px;box-shadow:0 8px 30px rgba(0,0,0,0.35);text-align:center;font-family:sans-serif;z-index:999999;max-width:320px;width:90%;color:#111111;';
+          notice.innerHTML = `
+            <p style="margin-bottom:14px;font-size:0.95rem;color:#333333;line-height:1.5;">Authentication is taking longer than expected.</p>
+            <a href="./login.html" style="display:inline-block;background:#D62828;color:#ffffff;padding:10px 20px;border-radius:6px;text-decoration:none;font-weight:600;font-size:0.9rem;">Go to Login</a>
+          `;
+          document.body.appendChild(notice);
+        }
+      }
+    }, 8000);
+  }
+
   try {
     const { auth: initializedAuth } = await initFirebase();
     const activeAuth = initializedAuth || auth;
 
     if (!activeAuth) {
+      if (authTimeout) clearTimeout(authTimeout);
       if (!isLoginPage) {
         window.location.replace('./login.html');
       }
@@ -27,6 +48,10 @@ export async function checkAdminAuth() {
     const { onAuthStateChanged } = await import('https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js');
 
     onAuthStateChanged(activeAuth, (user) => {
+      if (authTimeout) clearTimeout(authTimeout);
+      const notice = document.getElementById('authTimeoutNotice');
+      if (notice) notice.remove();
+
       if (user) {
         // Authenticated admin user
         if (isLoginPage) {
@@ -42,6 +67,7 @@ export async function checkAdminAuth() {
       }
     });
   } catch (err) {
+    if (authTimeout) clearTimeout(authTimeout);
     console.error("Admin auth verification error:", err);
     if (!isLoginPage) {
       window.location.replace('./login.html');
@@ -49,7 +75,7 @@ export async function checkAdminAuth() {
   }
 }
 
-// Active Sidebar Link Highlight & Mobile Drawer Support
+// Active Sidebar Link Highlight & Mobile Drawer Support (C1 & C2)
 function initAdminNavigation() {
   const currentPath = window.location.pathname;
   const navItems = document.querySelectorAll('.sidebar-nav .nav-item');
@@ -61,16 +87,27 @@ function initAdminNavigation() {
     }
   });
 
+  // Apply dynamic website/business brand to sidebar
+  import('./db.js').then(({ getDoc }) => {
+    getDoc('settings', 'site').then(settings => {
+      if (settings && settings.businessName) {
+        const brandH3 = document.querySelector('.sidebar-brand h3');
+        if (brandH3) brandH3.textContent = `${settings.businessName} Admin`;
+      }
+    }).catch(() => {});
+  }).catch(() => {});
+
   const topbar = document.querySelector('.admin-topbar');
   let sidebarToggleBtn = document.getElementById('sidebarToggle');
   const sidebar = document.querySelector('.admin-sidebar');
 
-  // Dynamically insert mobile hamburger toggle button into topbar if missing
+  // Dynamically insert mobile hamburger toggle button into topbar if missing in HTML
   if (topbar && !sidebarToggleBtn) {
     sidebarToggleBtn = document.createElement('button');
     sidebarToggleBtn.id = 'sidebarToggle';
     sidebarToggleBtn.className = 'admin-sidebar-toggle';
-    sidebarToggleBtn.setAttribute('aria-label', 'Toggle Navigation Menu');
+    sidebarToggleBtn.setAttribute('aria-label', 'Menu');
+    sidebarToggleBtn.setAttribute('aria-expanded', 'false');
     sidebarToggleBtn.innerHTML = `
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
         <line x1="3" y1="12" x2="21" y2="12"></line>
@@ -81,45 +118,38 @@ function initAdminNavigation() {
     topbar.prepend(sidebarToggleBtn);
   }
 
-  // Create backdrop overlay for admin drawer if not present
-  let adminOverlay = document.querySelector('.admin-sidebar-overlay');
-  if (sidebar && !adminOverlay) {
-    adminOverlay = document.createElement('div');
-    adminOverlay.className = 'admin-sidebar-overlay';
-    document.body.appendChild(adminOverlay);
+  // Drawer overlay implementation (C2)
+  const overlay = document.querySelector('.admin-sidebar-overlay') ||
+    document.body.appendChild(Object.assign(document.createElement('div'), { className: 'admin-sidebar-overlay' }));
+
+  const setOpen = (open) => {
+    if (sidebar) sidebar.classList.toggle('active', open);
+    overlay.classList.toggle('active', open);
+    sidebarToggleBtn?.setAttribute('aria-expanded', String(open));
+    document.body.style.overflow = open ? 'hidden' : '';
+  };
+
+  if (sidebarToggleBtn && sidebar) {
+    sidebarToggleBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      setOpen(!sidebar.classList.contains('active'));
+    });
   }
 
-  function openAdminDrawer() {
-    sidebar?.classList.add('active');
-    adminOverlay?.classList.add('active');
-    document.body.style.overflow = 'hidden';
+  overlay.addEventListener('click', () => setOpen(false));
+
+  if (sidebar) {
+    sidebar.querySelectorAll('.nav-item').forEach(a => {
+      a.addEventListener('click', () => setOpen(false));
+    });
   }
 
-  function closeAdminDrawer() {
-    sidebar?.classList.remove('active');
-    adminOverlay?.classList.remove('active');
-    document.body.style.overflow = '';
-  }
-
-  sidebarToggleBtn?.addEventListener('click', (e) => {
-    e.stopPropagation();
-    if (sidebar?.classList.contains('active')) {
-      closeAdminDrawer();
-    } else {
-      openAdminDrawer();
-    }
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') setOpen(false);
   });
 
-  adminOverlay?.addEventListener('click', closeAdminDrawer);
-
-  sidebar?.querySelectorAll('.nav-item').forEach(link => {
-    link.addEventListener('click', closeAdminDrawer);
-  });
-
-  window.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && sidebar?.classList.contains('active')) {
-      closeAdminDrawer();
-    }
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 768) setOpen(false);
   });
 }
 
