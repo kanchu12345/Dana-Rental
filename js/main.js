@@ -147,43 +147,166 @@ function initScrollAndMobileListeners() {
   });
 }
 
-// HERO TAB SWITCHER
+// VEHICLE CATEGORY SELECTOR & FILTER (IMAGE 2 DESIGN)
 function initHeroTabSwitcher() {
-  const tabs = document.querySelectorAll('.hero-tab');
-  tabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-      tabs.forEach(t => t.classList.remove('active'));
-      tab.classList.add('active');
+  const catItems = document.querySelectorAll('.category-item, .hero-tab');
+  const fleetCountText = document.getElementById('fleetCountText');
 
-      const filterType = tab.getAttribute('data-tab');
-      if (window.allVehiclesData) {
-        if (filterType === 'all') {
-          renderVehiclesList(window.allVehiclesData);
-        } else {
-          const filtered = window.allVehiclesData.filter(v => 
-            (v.type || '').toLowerCase().includes(filterType.toLowerCase()) ||
-            (filterType === 'cars' && (v.type || '').toLowerCase() === 'cars') ||
-            (filterType === 'bikes' && (v.type || '').toLowerCase() === 'bikes') ||
-            (filterType === 'vans' && (v.type || '').toLowerCase() === 'vans')
-          );
-          renderVehiclesList(filtered);
-        }
+  function filterFleet(cat) {
+    const category = (cat || 'all').toLowerCase();
+    
+    // 1. If dynamic database fleet is loaded
+    if (window.allVehiclesData && Array.isArray(window.allVehiclesData) && window.allVehiclesData.length > 0) {
+      let filtered = [];
+      if (category === 'all') {
+        filtered = window.allVehiclesData;
+      } else if (category === 'scooter') {
+        filtered = window.allVehiclesData.filter(v => {
+          const name = (v.name || '').toLowerCase();
+          const type = (v.type || '').toLowerCase();
+          return type.includes('scooter') || name.includes('dio') || name.includes('ntorq') || type.includes('bike');
+        });
+      } else if (category === 'cars') {
+        filtered = window.allVehiclesData.filter(v => {
+          const name = (v.name || '').toLowerCase();
+          const type = (v.type || '').toLowerCase();
+          return type.includes('car') || name.includes('alto') || name.includes('wagon') || name.includes('hybrid');
+        });
+      } else if (category === 'vans') {
+        filtered = window.allVehiclesData.filter(v => {
+          const name = (v.name || '').toLowerCase();
+          const type = (v.type || '').toLowerCase();
+          return type.includes('van') || name.includes('every') || name.includes('buddy');
+        });
+      } else if (category === 'bikes') {
+        filtered = window.allVehiclesData.filter(v => {
+          const name = (v.name || '').toLowerCase();
+          const type = (v.type || '').toLowerCase();
+          return type.includes('bike') || name.includes('motor');
+        });
+      } else if (category === 'tuktuk') {
+        filtered = window.allVehiclesData.filter(v => {
+          const name = (v.name || '').toLowerCase();
+          const type = (v.type || '').toLowerCase();
+          return type.includes('tuk') || name.includes('three');
+        });
+      } else if (category === 'cycle') {
+        filtered = window.allVehiclesData.filter(v => {
+          const name = (v.name || '').toLowerCase();
+          const type = (v.type || '').toLowerCase();
+          return type.includes('cycle') || name.includes('bicycle');
+        });
+      } else {
+        filtered = window.allVehiclesData.filter(v => (v.type || '').toLowerCase().includes(category));
       }
+
+      renderVehiclesList(filtered, category);
+      if (typeof window.initFleetCarousel === 'function') {
+        setTimeout(window.initFleetCarousel, 50);
+      }
+    } else {
+      // 2. Static HTML fallback cards
+      const cards = document.querySelectorAll('#featuredVehiclesGrid .rc');
+      let visibleCount = 0;
+      cards.forEach(card => {
+        const cardCat = (card.getAttribute('data-category') || '').toLowerCase();
+        const cardText = card.textContent.toLowerCase();
+        let match = false;
+        if (category === 'all') {
+          match = true;
+        } else if (category === 'scooter' && (cardCat === 'scooter' || cardText.includes('dio') || cardText.includes('ntorq'))) {
+          match = true;
+        } else if (category === 'cars' && (cardCat === 'cars' || cardText.includes('alto') || cardText.includes('wagon'))) {
+          match = true;
+        } else if (category === 'vans' && (cardCat === 'vans' || cardText.includes('every') || cardText.includes('van'))) {
+          match = true;
+        } else if (category === 'bikes' && (cardCat === 'bikes' || cardText.includes('bike'))) {
+          match = true;
+        } else if (category === 'tuktuk' && (cardCat === 'tuktuk' || cardText.includes('tuk'))) {
+          match = true;
+        } else if (category === 'cycle' && (cardCat === 'cycle' || cardText.includes('cycle'))) {
+          match = true;
+        }
+
+        if (match) {
+          card.style.display = '';
+          visibleCount++;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+
+      updateFleetCountLabel(visibleCount, category);
+      if (typeof window.initFleetCarousel === 'function') {
+        setTimeout(window.initFleetCarousel, 50);
+      }
+    }
+  }
+
+  function updateFleetCountLabel(count, cat) {
+    if (!fleetCountText) return;
+    const catMap = {
+      all: 'Vehicles',
+      scooter: 'Scooters',
+      cars: 'Cars',
+      vans: 'Vans',
+      bikes: 'Motor Bikes',
+      tuktuk: 'Tuk Tuks',
+      cycle: 'Bicycles'
+    };
+    const name = catMap[cat] || 'Vehicles';
+    if (count > 0) {
+      fleetCountText.textContent = `${count} ${name} Available`;
+    } else {
+      fleetCountText.textContent = `Inquire for ${name}`;
+    }
+  }
+
+  catItems.forEach(item => {
+    item.addEventListener('click', (e) => {
+      e.preventDefault();
+      catItems.forEach(i => i.classList.remove('active'));
+      item.classList.add('active');
+      const cat = item.getAttribute('data-category') || item.getAttribute('data-tab') || 'all';
+      filterFleet(cat);
     });
   });
 
-  // Hero Search Button
+  // Filter Drawer Toggle
+  const btnToggleFilters = document.getElementById('btnToggleFilters');
+  const categoryFilterDrawer = document.getElementById('categoryFilterDrawer');
+  if (btnToggleFilters && categoryFilterDrawer) {
+    btnToggleFilters.addEventListener('click', (e) => {
+      e.preventDefault();
+      const isHidden = categoryFilterDrawer.style.display === 'none' || !categoryFilterDrawer.style.display;
+      if (isHidden) {
+        categoryFilterDrawer.style.display = 'block';
+        btnToggleFilters.classList.add('active');
+        btnToggleFilters.setAttribute('aria-expanded', 'true');
+      } else {
+        categoryFilterDrawer.style.display = 'none';
+        btnToggleFilters.classList.remove('active');
+        btnToggleFilters.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
+
+  // Search Fleet Button inside Filter Drawer
   const btnHeroSearch = document.getElementById('btnHeroSearch');
   if (btnHeroSearch) {
-    btnHeroSearch.addEventListener('click', () => {
-      const type = document.getElementById('vehicleTypeSelect')?.value || 'all';
-      if (window.allVehiclesData) {
-        if (type === 'all') {
-          renderVehiclesList(window.allVehiclesData);
-        } else {
-          const filtered = window.allVehiclesData.filter(v => (v.type || '').toLowerCase() === type.toLowerCase());
-          renderVehiclesList(filtered);
-        }
+    btnHeroSearch.addEventListener('click', (e) => {
+      e.preventDefault();
+      const driver = document.getElementById('driverType')?.value || 'Self Drive';
+      const start = document.getElementById('home-startdate')?.value || '';
+      const end = document.getElementById('home-enddate')?.value || '';
+
+      try {
+        sessionStorage.setItem('danan_search_prefill', JSON.stringify({ driver, start, end }));
+      } catch (err) {}
+
+      const rentalsEl = document.getElementById('rentals');
+      if (rentalsEl) {
+        rentalsEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
     });
   }
@@ -997,16 +1120,38 @@ function initFleetCarousel() {
   startTimer();
 }
 
-function renderVehiclesList(vehicles) {
+function renderVehiclesList(vehicles, activeCat = 'all') {
   const grid = document.getElementById('featuredVehiclesGrid');
   if (!grid) return;
 
+  const fleetCountText = document.getElementById('fleetCountText');
+  if (fleetCountText) {
+    const catMap = {
+      all: 'Vehicles',
+      scooter: 'Scooters',
+      cars: 'Cars',
+      vans: 'Vans',
+      bikes: 'Motor Bikes',
+      tuktuk: 'Tuk Tuks',
+      cycle: 'Bicycles'
+    };
+    const cName = catMap[activeCat] || 'Vehicles';
+    if (vehicles.length > 0) {
+      fleetCountText.textContent = `${vehicles.length} ${cName} Available`;
+    } else {
+      fleetCountText.textContent = `Inquire for ${cName}`;
+    }
+  }
+
   if (vehicles.length === 0) {
     grid.innerHTML = `
-      <div style="grid-column: 1 / -1; text-align: center; padding: 60px 20px; color: var(--text-muted);">
-        <i class="fa-solid fa-car-tunnel" style="font-size: 2.5rem; margin-bottom: 12px; color: var(--yellow);"></i>
-        <h3>No vehicles currently match your selection.</h3>
-        <p style="font-size: 0.95rem;">Please check back soon or contact us directly on WhatsApp.</p>
+      <div style="grid-column: 1 / -1; text-align: center; padding: 50px 20px; background: rgba(255,255,255,0.03); border-radius: 16px; border: 1px dashed rgba(255,255,255,0.18);">
+        <i class="fa-solid fa-headset" style="font-size: 2.4rem; margin-bottom: 12px; color: var(--yellow);"></i>
+        <h3 style="font-size: 1.25rem; color: #FFF; margin-bottom: 8px;">Direct Rental Inquiries Available</h3>
+        <p style="font-size: 0.95rem; color: var(--text-muted); max-width: 520px; margin: 0 auto 18px;">Looking to book this category in Kandy or Peradeniya? Contact our team directly on WhatsApp for immediate confirmation & special rates.</p>
+        <a href="https://wa.me/94772013059?text=Hello%20Danan%20Rentals,%20I%20want%20to%20inquire%20about%20vehicle%20rentals" target="_blank" rel="noopener" class="btn-search" style="display: inline-flex; text-decoration: none; padding: 12px 28px;">
+          <i class="fa-brands fa-whatsapp" style="font-size: 1.2rem;"></i> Inquire on WhatsApp
+        </a>
       </div>
     `;
     return;
@@ -1015,17 +1160,35 @@ function renderVehiclesList(vehicles) {
   grid.innerHTML = vehicles.map(v => {
     const brandName = (v.type === 'Bikes') ? 'Danan Two-Wheelers' : 'Danan Rental Fleet';
 
-    // Resolve PickMe vector outline images
+    // Resolve PickMe vector outline next-gen WebP images
     let imgUrl = (v.images && v.images.length > 0) ? v.images[0] : '';
     if (!imgUrl || imgUrl.includes('fleet-banner.jpeg') || imgUrl.includes('vehicle-')) {
       const lower = (v.name || '').toLowerCase();
-      if (lower.includes('dio')) imgUrl = './assets/images/vehicles/vector-dio.png';
-      else if (lower.includes('ntorq')) imgUrl = './assets/images/vehicles/vector-ntorq.png';
-      else if (lower.includes('indian') || lower.includes('2014')) imgUrl = './assets/images/vehicles/vector-alto-indian.png';
-      else if (lower.includes('japan') || lower.includes('alto')) imgUrl = './assets/images/vehicles/vector-alto-japan.png';
-      else if (lower.includes('every') || lower.includes('van')) imgUrl = './assets/images/vehicles/vector-every-van.png';
-      else if (lower.includes('wagon')) imgUrl = './assets/images/vehicles/vector-wagon-r.png';
-      else imgUrl = './assets/images/vehicles/vector-wagon-r.png';
+      if (lower.includes('dio')) imgUrl = './assets/images/vehicles/vector-dio.webp';
+      else if (lower.includes('ntorq')) imgUrl = './assets/images/vehicles/vector-ntorq.webp';
+      else if (lower.includes('indian') || lower.includes('2014')) imgUrl = './assets/images/vehicles/vector-alto-indian.webp';
+      else if (lower.includes('japan') || lower.includes('alto')) imgUrl = './assets/images/vehicles/vector-alto-japan.webp';
+      else if (lower.includes('every') || lower.includes('van')) imgUrl = './assets/images/vehicles/vector-every-van.webp';
+      else if (lower.includes('wagon')) imgUrl = './assets/images/vehicles/vector-wagon-r.webp';
+      else imgUrl = './assets/images/vehicles/vector-wagon-r.webp';
+    } else if (imgUrl.endsWith('.png') || imgUrl.endsWith('.jpg') || imgUrl.endsWith('.jpeg')) {
+      // Prefer WebP if path matches known assets
+      const webpCandidate = imgUrl.replace(/\.(png|jpg|jpeg)$/i, '.webp');
+      imgUrl = webpCandidate;
+    }
+
+    // Determine category attribute
+    let cardCat = 'cars';
+    const lowerName = (v.name || '').toLowerCase();
+    const lowerType = (v.type || '').toLowerCase();
+    if (lowerName.includes('dio') || lowerName.includes('ntorq') || lowerType.includes('scooter') || lowerType.includes('bike')) {
+      cardCat = 'scooter';
+    } else if (lowerName.includes('every') || lowerName.includes('van')) {
+      cardCat = 'vans';
+    } else if (lowerName.includes('cycle')) {
+      cardCat = 'cycle';
+    } else if (lowerName.includes('tuk')) {
+      cardCat = 'tuktuk';
     }
 
     // Resolve accurate daily price (never Rs. 0)
@@ -1042,9 +1205,9 @@ function renderVehiclesList(vehicles) {
     }
 
     return `
-      <div data-book="${escapeHTML(v.id)}" class="rc reveal visible in" style="cursor: pointer;">
+      <div data-book="${escapeHTML(v.id)}" data-category="${cardCat}" class="rc reveal visible in" style="cursor: pointer;">
         <div class="rc-img">
-          <img src="${escapeHTML(fixImgPath(imgUrl, false))}" alt="${escapeHTML(v.name)}" loading="lazy">
+          <img src="${escapeHTML(fixImgPath(imgUrl, false))}" alt="${escapeHTML(v.name)}" loading="lazy" decoding="async" width="480" height="300">
           <div class="rc-badge">${(v.available !== false) ? 'AVAILABLE' : 'BOOKED'}</div>
           <button class="rc-wishlist" onclick="event.stopPropagation();" aria-label="Add to wishlist">
             <i class="fa-regular fa-heart"></i>

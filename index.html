@@ -39,7 +39,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
   <!-- Main Stylesheet -->
-  <link rel="stylesheet" href="./css/style.css?v=3.6">
+  <link rel="stylesheet" href="./css/style.css?v=3.7">
 
   <!-- AutoRental Structured Data JSON-LD -->
   <script type="application/ld+json">
@@ -163,64 +163,198 @@
     <!-- ═══ HERO SECTION (SIGIRIYA BACKGROUND) ═══ -->
     <section class="hero">
       <div class="hero-body reveal">
-        <h1 class="hero-title">Car &amp; Bike Rentals in Kandy &amp; Peradeniya</h1>
-        
-        <p class="hero-desc">
-          Start your journey to the destination you've always dreamed of with self drive, with driver and AA Ceylon driving permits. Rent a car, scooter, or van in Kandy &amp; Peradeniya with 200 free kilometers per day, full insurance, and 24/7 roadside assistance.
-        </p>
-        
-        <div class="hero-tabs">
-          <button class="hero-tab active" data-tab="cars">
-            <i class="fa-solid fa-car"></i> Car Rental
-          </button>
-          <button class="hero-tab" data-tab="permits">
-            <i class="fa-regular fa-file-lines"></i> Permits
-          </button>
-          <button class="hero-tab" data-tab="transfers">
-            <i class="fa-solid fa-location-dot"></i> Transfers
-          </button>
+        <!-- Luxury Floating Eyebrow Badge -->
+        <div class="hero-badge">
+          <span class="hero-badge-dot"></span>
+          <i class="fa-solid fa-gem"></i>
+          <span>SRI LANKA'S PREFERRED VEHICLE RENTALS</span>
         </div>
 
-        <!-- SEARCH PILL CONTAINER -->
-        <form class="search-container" id="cars-search" onsubmit="event.preventDefault();">
-          <div class="search-group">
-            <label class="search-label">DRIVER TYPE</label>
-            <div style="display: flex; align-items: center; justify-content: space-between;">
-              <select class="search-input" id="driverType">
-                <option value="Self Drive">Self Drive</option>
-                <option value="With Driver">With Driver</option>
-              </select>
-              <i class="fa-solid fa-chevron-down" style="font-size: 0.7rem; color: #FFF; pointer-events: none;"></i>
+        <h1 class="hero-title">
+          <span class="hero-title-main">Your Journey,</span>
+          <span class="hero-title-highlight">Your Choice</span>
+        </h1>
+        
+        <p class="hero-desc">
+          Rent a car, scooter, or van in Kandy &amp; Peradeniya with 200 free kilometers per day, full insurance, and 24/7 on-road support.
+        </p>
+
+        <!-- Premium Micro-Perks Badges -->
+        <div class="hero-perks">
+          <div class="hero-perk-item">
+            <i class="fa-solid fa-gauge-high"></i>
+            <span>200 KM Free / Day</span>
+          </div>
+          <div class="hero-perk-item">
+            <i class="fa-solid fa-shield-halved"></i>
+            <span>Full Insurance</span>
+          </div>
+          <div class="hero-perk-item">
+            <i class="fa-solid fa-headset"></i>
+            <span>24/7 On-Road Support</span>
+          </div>
+        </div>
+        
+        <!-- ═══ VEHICLE CATEGORY SELECTOR (IMAGE 2 STYLE) ═══ -->
+        <div class="vehicle-category-selector-wrapper">
+          <div class="vehicle-category-bar" id="vehicleCategoryBar">
+            <button type="button" class="category-item active" data-category="all" aria-label="All Vehicles">
+              <div class="cat-icon-wrap">
+                <svg viewBox="0 0 32 32" class="cat-icon" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="4" y="4" width="10" height="10" rx="2.5"/>
+                  <rect x="18" y="4" width="10" height="10" rx="2.5"/>
+                  <rect x="4" y="18" width="10" height="10" rx="2.5"/>
+                  <rect x="18" y="18" width="10" height="10" rx="2.5"/>
+                </svg>
+              </div>
+              <span class="cat-name">All</span>
+              <span class="cat-active-line"></span>
+            </button>
+
+            <button type="button" class="category-item" data-category="scooter" aria-label="Scooters">
+              <div class="cat-icon-wrap">
+                <svg viewBox="0 0 36 36" class="cat-icon" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="8" cy="27" r="4.5"/>
+                  <circle cx="28" cy="27" r="4.5"/>
+                  <path d="M8 22.5h7l5-12h7"/>
+                  <path d="M25 10.5h5"/>
+                  <path d="M24 17h6v5.5"/>
+                  <path d="M15 22.5v-5c0-2.5 2-4 4.5-4h4.5"/>
+                </svg>
+              </div>
+              <span class="cat-name">Scooter</span>
+              <span class="cat-active-line"></span>
+            </button>
+
+            <button type="button" class="category-item" data-category="cars" aria-label="Cars">
+              <div class="cat-icon-wrap">
+                <svg viewBox="0 0 36 36" class="cat-icon" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M5 19l3-8c1-2 2.5-3 5-3h10c2.5 0 4 1 5 3l3 8"/>
+                  <path d="M3 19h30c1.5 0 2.5 1 2.5 2.5v6H33"/>
+                  <circle cx="10" cy="28" r="4"/>
+                  <circle cx="26" cy="28" r="4"/>
+                  <path d="M14 28h8"/>
+                  <path d="M3 28H1v-6.5C1 20 2 19 3.5 19"/>
+                  <path d="M9 15h18"/>
+                </svg>
+              </div>
+              <span class="cat-name">Car</span>
+              <span class="cat-active-line"></span>
+            </button>
+
+            <button type="button" class="category-item" data-category="vans" aria-label="Vans">
+              <div class="cat-icon-wrap">
+                <svg viewBox="0 0 36 36" class="cat-icon" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M4 11h20v17H4z"/>
+                  <path d="M24 14h6l4 5v9h-3"/>
+                  <circle cx="10" cy="28" r="4"/>
+                  <circle cx="27" cy="28" r="4"/>
+                  <path d="M14 28h9"/>
+                  <path d="M4 28H1v-14c0-1.8 1.4-3 3-3h20"/>
+                  <path d="M25 18h6v3h-6z"/>
+                </svg>
+              </div>
+              <span class="cat-name">Van</span>
+              <span class="cat-active-line"></span>
+            </button>
+
+            <button type="button" class="category-item" data-category="bikes" aria-label="Motor Bikes">
+              <div class="cat-icon-wrap">
+                <svg viewBox="0 0 36 36" class="cat-icon" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="7" cy="26" r="4.5"/>
+                  <circle cx="29" cy="26" r="4.5"/>
+                  <path d="M7 21.5l8-8h6l5 8.5"/>
+                  <path d="M15 13.5l3-5.5h4"/>
+                  <path d="M21 8h4"/>
+                  <path d="M12 21.5h12"/>
+                  <path d="M16 17.5h5v4h-5z"/>
+                </svg>
+              </div>
+              <span class="cat-name">Motor Bike</span>
+              <span class="cat-active-line"></span>
+            </button>
+
+            <button type="button" class="category-item" data-category="tuktuk" aria-label="Tuk Tuk">
+              <div class="cat-icon-wrap">
+                <svg viewBox="0 0 36 36" class="cat-icon" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M6 16h17l5 5.5v8h-4"/>
+                  <path d="M9 16L14 6h8l2.5 10"/>
+                  <circle cx="10" cy="29.5" r="4"/>
+                  <circle cx="26" cy="29.5" r="4"/>
+                  <path d="M14 29.5h8"/>
+                  <path d="M6 29.5H3v-10c0-1.8 1.4-3 3-3"/>
+                  <path d="M13 11h7v5h-7z"/>
+                </svg>
+              </div>
+              <span class="cat-name">Tuk Tuk</span>
+              <span class="cat-active-line"></span>
+            </button>
+
+            <button type="button" class="category-item" data-category="cycle" aria-label="Cycle">
+              <div class="cat-icon-wrap">
+                <svg viewBox="0 0 36 36" class="cat-icon" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="8" cy="25" r="5.5"/>
+                  <circle cx="28" cy="25" r="5.5"/>
+                  <path d="M8 25l8-12h5l7 12"/>
+                  <path d="M16 13l2.5-5.5h5"/>
+                  <path d="M18 18.5l6-2.5"/>
+                  <circle cx="18" cy="25" r="2"/>
+                  <path d="M18 25l-3-8.5"/>
+                </svg>
+              </div>
+              <span class="cat-name">Cycle</span>
+              <span class="cat-active-line"></span>
+            </button>
+          </div>
+
+          <!-- Sub-bar matching Image 2 (Filters button + Status summary + Recently updated) -->
+          <div class="category-subbar">
+            <button type="button" class="btn-cat-filter" id="btnToggleFilters" aria-label="Toggle Date & Driver Filters">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 6h16M7 12h10M10 18h4"/></svg>
+              <span>Filters</span>
+            </button>
+
+            <div class="category-active-summary" id="categoryActiveSummary">
+              <span class="summary-badge"><i class="fa-solid fa-circle-check"></i> <span id="fleetCountText">6 Vehicles Available</span></span>
+            </div>
+
+            <div class="category-sort-wrap">
+              <span class="cat-sort-text"><i class="fa-solid fa-arrow-down-short-wide"></i> Recently Updated</span>
             </div>
           </div>
 
-          <div class="search-group">
-            <label class="search-label">PICKUP DATE</label>
-            <input type="text" class="search-input" id="home-startdate" readonly>
-          </div>
+          <!-- Drawer for Date & Driver Filters -->
+          <div class="category-filter-drawer" id="categoryFilterDrawer" style="display: none;">
+            <div class="filter-drawer-grid">
+              <div class="filter-drawer-field">
+                <label class="filter-drawer-label"><i class="fa-solid fa-user-check"></i> DRIVER TYPE</label>
+                <div class="filter-drawer-select-wrap">
+                  <select class="filter-drawer-select" id="driverType">
+                    <option value="Self Drive">Self Drive</option>
+                    <option value="With Driver">With Driver</option>
+                  </select>
+                  <i class="fa-solid fa-chevron-down"></i>
+                </div>
+              </div>
 
-          <div class="search-group">
-            <label class="search-label">RETURN DATE</label>
-            <input type="text" class="search-input" id="home-enddate" readonly>
-          </div>
+              <div class="filter-drawer-field">
+                <label class="filter-drawer-label"><i class="fa-regular fa-calendar"></i> PICKUP DATE</label>
+                <input type="text" class="filter-drawer-input" id="home-startdate" readonly placeholder="Select Date">
+              </div>
 
-          <div class="search-group">
-            <label class="search-label">VEHICLE TYPE</label>
-            <div style="display: flex; align-items: center; justify-content: space-between;">
-              <select class="search-input" id="vehicleTypeSelect">
-                <option value="all">Select Vehicle</option>
-                <option value="bikes">Bikes & Scooters</option>
-                <option value="cars">Cars</option>
-                <option value="vans">Vans</option>
-              </select>
-              <i class="fa-solid fa-chevron-down" style="font-size: 0.7rem; color: #FFF; pointer-events: none;"></i>
+              <div class="filter-drawer-field">
+                <label class="filter-drawer-label"><i class="fa-regular fa-calendar-check"></i> RETURN DATE</label>
+                <input type="text" class="filter-drawer-input" id="home-enddate" readonly placeholder="Select Date">
+              </div>
+
+              <div class="filter-drawer-action">
+                <button type="button" class="btn-filter-apply" id="btnHeroSearch">
+                  <i class="fa-solid fa-magnifying-glass"></i> Search Fleet
+                </button>
+              </div>
             </div>
           </div>
-
-          <button type="button" class="btn-search" id="btnHeroSearch">
-            INQUIRE
-          </button>
-        </form>
+        </div>
       </div>
     </section>
 
@@ -242,9 +376,9 @@
           <div class="fleet-viewport">
             <div class="cards-grid fleet-track" id="featuredVehiclesGrid">
               <!-- 1. Honda Dio 110cc -->
-              <a href="https://wa.me/94772013059?text=Hello%20Danan%20Rentals,%20I%20want%20to%20book%20the%20Honda%20Dio%20110cc" target="_blank" rel="noopener" class="rc reveal visible in">
+              <a href="https://wa.me/94772013059?text=Hello%20Danan%20Rentals,%20I%20want%20to%20book%20the%20Honda%20Dio%20110cc" target="_blank" rel="noopener" class="rc reveal visible in" data-category="scooter">
                 <div class="rc-img">
-                  <img src="./assets/images/vehicles/vector-dio.png" alt="Honda Dio 110cc scooter for rent in Kandy" loading="lazy" decoding="async" width="480" height="300">
+                  <img src="./assets/images/vehicles/vector-dio.webp" alt="Honda Dio 110cc scooter for rent in Kandy" loading="lazy" decoding="async" width="480" height="300">
                   <div class="rc-badge">AVAILABLE</div>
                   <button class="rc-wishlist" onclick="event.preventDefault();" aria-label="Add to wishlist">
                     <i class="fa-regular fa-heart"></i>
@@ -270,9 +404,9 @@
               </a>
 
               <!-- 2. TVS Ntorq 125cc -->
-              <a href="https://wa.me/94772013059?text=Hello%20Danan%20Rentals,%20I%20want%20to%20book%20the%20TVS%20Ntorq%20125cc" target="_blank" rel="noopener" class="rc reveal visible in">
+              <a href="https://wa.me/94772013059?text=Hello%20Danan%20Rentals,%20I%20want%20to%20book%20the%20TVS%20Ntorq%20125cc" target="_blank" rel="noopener" class="rc reveal visible in" data-category="scooter">
                 <div class="rc-img">
-                  <img src="./assets/images/vehicles/vector-ntorq.png" alt="TVS Ntorq 125cc scooter for rent in Kandy Sri Lanka" loading="lazy" decoding="async" width="480" height="300">
+                  <img src="./assets/images/vehicles/vector-ntorq.webp" alt="TVS Ntorq 125cc scooter for rent in Kandy Sri Lanka" loading="lazy" decoding="async" width="480" height="300">
                   <div class="rc-badge">AVAILABLE</div>
                   <button class="rc-wishlist" onclick="event.preventDefault();" aria-label="Add to wishlist">
                     <i class="fa-regular fa-heart"></i>
@@ -298,9 +432,9 @@
               </a>
 
               <!-- 3. Indian Alto 2014 -->
-              <a href="https://wa.me/94772013059?text=Hello%20Danan%20Rentals,%20I%20want%20to%20book%20the%20Indian%20Alto%202014" target="_blank" rel="noopener" class="rc reveal visible in">
+              <a href="https://wa.me/94772013059?text=Hello%20Danan%20Rentals,%20I%20want%20to%20book%20the%20Indian%20Alto%202014" target="_blank" rel="noopener" class="rc reveal visible in" data-category="cars">
                 <div class="rc-img">
-                  <img src="./assets/images/vehicles/vector-alto-indian.png" alt="Suzuki Maruti Alto 800 manual car for rent in Kandy" loading="lazy" decoding="async" width="480" height="300">
+                  <img src="./assets/images/vehicles/vector-alto-indian.webp" alt="Suzuki Maruti Alto 800 manual car for rent in Kandy" loading="lazy" decoding="async" width="480" height="300">
                   <div class="rc-badge">AVAILABLE</div>
                   <button class="rc-wishlist" onclick="event.preventDefault();" aria-label="Add to wishlist">
                     <i class="fa-regular fa-heart"></i>
@@ -326,9 +460,9 @@
               </a>
 
               <!-- 4. Japan Alto Auto -->
-              <a href="https://wa.me/94772013059?text=Hello%20Danan%20Rentals,%20I%20want%20to%20book%20the%20Japan%20Alto%20Auto" target="_blank" rel="noopener" class="rc reveal visible in">
+              <a href="https://wa.me/94772013059?text=Hello%20Danan%20Rentals,%20I%20want%20to%20book%20the%20Japan%20Alto%20Auto" target="_blank" rel="noopener" class="rc reveal visible in" data-category="cars">
                 <div class="rc-img">
-                  <img src="./assets/images/vehicles/vector-alto-japan.png" alt="Suzuki Alto Japanese automatic car for rent in Kandy" loading="lazy" decoding="async" width="480" height="300">
+                  <img src="./assets/images/vehicles/vector-alto-japan.webp" alt="Suzuki Alto Japanese automatic car for rent in Kandy" loading="lazy" decoding="async" width="480" height="300">
                   <div class="rc-badge">AVAILABLE</div>
                   <button class="rc-wishlist" onclick="event.preventDefault();" aria-label="Add to wishlist">
                     <i class="fa-regular fa-heart"></i>
@@ -354,9 +488,9 @@
               </a>
 
               <!-- 5. Suzuki Every Van Buddy – Auto -->
-              <a href="https://wa.me/94772013059?text=Hello%20Danan%20Rentals,%20I%20want%20to%20book%20the%20Suzuki%20Every%20Van%20Buddy%20Auto" target="_blank" rel="noopener" class="rc reveal visible in">
+              <a href="https://wa.me/94772013059?text=Hello%20Danan%20Rentals,%20I%20want%20to%20book%20the%20Suzuki%20Every%20Van%20Buddy%20Auto" target="_blank" rel="noopener" class="rc reveal visible in" data-category="vans">
                 <div class="rc-img">
-                  <img src="./assets/images/vehicles/vector-every-van.png" alt="Suzuki Every Buddy automatic passenger van for rent in Kandy" loading="lazy" decoding="async" width="480" height="300">
+                  <img src="./assets/images/vehicles/vector-every-van.webp" alt="Suzuki Every Buddy automatic passenger van for rent in Kandy" loading="lazy" decoding="async" width="480" height="300">
                   <div class="rc-badge">AVAILABLE</div>
                   <button class="rc-wishlist" onclick="event.preventDefault();" aria-label="Add to wishlist">
                     <i class="fa-regular fa-heart"></i>
@@ -382,9 +516,9 @@
               </a>
 
               <!-- 6. Suzuki Wagon R -->
-              <a href="https://wa.me/94772013059?text=Hello%20Danan%20Rentals,%20I%20want%20to%20book%20the%20Suzuki%20Wagon%20R" target="_blank" rel="noopener" class="rc reveal visible in">
+              <a href="https://wa.me/94772013059?text=Hello%20Danan%20Rentals,%20I%20want%20to%20book%20the%20Suzuki%20Wagon%20R" target="_blank" rel="noopener" class="rc reveal visible in" data-category="cars">
                 <div class="rc-img">
-                  <img src="./assets/images/vehicles/vector-wagon-r.png" alt="Suzuki Wagon R Hybrid automatic car for rent in Kandy" loading="lazy" decoding="async" width="480" height="300">
+                  <img src="./assets/images/vehicles/vector-wagon-r.webp" alt="Suzuki Wagon R Hybrid automatic car for rent in Kandy" loading="lazy" decoding="async" width="480" height="300">
                   <div class="rc-badge">AVAILABLE</div>
                   <button class="rc-wishlist" onclick="event.preventDefault();" aria-label="Add to wishlist">
                     <i class="fa-regular fa-heart"></i>

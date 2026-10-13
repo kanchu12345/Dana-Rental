@@ -28,7 +28,7 @@
   <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&amp;family=Open+Sans:wght@400;600;700&amp;display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" href="./css/style.css?v=3.6">
+  <link rel="stylesheet" href="./css/style.css?v=3.7">
 </head>
 <body>
 
@@ -104,7 +104,7 @@
         <!-- Category Filter Tabs -->
         <div class="hero-tabs" style="display: flex; justify-content: center; gap: 12px; margin-bottom: 40px; flex-wrap: wrap;">
           <button class="hero-tab active" data-tab="all"><i class="fa-solid fa-border-all"></i> All Vehicles</button>
-          <button class="hero-tab" data-tab="bikes"><i class="fa-solid fa-motorcycle"></i> Bikes & Scooters</button>
+          <button class="hero-tab" data-tab="scooter"><i class="fa-solid fa-motorcycle"></i> Scooters & Bikes</button>
           <button class="hero-tab" data-tab="cars"><i class="fa-solid fa-car"></i> Cars</button>
           <button class="hero-tab" data-tab="vans"><i class="fa-solid fa-van-shuttle"></i> Vans</button>
         </div>
@@ -113,9 +113,9 @@
         <div class="cards-grid" id="featuredVehiclesGrid">
           
           <!-- 1. Honda Dio 110cc -->
-          <a href="https://wa.me/94772013059?text=Hello%20Danan%20Rentals,%20I%20want%20to%20book%20the%20Honda%20Dio%20110cc" target="_blank" rel="noopener" class="rc reveal visible in">
+          <a href="https://wa.me/94772013059?text=Hello%20Danan%20Rentals,%20I%20want%20to%20book%20the%20Honda%20Dio%20110cc" target="_blank" rel="noopener" class="rc reveal visible in" data-category="scooter">
             <div class="rc-img">
-              <img src="./assets/images/vehicles/vector-dio.png" alt="Honda Dio 110cc scooter for rent in Kandy" loading="lazy" decoding="async" width="480" height="300">
+              <img src="./assets/images/vehicles/vector-dio.webp" alt="Honda Dio 110cc scooter for rent in Kandy" loading="lazy" decoding="async" width="480" height="300">
               <div class="rc-badge">AVAILABLE</div>
               <button class="rc-wishlist" onclick="event.preventDefault();" aria-label="Add to wishlist">
                 <i class="fa-regular fa-heart"></i>
@@ -141,9 +141,9 @@
           </a>
 
           <!-- 2. TVS Ntorq 125cc -->
-          <a href="https://wa.me/94772013059?text=Hello%20Danan%20Rentals,%20I%20want%20to%20book%20the%20TVS%20Ntorq%20125cc" target="_blank" rel="noopener" class="rc reveal visible in">
+          <a href="https://wa.me/94772013059?text=Hello%20Danan%20Rentals,%20I%20want%20to%20book%20the%20TVS%20Ntorq%20125cc" target="_blank" rel="noopener" class="rc reveal visible in" data-category="scooter">
             <div class="rc-img">
-              <img src="./assets/images/vehicles/vector-ntorq.png" alt="TVS Ntorq 125cc scooter for rent in Peradeniya Kandy" loading="lazy" decoding="async" width="480" height="300">
+              <img src="./assets/images/vehicles/vector-ntorq.webp" alt="TVS Ntorq 125cc scooter for rent in Peradeniya Kandy" loading="lazy" decoding="async" width="480" height="300">
               <div class="rc-badge">AVAILABLE</div>
               <button class="rc-wishlist" onclick="event.preventDefault();" aria-label="Add to wishlist">
                 <i class="fa-regular fa-heart"></i>
@@ -169,9 +169,9 @@
           </a>
 
           <!-- 3. Indian Alto 2014 -->
-          <a href="https://wa.me/94772013059?text=Hello%20Danan%20Rentals,%20I%20want%20to%20book%20the%20Indian%20Alto%202014" target="_blank" rel="noopener" class="rc reveal visible in">
+          <a href="https://wa.me/94772013059?text=Hello%20Danan%20Rentals,%20I%20want%20to%20book%20the%20Indian%20Alto%202014" target="_blank" rel="noopener" class="rc reveal visible in" data-category="cars">
             <div class="rc-img">
-              <img src="./assets/images/vehicles/vector-alto-indian.png" alt="Suzuki Indian Alto 2014 manual self drive car rental Kandy" loading="lazy" decoding="async" width="480" height="300">
+              <img src="./assets/images/vehicles/vector-alto-indian.webp" alt="Suzuki Indian Alto 2014 manual self drive car rental Kandy" loading="lazy" decoding="async" width="480" height="300">
               <div class="rc-badge">AVAILABLE</div>
               <button class="rc-wishlist" onclick="event.preventDefault();" aria-label="Add to wishlist">
                 <i class="fa-regular fa-heart"></i>
@@ -197,9 +197,9 @@
           </a>
 
           <!-- 4. Japan Alto Auto -->
-          <a href="https://wa.me/94772013059?text=Hello%20Danan%20Rentals,%20I%20want%20to%20book%20the%20Japan%20Alto%20Auto" target="_blank" rel="noopener" class="rc reveal visible in">
+          <a href="https://wa.me/94772013059?text=Hello%20Danan%20Rentals,%20I%20want%20to%20book%20the%20Japan%20Alto%20Auto" target="_blank" rel="noopener" class="rc reveal visible in" data-category="cars">
             <div class="rc-img">
-              <img src="./assets/images/vehicles/vector-alto-japan.png" alt="Suzuki Japan Alto automatic self drive car rental Kandy" loading="lazy" decoding="async" width="480" height="300">
+              <img src="./assets/images/vehicles/vector-alto-japan.webp" alt="Suzuki Japan Alto automatic self drive car rental Kandy" loading="lazy" decoding="async" width="480" height="300">
               <div class="rc-badge">AVAILABLE</div>
               <button class="rc-wishlist" onclick="event.preventDefault();" aria-label="Add to wishlist">
                 <i class="fa-regular fa-heart"></i>
@@ -225,9 +225,9 @@
           </a>
 
           <!-- 5. Suzuki Every Van Buddy – Auto -->
-          <a href="https://wa.me/94772013059?text=Hello%20Danan%20Rentals,%20I%20want%20to%20book%20the%20Suzuki%20Every%20Van%20Buddy%20Auto" target="_blank" rel="noopener" class="rc reveal visible in">
+          <a href="https://wa.me/94772013059?text=Hello%20Danan%20Rentals,%20I%20want%20to%20book%20the%20Suzuki%20Every%20Van%20Buddy%20Auto" target="_blank" rel="noopener" class="rc reveal visible in" data-category="vans">
             <div class="rc-img">
-              <img src="./assets/images/vehicles/vector-every-van.png" alt="Suzuki Every Van Buddy automatic passenger van for rent in Kandy" loading="lazy" decoding="async" width="480" height="300">
+              <img src="./assets/images/vehicles/vector-every-van.webp" alt="Suzuki Every Van Buddy automatic passenger van for rent in Kandy" loading="lazy" decoding="async" width="480" height="300">
               <div class="rc-badge">AVAILABLE</div>
               <button class="rc-wishlist" onclick="event.preventDefault();" aria-label="Add to wishlist">
                 <i class="fa-regular fa-heart"></i>
@@ -253,9 +253,9 @@
           </a>
 
           <!-- 6. Suzuki Wagon R -->
-          <a href="https://wa.me/94772013059?text=Hello%20Danan%20Rentals,%20I%20want%20to%20book%20the%20Suzuki%20Wagon%20R" target="_blank" rel="noopener" class="rc reveal visible in">
+          <a href="https://wa.me/94772013059?text=Hello%20Danan%20Rentals,%20I%20want%20to%20book%20the%20Suzuki%20Wagon%20R" target="_blank" rel="noopener" class="rc reveal visible in" data-category="cars">
             <div class="rc-img">
-              <img src="./assets/images/vehicles/vector-wagon-r.png" alt="Suzuki Wagon R hybrid automatic rental car in Kandy Peradeniya" loading="lazy" decoding="async" width="480" height="300">
+              <img src="./assets/images/vehicles/vector-wagon-r.webp" alt="Suzuki Wagon R hybrid automatic rental car in Kandy Peradeniya" loading="lazy" decoding="async" width="480" height="300">
               <div class="rc-badge">AVAILABLE</div>
               <button class="rc-wishlist" onclick="event.preventDefault();" aria-label="Add to wishlist">
                 <i class="fa-regular fa-heart"></i>
