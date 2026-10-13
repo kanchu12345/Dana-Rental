@@ -28,14 +28,14 @@
   <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&amp;family=Open+Sans:wght@400;600;700&amp;display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" href="./css/style.css?v=3.7">
+  <link rel="stylesheet" href="./css/style.css?v=4.0">
 </head>
 <body>
 
   <!-- ═══ NAVBAR ═══ -->
   <nav id="navbar">
     <a href="/" class="nav-logo">
-      <img src="./assets/images/logo/logo.png" alt="Danan Car &amp; Bike Rentals Logo">
+      <img src="./assets/images/logo/logo.png" alt="Danan Car &amp; Bike Rentals Logo" width="160" height="48">
       <div class="nav-brand-title">DANAN <span>RENTALS</span></div>
     </a>
 
@@ -50,32 +50,104 @@
     </ul>
 
     <div class="nav-btns">
-      <a href="https://wa.me/94772013059?text=Hello%20Danan%20Rentals,%20I%20want%20to%20book%20a%20vehicle." target="_blank" rel="noopener" class="btn-nav-yellow">Book Now</a>
+      <a href="bookings.html" class="btn-nav-yellow">Book Now</a>
     </div>
 
-    <div class="menu-toggle" id="menuToggle">
-      <i class="fa-solid fa-bars"></i>
-    </div>
+    <button class="nav-toggle" id="menuToggle" aria-label="Toggle Navigation">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
   </nav>
 
-  <!-- MOBILE MENU DRAWER -->
+  <!-- MOBILE MENU OVERLAY -->
   <div class="mobile-overlay" id="mobileOverlay"></div>
   <div class="mobile-menu" id="mobileMenu">
     <div class="mobile-menu-header">
-      <div class="nav-brand-title">DANAN <span>RENTALS</span></div>
-      <button class="mobile-menu-close" id="menuClose"><i class="fa-solid fa-xmark"></i></button>
+      <div class="nav-logo">
+        <img src="./assets/images/logo/logo.png" alt="Danan Car &amp; Bike Rentals Logo" width="140" height="42">
+        <div class="nav-brand-title">DANAN <span>RENTALS</span></div>
+      </div>
+      <button type="button" class="mobile-close" id="menuClose" aria-label="Close Navigation">&#10005;</button>
     </div>
-    <ul class="mobile-nav-links">
-      <li><a href="/">HOME</a></li>
-      <li><a href="vehicles.html" class="active">OUR FLEET</a></li>
-      <li><a href="bookings.html">BOOKINGS</a></li>
-      <li><a href="destinations.html">DESTINATIONS</a></li>
-      <li><a href="about.html">ABOUT US</a></li>
-      <li><a href="contact.html">CONTACT US</a></li>
-      <li><a href="faqs.html">FAQ</a></li>
+    <ul class="mobile-links">
+      <li>
+        <a href="/">
+          <span class="m-link-left">
+            <span class="m-link-icon m-icon-home"><i class="fa-solid fa-house"></i></span>
+            <span>Home</span>
+          </span>
+          <i class="fa-solid fa-chevron-right m-chevron"></i>
+        </a>
+      </li>
+      <li>
+        <a href="vehicles.html" class="active">
+          <span class="m-link-left">
+            <span class="m-link-icon m-icon-fleet"><i class="fa-solid fa-car-side"></i></span>
+            <span>Our Fleet</span>
+          </span>
+          <i class="fa-solid fa-chevron-right m-chevron"></i>
+        </a>
+      </li>
+      <li>
+        <a href="bookings.html">
+          <span class="m-link-left">
+            <span class="m-link-icon m-icon-book"><i class="fa-solid fa-calendar-check"></i></span>
+            <span>Bookings</span>
+          </span>
+          <i class="fa-solid fa-chevron-right m-chevron"></i>
+        </a>
+      </li>
+      <li>
+        <a href="destinations.html">
+          <span class="m-link-left">
+            <span class="m-link-icon m-icon-dest"><i class="fa-solid fa-map-location-dot"></i></span>
+            <span>Destinations</span>
+          </span>
+          <i class="fa-solid fa-chevron-right m-chevron"></i>
+        </a>
+      </li>
+      <li>
+        <a href="about.html">
+          <span class="m-link-left">
+            <span class="m-link-icon m-icon-about"><i class="fa-solid fa-shield-halved"></i></span>
+            <span>About Us</span>
+          </span>
+          <i class="fa-solid fa-chevron-right m-chevron"></i>
+        </a>
+      </li>
+      <li>
+        <a href="contact.html">
+          <span class="m-link-left">
+            <span class="m-link-icon m-icon-contact"><i class="fa-solid fa-phone"></i></span>
+            <span>Contact Us</span>
+          </span>
+          <i class="fa-solid fa-chevron-right m-chevron"></i>
+        </a>
+      </li>
+      <li>
+        <a href="faqs.html">
+          <span class="m-link-left">
+            <span class="m-link-icon m-icon-faq"><i class="fa-solid fa-circle-question"></i></span>
+            <span>FAQ &amp; Rules</span>
+          </span>
+          <i class="fa-solid fa-chevron-right m-chevron"></i>
+        </a>
+      </li>
     </ul>
-    <div style="margin-top: 24px; display: flex; flex-direction: column; gap: 12px;">
-      <a href="https://wa.me/94772013059?text=Hello%20Danan%20Rentals,%20I%20want%20to%20book%20a%20vehicle." target="_blank" rel="noopener" class="btn-nav-yellow" style="text-align: center;">Book On WhatsApp</a>
+    <div class="mobile-menu-cta">
+      <a href="https://wa.me/94772013059?text=Hello%20Danan%20Rentals,%20I%20want%20to%20rent%20a%20vehicle." target="_blank" rel="noopener" class="btn-m-whatsapp">
+        <i class="fa-brands fa-whatsapp fa-lg"></i> Book on WhatsApp
+      </a>
+      <a href="tel:+94772013059" class="btn-m-call">
+        <i class="fa-solid fa-phone-volume"></i> Hotline: +94 77 201 3059
+      </a>
+      <div class="mobile-menu-socials">
+        <a href="https://www.facebook.com/" target="_blank" rel="noopener" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+        <a href="https://www.tripadvisor.com/" target="_blank" rel="noopener" aria-label="TripAdvisor"><i class="fa-brands fa-tripadvisor"></i></a>
+        <a href="https://www.instagram.com/" target="_blank" rel="noopener" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+        <a href="https://wa.me/94772013059" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+      </div>
     </div>
   </div>
 
@@ -303,7 +375,7 @@
           </div>
           <div>
             <div style="font-size: 0.75rem; font-weight: 800; text-transform: uppercase;">Call now</div>
-            <div class="cta-call-num"><a href="tel:0772013059">077 201 3059</a></div>
+            <div class="cta-call-num"><a href="tel:+94772013059">+94 77 201 3059</a></div>
           </div>
         </div>
         <a href="https://wa.me/94772013059?text=Hello%20Danan%20Rentals,%20I%20want%20to%20reserve%20a%20vehicle." target="_blank" rel="noopener" class="btn-contact">WhatsApp Us</a>
@@ -316,18 +388,22 @@
     <div class="footer-grid">
       <div>
         <div class="footer-logo">
-          <img src="./assets/images/logo/logo.png" alt="Danan Car and Bike Rentals Kandy" width="160" height="48">
+          <img src="./assets/images/logo/logo.png" alt="Danan Car &amp; Bike Rentals Logo" width="160" height="48">
         </div>
         <p class="footer-addr">
-          Peradeniya & Kandy, Sri Lanka<br>
-          Phone: <a href="tel:0772013059" style="color: var(--yellow);">077 201 3059</a> / <a href="tel:0712832221" style="color: var(--yellow);">071 283 2221</a><br>
-          Email: dananrentals@gmail.com
+          Peradeniya &amp; Kandy, Sri Lanka<br>
+          Phone: <a href="tel:+94772013059" style="color: var(--yellow);">+94 77 201 3059</a> / <a href="tel:+94712832221" style="color: var(--yellow);">+94 71 283 2221</a><br>
+          Email: <a href="mailto:dananrentals@gmail.com" style="color: var(--yellow);">dananrentals@gmail.com</a>
         </p>
-        <div class="footer-socials">
-          <a href="https://www.facebook.com/TODO_REPLACE_WITH_REAL_FACEBOOK_PAGE" target="_blank" rel="noopener" class="soc-icon-btn" aria-label="Facebook Page" id="footerFbLink"><i class="fa-brands fa-facebook-f"></i></a>
-          <a href="https://wa.me/94772013059" target="_blank" rel="noopener" class="soc-icon-btn" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
-          <a href="tel:0772013059" class="soc-icon-btn" aria-label="Phone"><i class="fa-solid fa-phone"></i></a>
-          <a href="https://share.google/ICElyHmWpDjeHQLOY" target="_blank" rel="noopener" class="soc-icon-btn" aria-label="Location"><i class="fa-solid fa-location-dot"></i></a>
+        <div class="footer-socials" id="footerSocials">
+          <a href="https://www.facebook.com/" target="_blank" rel="noopener" class="soc-icon-btn" aria-label="Facebook Page" id="footerFbLink" title="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="https://www.tripadvisor.com/" target="_blank" rel="noopener" class="soc-icon-btn" aria-label="TripAdvisor" id="footerTripadvisorLink" title="TripAdvisor"><i class="fa-brands fa-tripadvisor"></i></a>
+          <a href="https://www.instagram.com/" target="_blank" rel="noopener" class="soc-icon-btn" aria-label="Instagram" id="footerInstagramLink" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="https://wa.me/94772013059" target="_blank" rel="noopener" class="soc-icon-btn" aria-label="WhatsApp" id="footerWaLink" title="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+          <a href="" target="_blank" rel="noopener" class="soc-icon-btn" aria-label="YouTube Channel" id="footerYoutubeLink" title="YouTube" style="display: none;"><i class="fa-brands fa-youtube"></i></a>
+          <a href="" target="_blank" rel="noopener" class="soc-icon-btn" aria-label="TikTok Profile" id="footerTiktokLink" title="TikTok" style="display: none;"><i class="fa-brands fa-tiktok"></i></a>
+          <a href="tel:+94772013059" class="soc-icon-btn" aria-label="Phone" title="Phone Call"><i class="fa-solid fa-phone"></i></a>
+          <a href="https://share.google/ICElyHmWpDjeHQLOY" target="_blank" rel="noopener" class="soc-icon-btn" aria-label="Location" title="Google Map"><i class="fa-solid fa-location-dot"></i></a>
         </div>
       </div>
 
@@ -339,26 +415,34 @@
           <li><a href="bookings.html"><i class="fa-solid fa-chevron-right fa-xs"></i> Bookings</a></li>
           <li><a href="destinations.html"><i class="fa-solid fa-chevron-right fa-xs"></i> Destinations</a></li>
           <li><a href="about.html"><i class="fa-solid fa-chevron-right fa-xs"></i> About Us</a></li>
-          <li><a href="contact.html"><i class="fa-solid fa-chevron-right fa-xs"></i> Contact Us</a></li>
-          <li><a href="faqs.html"><i class="fa-solid fa-chevron-right fa-xs"></i> FAQ</a></li>
         </ul>
       </div>
 
       <div>
-        <div class="footer-col-title">Support</div>
+        <div class="footer-col-title">Support &amp; Info</div>
         <ul class="footer-links">
-          <li><a href="faqs.html#rules"><i class="fa-solid fa-chevron-right fa-xs"></i> Rules & Req</a></li>
+          <li><a href="faqs.html#rules"><i class="fa-solid fa-chevron-right fa-xs"></i> Rules &amp; Requirements</a></li>
           <li><a href="faqs.html"><i class="fa-solid fa-chevron-right fa-xs"></i> FAQs</a></li>
           <li><a href="contact.html"><i class="fa-solid fa-chevron-right fa-xs"></i> Contact Us</a></li>
         </ul>
       </div>
 
       <div>
-        <div class="footer-col-title">Location</div>
-        <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.6; margin-bottom: 16px;">
-          Convenient vehicle pickup & delivery available throughout Kandy town, Peradeniya, and nearby railway stations.
-        </p>
-        <a href="https://share.google/ICElyHmWpDjeHQLOY" target="_blank" rel="noopener" class="btn-nav-outline" style="display: inline-flex; align-items: center; gap: 8px;">
+        <div class="footer-col-title">Google Map Location</div>
+        <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 10px;">Danan Car &amp; Bike Rentals Peradeniya, Kandy</p>
+        <div class="footer-map-wrap" style="width: 100%; height: 160px; border-radius: 12px; overflow: hidden; border: 1px solid var(--card-border); margin-bottom: 12px;">
+          <iframe 
+            src="https://maps.google.com/maps?q=Danan%20Car%20%26%20Bike%20Rentals%20Peradeniya%20Kandy%20Sri%20Lanka&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=&amp;output=embed" 
+            width="100%" 
+            height="100%" 
+            style="border:0;" 
+            allowfullscreen="" 
+            loading="lazy" 
+            referrerpolicy="no-referrer-when-downgrade"
+            title="Danan Car &amp; Bike Rentals Location Map">
+          </iframe>
+        </div>
+        <a href="https://share.google/ICElyHmWpDjeHQLOY" target="_blank" rel="noopener" class="btn-nav-outline" style="display: inline-flex; align-items: center; gap: 8px; font-size: 0.75rem; padding: 6px 16px;">
           <i class="fa-solid fa-map-location-dot"></i> Open Full Map
         </a>
       </div>
@@ -390,7 +474,7 @@
           <div class="headlight-beam"></div>
         </div>
       </div>
-      <span>&copy; 2026 Danan Car & Bike Rentals. Peradeniya & Kandy, Sri Lanka.</span>
+      <span>&copy; <span class="current-year">2026</span> Danan Car &amp; Bike Rentals. All Rights Reserved.</span>
       <span>Designed by <a href="https://infiniteweb.dev/index.html" target="_blank" rel="noopener" style="color: var(--yellow); font-weight: 700;">INFINITE Creative Web Design</a></span>
     </div>
   </footer>
@@ -404,95 +488,9 @@
     <i class="fa-solid fa-chevron-up"></i>
   </button>
 
-  <!-- ═══ BOOKING INQUIRY MODAL ═══ -->
-  <div class="booking-modal-overlay" id="bookingModalOverlay">
-    <div class="booking-modal-card">
-      <div class="booking-modal-header">
-        <div class="booking-modal-title">
-          <i class="fa-solid fa-calendar-check"></i> Rental Booking Inquiry
-        </div>
-        <button class="booking-modal-close" id="btnBmClose" aria-label="Close modal">&times;</button>
-      </div>
-      <div class="booking-modal-body">
-        
-        <!-- Selected Vehicle Preview Header -->
-        <div class="bm-selected-vehicle">
-          <img id="bmVehImg" src="./assets/images/vehicles/vehicle-8.png" alt="Selected rental vehicle for booking in Kandy" class="bm-vehicle-img" width="120" height="80">
-          <div class="bm-vehicle-info">
-            <div id="bmVehName" class="bm-vehicle-name">Honda Dio 110cc (2025)</div>
-            <div id="bmVehRate" class="bm-vehicle-rate">Rs. 3,000 / day &bull; 200 Free Km/Day</div>
-          </div>
-        </div>
+  <!-- Shared booking modal component is loaded dynamically by js/main.js -->
 
-        <form id="bookingInquiryForm">
-          <div class="bm-grid">
-            <div class="bm-form-group">
-              <label for="bmFullName" class="bm-label">Your Full Name *</label>
-              <input type="text" id="bmFullName" class="bm-input" placeholder="e.g. John Smith" required>
-            </div>
-            <div class="bm-form-group">
-              <label for="bmPhone" class="bm-label">WhatsApp / Phone Number *</label>
-              <input type="tel" id="bmPhone" class="bm-input" placeholder="+94 77 123 4567" required>
-            </div>
-          </div>
-
-          <div class="bm-grid">
-            <div class="bm-form-group">
-              <label for="bmPickupDate" class="bm-label">Pickup Date & Time *</label>
-              <input type="datetime-local" id="bmPickupDate" class="bm-input" required>
-            </div>
-            <div class="bm-form-group">
-              <label for="bmReturnDate" class="bm-label">Return Date & Time *</label>
-              <input type="datetime-local" id="bmReturnDate" class="bm-input" required>
-            </div>
-          </div>
-
-          <div class="bm-grid">
-            <div class="bm-form-group">
-              <label for="bmPickupLoc" class="bm-label">Pickup / Delivery Location *</label>
-              <select id="bmPickupLoc" class="bm-select">
-                <option value="Kandy City / Hotel Delivery">Kandy City / Hotel Delivery</option>
-                <option value="Peradeniya Railway Station">Peradeniya Railway Station</option>
-                <option value="Kandy Railway Station">Kandy Railway Station</option>
-                <option value="Colombo BIA Airport Transfer">Colombo Airport (BIA) Transfer</option>
-                <option value="Other Location in Sri Lanka">Other (Specify in Notes)</option>
-              </select>
-            </div>
-            <div class="bm-form-group">
-              <label for="bmPermitStatus" class="bm-label">Driving License Permit Status</label>
-              <select id="bmPermitStatus" class="bm-select">
-                <option value="I have International / Local License">I have International / Local License</option>
-                <option value="Need AA Ceylon Permit Assistance">Need AA Ceylon Permit Assistance</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="bm-form-group full-width" style="margin-bottom: 16px;">
-            <label for="bmNotes" class="bm-label">Special Requests / Questions (Optional)</label>
-            <textarea id="bmNotes" class="bm-textarea" rows="2" placeholder="e.g. Need extra helmet, child seat, or delivery to hotel..."></textarea>
-          </div>
-
-          <!-- Price Estimate Display -->
-          <div class="bm-price-est-box">
-            <div class="bm-price-est-label">Estimated Rental Duration & Total:</div>
-            <div class="bm-price-est-value" id="bmEstTotal">Rs. 3,000 <span style="font-size: 0.8rem; font-weight: 500; color: rgba(255,255,255,0.7);">(1 Day)</span></div>
-          </div>
-
-          <div class="bm-actions">
-            <button type="button" id="btnBmWhatsapp" class="btn-bm-whatsapp">
-              <i class="fa-brands fa-whatsapp fa-lg"></i> Book via WhatsApp
-            </button>
-            <button type="submit" id="btnBmSubmit" class="btn-bm-submit">
-              <i class="fa-solid fa-paper-plane"></i> Send Inquiry via WhatsApp
-            </button>
-          </div>
-        </form>
-
-      </div>
-    </div>
-  </div>
-
-  <script type="module" src="./js/main.js?v=3.4"></script>
+  <script type="module" src="./js/main.js?v=4.0"></script>
 
   <script>
     // Ensure all vehicle cards and content are immediately visible

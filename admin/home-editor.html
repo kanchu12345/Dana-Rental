@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
   <title>Home Page Editor | Danan Admin</title>
   <meta name="theme-color" content="#111111">
   <link rel="icon" href="../assets/images/logo/logo.png" type="image/jpeg">
@@ -183,7 +184,7 @@
               <label>1. Main Feature Photo</label>
               <div style="display: flex; gap: 14px; align-items: center;">
                 <div class="img-preview-box" style="width: 110px; height: 85px; flex-shrink: 0;">
-                  <img id="missionMainPreview" src="../assets/images/about/pexels-pixabay-271618.jpg" alt="Main Photo">
+                  <img id="missionMainPreview" src="../assets/images/about/scenic-road-highway.webp" alt="Main Photo">
                 </div>
                 <div style="flex: 1;">
                   <input type="file" id="missionMainFileInput" accept="image/*" class="form-control" style="margin-bottom: 6px;">
@@ -197,7 +198,7 @@
               <label>2. Overlapping Corner Photo</label>
               <div style="display: flex; gap: 14px; align-items: center;">
                 <div class="img-preview-box" style="width: 110px; height: 85px; flex-shrink: 0;">
-                  <img id="missionOverlayPreview" src="../assets/images/about/pexels-rpnickson-2417842.jpg" alt="Overlay Photo">
+                  <img id="missionOverlayPreview" src="../assets/images/about/car-interior-drive.webp" alt="Overlay Photo">
                 </div>
                 <div style="flex: 1;">
                   <input type="file" id="missionOverlayFileInput" accept="image/*" class="form-control" style="margin-bottom: 6px;">
@@ -234,7 +235,7 @@
                 <label>Step Photo</label>
                 <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 6px;">
                   <div class="img-preview-box" style="width: 70px; height: 50px; flex-shrink: 0; margin-bottom: 0;">
-                    <img id="step1Preview" src="../assets/images/about/pexels-thilina-alagiyawanna-3266092-31039336.jpg" alt="Step 1">
+                    <img id="step1Preview" src="../assets/images/about/step-1-apply-online.webp" alt="Step 1">
                   </div>
                   <input type="file" id="step1FileInput" accept="image/*" class="form-control" style="font-size: 0.8rem;">
                 </div>
@@ -257,7 +258,7 @@
                 <label>Step Photo</label>
                 <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 6px;">
                   <div class="img-preview-box" style="width: 70px; height: 50px; flex-shrink: 0; margin-bottom: 0;">
-                    <img id="step2Preview" src="../assets/images/about/pexels-thilina-alagiyawanna-3266092-31039339.jpg" alt="Step 2">
+                    <img id="step2Preview" src="../assets/images/about/step-2-permit-verification.webp" alt="Step 2">
                   </div>
                   <input type="file" id="step2FileInput" accept="image/*" class="form-control" style="font-size: 0.8rem;">
                 </div>
@@ -280,7 +281,7 @@
                 <label>Step Photo</label>
                 <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 6px;">
                   <div class="img-preview-box" style="width: 70px; height: 50px; flex-shrink: 0; margin-bottom: 0;">
-                    <img id="step3Preview" src="../assets/images/about/pexels-thilina-alagiyawanna-3266092-34861066.jpg" alt="Step 3">
+                    <img id="step3Preview" src="../assets/images/about/step-3-hit-the-road.webp" alt="Step 3">
                   </div>
                   <input type="file" id="step3FileInput" accept="image/*" class="form-control" style="font-size: 0.8rem;">
                 </div>
@@ -303,7 +304,7 @@
                 <label>Step Photo</label>
                 <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 6px;">
                   <div class="img-preview-box" style="width: 70px; height: 50px; flex-shrink: 0; margin-bottom: 0;">
-                    <img id="step4Preview" src="../assets/images/about/pexels-thilina-alagiyawanna-3266092-34861077.jpg" alt="Step 4">
+                    <img id="step4Preview" src="../assets/images/about/step-4-delivered-to-you.webp" alt="Step 4">
                   </div>
                   <input type="file" id="step4FileInput" accept="image/*" class="form-control" style="font-size: 0.8rem;">
                 </div>
@@ -357,7 +358,7 @@
                   <div>
                     <label style="font-size: 0.85rem; font-weight: 600;">Card 1 Image / Thumbnail</label>
                     <div style="display: flex; gap: 12px; align-items: center; margin-bottom: 8px;">
-                      <img id="expCard1Preview" src="../assets/images/about/pexels-malindabandaralk-16508228.jpg" style="width: 100px; height: 65px; object-fit: cover; border-radius: 4px; border: 1px solid #ddd;">
+                      <img id="expCard1Preview" src="../assets/images/about/kandy-experience-tour.webp" style="width: 100px; height: 65px; object-fit: cover; border-radius: 4px; border: 1px solid #ddd;">
                       <input type="file" id="expCard1FileInput" accept="image/*" class="form-control" style="font-size: 0.8rem;">
                     </div>
                     <input type="text" id="expCard1ImgUrl" class="form-control" placeholder="Or image path / URL (leave blank to auto-use YouTube thumbnail)">
@@ -674,16 +675,16 @@
       const missionData = homeData.mission || {
         title: "Our Mission & Heritage",
         description: "Danan Rentals was founded on a simple vision: securing road-legal driving permits and renting clean, reliable vehicles in Sri Lanka should be fast and transparent. Today we connect international and local travelers with verified AA Ceylon permits, premium fleets, and punctual private transfers.",
-        mainImage: "../assets/images/about/pexels-pixabay-271618.jpg",
-        overlayImage: "../assets/images/about/pexels-rpnickson-2417842.jpg"
+        mainImage: "../assets/images/about/scenic-road-highway.webp",
+        overlayImage: "../assets/images/about/car-interior-drive.webp"
       };
 
       document.getElementById('missionTitleInput').value = missionData.title || '';
       document.getElementById('missionDescInput').value = missionData.description || '';
       document.getElementById('missionMainUrl').value = missionData.mainImage || '';
-      document.getElementById('missionMainPreview').src = fixImgPath(missionData.mainImage || '../assets/images/about/pexels-pixabay-271618.jpg');
+      document.getElementById('missionMainPreview').src = fixImgPath(missionData.mainImage || '../assets/images/about/scenic-road-highway.webp');
       document.getElementById('missionOverlayUrl').value = missionData.overlayImage || '';
-      document.getElementById('missionOverlayPreview').src = fixImgPath(missionData.overlayImage || '../assets/images/about/pexels-rpnickson-2417842.jpg');
+      document.getElementById('missionOverlayPreview').src = fixImgPath(missionData.overlayImage || '../assets/images/about/car-interior-drive.webp');
 
       // Mission Main Image Upload
       document.getElementById('missionMainFileInput').addEventListener('change', async (e) => {
@@ -747,10 +748,10 @@
 
       // 4. Load & Save 4-Step How It Works Process Strip
       const defaultSteps = [
-        { step: '01', title: 'Apply Online', caption: 'Choose your permit, rental or transfer and book in minutes.', image: '../assets/images/about/pexels-thilina-alagiyawanna-3266092-31039336.jpg' },
-        { step: '02', title: 'Get Verified Fast', caption: 'We process your permit and confirm your booking within 24 hours.', image: '../assets/images/about/pexels-thilina-alagiyawanna-3266092-31039339.jpg' },
-        { step: '03', title: 'Hit the Road', caption: 'Drive Sri Lanka your way, with local support a message away.', image: '../assets/images/about/pexels-thilina-alagiyawanna-3266092-34861066.jpg' },
-        { step: '04', title: 'Delivered to You', caption: 'Your permit and vehicle reach your hotel or address smoothly.', image: '../assets/images/about/pexels-thilina-alagiyawanna-3266092-34861077.jpg' }
+        { step: '01', title: 'Apply Online', caption: 'Choose your permit, rental or transfer and book in minutes.', image: '../assets/images/about/step-1-apply-online.webp' },
+        { step: '02', title: 'Get Verified Fast', caption: 'We process your permit and confirm your booking within 24 hours.', image: '../assets/images/about/step-2-permit-verification.webp' },
+        { step: '03', title: 'Hit the Road', caption: 'Drive Sri Lanka your way, with local support a message away.', image: '../assets/images/about/step-3-hit-the-road.webp' },
+        { step: '04', title: 'Delivered to You', caption: 'Your permit and vehicle reach your hotel or address smoothly.', image: '../assets/images/about/step-4-delivered-to-you.webp' }
       ];
       const stepsData = (homeData.steps && Array.isArray(homeData.steps) && homeData.steps.length === 4) ? homeData.steps : defaultSteps;
 
@@ -822,7 +823,7 @@
         description: 'Go from airport arrival to taking the wheel in record time — vehicle prepped, official permits confirmed, and the open road awaiting. From golden southern palm beaches to the mists of Kandy highlands, experience paradise on your own schedule.',
         videoMode: 'inline',
         card1: {
-          image: '../assets/images/about/pexels-malindabandaralk-16508228.jpg',
+          image: '../assets/images/about/kandy-experience-tour.webp',
           videoUrl: 'https://www.youtube.com/watch?v=5PyX0KZ8KR8'
         },
         card2: {

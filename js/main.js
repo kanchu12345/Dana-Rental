@@ -12,11 +12,12 @@ import {
   saveDoc 
 } from './db.js';
 
-// Feature Flag: Set to true if unavailable vehicles should remain visible with a "BOOKED" badge
-export const SHOW_UNAVAILABLE_AS_BOOKED = false;
+// Feature Flag: Show vehicles with dynamic AVAILABLE / UNAVAILABLE badge from admin data
+export const SHOW_UNAVAILABLE_AS_BOOKED = true;
 
 async function initApp() {
   initHeroTabSwitcher();
+  initCurrentYear();
   initTestimonialsCarousel();
   initWhyCarousel();
   initTapToInteractMaps();
@@ -391,17 +392,35 @@ async function loadSiteSettings() {
     link.href = `mailto:${sanitizeMailto(email)}`;
   });
 
-  // 7. Social Links (Facebook: hide icon if empty)
-  const fbLinks = document.querySelectorAll('#footerFbLink, a.soc-icon-btn[aria-label="Facebook Page"]');
-  fbLinks.forEach(link => {
-    const fbUrl = settings.facebook ? String(settings.facebook).trim() : '';
-    if (fbUrl) {
-      link.href = fbUrl;
-      link.style.display = '';
-    } else {
-      link.style.display = 'none';
-    }
-  });
+  // 7. Dynamic Social Media Links (Configurable via Admin Panel)
+  const socials = settings.socials || {};
+  const fbUrl = (settings.facebook || socials.facebook || '').trim();
+  const taUrl = (settings.tripadvisor || socials.tripadvisor || '').trim();
+  const igUrl = (settings.instagram || socials.instagram || '').trim();
+  const waUrl = (settings.whatsappLink || socials.whatsapp || `https://wa.me/${normWa}`).trim();
+  const ytUrl = (settings.youtube || socials.youtube || '').trim();
+  const ttUrl = (settings.tiktok || socials.tiktok || '').trim();
+
+  function updateSocialIcon(selectors, url, fallbackDefault = '') {
+    const finalUrl = (url && url !== '#' && !url.includes('TODO_REPLACE')) ? url : fallbackDefault;
+    const elements = document.querySelectorAll(selectors);
+    elements.forEach(el => {
+      if (finalUrl) {
+        el.href = finalUrl;
+        el.style.display = 'inline-flex';
+      } else {
+        el.style.display = 'none';
+      }
+    });
+  }
+
+  // Update all social channel icon buttons
+  updateSocialIcon('#footerFbLink, a.soc-icon-btn[aria-label*="Facebook"]', fbUrl, 'https://www.facebook.com/');
+  updateSocialIcon('#footerTripadvisorLink, a.soc-icon-btn[aria-label*="TripAdvisor"]', taUrl, 'https://www.tripadvisor.com/');
+  updateSocialIcon('#footerInstagramLink, a.soc-icon-btn[aria-label*="Instagram"]', igUrl, '');
+  updateSocialIcon('#footerWaLink, a.soc-icon-btn[aria-label*="WhatsApp"]', waUrl, `https://wa.me/${normWa}`);
+  updateSocialIcon('#footerYoutubeLink, a.soc-icon-btn[aria-label*="YouTube"]', ytUrl, '');
+  updateSocialIcon('#footerTiktokLink, a.soc-icon-btn[aria-label*="TikTok"]', ttUrl, '');
 }
 
 // DYNAMIC WEBSITE BACKGROUNDS MANAGER
@@ -504,7 +523,11 @@ async function loadHomePageData() {
     const heroTitle = document.querySelector('.hero-title');
     if (heroTitle && homeData.hero.headline) {
       let hl = homeData.hero.headline;
-      if (!hl.includes('<span') && !hl.includes('<br>')) {
+      // Auto-correct common typo 'journy' -> 'Journey'
+      hl = hl.replace(/journy/gi, 'Journey');
+      if (/Your Journey/i.test(hl) && /Your Choice/i.test(hl)) {
+        hl = '<span class="hero-title-main">Your Journey,</span> <span class="hero-title-highlight" style="color: var(--yellow);">Your Choice</span>';
+      } else if (!hl.includes('<span') && !hl.includes('<br>')) {
         if (/Car & Bike Rentals/i.test(hl)) {
           hl = hl.replace(/Car & Bike Rentals/i, '<span class="text-yellow">Car &amp; Bike Rentals</span>')
                  .replace(/Journey/i, '<span class="text-yellow">Journey</span>');
@@ -595,7 +618,7 @@ async function loadHomePageData() {
     description: 'Go from airport arrival to taking the wheel in record time — vehicle prepped, official permits confirmed, and the open road awaiting. From golden southern palm beaches to the mists of Kandy highlands, experience paradise on your own schedule.',
     videoMode: 'inline',
     card1: {
-      image: './assets/images/about/pexels-malindabandaralk-16508228.jpg',
+      image: './assets/images/about/kandy-experience-tour.webp',
       videoUrl: 'https://www.youtube.com/watch?v=5PyX0KZ8KR8'
     },
     card2: {
@@ -624,32 +647,24 @@ async function loadHomePageData() {
   cardDefs.forEach(({ cardEl, data }) => {
     if (!cardEl || !data) return;
     const yId = extractYouTubeId(data.videoUrl);
-
-    if (mode === 'inline' && yId) {
+    if (yId) {
       cardEl.setAttribute('data-video', yId);
-      cardEl.innerHTML = `
-        <iframe class="disc-video-iframe" 
-          src="https://www.youtube.com/embed/${yId}?autoplay=1&mute=1&loop=1&playlist=${yId}&controls=0&modestbranding=1&rel=0&playsinline=1&enablejsapi=1" 
-          title="Sri Lanka Showcase" 
-          frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-        <div class="disc-play">
-          <div class="disc-play-btn" title="Watch full video with sound">
-            <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-          </div>
-        </div>
-      `;
-    } else {
-      const imgSrc = data.image ? fixImgPath(data.image, false) : (yId ? `https://img.youtube.com/vi/${yId}/hqdefault.jpg` : '');
-      if (yId) cardEl.setAttribute('data-video', yId);
-      cardEl.innerHTML = `
-        <img src="${escapeHTML(imgSrc)}" alt="Sri Lanka Showcase" loading="lazy" decoding="async">
-        <div class="disc-play">
-          <div class="disc-play-btn" title="Watch video with sound">
-            <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-          </div>
-        </div>
-      `;
+      cardEl.setAttribute('role', 'button');
+      cardEl.setAttribute('tabindex', '0');
+      cardEl.setAttribute('aria-label', 'Play Sri Lanka Experience video');
     }
+
+    const thumbUrl = data.image ? fixImgPath(data.image, false) : (yId ? `https://img.youtube.com/vi/${yId}/maxresdefault.jpg` : '');
+    const fallbackThumb = yId ? `https://img.youtube.com/vi/${yId}/hqdefault.jpg` : '';
+
+    cardEl.innerHTML = `
+      <img src="${escapeHTML(thumbUrl)}" onerror="if('${fallbackThumb}'){this.onerror=null;this.src='${fallbackThumb}';}" alt="Sri Lanka Experience Showcase" loading="lazy" decoding="async" width="600" height="340">
+      <div class="disc-play">
+        <div class="disc-play-btn" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        </div>
+      </div>
+    `;
   });
 }
 
@@ -1208,7 +1223,7 @@ function renderVehiclesList(vehicles, activeCat = 'all') {
       <div data-book="${escapeHTML(v.id)}" data-category="${cardCat}" class="rc reveal visible in" style="cursor: pointer;">
         <div class="rc-img">
           <img src="${escapeHTML(fixImgPath(imgUrl, false))}" alt="${escapeHTML(v.name)}" loading="lazy" decoding="async" width="480" height="300">
-          <div class="rc-badge">${(v.available !== false) ? 'AVAILABLE' : 'BOOKED'}</div>
+          <div class="rc-badge ${(v.available !== false && v.available !== 'false') ? '' : 'rc-badge-unavailable'}">${(v.available !== false && v.available !== 'false') ? 'AVAILABLE' : 'UNAVAILABLE'}</div>
           <button class="rc-wishlist" onclick="event.stopPropagation();" aria-label="Add to wishlist">
             <i class="fa-regular fa-heart"></i>
           </button>
@@ -1240,6 +1255,14 @@ function renderVehiclesList(vehicles, activeCat = 'all') {
   grid.querySelectorAll('.reveal').forEach(el => el.classList.add('visible', 'in'));
 }
 
+// INITIALIZE CURRENT YEAR
+function initCurrentYear() {
+  const currentYear = new Date().getFullYear();
+  document.querySelectorAll('.current-year').forEach(el => {
+    el.textContent = currentYear;
+  });
+}
+
 // LOAD RULES & FAQS
 async function loadRulesAndFaqs() {
   const rulesContainer = document.getElementById('rulesContainer');
@@ -1264,10 +1287,15 @@ async function loadRulesAndFaqs() {
       faqsContainer.innerHTML = `<p style="color: var(--text-muted); font-size: 0.95rem;">No frequently asked questions listed at this time.</p>`;
     } else {
       faqsContainer.innerHTML = faqs.map(f => `
-        <div style="background: var(--card-bg); border: 1px solid var(--card-border); border-radius: var(--radius-sm); padding: 18px; margin-bottom: 14px;">
-          <h4 style="font-size: 1.05rem; color: var(--white); margin-bottom: 6px;">${escapeHTML(f.question)}</h4>
-          <p style="font-size: 0.9rem; color: var(--text-muted);">${escapeHTML(f.answer)}</p>
-        </div>
+        <details class="faq-accordion-item">
+          <summary class="faq-accordion-header">
+            <span>${escapeHTML(f.question)}</span>
+            <i class="fa-solid fa-chevron-down faq-accordion-icon"></i>
+          </summary>
+          <div class="faq-accordion-body">
+            <p>${escapeHTML(f.answer)}</p>
+          </div>
+        </details>
       `).join('');
     }
   }
@@ -1275,33 +1303,40 @@ async function loadRulesAndFaqs() {
 
 // LOAD REVIEWS CAROUSEL
 async function loadReviewsTrack() {
+  const reviewsSection = document.getElementById('reviews');
   const track = document.getElementById('testiTrack');
-  if (!track) return;
+  if (!reviewsSection && !track) return;
 
   const reviews = await getCollection('reviews');
-  const visible = reviews.filter(r => r.visible !== false);
+  const visible = (reviews || []).filter(r => r.visible !== false);
 
-  if (visible.length === 0) return;
+  if (visible.length === 0) {
+    if (reviewsSection) reviewsSection.style.display = 'none';
+    return;
+  }
 
-  track.innerHTML = visible.map(r => `
-    <div class="testi-card">
-      <div class="testi-head">
-        <div class="testi-av">
-          <img src="${escapeHTML(fixImgPath(r.photo || './assets/images/customers/customer-1.jpeg', false))}" alt="${escapeHTML(r.name)}">
-        </div>
-        <div>
-          <div class="testi-name">${escapeHTML(r.name)}</div>
-          <div style="font-size: 0.78rem; color: var(--yellow); display: flex; align-items: center; gap: 6px; margin-top: 2px;">
-            <i class="fa-brands fa-google" style="color:#4285F4;"></i> ${escapeHTML(r.source || 'Google Review')}
+  if (reviewsSection) reviewsSection.style.display = '';
+  if (track) {
+    track.innerHTML = visible.map(r => `
+      <div class="testi-card">
+        <div class="testi-head">
+          <div class="testi-av">
+            <img src="${escapeHTML(fixImgPath(r.photo || './assets/images/customers/customer-1.jpeg', false))}" alt="${escapeHTML(r.name)}" width="50" height="50" loading="lazy">
+          </div>
+          <div>
+            <div class="testi-name">${escapeHTML(r.name)}</div>
+            <div style="font-size: 0.78rem; color: var(--yellow); display: flex; align-items: center; gap: 6px; margin-top: 2px;">
+              <i class="fa-brands fa-google" style="color:#4285F4;"></i> ${escapeHTML(r.source || 'Google Review')}
+            </div>
           </div>
         </div>
+        <div class="testi-stars">
+          ${Array(Math.min(r.rating || 5, 5)).fill('<i class="fa-solid fa-star" style="color:#FFB800;"></i>').join('')}
+        </div>
+        <p class="testi-text">"${escapeHTML(r.text)}"</p>
       </div>
-      <div class="testi-stars">
-        ${Array(Math.min(r.rating || 5, 5)).fill('<i class="fa-solid fa-star" style="color:#FFB800;"></i>').join('')}
-      </div>
-      <p class="testi-text">"${escapeHTML(r.text)}"</p>
-    </div>
-  `).join('');
+    `).join('');
+  }
 }
 
 // TESTIMONIALS CAROUSEL PREV / NEXT BUTTONS
@@ -1592,12 +1627,108 @@ async function initCustomerGallerySwap() {
   });
 }
 
+// ENSURE SHARED BOOKING MODAL COMPONENT IN DOM
+function ensureBookingModalDOM() {
+  if (document.getElementById('bookingModalOverlay')) return;
+
+  const modalHTML = `
+  <div class="booking-modal-overlay" id="bookingModalOverlay" role="dialog" aria-modal="true" aria-labelledby="bmTitle" style="display:none;">
+    <div class="booking-modal-card">
+      <div class="booking-modal-header">
+        <div class="booking-modal-title" id="bmTitle">
+          <i class="fa-solid fa-calendar-check" style="color:var(--yellow);"></i> Rental Booking Inquiry
+        </div>
+        <button type="button" class="booking-modal-close" id="btnBmClose" aria-label="Close booking modal">&times;</button>
+      </div>
+      <div class="booking-modal-body">
+        
+        <!-- Selected Vehicle Preview Header -->
+        <div class="bm-selected-vehicle">
+          <img id="bmVehImg" src="./assets/images/vehicles/fleet-banner.jpeg" alt="Selected rental vehicle" class="bm-vehicle-img" width="120" height="80" loading="lazy">
+          <div class="bm-vehicle-info">
+            <div id="bmVehName" class="bm-vehicle-name">Select Vehicle</div>
+            <div id="bmVehRate" class="bm-vehicle-rate">Rs. 3,000 / day • 200 Free Km/Day</div>
+          </div>
+        </div>
+
+        <form id="bookingInquiryForm" novalidate>
+          <div class="bm-grid">
+            <div class="bm-form-group">
+              <label for="bmFullName" class="bm-label">Your Full Name <span style="color:var(--yellow);">*</span></label>
+              <input type="text" id="bmFullName" class="bm-input" placeholder="e.g. John Smith" required>
+              <span class="bm-error-msg" id="bmFullNameError" style="color:#ef4444; font-size:0.75rem; display:none; margin-top:4px;">Please enter your name</span>
+            </div>
+            <div class="bm-form-group">
+              <label for="bmPhone" class="bm-label">WhatsApp / Phone Number <span style="color:var(--yellow);">*</span></label>
+              <input type="tel" id="bmPhone" class="bm-input" placeholder="+94 77 123 4567" required>
+              <span class="bm-error-msg" id="bmPhoneError" style="color:#ef4444; font-size:0.75rem; display:none; margin-top:4px;">Please enter a valid phone number</span>
+            </div>
+          </div>
+
+          <div class="bm-grid">
+            <div class="bm-form-group">
+              <label for="bmPickupDate" class="bm-label">Pickup Date &amp; Time <span style="color:var(--yellow);">*</span></label>
+              <input type="datetime-local" id="bmPickupDate" class="bm-input" required>
+              <span class="bm-error-msg" id="bmPickupDateError" style="color:#ef4444; font-size:0.75rem; display:none; margin-top:4px;">Please select an upcoming pickup date</span>
+            </div>
+            <div class="bm-form-group">
+              <label for="bmReturnDate" class="bm-label">Return Date &amp; Time <span style="color:var(--yellow);">*</span></label>
+              <input type="datetime-local" id="bmReturnDate" class="bm-input" required>
+              <span class="bm-error-msg" id="bmReturnDateError" style="color:#ef4444; font-size:0.75rem; display:none; margin-top:4px;">Return date must be after pickup date</span>
+            </div>
+          </div>
+
+          <div class="bm-grid">
+            <div class="bm-form-group">
+              <label for="bmPickupLoc" class="bm-label">Pickup / Delivery Location</label>
+              <select id="bmPickupLoc" class="bm-select">
+                <option value="Kandy City / Hotel Delivery">Kandy City / Hotel Delivery</option>
+                <option value="Peradeniya Railway Station">Peradeniya Railway Station</option>
+                <option value="Kandy Railway Station">Kandy Railway Station</option>
+                <option value="Colombo BIA Airport Transfer">Colombo Airport (BIA) Transfer</option>
+                <option value="Other Location in Sri Lanka">Other (Specify in Notes)</option>
+              </select>
+            </div>
+            <div class="bm-form-group">
+              <label for="bmPermitStatus" class="bm-label">Driving License Permit Status</label>
+              <select id="bmPermitStatus" class="bm-select">
+                <option value="I have International / Local License">I have International / Local License</option>
+                <option value="Need AA Ceylon Permit Assistance">Need AA Ceylon Permit Assistance</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="bm-form-group full-width" style="margin-bottom: 16px;">
+            <label for="bmNotes" class="bm-label">Special Requests / Notes (Optional)</label>
+            <textarea id="bmNotes" class="bm-textarea" rows="2" placeholder="e.g. Need extra helmet, child seat, delivery address..."></textarea>
+          </div>
+
+          <!-- Price Estimate Display -->
+          <div class="bm-price-est-box">
+            <div class="bm-price-est-label">Estimated Rental Duration &amp; Total:</div>
+            <div class="bm-price-est-value" id="bmEstTotal">Rs. 3,000 <span style="font-size: 0.8rem; font-weight: 500; color: rgba(255,255,255,0.7);">(1 Day)</span></div>
+          </div>
+
+          <!-- Unified Single Primary Action -->
+          <div class="bm-actions" style="margin-top: 20px;">
+            <button type="submit" id="btnBmSubmit" class="btn-bm-whatsapp" style="width: 100%; display: flex; align-items: center; justify-content: center; gap: 10px; padding: 14px 24px; font-size: 1.05rem; font-weight: 800; border-radius: 12px; background: #25D366; color: #FFFFFF; border: none; cursor: pointer; transition: all 0.25s ease;">
+              <i class="fa-brands fa-whatsapp fa-xl"></i> Confirm &amp; Book via WhatsApp
+            </button>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>`;
+  document.body.insertAdjacentHTML('beforeend', modalHTML);
+}
+
 // BOOKING INQUIRY MODAL LOGIC
 function initBookingInquiryModal() {
+  ensureBookingModalDOM();
   const overlay = document.getElementById('bookingModalOverlay');
   const btnClose = document.getElementById('btnBmClose');
   const form = document.getElementById('bookingInquiryForm');
-  const btnWhatsapp = document.getElementById('btnBmWhatsapp');
 
   if (!overlay || !form) return;
 
@@ -1610,6 +1741,7 @@ function initBookingInquiryModal() {
 
   let activeVehPrice = 3000;
   let activeVehName = "Honda Dio 110cc";
+  let previousActiveElement = null;
 
   function formatDateForInput(d) {
     const pad = n => String(n).padStart(2, '0');
@@ -1645,17 +1777,79 @@ function initBookingInquiryModal() {
   inputPickupDate?.addEventListener('change', calcEstPrice);
   inputReturnDate?.addEventListener('change', calcEstPrice);
 
-  // Delegated click listener for data-book vehicles (avoids JS break with apostrophes)
+  // Delegated click listener for data-book triggers
   document.addEventListener('click', (e) => {
     const btn = e.target.closest('[data-book]');
     if (!btn) return;
     if (e.target.closest('.rc-wishlist')) return;
 
+    e.preventDefault();
     const vehId = btn.getAttribute('data-book');
     const veh = (window.allVehiclesData || []).find(v => String(v.id) === String(vehId));
     if (veh) {
       window.openBookingModal(veh);
+    } else {
+      window.openBookingModal({ name: 'Danan Rental Vehicle', price24h: 3000 });
     }
+  });
+
+  // Modal keydown handler for ESC and Focus Trap
+  function handleModalKeyDown(e) {
+    if (e.key === 'Escape') {
+      window.closeBookingModal();
+      return;
+    }
+    if (e.key === 'Tab') {
+      const focusables = overlay.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+      if (focusables.length === 0) return;
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        last.focus();
+        e.preventDefault();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        first.focus();
+        e.preventDefault();
+      }
+    }
+  }
+
+  window.openBookingModal = function(veh) {
+    previousActiveElement = document.activeElement;
+    if (veh) {
+      activeVehPrice = veh.price24h || 3000;
+      activeVehName = veh.name || "Vehicle";
+      const rawImg = (veh.images && veh.images.length > 0) ? veh.images[0] : (veh.image || './assets/images/vehicles/fleet-banner.jpeg');
+      if (vehImg) {
+        vehImg.src = fixImgPath(rawImg, false);
+        vehImg.alt = `${veh.name} booking preview`;
+      }
+      if (vehName) vehName.textContent = veh.name;
+      if (vehRate) vehRate.textContent = `Rs. ${activeVehPrice.toLocaleString()} / day • ${veh.kmIncluded || 200} Free Km/Day`;
+    }
+    calcEstPrice();
+    overlay.style.display = 'flex';
+    overlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+    document.addEventListener('keydown', handleModalKeyDown);
+    setTimeout(() => {
+      document.getElementById('bmFullName')?.focus();
+    }, 100);
+  };
+
+  window.closeBookingModal = function() {
+    overlay.classList.remove('active');
+    overlay.style.display = 'none';
+    document.body.style.overflow = '';
+    document.removeEventListener('keydown', handleModalKeyDown);
+    if (previousActiveElement && typeof previousActiveElement.focus === 'function') {
+      previousActiveElement.focus();
+    }
+  };
+
+  btnClose?.addEventListener('click', window.closeBookingModal);
+  overlay.addEventListener('click', (e) => {
+    if (e.target === overlay) window.closeBookingModal();
   });
 
   // Backward compatibility helper
@@ -1672,30 +1866,6 @@ function initBookingInquiryModal() {
     }
   };
 
-  window.openBookingModal = function(veh) {
-    if (veh) {
-      activeVehPrice = veh.price24h || 3000;
-      activeVehName = veh.name || "Vehicle";
-      const rawImg = (veh.images && veh.images.length > 0) ? veh.images[0] : './assets/images/vehicles/fleet-banner.jpeg';
-      if (vehImg) vehImg.src = fixImgPath(rawImg, false);
-      if (vehName) vehName.textContent = veh.name;
-      if (vehRate) vehRate.textContent = `Rs. ${activeVehPrice.toLocaleString()} / day • ${veh.kmIncluded || 200} Free Km/Day`;
-    }
-    calcEstPrice();
-    overlay.classList.add('active');
-    document.body.style.overflow = 'hidden';
-  };
-
-  window.closeBookingModal = function() {
-    overlay.classList.remove('active');
-    document.body.style.overflow = '';
-  };
-
-  btnClose?.addEventListener('click', window.closeBookingModal);
-  overlay.addEventListener('click', (e) => {
-    if (e.target === overlay) window.closeBookingModal();
-  });
-
   // Ensure focused fields remain visible above Android on-screen keyboard
   form.querySelectorAll('.bm-input, .bm-select, .bm-textarea').forEach(field => {
     field.addEventListener('focus', () => {
@@ -1705,38 +1875,52 @@ function initBookingInquiryModal() {
     });
   });
 
-  // Process Booking Inquiry & Send to WhatsApp Synchronously
-  function submitBookingInquiry() {
-    const fullName = document.getElementById('bmFullName')?.value.trim() || '';
-    const phone = document.getElementById('bmPhone')?.value.trim() || '';
+  // Form submit handler - Unified primary action
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const fullNameInput = document.getElementById('bmFullName');
+    const phoneInput = document.getElementById('bmPhone');
+    const fullName = fullNameInput?.value.trim() || '';
+    const phone = phoneInput?.value.trim() || '';
     const pickupDate = inputPickupDate?.value || '';
     const returnDate = inputReturnDate?.value || '';
     const location = document.getElementById('bmPickupLoc')?.value || 'Kandy';
     const permit = document.getElementById('bmPermitStatus')?.value || 'Standard';
     const notes = document.getElementById('bmNotes')?.value.trim() || 'None';
 
-    if (!fullName || !phone || !pickupDate || !returnDate) {
-      alert("Please enter your Name, Phone Number, and Pickup/Return dates.");
-      return;
+    // Validation
+    let hasError = false;
+    const hideErr = id => { const el = document.getElementById(id); if (el) el.style.display = 'none'; };
+    const showErr = id => { const el = document.getElementById(id); if (el) el.style.display = 'block'; hasError = true; };
+
+    hideErr('bmFullNameError');
+    hideErr('bmPhoneError');
+    hideErr('bmPickupDateError');
+    hideErr('bmReturnDateError');
+
+    if (!fullName) showErr('bmFullNameError');
+    const cleanDigits = phone.replace(/\D/g, '');
+    if (cleanDigits.length < 7) showErr('bmPhoneError');
+
+    if (!pickupDate) {
+      showErr('bmPickupDateError');
+    }
+    if (!returnDate) {
+      showErr('bmReturnDateError');
     }
 
-    const cleanDigits = phone.replace(/\D/g, '');
-    if (cleanDigits.length < 7) {
-      alert("Please enter a valid phone number (at least 7 digits).");
-      return;
-    }
+    if (hasError) return;
 
     const start = new Date(pickupDate);
     const end = new Date(returnDate);
-    const nowThreshold = new Date(Date.now() - 60 * 60 * 1000); // 1hr skew grace
+    const nowThreshold = new Date(Date.now() - 60 * 60 * 1000);
 
     if (start < nowThreshold) {
-      alert("Pick-up date and time cannot be in the past. Please choose an upcoming date.");
+      showErr('bmPickupDateError');
       return;
     }
-
     if (end <= start) {
-      alert("Drop-off / Return date must be after your pick-up date.");
+      showErr('bmReturnDateError');
       return;
     }
 
@@ -1764,33 +1948,25 @@ function initBookingInquiryModal() {
       createdAt: new Date().toISOString()
     };
 
-    // Format WhatsApp Message to single source of truth number
+    // Format WhatsApp Message
     const targetWa = normalizeWhatsAppNumber(window.siteSettings?.whatsapp || '94772013059');
     const msg = `Hello Danan Rentals! 👋\n\nI would like to book a vehicle:\n\n🚗 *Vehicle:* ${activeVehName}\n👤 *Name:* ${fullName}\n📞 *Phone:* ${phone}\n📍 *Location:* ${location}\n📅 *Pickup:* ${pickupDate.replace('T', ' ')}\n📅 *Return:* ${returnDate.replace('T', ' ')} (${days} ${days === 1 ? 'Day' : 'Days'})\n💰 *Est. Total:* Rs. ${estTotal.toLocaleString()}\n📜 *Permit:* ${permit}\n💬 *Notes:* ${notes}\n\nPlease confirm availability & booking!`;
-
     const waUrl = `https://wa.me/${targetWa}?text=${encodeURIComponent(msg)}`;
 
-    // Open WhatsApp SYNCHRONOUSLY on the user click to prevent iOS Safari tab blocking!
+    // Open WhatsApp synchronously on user action
     window.open(waUrl, '_blank');
 
-    // Save inquiry to Database in the background (NON-AWAITED before window.open)
+    // Save to Firestore & local storage
     saveDoc('bookings', bookingId, payload).catch(err => {
       console.warn("Background save booking notice:", err);
     });
-
-    const btnSubmit = document.getElementById('btnBmSubmit');
-    if (btnSubmit) {
-      btnSubmit.innerHTML = `<i class="fa-solid fa-paper-plane"></i> Send Inquiry via WhatsApp`;
-    }
+    try {
+      const list = JSON.parse(localStorage.getItem('danan_bookings') || '[]');
+      list.unshift(payload);
+      localStorage.setItem('danan_bookings', JSON.stringify(list));
+    } catch (e) {}
 
     window.closeBookingModal();
-  }
-
-  btnWhatsapp?.addEventListener('click', submitBookingInquiry);
-
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    submitBookingInquiry();
   });
 }
 
@@ -1831,6 +2007,13 @@ function initVideoLightboxModal() {
     });
   }
 
+  // Handle ESC key close
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && overlay && overlay.classList.contains('active')) {
+      window.closeVideoModal();
+    }
+  });
+
   // Handle click on any discover cards with video
   document.addEventListener('click', (e) => {
     const card = e.target.closest('.disc-img');
@@ -1838,6 +2021,20 @@ function initVideoLightboxModal() {
       const vid = card.getAttribute('data-video');
       if (vid && typeof window.openVideoModal === 'function') {
         window.openVideoModal(vid);
+      }
+    }
+  });
+
+  // Handle keyboard activation (Enter / Space) on discover cards
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      const card = e.target.closest('.disc-img');
+      if (card) {
+        e.preventDefault();
+        const vid = card.getAttribute('data-video');
+        if (vid && typeof window.openVideoModal === 'function') {
+          window.openVideoModal(vid);
+        }
       }
     }
   });

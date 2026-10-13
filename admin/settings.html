@@ -3,12 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
   <title>Site Settings | Danan Admin</title>
   <meta name="theme-color" content="#111111">
   <link rel="icon" href="../assets/images/logo/logo.png" type="image/jpeg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" href="../css/admin.css">
 </head>
 <body>
@@ -100,11 +102,50 @@
               <label for="hours">Opening Hours Description</label>
               <input type="text" id="hours" class="form-control" required>
             </div>
+          </div>
+
+          <!-- DEDICATED SOCIAL MEDIA LINKS CARD -->
+          <div class="card-header" style="margin-top: 32px;">
+            <h2 class="card-title">🔗 Official Social Media Links</h2>
+          </div>
+          <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 16px;">
+            Enter your official social profile links below. The corresponding icon badge will automatically appear in every page footer. Leave any field blank to hide that icon.
+          </p>
+
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="facebook"><i class="fa-brands fa-facebook-f" style="color: #1877F2; margin-right: 6px;"></i> Facebook Page URL</label>
+              <input type="url" id="facebook" class="form-control" placeholder="https://www.facebook.com/your-business-page">
+            </div>
 
             <div class="form-group">
-              <label for="facebook">Facebook Page URL (Leave empty to hide icon)</label>
-              <input type="url" id="facebook" class="form-control" placeholder="https://www.facebook.com/yourpage">
+              <label for="tripadvisor"><i class="fa-brands fa-tripadvisor" style="color: #00AF87; margin-right: 6px;"></i> TripAdvisor Listing URL</label>
+              <input type="url" id="tripadvisor" class="form-control" placeholder="https://www.tripadvisor.com/Attraction_Review-...">
             </div>
+
+            <div class="form-group">
+              <label for="instagram"><i class="fa-brands fa-instagram" style="color: #E4405F; margin-right: 6px;"></i> Instagram Profile URL</label>
+              <input type="url" id="instagram" class="form-control" placeholder="https://www.instagram.com/your-account">
+            </div>
+
+            <div class="form-group">
+              <label for="whatsappLink"><i class="fa-brands fa-whatsapp" style="color: #25D366; margin-right: 6px;"></i> WhatsApp Direct Link</label>
+              <input type="url" id="whatsappLink" class="form-control" placeholder="https://wa.me/94772013059">
+              <small style="display:block; margin-top:4px; font-size:0.75rem; color:var(--text-muted);">Leave empty to automatically use your WhatsApp number above.</small>
+            </div>
+
+            <div class="form-group">
+              <label for="youtube"><i class="fa-brands fa-youtube" style="color: #FF0000; margin-right: 6px;"></i> YouTube Channel URL</label>
+              <input type="url" id="youtube" class="form-control" placeholder="https://www.youtube.com/@your-channel">
+            </div>
+
+            <div class="form-group">
+              <label for="tiktok"><i class="fa-brands fa-tiktok" style="color: #00F2FE; margin-right: 6px;"></i> TikTok Profile URL</label>
+              <input type="url" id="tiktok" class="form-control" placeholder="https://www.tiktok.com/@your-handle">
+            </div>
+          </div>
+
+          <div class="form-grid" style="margin-top: 16px;">
 
             <div class="form-group" style="grid-column: 1 / -1;">
               <label>Logo Image</label>
@@ -176,7 +217,15 @@
       document.getElementById('address').value = settings.address || 'Peradeniya & Kandy, Sri Lanka';
       document.getElementById('mapLink').value = settings.mapLink || 'https://share.google/ICElyHmWpDjeHQLOY';
       document.getElementById('hours').value = settings.hours || 'Open 24/7 - Daily & Weekly Rentals';
-      document.getElementById('facebook').value = settings.facebook || '';
+      
+      const socials = settings.socials || {};
+      document.getElementById('facebook').value = settings.facebook || socials.facebook || '';
+      document.getElementById('tripadvisor').value = settings.tripadvisor || socials.tripadvisor || '';
+      document.getElementById('instagram').value = settings.instagram || socials.instagram || '';
+      document.getElementById('whatsappLink').value = settings.whatsappLink || socials.whatsapp || '';
+      document.getElementById('youtube').value = settings.youtube || socials.youtube || '';
+      document.getElementById('tiktok').value = settings.tiktok || socials.tiktok || '';
+
       document.getElementById('footerText').value = settings.footerText || '';
       document.getElementById('bank').value = settings.bank || '';
       document.getElementById('logoUrl').value = settings.logo || '../assets/images/logo/logo.png';
@@ -212,15 +261,36 @@
         btn.textContent = "Saving...";
 
         const phonesRaw = document.getElementById('phones').value.split(',').map(s => s.trim()).filter(Boolean);
+        const waNum = document.getElementById('whatsapp').value.trim();
+        const fbVal = document.getElementById('facebook').value.trim();
+        const taVal = document.getElementById('tripadvisor').value.trim();
+        const igVal = document.getElementById('instagram').value.trim();
+        const waLinkVal = document.getElementById('whatsappLink').value.trim() || `https://wa.me/${waNum}`;
+        const ytVal = document.getElementById('youtube').value.trim();
+        const ttVal = document.getElementById('tiktok').value.trim();
+
         const payload = {
           businessName: document.getElementById('businessName').value.trim(),
           phones: phonesRaw,
-          whatsapp: document.getElementById('whatsapp').value.trim(),
+          whatsapp: waNum,
           email: document.getElementById('email').value.trim(),
           address: document.getElementById('address').value.trim(),
           mapLink: document.getElementById('mapLink').value.trim(),
           hours: document.getElementById('hours').value.trim(),
-          facebook: document.getElementById('facebook').value.trim(),
+          facebook: fbVal,
+          tripadvisor: taVal,
+          instagram: igVal,
+          whatsappLink: waLinkVal,
+          youtube: ytVal,
+          tiktok: ttVal,
+          socials: {
+            facebook: fbVal,
+            tripadvisor: taVal,
+            instagram: igVal,
+            whatsapp: waLinkVal,
+            youtube: ytVal,
+            tiktok: ttVal
+          },
           footerText: document.getElementById('footerText').value.trim(),
           bank: document.getElementById('bank').value.trim(),
           logo: document.getElementById('logoUrl').value.trim(),
