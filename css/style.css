@@ -123,6 +123,7 @@ img {
   height: 68px;
   max-height: 72px;
   width: auto;
+  aspect-ratio: 1 / 1;
   object-fit: contain;
   background: transparent;
   border-radius: 0;
@@ -132,6 +133,8 @@ img {
 
 #navbar.scrolled .nav-logo img {
   height: 56px;
+  width: auto;
+  aspect-ratio: 1 / 1;
 }
 
 .nav-brand-title {
@@ -307,6 +310,7 @@ img {
 .mobile-menu-header .nav-logo img {
   height: 38px;
   width: auto;
+  aspect-ratio: 1 / 1;
   object-fit: contain;
 }
 
@@ -606,12 +610,10 @@ img {
 }
 
 .hero-title-highlight {
-  background: linear-gradient(135deg, #FFF385 0%, #F5C518 45%, #FFAA00 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: var(--yellow);
   position: relative;
   display: inline-block;
-  filter: drop-shadow(0 4px 18px rgba(245, 197, 24, 0.45));
+  text-shadow: 0 4px 28px rgba(0, 0, 0, 0.85), 0 2px 6px rgba(0, 0, 0, 0.95);
 }
 
 .hero-title-highlight::after {
@@ -2267,7 +2269,10 @@ footer {
 }
 
 .footer-logo img {
-  height: 48px;
+  height: 56px;
+  width: auto;
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
   margin-bottom: 20px;
 }
 
@@ -5189,6 +5194,9 @@ footer {
   .nav-logo img {
     height: 48px !important;
     max-height: 48px !important;
+    width: auto !important;
+    aspect-ratio: 1 / 1 !important;
+    object-fit: contain !important;
     flex-shrink: 0;
   }
   .nav-brand-title {
@@ -5889,6 +5897,8 @@ footer {
     margin: 0 auto !important;
     height: 48px !important;
     width: auto !important;
+    aspect-ratio: 1 / 1 !important;
+    object-fit: contain !important;
     display: block !important;
   }
   .footer-addr {
@@ -6046,6 +6056,9 @@ footer {
   }
   .nav-logo img {
     height: 42px !important;
+    width: auto !important;
+    aspect-ratio: 1 / 1 !important;
+    object-fit: contain !important;
   }
   .nav-brand-title {
     font-size: 0.98rem !important;
@@ -6170,6 +6183,9 @@ footer {
   }
   .nav-logo img {
     height: 36px !important;
+    width: auto !important;
+    aspect-ratio: 1 / 1 !important;
+    object-fit: contain !important;
   }
   .nav-brand-title {
     font-size: 0.86rem !important;

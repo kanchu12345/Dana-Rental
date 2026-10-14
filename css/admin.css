@@ -68,6 +68,8 @@ body:not(.auth-ready):not(.login-body) .admin-layout {
 .sidebar-logo {
   height: 38px;
   width: auto;
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
   border-radius: 4px;
 }
 
@@ -376,7 +378,10 @@ textarea.form-control {
 }
 
 .login-logo {
-  height: 56px;
+  height: 64px;
+  width: auto;
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
   margin-bottom: 16px;
   border-radius: var(--radius-md);
 }
