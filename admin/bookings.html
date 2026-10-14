@@ -124,7 +124,7 @@
           <button id="btnOpenAddModal" class="btn btn-primary" style="background-color: var(--primary-red); color: white; border: none; padding: 10px 18px; border-radius: 6px; font-weight: 700; cursor: pointer;">
             + Add Walk-in / Phone Booking
           </button>
-          <a href="../bookings.html" target="_blank" style="color: var(--primary-red); font-weight: 600; text-decoration: none;">🌐 View Booking Page ↗</a>
+          <a href="../bookings.html" target="_blank" rel="noopener noreferrer" style="color: var(--primary-red); font-weight: 600; text-decoration: none;">🌐 View Booking Page ↗</a>
         </div>
       </header>
 
@@ -560,7 +560,7 @@
                 `}
 
                 ${phoneClean ? `
-                  <a href="${waLink}" target="_blank" class="btn-wa-chat" title="Chat with customer on WhatsApp">
+                  <a href="${waLink}" target="_blank" rel="noopener noreferrer" class="btn-wa-chat" title="Chat with customer on WhatsApp">
                     💬 WhatsApp
                   </a>
                 ` : ''}

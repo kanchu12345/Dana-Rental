@@ -67,28 +67,53 @@ export function escapeHTML(str) {
     .replace(/'/g, '&#039;');
 }
 
-// Whitelist HTML sanitizer allowing only <span>, <strong>, <em>, <br>
+// Whitelist HTML sanitizer allowing safe inline formatting tags (<span>, <strong>, <em>, <b>, <i>, <br>)
 export function sanitizeHTML(html) {
   if (html === null || html === undefined) return '';
   if (typeof html !== 'string') return String(html);
 
-  const div = document.createElement('div');
-  div.textContent = html;
-  let escaped = div.innerHTML;
+  if (typeof document !== 'undefined' && document.createElement) {
+    const template = document.createElement('template');
+    template.innerHTML = html;
+    const content = template.content;
 
-  // Unescape safe allowed tags
-  escaped = escaped
-    .replace(/&lt;br\s*\/?&gt;/gi, '<br>')
-    .replace(/&lt;strong&gt;/gi, '<strong>')
-    .replace(/&lt;\/strong&gt;/gi, '</strong>')
-    .replace(/&lt;em&gt;/gi, '<em>')
-    .replace(/&lt;\/em&gt;/gi, '</em>')
-    .replace(/&lt;span&gt;/gi, '<span>')
-    .replace(/&lt;span class="([a-zA-Z0-9_\-\s]+)"&gt;/gi, '<span class="$1">')
-    .replace(/&lt;span style="([a-zA-Z0-9_\-\s:;#]+)"&gt;/gi, '<span style="$1">')
-    .replace(/&lt;\/span&gt;/gi, '</span>');
+    const allowedTags = new Set(['SPAN', 'STRONG', 'EM', 'B', 'I', 'BR', 'SMALL', 'SUB', 'SUP']);
+    const allowedAttrs = new Set(['class', 'style', 'id']);
 
-  return escaped;
+    function cleanNode(node) {
+      const children = Array.from(node.childNodes);
+      for (const child of children) {
+        if (child.nodeType === 1) { // ELEMENT_NODE
+          if (!allowedTags.has(child.tagName)) {
+            if (['SCRIPT', 'STYLE', 'IFRAME', 'OBJECT', 'EMBED', 'LINK', 'META'].includes(child.tagName)) {
+              child.remove();
+              continue;
+            }
+            const textNode = document.createTextNode(child.textContent);
+            child.replaceWith(textNode);
+          } else {
+            for (const attr of Array.from(child.attributes)) {
+              const attrName = attr.name.toLowerCase();
+              if (!allowedAttrs.has(attrName) || attrName.startsWith('on')) {
+                child.removeAttribute(attr.name);
+              } else if (attrName === 'style') {
+                if (/javascript:|expression\(|url\(/i.test(attr.value)) {
+                  child.removeAttribute('style');
+                }
+              }
+            }
+            cleanNode(child);
+          }
+        }
+      }
+    }
+
+    cleanNode(content);
+    return template.innerHTML;
+  }
+
+  // Fallback for non-browser environments
+  return html.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
 }
 
 // CSS URL Sanitizer to prevent CSS breakout or javascript: protocol

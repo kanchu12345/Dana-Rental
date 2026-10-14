@@ -48,10 +48,13 @@ service cloud.firestore {
 
     // Customer Vehicle Bookings & Reservations collection
     match /bookings/{bookingId} {
-      // Admin has full management privileges (read, update status, delete)
-      allow read, update, delete: if isAdmin();
+      // Admin has full management privileges (listing all bookings, updating status, deleting)
+      allow list, update, delete: if isAdmin();
 
-      // Public visitors can ONLY create a new reservation request with strict validation
+      // Public visitors can look up their specific booking status by Reference ID
+      allow get: if true;
+
+      // Public visitors can create a new reservation request with strict validation
       allow create: if isValidBooking(request.resource.data);
     }
 

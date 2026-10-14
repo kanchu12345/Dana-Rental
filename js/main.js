@@ -95,9 +95,9 @@ function initScrollAndMobileListeners() {
 
     if (scrollTopBtn) {
       if (scrollY > 300) {
-        scrollTopBtn.classList.add('visible');
+        scrollTopBtn.classList.add('show', 'visible');
       } else {
-        scrollTopBtn.classList.remove('visible');
+        scrollTopBtn.classList.remove('show', 'visible');
       }
     }
   });
@@ -526,20 +526,17 @@ async function loadHomePageData() {
       // Auto-correct common typo 'journy' -> 'Journey'
       hl = hl.replace(/journy/gi, 'Journey');
       if (/Your Journey/i.test(hl) && /Your Choice/i.test(hl)) {
-        hl = '<span class="hero-title-main">Your Journey,</span> <span class="hero-title-highlight" style="color: var(--yellow);">Your Choice</span>';
+        hl = '<span class="hero-title-main">Your Journey,</span> <span class="hero-title-highlight">Your Choice</span>';
+      } else if (/Car & Bike Rentals/i.test(hl)) {
+        const sub = hl.replace(/Car & Bike Rentals/i, '').replace(/in/i, '').trim();
+        hl = `<span class="hero-title-main">Car &amp; Bike Rentals</span> <span class="hero-title-highlight">${sub ? 'In ' + sub : 'In Kandy'}</span>`;
       } else if (!hl.includes('<span') && !hl.includes('<br>')) {
-        if (/Car & Bike Rentals/i.test(hl)) {
-          hl = hl.replace(/Car & Bike Rentals/i, '<span class="text-yellow">Car &amp; Bike Rentals</span>')
-                 .replace(/Journey/i, '<span class="text-yellow">Journey</span>');
-          if (hl.includes('in Kandy') && !hl.includes('<br>')) {
-            hl = hl.replace(/in Kandy\s+/i, 'in Kandy <br>');
-          }
+        const words = hl.split(' ');
+        if (words.length > 2) {
+          const mid = Math.ceil(words.length / 2);
+          hl = `<span class="hero-title-main">${words.slice(0, mid).join(' ')}</span> <span class="hero-title-highlight">${words.slice(mid).join(' ')}</span>`;
         } else {
-          hl = hl.replace(/Start/i, '<span class="text-yellow">Start</span>')
-                 .replace(/Destination/i, '<span class="text-yellow">Destination</span>');
-          if (hl.includes('Your Dream') && !hl.includes('<br>')) {
-            hl = hl.replace(/Your Dream\s+/i, 'Your Dream <br>');
-          }
+          hl = `<span class="hero-title-main">${words[0]}</span> <span class="hero-title-highlight">${words.slice(1).join(' ')}</span>`;
         }
       }
       heroTitle.innerHTML = sanitizeHTML(hl);
@@ -714,9 +711,9 @@ async function loadAboutPageData() {
     if (introImg) {
       introImg.style.setProperty('width', '100%', 'important');
       introImg.style.setProperty('height', 'auto', 'important');
-      introImg.style.setProperty('max-height', 'none', 'important');
-      introImg.style.setProperty('aspect-ratio', 'auto', 'important');
-      introImg.style.setProperty('object-fit', 'contain', 'important');
+      introImg.style.setProperty('max-height', '450px', 'important');
+      introImg.style.setProperty('object-fit', 'cover', 'important');
+      introImg.style.setProperty('border-radius', '20px', 'important');
       introImg.style.setProperty('display', 'block', 'important');
       if (about.intro && about.intro.image) {
         introImg.src = fixImgPath(about.intro.image, false);
@@ -807,7 +804,7 @@ async function loadDestinationsPageData() {
             <h3 class="dest-card-title">${escapeHTML(d.title)}</h3>
             <p class="dest-card-desc">${escapeHTML(d.description)}</p>
             <div class="dest-card-footer">
-              <a href="https://wa.me/${targetWa}?text=${waText}" target="_blank" rel="noopener" class="dest-btn-wa">
+              <a href="https://wa.me/${targetWa}?text=${waText}" target="_blank" rel="noopener noreferrer" class="dest-btn-wa">
                 <i class="fa-brands fa-whatsapp"></i> Rent Vehicle to Visit
               </a>
             </div>
@@ -815,9 +812,8 @@ async function loadDestinationsPageData() {
         </div>
       `;
     }).join('');
-
-    initDestinationFilters();
   }
+  initDestinationFilters();
 }
 
 function initDestinationFilters() {
@@ -1164,7 +1160,7 @@ function renderVehiclesList(vehicles, activeCat = 'all') {
         <i class="fa-solid fa-headset" style="font-size: 2.4rem; margin-bottom: 12px; color: var(--yellow);"></i>
         <h3 style="font-size: 1.25rem; color: #FFF; margin-bottom: 8px;">Direct Rental Inquiries Available</h3>
         <p style="font-size: 0.95rem; color: var(--text-muted); max-width: 520px; margin: 0 auto 18px;">Looking to book this category in Kandy or Peradeniya? Contact our team directly on WhatsApp for immediate confirmation & special rates.</p>
-        <a href="https://wa.me/94772013059?text=Hello%20Danan%20Rentals,%20I%20want%20to%20inquire%20about%20vehicle%20rentals" target="_blank" rel="noopener" class="btn-search" style="display: inline-flex; text-decoration: none; padding: 12px 28px;">
+        <a href="https://wa.me/94772013059?text=Hello%20Danan%20Rentals,%20I%20want%20to%20inquire%20about%20vehicle%20rentals" target="_blank" rel="noopener noreferrer" class="btn-search" style="display: inline-flex; text-decoration: none; padding: 12px 28px;">
           <i class="fa-brands fa-whatsapp" style="font-size: 1.2rem;"></i> Inquire on WhatsApp
         </a>
       </div>
