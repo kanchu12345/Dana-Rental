@@ -432,6 +432,10 @@ async function applyDynamicBackgrounds() {
     const isSub = typeof window !== 'undefined' && window.location.pathname.includes('/admin/');
     const resolveBg = (val) => {
       if (!val) return '';
+      // Map old image with baked-in text to new clean vehicle background banner
+      if (typeof val === 'string' && val.includes('ngrur9zmmagohv7onewu')) {
+        return 'https://res.cloudinary.com/ygkhhyaj/image/upload/v1792130030/ab99ty8o75qbjqj9wj3l.png';
+      }
       return sanitizeCSSUrl(fixImgPath(val, isSub));
     };
 
@@ -553,10 +557,14 @@ async function loadHomePageData() {
     }
 
     if (homeData.hero.bgImage) {
+      let bgVal = homeData.hero.bgImage;
+      if (typeof bgVal === 'string' && bgVal.includes('ngrur9zmmagohv7onewu')) {
+        bgVal = 'https://res.cloudinary.com/ygkhhyaj/image/upload/v1792130030/ab99ty8o75qbjqj9wj3l.png';
+      }
       const heroSec = document.querySelector('.hero');
-      const cleanBg = sanitizeCSSUrl(homeData.hero.bgImage);
+      const cleanBg = sanitizeCSSUrl(bgVal);
       if (heroSec && cleanBg) {
-        heroSec.style.backgroundImage = `linear-gradient(180deg, rgba(7, 7, 10, 0.25) 0%, rgba(7, 7, 10, 0.65) 100%), url('${cleanBg}')`;
+        heroSec.style.backgroundImage = `linear-gradient(180deg, rgba(7, 7, 10, 0.35) 0%, rgba(7, 7, 10, 0.7) 100%), url('${cleanBg}')`;
         heroSec.style.backgroundRepeat = 'no-repeat';
         if (!heroSec.style.backgroundSize) heroSec.style.backgroundSize = 'cover';
       }

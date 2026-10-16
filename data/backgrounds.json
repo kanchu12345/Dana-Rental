@@ -1,6 +1,6 @@
 {
   "id": "main",
-  "homeHero": "./assets/images/hero/sigiriya.jpg",
+  "homeHero": "https://res.cloudinary.com/ygkhhyaj/image/upload/v1792130030/ab99ty8o75qbjqj9wj3l.png",
   "fleetHero": "./assets/images/vehicles/fleet-hero-bg.jpg",
   "bookingsHero": "./assets/images/bookings/bookings-hero-bg.jpg",
   "bookingsCta": "./assets/images/bookings/bookings-cta-bg.jpg",

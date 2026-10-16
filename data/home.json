@@ -1,8 +1,8 @@
 {
   "hero": {
-    "headline": "Car & Bike Rentals in Kandy & Peradeniya",
-    "subline": "Start your journey to the destination you've always dreamed of with self drive, with driver and AA Ceylon driving permits. Rent a car, scooter, or van in Kandy & Peradeniya with 200 free kilometers per day, full insurance, and 24/7 roadside assistance.",
-    "bgImage": "./assets/images/hero/sigiriya.jpg"
+    "headline": "Your Journey, Your Choice",
+    "subline": "Rent self-drive cars, scooters & passenger vans in Kandy & Peradeniya with 200 free kilometers per day, full insurance, and 24/7 on-road support.",
+    "bgImage": "https://res.cloudinary.com/ygkhhyaj/image/upload/v1792130030/ab99ty8o75qbjqj9wj3l.png"
   },
   "stats": [
     { "value": "50+", "label": "Vehicles in Fleet" },
