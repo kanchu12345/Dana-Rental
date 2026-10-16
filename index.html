@@ -116,13 +116,13 @@
 
   <!-- ═══ NAVBAR ═══ -->
   <nav id="navbar">
-    <a href="index.html" class="nav-logo">
+    <a href="/" class="nav-logo">
       <img src="./assets/images/logo/logo.png" alt="Danan Car &amp; Bike Rentals Logo" width="48" height="48">
       <div class="nav-brand-title">DANAN <span>RENTALS</span></div>
     </a>
 
     <ul class="nav-links">
-      <li><a href="index.html" class="active">HOME</a></li>
+      <li><a href="/" class="active">HOME</a></li>
       <li><a href="vehicles.html">OUR FLEET</a></li>
       <li><a href="bookings.html">BOOKINGS</a></li>
       <li><a href="destinations.html">DESTINATIONS</a></li>
@@ -154,7 +154,7 @@
     </div>
     <ul class="mobile-links">
       <li>
-        <a href="index.html" class="active">
+        <a href="/" class="active">
           <span class="m-link-left">
             <span class="m-link-icon m-icon-home"><i class="fa-solid fa-house"></i></span>
             <span>Home</span>
@@ -234,8 +234,13 @@
   </div>
 
   <main>
-    <!-- ═══ HERO SECTION (SIGIRIYA BACKGROUND) ═══ -->
+    <!-- ═══ HERO SECTION ═══ -->
     <section class="hero">
+      <!-- Mobile Auto-Fit Banner Display (Android & Mobile Devices) -->
+      <div class="hero-mobile-banner-wrap" id="heroMobileBannerWrap">
+        <img id="heroMobileBannerImg" src="https://res.cloudinary.com/ygkhhyaj/image/upload/v1792117886/ngrur9zmmagohv7onewu.jpg" alt="Danan Car &amp; Bike Rentals Kandy" loading="eager" decoding="async">
+      </div>
+
       <div class="hero-body reveal">
         <!-- Luxury Floating Eyebrow Badge -->
         <div class="hero-badge">
@@ -755,19 +760,8 @@
         <p class="testi-sub">Live ratings and reviews from verified customers in Kandy &amp; Peradeniya.</p>
       </div>
 
-      <!-- Real Customer Reviews Carousel (Admin / Firestore Managed) -->
-      <div class="testi-viewport">
-        <div class="testi-track" id="testiTrack">
-          <!-- Dynamically populated from admin / Firestore reviews -->
-        </div>
-      </div>
-      <div class="testi-nav">
-        <button class="testi-btn" id="testiPrev" aria-label="Previous Review"><i class="fa-solid fa-chevron-left"></i></button>
-        <button class="testi-btn" id="testiNext" aria-label="Next Review"><i class="fa-solid fa-chevron-right"></i></button>
-      </div>
-
       <!-- Elfsight Live Google Reviews Widget -->
-      <div class="container" style="min-height: 180px; margin-top: 36px;">
+      <div class="container" style="min-height: 180px; margin-top: 20px;">
         <script src="https://elfsightcdn.com/platform.js" async></script>
         <div class="elfsight-app-064d3b98-0ca9-49d7-afc0-e5c028b307db" data-elfsight-app-lazy></div>
       </div>
@@ -851,7 +845,7 @@
       <div>
         <div class="footer-col-title">Quick Links</div>
         <ul class="footer-links">
-          <li><a href="index.html"><i class="fa-solid fa-chevron-right fa-xs"></i> Home</a></li>
+          <li><a href="/"><i class="fa-solid fa-chevron-right fa-xs"></i> Home</a></li>
           <li><a href="vehicles.html"><i class="fa-solid fa-chevron-right fa-xs"></i> Our Fleet</a></li>
           <li><a href="bookings.html"><i class="fa-solid fa-chevron-right fa-xs"></i> Bookings</a></li>
           <li><a href="destinations.html"><i class="fa-solid fa-chevron-right fa-xs"></i> Destinations</a></li>

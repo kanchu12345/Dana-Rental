@@ -452,6 +452,11 @@ async function applyDynamicBackgrounds() {
     // 1. Home Hero (index.html)
     if (bgData.homeHero) {
       applyBg(document.querySelector('.hero'), bgData.homeHero, 'linear-gradient(180deg, rgba(7, 7, 10, 0.25) 0%, rgba(7, 7, 10, 0.65) 100%)');
+      const mobileBannerImg = document.getElementById('heroMobileBannerImg');
+      if (mobileBannerImg) {
+        const resolved = resolveBg(bgData.homeHero);
+        if (resolved) mobileBannerImg.src = resolved;
+      }
     }
 
     // 2. Our Fleet Hero (vehicles.html)
@@ -549,13 +554,15 @@ async function loadHomePageData() {
 
     if (homeData.hero.bgImage) {
       const heroSec = document.querySelector('.hero');
-      if (heroSec) {
-        const cleanBg = sanitizeCSSUrl(homeData.hero.bgImage);
-        if (cleanBg) {
-          heroSec.style.backgroundImage = `linear-gradient(180deg, rgba(7, 7, 10, 0.25) 0%, rgba(7, 7, 10, 0.65) 100%), url('${cleanBg}')`;
-          heroSec.style.backgroundRepeat = 'no-repeat';
-          if (!heroSec.style.backgroundSize) heroSec.style.backgroundSize = 'cover';
-        }
+      const cleanBg = sanitizeCSSUrl(homeData.hero.bgImage);
+      if (heroSec && cleanBg) {
+        heroSec.style.backgroundImage = `linear-gradient(180deg, rgba(7, 7, 10, 0.25) 0%, rgba(7, 7, 10, 0.65) 100%), url('${cleanBg}')`;
+        heroSec.style.backgroundRepeat = 'no-repeat';
+        if (!heroSec.style.backgroundSize) heroSec.style.backgroundSize = 'cover';
+      }
+      const mobileBannerImg = document.getElementById('heroMobileBannerImg');
+      if (mobileBannerImg && cleanBg) {
+        mobileBannerImg.src = cleanBg;
       }
     }
   }
@@ -1301,7 +1308,7 @@ async function loadRulesAndFaqs() {
 async function loadReviewsTrack() {
   const reviewsSection = document.getElementById('reviews');
   const track = document.getElementById('testiTrack');
-  if (!reviewsSection && !track) return;
+  if (!track) return;
 
   const reviews = await getCollection('reviews');
   const visible = (reviews || []).filter(r => r.visible !== false);
