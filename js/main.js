@@ -580,7 +580,7 @@ async function loadHomePageData() {
   }
 
   // Why choose us items
-  if (homeData.whyChooseUs && Array.isArray(homeData.whyChooseUs.items) && homeData.whyChooseUs.items.length > 0) {
+  if (homeData.whyChooseUs && Array.isArray(homeData.whyChooseUs.items) && homeData.whyChooseUs.items.length >= 8) {
     const whyTrack = document.getElementById('whyTrack');
     if (whyTrack) {
       whyTrack.innerHTML = homeData.whyChooseUs.items.map(item => `
@@ -592,6 +592,8 @@ async function loadHomePageData() {
       `).join('');
     }
   }
+  // Re-initialize / ensure Why Choose Us auto-swap carousel is actively running
+  try { initWhyCarousel(); } catch (e) { console.warn('initWhyCarousel error:', e); }
 
   // Home About Text (Why Drivers Choose Our Fleet)
   if (homeData.about) {
@@ -1386,33 +1388,44 @@ function initWhyCarousel() {
 
   if (!track) return;
 
-  const items = track.querySelectorAll('.why-item');
-  if (items.length === 0) return;
+  // Clear any existing active timer to avoid zombie intervals
+  if (window._whyAutoSlideTimer) {
+    clearInterval(window._whyAutoSlideTimer);
+    window._whyAutoSlideTimer = null;
+  }
 
   let currentIndex = 0;
-  let autoSlideTimer = null;
+
+  function getItems() {
+    return track.querySelectorAll('.why-item');
+  }
 
   function getVisibleItemsCount() {
     const width = window.innerWidth;
-    if (width <= 768) return 1;
-    if (width <= 800) return 2;
-    if (width <= 1100) return 3;
+    if (width <= 640) return 1;
+    if (width <= 900) return 2;
+    if (width <= 1200) return 3;
     return 4;
   }
 
   function getMaxIndex() {
+    const items = getItems();
     const visibleCount = getVisibleItemsCount();
     return Math.max(0, items.length - visibleCount);
   }
 
   function updateSlider() {
+    const items = getItems();
+    if (items.length === 0) return;
+
     const maxIdx = getMaxIndex();
     if (currentIndex > maxIdx) currentIndex = 0;
     if (currentIndex < 0) currentIndex = maxIdx;
 
-    const itemWidth = items[0].offsetWidth;
-    const gap = 20;
-    const moveAmount = (itemWidth + gap) * currentIndex;
+    const firstItem = items[0];
+    const itemWidth = firstItem.offsetWidth || 280;
+    const computedGap = parseFloat(window.getComputedStyle(track).gap) || 20;
+    const moveAmount = (itemWidth + computedGap) * currentIndex;
     track.style.transform = `translateX(-${moveAmount}px)`;
 
     if (dotsContainer) {
@@ -1430,35 +1443,41 @@ function initWhyCarousel() {
 
     for (let i = 0; i <= maxIdx; i++) {
       const dot = document.createElement('div');
-      dot.className = `why-dot ${i === 0 ? 'active' : ''}`;
-      dot.addEventListener('click', () => {
+      dot.className = `why-dot ${i === currentIndex ? 'active' : ''}`;
+      dot.setAttribute('aria-label', `Slide ${i + 1}`);
+      dot.onclick = () => {
         currentIndex = i;
         updateSlider();
         resetAutoSlide();
-      });
+      };
       dotsContainer.appendChild(dot);
     }
   }
 
   function nextSlide() {
     const maxIdx = getMaxIndex();
+    if (maxIdx <= 0) return;
     currentIndex = currentIndex >= maxIdx ? 0 : currentIndex + 1;
     updateSlider();
   }
 
   function prevSlide() {
     const maxIdx = getMaxIndex();
+    if (maxIdx <= 0) return;
     currentIndex = currentIndex <= 0 ? maxIdx : currentIndex - 1;
     updateSlider();
   }
 
   function startAutoSlide() {
     stopAutoSlide();
-    autoSlideTimer = setInterval(nextSlide, 5000);
+    window._whyAutoSlideTimer = setInterval(nextSlide, 3200);
   }
 
   function stopAutoSlide() {
-    if (autoSlideTimer) clearInterval(autoSlideTimer);
+    if (window._whyAutoSlideTimer) {
+      clearInterval(window._whyAutoSlideTimer);
+      window._whyAutoSlideTimer = null;
+    }
   }
 
   function resetAutoSlide() {
@@ -1467,55 +1486,65 @@ function initWhyCarousel() {
   }
 
   if (nextBtn) {
-    nextBtn.addEventListener('click', () => {
+    nextBtn.onclick = () => {
       nextSlide();
       resetAutoSlide();
-    });
+    };
   }
 
   if (prevBtn) {
-    prevBtn.addEventListener('click', () => {
+    prevBtn.onclick = () => {
       prevSlide();
       resetAutoSlide();
-    });
+    };
   }
 
   // Touch swipe support for Why-Us carousel on Android and mobile
   let touchStartX = 0;
   let touchEndX = 0;
 
-  track.addEventListener('touchstart', (e) => {
+  track.ontouchstart = (e) => {
     if (e.changedTouches && e.changedTouches[0]) {
       touchStartX = e.changedTouches[0].screenX;
     }
     stopAutoSlide();
-  }, { passive: true });
+  };
 
-  track.addEventListener('touchend', (e) => {
+  track.ontouchend = (e) => {
     if (e.changedTouches && e.changedTouches[0]) {
       touchEndX = e.changedTouches[0].screenX;
       const diff = touchStartX - touchEndX;
-      if (Math.abs(diff) > 40) {
+      if (Math.abs(diff) > 35) {
         if (diff > 0) nextSlide();
         else prevSlide();
       }
     }
     resetAutoSlide();
-  }, { passive: true });
+  };
 
-  track.parentElement.addEventListener('mouseenter', stopAutoSlide);
-  track.parentElement.addEventListener('mouseleave', startAutoSlide);
+  const viewport = track.parentElement;
+  if (viewport) {
+    viewport.onmouseenter = stopAutoSlide;
+    viewport.onmouseleave = startAutoSlide;
+  }
 
-  // Pause carousel when tab is in background to save Android device battery
-  document.addEventListener('visibilitychange', () => {
-    if (document.hidden) stopAutoSlide();
-    else startAutoSlide();
-  });
+  // Handle visibility change to save mobile battery
+  if (!window._whyVisibilityAttached) {
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) stopAutoSlide();
+      else startAutoSlide();
+    });
+    window._whyVisibilityAttached = true;
+  }
 
-  window.addEventListener('resize', () => {
-    createDots();
-    updateSlider();
-  });
+  // Handle window resize
+  if (!window._whyResizeAttached) {
+    window.addEventListener('resize', () => {
+      createDots();
+      updateSlider();
+    });
+    window._whyResizeAttached = true;
+  }
 
   createDots();
   updateSlider();
