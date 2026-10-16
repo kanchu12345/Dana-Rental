@@ -538,29 +538,136 @@ img {
    ========================================================================== */
 .hero {
   position: relative;
-  min-height: 100vh;
-  min-height: 100dvh;
-  padding: 140px 4% 80px;
-  background: linear-gradient(180deg, rgba(7, 7, 10, 0.35) 0%, rgba(7, 7, 10, 0.7) 100%), 
-              url('../assets/images/hero/sigiriya.jpg') center bottom / cover no-repeat;
-  background-attachment: scroll;
+  width: 100%;
+  padding-top: 84px; /* Exact height of fixed navbar so top of banner is NEVER cut off */
+  background: #080B10;
+  overflow: hidden;
+  display: block;
+  min-height: auto;
+}
+
+.hero-stage {
+  position: relative;
+  width: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
+  line-height: 0;
+  overflow: hidden;
+}
+
+.hero-artwork-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  aspect-ratio: 1024 / 572;
+  object-fit: contain;
+  background: #080B10;
+}
+
+/* Desktop Negative-Space Text Overlay (Left Area) */
+.hero-overlay-desktop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 50%;
+  max-width: 580px;
+  padding: clamp(20px, 3.5vw, 60px) clamp(24px, 3.8vw, 55px);
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: flex-start;
+  text-align: left;
+  z-index: 10;
+  line-height: normal;
+  background: linear-gradient(90deg, rgba(8, 11, 16, 0.82) 0%, rgba(8, 11, 16, 0.45) 75%, rgba(8, 11, 16, 0) 100%);
+}
+
+.hero-overlay-desktop .hero-badge {
+  margin-bottom: clamp(8px, 1.2vw, 16px);
+}
+
+.hero-overlay-desktop .hero-title {
+  font-family: var(--font-heading);
+  font-size: clamp(1.8rem, 3.2vw, 3.4rem);
+  font-weight: 900;
+  margin-bottom: clamp(10px, 1.3vw, 16px);
+  letter-spacing: -0.8px;
+  line-height: 1.15;
+  color: var(--white);
+  text-shadow: 0 4px 24px rgba(0, 0, 0, 0.95);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+}
+
+.hero-overlay-desktop .hero-desc {
+  font-size: clamp(0.82rem, 1.05vw, 1.02rem);
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.92);
+  margin-bottom: clamp(10px, 1.6vw, 20px);
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.95);
+  max-width: 460px;
+  text-align: left;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.hero-overlay-desktop .hero-perks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(6px, 0.9vw, 10px);
+  margin-bottom: clamp(12px, 1.8vw, 22px);
+  justify-content: flex-start;
+}
+
+.hero-overlay-desktop .hero-perk-item {
+  display: inline-flex;
   align-items: center;
-  box-shadow: inset 0 -100px 100px rgba(7, 7, 10, 0.9);
+  gap: 6px;
+  background: rgba(10, 10, 15, 0.82);
+  border: 1px solid rgba(245, 197, 24, 0.45);
+  border-radius: 30px;
+  padding: clamp(4px, 0.6vw, 7px) clamp(10px, 1vw, 16px);
+  font-size: clamp(0.72rem, 0.88vw, 0.85rem);
+  font-weight: 700;
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.6);
 }
 
-/* Mobile Auto-Fit Banner Display: hidden (using full background hero overlay) */
-.hero-mobile-banner-wrap {
-  display: none !important;
+.hero-overlay-desktop .hero-perk-item i {
+  color: var(--yellow);
 }
 
-.hero-body {
-  max-width: 1050px;
-  text-align: center;
-  margin: 0 auto;
-  width: 100%;
+.hero-overlay-desktop .hero-actions {
+  display: flex;
+  gap: clamp(8px, 1.2vw, 14px);
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+.hero-overlay-desktop .hero-actions .btn-primary,
+.hero-overlay-desktop .hero-actions .btn-whatsapp-hero {
+  padding: clamp(8px, 1vw, 12px) clamp(16px, 1.6vw, 26px);
+  font-size: clamp(0.8rem, 0.98vw, 0.95rem);
+  font-weight: 700;
+  border-radius: 30px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+}
+
+.hero-overlay-desktop .hero-actions .btn-whatsapp-hero {
+  background: #25D366;
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(37,211,102,0.35);
+}
+
+/* Mobile Content: hidden on desktop */
+.hero-mobile-content {
+  display: none;
 }
 
 .hero-badge,
@@ -5256,54 +5363,117 @@ footer {
     font-size: 1rem;
   }
 
-  /* Hero Section: Mobile Auto-Fit Banner & Responsive Content */
+  /* Hero Section: Mobile Full Banner & Clean Content Card */
   .hero {
-    min-height: 100vh !important;
-    min-height: 100dvh !important;
-    display: flex !important;
-    flex-direction: column !important;
-    justify-content: center !important;
-    align-items: center !important;
-    padding: 95px 14px 40px !important;
-    background: linear-gradient(180deg, rgba(8, 11, 16, 0.55) 0%, rgba(8, 11, 16, 0.78) 100%),
-                url('../assets/images/hero/sigiriya.jpg') center bottom / cover no-repeat !important;
-    box-shadow: inset 0 -60px 80px rgba(7, 7, 10, 0.9) !important;
+    padding-top: 72px !important; /* Mobile navbar height */
+    background: #080B10 !important;
+    min-height: auto !important;
   }
 
-  .hero-mobile-banner-wrap {
+  .hero-stage {
+    max-width: 100% !important;
+  }
+
+  .hero-artwork-img {
+    width: 100% !important;
+    height: auto !important;
+    aspect-ratio: 1024 / 572 !important;
+    object-fit: contain !important;
+    display: block !important;
+  }
+
+  .hero-overlay-desktop {
     display: none !important;
   }
 
-  .hero-body {
-    width: 100%;
-    max-width: 520px;
-    margin: 0 auto !important;
-    padding: 24px 16px 22px !important;
-    background: rgba(8, 11, 16, 0.68) !important;
-    backdrop-filter: blur(10px) !important;
-    -webkit-backdrop-filter: blur(10px) !important;
-    border: 1px solid rgba(245, 197, 24, 0.3) !important;
-    border-radius: 20px !important;
-    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.75) !important;
+  .hero-mobile-content {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    padding: 22px 14px 34px !important;
+    background: #080B10 !important;
+    width: 100% !important;
   }
-  .hero-badge {
-    font-size: 0.72rem;
-    padding: 6px 14px;
-    letter-spacing: 1px;
-    margin-bottom: 14px;
+
+  .hero-mobile-content .hero-badge {
+    font-size: 0.72rem !important;
+    padding: 6px 14px !important;
+    letter-spacing: 1px !important;
+    margin-bottom: 12px !important;
   }
-  .hero-title {
+
+  .hero-mobile-content .hero-title {
     font-size: clamp(1.75rem, 5.8vw, 2.2rem) !important;
-    letter-spacing: -0.5px;
-    line-height: 1.22;
+    letter-spacing: -0.5px !important;
+    line-height: 1.22 !important;
     margin-top: 0 !important;
-    margin-bottom: 12px;
-    gap: 4px 8px;
-    text-shadow: 0 2px 20px rgba(0,0,0,0.85);
+    margin-bottom: 12px !important;
+    gap: 4px 8px !important;
+    text-shadow: 0 2px 20px rgba(0,0,0,0.85) !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
   }
-  .hero-title-highlight::after {
-    height: 3px;
-    bottom: -2px;
+
+  .hero-mobile-content .hero-desc {
+    font-size: 0.92rem !important;
+    line-height: 1.55 !important;
+    margin-bottom: 18px !important;
+    max-width: 100% !important;
+    color: rgba(255, 255, 255, 0.9) !important;
+    text-align: center !important;
+  }
+
+  .hero-mobile-content .hero-perks {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    margin-bottom: 22px !important;
+  }
+
+  .hero-mobile-content .hero-perk-item {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    background: rgba(17, 21, 31, 0.92) !important;
+    border: 1px solid rgba(245, 197, 24, 0.4) !important;
+    border-radius: 20px !important;
+    padding: 6px 12px !important;
+    font-size: 0.78rem !important;
+    font-weight: 700 !important;
+    color: #fff !important;
+  }
+
+  .hero-mobile-content .hero-perk-item i {
+    color: var(--yellow) !important;
+  }
+
+  .hero-mobile-content .hero-actions {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    gap: 12px !important;
+    width: 100% !important;
+  }
+
+  .hero-mobile-content .hero-actions .btn-primary,
+  .hero-mobile-content .hero-actions .btn-whatsapp-hero {
+    padding: 12px 22px !important;
+    font-size: 0.92rem !important;
+    font-weight: 700 !important;
+    border-radius: 30px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    text-decoration: none !important;
+  }
+
+  .hero-mobile-content .hero-actions .btn-whatsapp-hero {
+    background: #25D366 !important;
+    color: #fff !important;
+    box-shadow: 0 4px 14px rgba(37,211,102,0.35) !important;
   }
   .hero-title br {
     display: inline;
@@ -6081,11 +6251,7 @@ footer {
     font-size: 0.98rem !important;
   }
   .hero {
-    padding: 85px 12px 30px !important;
-    justify-content: center !important;
-  }
-  .hero-mobile-banner-wrap {
-    display: none !important;
+    padding-top: 66px !important;
   }
   .rental-hero,
   .bookings-hero,
@@ -6220,11 +6386,7 @@ footer {
     width: 20px;
   }
   .hero {
-    padding: 80px 10px 24px !important;
-    justify-content: center !important;
-  }
-  .hero-mobile-banner-wrap {
-    display: none !important;
+    padding-top: 64px !important;
   }
   .rental-hero,
   .bookings-hero,

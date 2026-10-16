@@ -455,11 +455,14 @@ async function applyDynamicBackgrounds() {
 
     // 1. Home Hero (index.html)
     if (bgData.homeHero) {
-      applyBg(document.querySelector('.hero'), bgData.homeHero, 'linear-gradient(180deg, rgba(7, 7, 10, 0.25) 0%, rgba(7, 7, 10, 0.65) 100%)');
+      const resolved = resolveBg(bgData.homeHero);
+      const artworkImg = document.getElementById('heroArtworkImg');
+      if (artworkImg && resolved) {
+        artworkImg.src = resolved;
+      }
       const mobileBannerImg = document.getElementById('heroMobileBannerImg');
-      if (mobileBannerImg) {
-        const resolved = resolveBg(bgData.homeHero);
-        if (resolved) mobileBannerImg.src = resolved;
+      if (mobileBannerImg && resolved) {
+        mobileBannerImg.src = resolved;
       }
     }
 
@@ -548,12 +551,15 @@ async function loadHomePageData() {
           hl = `<span class="hero-title-main">${words[0]}</span> <span class="hero-title-highlight">${words.slice(1).join(' ')}</span>`;
         }
       }
-      heroTitle.innerHTML = sanitizeHTML(hl);
+      document.querySelectorAll('.hero-title').forEach(t => {
+        t.innerHTML = sanitizeHTML(hl);
+      });
     }
 
-    const heroDesc = document.querySelector('.hero-desc');
-    if (heroDesc && homeData.hero.subline) {
-      heroDesc.textContent = homeData.hero.subline;
+    if (homeData.hero.subline) {
+      document.querySelectorAll('.hero-desc').forEach(d => {
+        d.textContent = homeData.hero.subline;
+      });
     }
 
     if (homeData.hero.bgImage) {
@@ -561,12 +567,10 @@ async function loadHomePageData() {
       if (typeof bgVal === 'string' && bgVal.includes('ngrur9zmmagohv7onewu')) {
         bgVal = 'https://res.cloudinary.com/ygkhhyaj/image/upload/v1792130030/ab99ty8o75qbjqj9wj3l.png';
       }
-      const heroSec = document.querySelector('.hero');
       const cleanBg = sanitizeCSSUrl(bgVal);
-      if (heroSec && cleanBg) {
-        heroSec.style.backgroundImage = `linear-gradient(180deg, rgba(7, 7, 10, 0.35) 0%, rgba(7, 7, 10, 0.7) 100%), url('${cleanBg}')`;
-        heroSec.style.backgroundRepeat = 'no-repeat';
-        if (!heroSec.style.backgroundSize) heroSec.style.backgroundSize = 'cover';
+      const artworkImg = document.getElementById('heroArtworkImg');
+      if (artworkImg && cleanBg) {
+        artworkImg.src = cleanBg;
       }
       const mobileBannerImg = document.getElementById('heroMobileBannerImg');
       if (mobileBannerImg && cleanBg) {
