@@ -5365,117 +5365,160 @@ footer {
     font-size: 1rem;
   }
 
-  /* Hero Section: Mobile Full Banner & Clean Content Card */
+  /* Hero Section: Mobile Immersive Full Banner (Matching Web View) */
   .hero {
-    padding-top: 72px !important; /* Mobile navbar height */
+    padding-top: 68px !important; /* Mobile navbar height */
     background: #080B10 !important;
-    min-height: auto !important;
+    position: relative !important;
+    overflow: hidden !important;
   }
 
   .hero-stage {
+    position: relative !important;
+    width: 100% !important;
     max-width: 100% !important;
+    min-height: calc(100svh - 68px) !important;
+    min-height: 580px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-start !important;
+    align-items: center !important;
+    overflow: hidden !important;
+    line-height: normal !important;
   }
 
   .hero-artwork-img {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
     width: 100% !important;
-    height: auto !important;
-    aspect-ratio: 1024 / 572 !important;
-    object-fit: contain !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    object-position: center bottom !important;
+    aspect-ratio: unset !important;
     display: block !important;
+    z-index: 1 !important;
   }
 
   .hero-overlay-desktop {
-    display: none !important;
-  }
-
-  .hero-mobile-content {
     display: flex !important;
+    position: relative !important;
+    z-index: 10 !important;
+    width: 100% !important;
+    min-height: calc(100svh - 68px) !important;
+    min-height: 580px !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    padding: clamp(20px, 4.5vw, 32px) 16px clamp(32px, 6vw, 48px) !important;
     flex-direction: column !important;
+    justify-content: flex-start !important;
     align-items: center !important;
     text-align: center !important;
-    padding: 22px 14px 34px !important;
-    background: #080B10 !important;
-    width: 100% !important;
+    background: linear-gradient(
+      180deg,
+      rgba(8, 11, 16, 0.90) 0%,
+      rgba(8, 11, 16, 0.78) 36%,
+      rgba(8, 11, 16, 0.35) 68%,
+      rgba(8, 11, 16, 0.92) 100%
+    ) !important;
   }
 
-  .hero-mobile-content .hero-badge {
+  .hero-overlay-desktop .hero-badge {
     font-size: 0.72rem !important;
     padding: 6px 14px !important;
-    letter-spacing: 1px !important;
+    letter-spacing: 0.8px !important;
     margin-bottom: 12px !important;
+    background: rgba(10, 14, 22, 0.88) !important;
+    backdrop-filter: blur(8px) !important;
+    -webkit-backdrop-filter: blur(8px) !important;
+    border: 1px solid rgba(245, 197, 24, 0.45) !important;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6) !important;
   }
 
-  .hero-mobile-content .hero-title {
-    font-size: clamp(1.75rem, 5.8vw, 2.2rem) !important;
-    letter-spacing: -0.5px !important;
-    line-height: 1.22 !important;
+  .hero-overlay-desktop .hero-title {
+    font-size: clamp(1.85rem, 6.4vw, 2.35rem) !important;
+    letter-spacing: -0.6px !important;
+    line-height: 1.18 !important;
     margin-top: 0 !important;
     margin-bottom: 12px !important;
     gap: 4px 8px !important;
-    text-shadow: 0 2px 20px rgba(0,0,0,0.85) !important;
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.95), 0 2px 4px #000 !important;
     display: flex !important;
     flex-wrap: wrap !important;
     justify-content: center !important;
   }
 
-  .hero-mobile-content .hero-desc {
-    font-size: 0.92rem !important;
-    line-height: 1.55 !important;
-    margin-bottom: 18px !important;
-    max-width: 100% !important;
-    color: rgba(255, 255, 255, 0.9) !important;
+  .hero-overlay-desktop .hero-desc {
+    font-size: 0.88rem !important;
+    line-height: 1.52 !important;
+    margin-bottom: 16px !important;
+    max-width: 480px !important;
+    color: rgba(255, 255, 255, 0.94) !important;
     text-align: center !important;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.95) !important;
   }
 
-  .hero-mobile-content .hero-perks {
+  .hero-overlay-desktop .hero-perks {
     display: flex !important;
     flex-wrap: wrap !important;
     justify-content: center !important;
-    gap: 8px !important;
-    margin-bottom: 22px !important;
+    gap: 6px 8px !important;
+    margin-bottom: 20px !important;
   }
 
-  .hero-mobile-content .hero-perk-item {
+  .hero-overlay-desktop .hero-perk-item {
     display: inline-flex !important;
     align-items: center !important;
     gap: 6px !important;
-    background: rgba(17, 21, 31, 0.92) !important;
-    border: 1px solid rgba(245, 197, 24, 0.4) !important;
+    background: rgba(10, 14, 22, 0.88) !important;
+    border: 1px solid rgba(245, 197, 24, 0.45) !important;
     border-radius: 20px !important;
     padding: 6px 12px !important;
-    font-size: 0.78rem !important;
+    font-size: 0.76rem !important;
     font-weight: 700 !important;
     color: #fff !important;
+    backdrop-filter: blur(8px) !important;
+    -webkit-backdrop-filter: blur(8px) !important;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.6) !important;
   }
 
-  .hero-mobile-content .hero-perk-item i {
+  .hero-overlay-desktop .hero-perk-item i {
     color: var(--yellow) !important;
   }
 
-  .hero-mobile-content .hero-actions {
+  .hero-overlay-desktop .hero-actions {
     display: flex !important;
     flex-wrap: wrap !important;
     justify-content: center !important;
-    gap: 12px !important;
+    gap: 10px !important;
     width: 100% !important;
+    max-width: 380px !important;
+    margin: 0 auto !important;
   }
 
-  .hero-mobile-content .hero-actions .btn-primary,
-  .hero-mobile-content .hero-actions .btn-whatsapp-hero {
-    padding: 12px 22px !important;
-    font-size: 0.92rem !important;
+  .hero-overlay-desktop .hero-actions .btn-primary,
+  .hero-overlay-desktop .hero-actions .btn-whatsapp-hero {
+    flex: 1 1 150px !important;
+    padding: 12px 18px !important;
+    font-size: 0.88rem !important;
     font-weight: 700 !important;
     border-radius: 30px !important;
     display: inline-flex !important;
     align-items: center !important;
+    justify-content: center !important;
     gap: 8px !important;
     text-decoration: none !important;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.45) !important;
   }
 
-  .hero-mobile-content .hero-actions .btn-whatsapp-hero {
+  .hero-overlay-desktop .hero-actions .btn-whatsapp-hero {
     background: #25D366 !important;
     color: #fff !important;
-    box-shadow: 0 4px 14px rgba(37,211,102,0.35) !important;
+    box-shadow: 0 4px 14px rgba(37, 211, 102, 0.4) !important;
+  }
+
+  .hero-mobile-content {
+    display: none !important;
   }
   .hero-title br {
     display: inline;
@@ -6279,30 +6322,39 @@ footer {
   .contact-cta-banner {
     padding: 38px 14px !important;
   }
-  .hero-badge {
-    font-size: 0.66rem;
-    padding: 5px 12px;
-    letter-spacing: 0.5px;
-    margin-bottom: 12px;
+  .hero-overlay-desktop {
+    padding: clamp(16px, 4vw, 24px) 14px clamp(28px, 6vw, 40px) !important;
+    min-height: calc(100svh - 64px) !important;
   }
-  .hero-title {
-    font-size: clamp(1.55rem, 5.8vw, 1.95rem);
-    gap: 4px 6px;
-    margin-bottom: 10px;
+  .hero-badge,
+  .hero-overlay-desktop .hero-badge {
+    font-size: 0.68rem !important;
+    padding: 5px 12px !important;
+    letter-spacing: 0.5px !important;
+    margin-bottom: 10px !important;
   }
-  .hero-desc {
-    font-size: 0.88rem !important;
-    line-height: 1.5;
-    margin-bottom: 16px;
+  .hero-title,
+  .hero-overlay-desktop .hero-title {
+    font-size: clamp(1.65rem, 5.8vw, 1.95rem) !important;
+    gap: 4px 6px !important;
+    margin-bottom: 10px !important;
   }
-  .hero-perks {
-    gap: 6px;
-    margin-bottom: 18px;
+  .hero-desc,
+  .hero-overlay-desktop .hero-desc {
+    font-size: 0.85rem !important;
+    line-height: 1.48 !important;
+    margin-bottom: 14px !important;
   }
-  .hero-perk-item {
+  .hero-perks,
+  .hero-overlay-desktop .hero-perks {
+    gap: 6px !important;
+    margin-bottom: 18px !important;
+  }
+  .hero-perk-item,
+  .hero-overlay-desktop .hero-perk-item {
     font-size: 0.74rem !important;
     padding: 5px 10px !important;
-    gap: 5px;
+    gap: 5px !important;
   }
   .hero-tabs {
     gap: 3px !important;
@@ -6413,30 +6465,46 @@ footer {
   .contact-cta-banner {
     padding: 32px 10px !important;
   }
-  .hero-badge {
-    font-size: 0.62rem;
-    padding: 4px 10px;
-    letter-spacing: 0;
-    margin-bottom: 10px;
+  .hero-overlay-desktop {
+    padding: 12px 10px 22px !important;
+    min-height: calc(100svh - 58px) !important;
   }
-  .hero-title {
-    font-size: 1.4rem !important;
-    gap: 3px 6px;
-    margin-bottom: 8px;
+  .hero-badge,
+  .hero-overlay-desktop .hero-badge {
+    font-size: 0.62rem !important;
+    padding: 4px 10px !important;
+    letter-spacing: 0 !important;
+    margin-bottom: 8px !important;
   }
-  .hero-desc {
-    font-size: 0.82rem !important;
-    line-height: 1.45;
-    margin-bottom: 14px;
+  .hero-title,
+  .hero-overlay-desktop .hero-title {
+    font-size: 1.45rem !important;
+    gap: 3px 6px !important;
+    margin-bottom: 8px !important;
   }
-  .hero-perks {
-    gap: 5px;
-    margin-bottom: 16px;
+  .hero-desc,
+  .hero-overlay-desktop .hero-desc {
+    font-size: 0.8rem !important;
+    line-height: 1.42 !important;
+    margin-bottom: 12px !important;
   }
-  .hero-perk-item {
+  .hero-perks,
+  .hero-overlay-desktop .hero-perks {
+    gap: 4px !important;
+    margin-bottom: 14px !important;
+  }
+  .hero-perk-item,
+  .hero-overlay-desktop .hero-perk-item {
     font-size: 0.68rem !important;
     padding: 4px 8px !important;
-    gap: 4px;
+    gap: 4px !important;
+  }
+  .hero-overlay-desktop .hero-actions .btn-primary,
+  .hero-overlay-desktop .hero-actions .btn-whatsapp-hero {
+    flex: 1 1 100% !important;
+    width: 100% !important;
+    padding: 10px 14px !important;
+    font-size: 0.84rem !important;
   }
   /* Single-row compact pills for 360px */
   .hero-tabs {
