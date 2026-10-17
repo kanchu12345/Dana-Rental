@@ -564,69 +564,71 @@ img {
   background: #080B10;
 }
 
-/* Desktop Negative-Space Text Overlay (Left Area) */
+/* Desktop Centered Text Overlay */
 .hero-overlay-desktop {
   position: absolute;
   top: 0;
   left: 0;
+  right: 0;
   bottom: 0;
-  width: 50%;
-  max-width: 580px;
-  padding: clamp(20px, 3.5vw, 60px) clamp(24px, 3.8vw, 55px);
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: clamp(14px, 2.6vw, 36px) 20px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  text-align: left;
+  justify-content: flex-start;
+  align-items: center;
+  text-align: center;
   z-index: 10;
   line-height: normal;
-  background: linear-gradient(90deg, rgba(8, 11, 16, 0.82) 0%, rgba(8, 11, 16, 0.45) 75%, rgba(8, 11, 16, 0) 100%);
+  background: radial-gradient(ellipse at 50% 32%, rgba(8, 11, 16, 0.78) 0%, rgba(8, 11, 16, 0.42) 55%, rgba(8, 11, 16, 0) 80%);
 }
 
 .hero-overlay-desktop .hero-badge {
-  margin-bottom: clamp(8px, 1.2vw, 16px);
+  margin-bottom: clamp(6px, 1vw, 14px);
 }
 
 .hero-overlay-desktop .hero-title {
   font-family: var(--font-heading);
-  font-size: clamp(1.8rem, 3.2vw, 3.4rem);
+  font-size: clamp(2rem, 3.4vw, 3.6rem);
   font-weight: 900;
-  margin-bottom: clamp(10px, 1.3vw, 16px);
+  margin-bottom: clamp(8px, 1.2vw, 14px);
   letter-spacing: -0.8px;
   line-height: 1.15;
   color: var(--white);
   text-shadow: 0 4px 24px rgba(0, 0, 0, 0.95);
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 2px;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 8px 14px;
 }
 
 .hero-overlay-desktop .hero-desc {
-  font-size: clamp(0.82rem, 1.05vw, 1.02rem);
+  font-size: clamp(0.85rem, 1.05vw, 1.05rem);
   line-height: 1.5;
   color: rgba(255, 255, 255, 0.92);
-  margin-bottom: clamp(10px, 1.6vw, 20px);
+  margin: 0 auto clamp(10px, 1.4vw, 18px);
   text-shadow: 0 2px 12px rgba(0, 0, 0, 0.95);
-  max-width: 460px;
-  text-align: left;
-  margin-left: 0;
-  margin-right: 0;
+  max-width: 680px;
+  text-align: center;
 }
 
 .hero-overlay-desktop .hero-perks {
   display: flex;
   flex-wrap: wrap;
   gap: clamp(6px, 0.9vw, 10px);
-  margin-bottom: clamp(12px, 1.8vw, 22px);
-  justify-content: flex-start;
+  margin-bottom: clamp(12px, 1.6vw, 20px);
+  justify-content: center;
 }
 
 .hero-overlay-desktop .hero-perk-item {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  background: rgba(10, 10, 15, 0.82);
+  background: rgba(10, 10, 15, 0.85);
   border: 1px solid rgba(245, 197, 24, 0.45);
   border-radius: 30px;
   padding: clamp(4px, 0.6vw, 7px) clamp(10px, 1vw, 16px);
@@ -644,7 +646,7 @@ img {
   display: flex;
   gap: clamp(8px, 1.2vw, 14px);
   flex-wrap: wrap;
-  justify-content: flex-start;
+  justify-content: center;
 }
 
 .hero-overlay-desktop .hero-actions .btn-primary,
